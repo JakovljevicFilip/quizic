@@ -18,7 +18,10 @@ class CreateGamesTable extends Migration
             $table->string('hash');
             $table->unsignedInteger('counter');
             $table->string('username');
+            $table->unsignedBigInteger('question_id');
             $table->timestamps();
+
+            $table->foreign('question_id')->references('id')->on('questions');
         });
     }
 
