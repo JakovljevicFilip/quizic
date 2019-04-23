@@ -1,11 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
-use App\Highscore;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+
+use App\Answer;
 use Illuminate\Http\Request;
 
-class HighscoreController extends Controller
+class AnswerController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +44,10 @@ class HighscoreController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Highscore  $highscore
+     * @param  \App\Answer  $answer
      * @return \Illuminate\Http\Response
      */
-    public function show(Highscore $highscore)
+    public function show(Answer $answer)
     {
         //
     }
@@ -52,10 +55,10 @@ class HighscoreController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Highscore  $highscore
+     * @param  \App\Answer  $answer
      * @return \Illuminate\Http\Response
      */
-    public function edit(Highscore $highscore)
+    public function edit(Answer $answer)
     {
         //
     }
@@ -64,10 +67,10 @@ class HighscoreController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Highscore  $highscore
+     * @param  \App\Answer  $answer
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Highscore $highscore)
+    public function update(Request $request, Answer $answer)
     {
         //
     }
@@ -75,10 +78,10 @@ class HighscoreController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Highscore  $highscore
+     * @param  \App\Answer  $answer
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Highscore $highscore)
+    public function destroy(Answer $answer)
     {
         //
     }

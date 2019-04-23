@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
+
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 use Validator;
 use App\Question;
 use App\Answer;
 use App\Rules\NumberOfValues;
-use Illuminate\Http\Request;
 
 class QuestionController extends Controller
 {
@@ -22,8 +24,8 @@ class QuestionController extends Controller
      */
     public function index()
     {
-        $this->apiRequest['questions']=Question::with('answers')->get();
-        return response()->json($this->apiRequest);
+        $this->apiResponse['questions']=Question::with('answers')->get();
+        return response()->json($this->apiResponse);
     }
 
     /**
@@ -128,8 +130,7 @@ class QuestionController extends Controller
 
     private function storeQuestion($question, $request){
       $question->text=$request->input('text');
-      $question->diffculty_id=$request->input('diffculty_id');
-      $question->save();
+      $question->diffculty_id=$request->input('diffculty_id');  
     }
 
     private function storeAnswers($question, $request){

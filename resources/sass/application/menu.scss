@@ -1,0 +1,42 @@
+@import '../variables';
+
+.menu{
+	&-btn{
+		display: block;
+		background: linear-gradient(to right,transparent, rgba(114,27,106,0.7),transparent) ;
+		color: #fff;
+		text-shadow: 1px 1px 5px #000;
+		font-size:18px;
+		width:180px;
+		font-weight:500;
+		transition:1s;
+		line-height: 1.5rem;
+		&:hover{
+			background: rgba(114,27,106,0.5);
+		}
+	}
+
+	&-animation-delay{
+		animation-delay:0.2s;
+	}
+
+	&-logo{
+		height: 75px;
+	}
+
+	&-logout{
+    color:white;
+    opacity:0.7;
+    font-size:40px;
+    &:hover{
+			cursor: pointer;
+			opacity: 1;
+    }
+	}
+
+	&-heading{
+		color: #fff;
+		text-shadow: 1px 1px 5px #000;
+		font-size: 1.75rem;
+	}
+}

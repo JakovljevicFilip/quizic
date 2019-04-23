@@ -1,11 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
-use App\Answer;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+
+use App\Game;
 use Illuminate\Http\Request;
 
-class AnswerController extends Controller
+class GameController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +44,10 @@ class AnswerController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Answer  $answer
+     * @param  \App\Game  $game
      * @return \Illuminate\Http\Response
      */
-    public function show(Answer $answer)
+    public function show(Game $game)
     {
         //
     }
@@ -52,10 +55,10 @@ class AnswerController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Answer  $answer
+     * @param  \App\Game  $game
      * @return \Illuminate\Http\Response
      */
-    public function edit(Answer $answer)
+    public function edit(Game $game)
     {
         //
     }
@@ -64,10 +67,10 @@ class AnswerController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Answer  $answer
+     * @param  \App\Game  $game
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Answer $answer)
+    public function update(Request $request, Game $game)
     {
         //
     }
@@ -75,10 +78,10 @@ class AnswerController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Answer  $answer
+     * @param  \App\Game  $game
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Answer $answer)
+    public function destroy(Game $game)
     {
         //
     }

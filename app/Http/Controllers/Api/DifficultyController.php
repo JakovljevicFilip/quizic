@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
+
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 use Validator;
 use App\Difficulty;
-use Illuminate\Http\Request;
 
 class DifficultyController extends Controller
 {
@@ -12,7 +14,6 @@ class DifficultyController extends Controller
         'status'=>true,
         'messages'=>'Task was successful.'
     ];
-
     /**
      * Display a listing of the resource.
      *
@@ -23,7 +24,6 @@ class DifficultyController extends Controller
         $this->apiResponse['difficulty']=Difficulty::get();
         return response()->json($this->apiResponse);
     }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -33,7 +33,6 @@ class DifficultyController extends Controller
     {
         //
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -45,7 +44,6 @@ class DifficultyController extends Controller
         if($this->validateRequest($request)) Difficulty::create($request->all());
         return response()->json($this->apiResponse);
     }
-
     /**
      * Display the specified resource.
      *
@@ -54,10 +52,9 @@ class DifficultyController extends Controller
      */
     public function show(Difficulty $difficulty)
     {
-      	$this->apiResponse['difficulty']=$difficulty;
-      	return response()->json($this->apiResponse);
+        $this->apiResponse['difficulty']=$difficulty;
+        return response()->json($this->apiResponse);
     }
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -68,7 +65,6 @@ class DifficultyController extends Controller
     {
         //
     }
-
     /**
      * Update the specified resource in storage.
      *
@@ -81,7 +77,6 @@ class DifficultyController extends Controller
         if($this->validateRequest($request)) $difficulty->update($request->all());
         return response()->json($this->apiResponse);
     }
-
     /**
      * Remove the specified resource from storage.
      *
@@ -93,7 +88,6 @@ class DifficultyController extends Controller
         $difficulty->delete();
         return response()->json($this->apiResponse);
     }
-
     private function setApiResponse($status, $messages){
         $this->apiResponse['status']=$status;
         $this->apiResponse['messages']=$messages;

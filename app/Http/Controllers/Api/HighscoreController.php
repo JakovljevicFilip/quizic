@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Game;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+
+use App\Highscore;
 use Illuminate\Http\Request;
 
-class GameController extends Controller
+class HighscoreController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +44,10 @@ class GameController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Game  $game
+     * @param  \App\Highscore  $highscore
      * @return \Illuminate\Http\Response
      */
-    public function show(Game $game)
+    public function show(Highscore $highscore)
     {
         //
     }
@@ -52,10 +55,10 @@ class GameController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Game  $game
+     * @param  \App\Highscore  $highscore
      * @return \Illuminate\Http\Response
      */
-    public function edit(Game $game)
+    public function edit(Highscore $highscore)
     {
         //
     }
@@ -64,10 +67,10 @@ class GameController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Game  $game
+     * @param  \App\Highscore  $highscore
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Game $game)
+    public function update(Request $request, Highscore $highscore)
     {
         //
     }
@@ -75,10 +78,10 @@ class GameController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Game  $game
+     * @param  \App\Highscore  $highscore
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Game $game)
+    public function destroy(Highscore $highscore)
     {
         //
     }
