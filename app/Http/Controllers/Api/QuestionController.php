@@ -123,7 +123,6 @@ class QuestionController extends Controller
             'answers.*.status'=>'required|boolean'
         ]);
         if($validated->fails()){
-            dd(1);
             $this->setApiResponse(false, $validated->errors()->all());
         }
         return !$validated->fails();
