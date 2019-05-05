@@ -129,7 +129,6 @@ class QuestionController extends Controller
         // THIS ONLY HAPPENS WITH MY CUSTOM RULE
         $result=$validated->fails();
         if($result){
-            $x=1;
             $this->setApiResponse(false, $validated->errors()->all());
         }
         return !$result;
