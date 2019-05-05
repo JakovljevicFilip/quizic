@@ -123,15 +123,12 @@ class QuestionController extends Controller
             'answers.*.text'=>'required',
             'answers.*.status'=>'required|boolean'
         ]);
-<<<<<<< HEAD
-        if($validated->fails()){
-=======
+
         // VALIDATED FAILS CHANGES VALUE AFTER BEING CALLED ONCE ALREADY
         // THAT'S WHY I'VE DECIDED TO CHECK IT ONCE AND THEN STORE THE RESULT
         // THIS ONLY HAPPENS WITH MY CUSTOM RULE
         $result=$validated->fails();
         if($result){
->>>>>>> question-not-saving
             $this->setApiResponse(false, $validated->errors()->all());
         }
         return !$result;
