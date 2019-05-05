@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Validator;
 use App\Question;
 use App\Answer;
+// A CUSTOM RULE I'VE MADE TO CHECK FOR CERTAIN NUMBER OF CERTAIN VALUES
 use App\Rules\NumberOfValues;
 
 class QuestionController extends Controller
@@ -47,9 +48,7 @@ class QuestionController extends Controller
     public function store(Request $request)
     {
         if($this->validateRequest($request)){
-            $question=new Question;
-            $this->storeQuestion($question, $request);
-            $this->storeAnswers($question, $request);
+            $this->storeQuestion($request);
         }
         return response()->json($this->apiResponse);
     }
@@ -112,26 +111,34 @@ class QuestionController extends Controller
 
     private function validateRequest($request){
         $validated = Validator::make($request->all(),[
-            'text'=>'required',
-            'diffculty_id'=>'required|exists:difficulties,id',
+            'text'=>'required|unique:questions',
+            'difficulty_id'=>'required|exists:difficulties,id',
             'answers'=>['required','array',new NumberOfValues('status',[
+                    // EXPECTING 3 ANSWERS WITH STATUS 0
                     '0'=>3,
+                    // EXPECTING 1 ANSWER WITH STATUS 1
                     '1'=>1
                 ]
             )],
             'answers.*.text'=>'required',
             'answers.*.status'=>'required|boolean'
         ]);
-        if($validated->fails()){
-            dd(1);
+        // VALIDATED FAILS CHANGES VALUE AFTER BEING CALLED ONCE ALREADY
+        // THAT'S WHY I'VE DECIDED TO CHECK IT ONCE AND THEN STORE THE RESULT
+        // THIS ONLY HAPPENS WITH MY CUSTOM RULE
+        $result=$validated->fails();
+        if($result){
             $this->setApiResponse(false, $validated->errors()->all());
         }
-        return !$validated->fails();
+        return !$result;
     }
 
-    private function storeQuestion($question, $request){
-      $question->text=$request->input('text');
-      $question->diffculty_id=$request->input('diffculty_id');  
+    private function storeQuestion($request){
+        $question=new Question;
+        $question->text=$request->input('text');
+        $question->difficulty_id=$request->input('difficulty_id');
+        $question->save();
+        $this->storeAnswers($question, $request);
     }
 
     private function storeAnswers($question, $request){
@@ -143,7 +150,7 @@ class QuestionController extends Controller
 
     private function updateQuestion($question, $request){
       $question->text=$request->input('text');
-      $question->diffculty_id=$request->input('diffculty_id');
+      $question->difficulty_id=$request->input('difficulty_id');
       $question->update();
     }
 
