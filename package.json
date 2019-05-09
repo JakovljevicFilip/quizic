@@ -11,8 +11,8 @@
     },
     "devDependencies": {
         "@fortawesome/fontawesome-free": "^5.8.1",
-        "axios": "^0.18",
         "animate.css": "^3.7.0",
+        "axios": "^0.18.0",
         "bootstrap": "^4.0.0",
         "cross-env": "^5.1",
         "jquery": "^3.2",
@@ -27,6 +27,8 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
-
+        "@websanova/vue-auth": "^2.21.14-beta",
+        "es6-promise": "^4.2.6",
+        "vue-axios": "^2.1.4"
     }
 }
