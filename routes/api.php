@@ -13,11 +13,25 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
 Route::namespace('Api')->group(function(){
 	Route::resource('difficulty','DifficultyController');
 	Route::resource('question','QuestionController');
+});
+
+Route::prefix('auth')->namespace('Api')->group(function(){
+	Route::post('register','AuthController@register');
+	Route::post('login','AuthController@login');
+	Route::get('refresh','AuthController@refresh');
+
+	Route::group(['middleware'=>'auth:api'], function(){
+		Route::get('user','AuthController@user');
+		Route::get('logout','AuthController@logout');
+	});
+});
+
+Route::group(['middleware'=>'auth:api','namespace'=>'Api'],function(){
+	// lISTING ALL USERS INFORMATIONS, SHOULD BE ACCESSABLE BY ADMIN
+	Route::get('users','UserController@index')->middleware('isAdmin');
+	// LISTING USER INFROMATION, SHOULD BE DONE BY EITHER ADMIN OR THE USER THEMSELF
+	Route::get('users/{id}','UserController@show')->middleware('isAdminOrSelf');
 });
