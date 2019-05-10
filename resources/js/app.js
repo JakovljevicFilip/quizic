@@ -26,6 +26,7 @@ Vue.use(VueRouter)
 
 // SETS VUE AUTHENTICATION
 Vue.use(VueAxios, axios)
+// FETCHES DEFAULT axios URL PATH FROM .env FILE
 axios.defaults.baseURL = `${process.env.MIX_APP_URL}/api`
 Vue.use(VueAuth, auth)
 

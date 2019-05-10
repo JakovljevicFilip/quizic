@@ -3020,6 +3020,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3032,7 +3033,7 @@ __webpack_require__.r(__webpack_exports__);
       rules: {
         username: 'required|alpha_num|min:6',
         // target - CONFIRMED SHOULD LOOK AT THIS
-        password: 'required|alpha_num|min:5',
+        password: 'required|alpha_num|min:6',
         // confirmed - SHOULD HAVE THE SAME VALUE AS
         passwordConfirm: 'required|confirmed:password',
         email: 'required|email'
@@ -3056,8 +3057,30 @@ __webpack_require__.r(__webpack_exports__);
           }
       });
     },
+    // REGISTERS USER
     register: function register() {
-      alert(1);
+      this.$auth.register({
+        params: {
+          username: this.username,
+          password: this.password,
+          // pasword_confirmation HAS TO BE CALLED THIS WAY SO THAT BACK-END VALIDATION COULD WORK
+          password_confirmation: this.passwordConfirm,
+          email: this.email
+        },
+        success: function success(response) {
+          alert(response.data.messages);
+        },
+        error: function error(_error) {
+          var response = _error.response.data; // EXPECTED ERROR
+
+          if (!response.status) {
+            alert(response.messages);
+          } // UNEXPECTED ERROR
+          else {
+              alert(_error);
+            }
+        }
+      });
     }
   }
 });
@@ -51990,6 +52013,10 @@ var render = function() {
       }
     }),
     _vm._v(" "),
+    _c("span", { staticClass: "d-block text-danger" }, [
+      _vm._v(_vm._s(_vm.errors.first("email")))
+    ]),
+    _vm._v(" "),
     _c(
       "button",
       {
@@ -67326,8 +67353,9 @@ window.Vue = vue__WEBPACK_IMPORTED_MODULE_3___default.a; // SETS VUE ROUTER
 vue__WEBPACK_IMPORTED_MODULE_3___default.a.router = _router__WEBPACK_IMPORTED_MODULE_10__["default"];
 vue__WEBPACK_IMPORTED_MODULE_3___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_6__["default"]); // SETS VUE AUTHENTICATION
 
-vue__WEBPACK_IMPORTED_MODULE_3___default.a.use(vue_axios__WEBPACK_IMPORTED_MODULE_5___default.a, axios__WEBPACK_IMPORTED_MODULE_1___default.a);
-axios__WEBPACK_IMPORTED_MODULE_1___default.a.defaults.baseURL = "".concat(Object({"MIX_PUSHER_APP_CLUSTER":"mt1","MIX_PUSHER_APP_KEY":"","NODE_ENV":"development"}).MIX_APP_URL, "/api");
+vue__WEBPACK_IMPORTED_MODULE_3___default.a.use(vue_axios__WEBPACK_IMPORTED_MODULE_5___default.a, axios__WEBPACK_IMPORTED_MODULE_1___default.a); // FETCHES DEFAULT axios URL PATH FROM .env FILE
+
+axios__WEBPACK_IMPORTED_MODULE_1___default.a.defaults.baseURL = "".concat("http://127.0.0.1:8000", "/api");
 vue__WEBPACK_IMPORTED_MODULE_3___default.a.use(_websanova_vue_auth__WEBPACK_IMPORTED_MODULE_4___default.a, _auth__WEBPACK_IMPORTED_MODULE_9__["default"]); // FRONT-END VALIDATION
 
 vue__WEBPACK_IMPORTED_MODULE_3___default.a.use(vee_validate__WEBPACK_IMPORTED_MODULE_7__["default"]); // CUSTOM MESSAGES FOR VeeValidate

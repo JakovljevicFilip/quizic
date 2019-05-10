@@ -37,7 +37,10 @@ class AuthController extends Controller
 		$user->save();
 
 		// RETURNS RESPONSE
-		return response()->json(['status'=>true],200);
+		return response()->json([
+			'status'=>true,
+			'messages'=>'Registration successful.',
+		],200);
 	}
 
 	public function login(Request $request){
