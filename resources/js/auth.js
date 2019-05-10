@@ -11,11 +11,11 @@ const config = {
   tokenDefaultName: 'Authorization',
   tokenStore: ['localStorage'],
   rolesVar: 'role',
-  registerData: {url: 'auth/register', method: 'POST', redirect: '/login'},
-  loginData: {url: 'auth/login', method: 'POST', redirect: '', fetchUser: true},
-  logoutData: {url: 'auth/logout', method: 'POST', redirect: '/', makeRequest: true},
+  registerData: {url: 'auth/register', method: 'POST', redirect: 'login'},
+  loginData: {url: 'auth/login', method: 'POST', fetchUser: true},
+  logoutData: {url: 'auth/logout', method: 'POST', redirect: 'login', makeRequest: true},
   fetchData: {url: 'auth/user', method: 'GET', enabled: true},
-  refreshData: {url: 'auth/refresh', method: 'GET', enabled: true, interval: 30}
+  refreshData: {url: 'auth/refresh', method: 'GET', enabled: false, interval: 30}
 }
 
 export default config

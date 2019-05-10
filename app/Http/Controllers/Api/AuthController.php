@@ -44,26 +44,15 @@ class AuthController extends Controller
 	}
 
 	public function login(Request $request){
-		// VALIDATION
-		$validation = Validator::make($request->all(),[
-			'username'=>'required|string|max:255',
-			'password'=>'required|min:6',
-		]);
-		// DID IT FAIL?
-		if($validation->fails()){
-			// STOPS THE CODE
-			return response()->json([
-				'status'=>false,
-				'messages'=>$validation->errors()->all(),
-			],422);
-		}
-
 		// DATA NECESSARY FOR LOGIN
 		$credidentials=$request->only('username','password');
 		// ATTEMPTS LOGIN
 		if($token=$this->guard()->attempt($credidentials)){
 			// LOGIN SUCCESSFUL
-			return response()->json(['status'=>true],200)->header('Authorization',$token);
+			return response()->json([
+				'status'=>true,
+				'messages'=>'Login successful.',
+			],200)->header('Authorization',$token);
 		}
 		// LOGIN FAILED
 		return response()->json([
@@ -77,6 +66,15 @@ class AuthController extends Controller
 		return response()->json([
 			'status'=>true
 		],200);
+	}
+
+	// FETCHES USER INFORMATION
+	public function user(Request $request){
+		$user = User::find(Auth::user()->id);
+		return response()->json([
+			'status' => 'success',
+			'data' => $user
+		]);
 	}
 
 	// REFRESHES AUTHORIZATION TOKEN

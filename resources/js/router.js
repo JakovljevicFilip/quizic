@@ -26,105 +26,112 @@ const router = new VueRouter({
     // GETS RID OF THE # IN THE URL
     mode: 'history',
     routes: [
+            // CONTROLLER
+            {
+                path:'/',
+                redirect:{
+                    name:'menu.admin'
+                }      
+            },
+
     		// AUTHENTICATION
     		{
-            path:'/',
-            component: Authentication,
-            // REGISTER AND LOGIN ARE ADDED AS CHILDREN SINCE THEY'RE BEING LOADED ON THE SAME COMPONENT
-            // THEY'RE BEING LOADED WITHIN ROUTER-VIEW TAG IN Authentication.vue FILE
-            children: [
-            	{
-            		path:'/',
-            		redirect: 'login'
-            	},
-            	{
-            		path:'/login',
-            		name:'login',
-            		component: Login
-            	},
-            	{
-            		path:'/register',
-            		name:'register',
-            		component: Register
-            	}
-            ]
-        },
+                path:'/authentication',
+                name:'authentication',
+                component: Authentication,
+                // meta:{
+                //     auth:undefined,
+                //     redirect:{
+                //         name:'admin.menu'
+                //     },
+                // },
+                // REGISTER AND LOGIN ARE ADDED AS CHILDREN SINCE THEY'RE BEING LOADED ON THE SAME COMPONENT
+                // THEY'RE BEING LOADED WITHIN ROUTER-VIEW TAG IN Authentication.vue FILE
+                children: [
+                    // {
+                    //     path:'/',
+                    //     redirect:'/login',
+                    // },
+                	{
+                		path:'/login',
+                		name:'login',
+                		component: Login,
+                        meta:{
+                            auth:undefined,
+                        }
+                	},
+                	{
+                		path:'/register',
+                		name:'register',
+                		component: Register,
+                	}
+                ],
+            },
 
-        // MENU
-        // ADMIN MENU
-        {
-            path: '/menu',
-            name: 'menu.admin',
-            component: AdminMenu,
-            meta: {
-                // ACESSABLE TO ALL USERS
-                auth: {
-                    'role':2,
-                    // IN CASE A GUEST IS TYRING TO ACCESS
-                    'redirect':{
-                        // SENDS THEM TO A GUEST MENU
-                        'name':'menu.guest'
-                    },
-                    // IN CASE USER IS NOT AN ADMINISTRATOR
-                    'forbidenRedirect':{
-                    		// SENDS THEM TO A USER MENU
-                        'name':'menu.user'
+            // MENU
+            // ADMIN MENU
+            {
+                path: '/menu',
+                name: 'menu.admin',
+                component: AdminMenu,
+                meta:{
+                    auth:{
+                        roles:2,
+                        authRedirect:{
+                            name:'login',
+                        },
+                        forbiddenRedirect:{
+                            name:'menu.user',
+                        },
                     }
                 }
-            }
-        },
-        // USER MENU
-        {
-            path: '/menu',
-            name: 'menu.user',
-            component: UserMenu,
-        },
-        // GUEST MENU
-        {
-            path: '/menu',
-            name: 'menu.guest',
-            component: GuestMenu,
-        },
+            },
+            // USER MENU
+            {
+                path: '/menu',
+                name: 'menu.user',
+                component: UserMenu,
+            },
 
-        // QUESTION
-        {
-            path:'/question',
-            name:'question.index',
-            component: QuestionIndex,
-            meta: {
-                // ONLY ACCESSABLE TO ADMINISTRATOR
-                auth: {
-                    // BACK-END VERIFICATION FOR AN ADMINISTRATOR
-                    'role':2,
-                    // GUEST IS TRYING TO ACCESS THIS PAGE
-                    'redirect':{
-                        // SENDS THEM TO A LOGIN PAGE
-                        'name':'/login'
-                    },
-                    // REGULAR USER IS TRYING TO ACCESS THIS PAGE
-                    'forbidenRedirect':{
-                        // SENDS THEM TO A FORBIDEN ACCESS PAGE
-                        'name':'/403'
+            // QUESTION
+            {
+                path:'/question',
+                name:'question.index',
+                component: QuestionIndex,
+                meta: {
+                    // ONLY ACCESSABLE TO ADMINISTRATOR
+                    auth: {
+                        // BACK-END VERIFICATION FOR AN ADMINISTRATOR
+                        roles:2,
+                        // GUEST IS TRYING TO ACCESS THIS PAGE
+                        redirect:{
+                            // SENDS THEM TO A LOGIN PAGE
+                            name:'/login'
+                        },
+                        // REGULAR USER IS TRYING TO ACCESS THIS PAGE
+                        forbiddenRedirect:{
+                            // SENDS THEM TO A FORBIDEN ACCESS PAGE
+                            name:'/403'
+                        }
+
                     }
-
                 }
+            },
+
+            // ERROR
+            // 403 - FORBIDDEN ACCESS
+            {
+                path:'*/403',
+                name:'/403',
+                component: ForbiddenAccess
+
+            },
+            // 404 - PAGE NOT FOUND
+            // HAS TO BE THE LAST
+            {
+                path: "*",
+                component: PageNotFound
             }
-        },
-
-        // ERROR
-        // 403 - FORBIDDEN ACCESS
-        {
-            path:'*/403',
-            name:'/403',
-            component: ForbiddenAccess
-
-        },
-        // 404 - PAGE NOT FOUND
-        // HAS TO BE THE LAST
-        {
-            path: "*",
-            component: PageNotFound
-        }
     ],
 });
 

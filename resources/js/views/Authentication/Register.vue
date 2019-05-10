@@ -74,15 +74,7 @@
 						alert(response.data.messages);
 					},
 					error: (error)=>{
-						let response=error.response.data;
-						// EXPECTED ERROR
-						if(!response.status){
-							alert(response.messages);
-						}
-						// UNEXPECTED ERROR
-						else{
-							alert(error)
-						}
+						console.log(error);
 					}
 				});
 			}
