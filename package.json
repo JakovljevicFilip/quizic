@@ -29,6 +29,7 @@
     "dependencies": {
         "@websanova/vue-auth": "^2.21.14-beta",
         "es6-promise": "^4.2.6",
+        "vee-validate": "^2.2.7",
         "vue-axios": "^2.1.4"
     }
 }
