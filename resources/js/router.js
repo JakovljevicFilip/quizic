@@ -31,7 +31,7 @@ const router = new VueRouter({
                 path:'/',
                 redirect:{
                     name:'menu.admin'
-                }      
+                }
             },
 
     		// AUTHENTICATION
@@ -56,9 +56,6 @@ const router = new VueRouter({
                 		path:'/login',
                 		name:'login',
                 		component: Login,
-                        meta:{
-                            auth:undefined,
-                        }
                 	},
                 	{
                 		path:'/register',

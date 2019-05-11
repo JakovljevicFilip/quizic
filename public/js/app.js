@@ -2981,7 +2981,10 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {};
   },
-  created: function created() {},
+  created: function created() {
+    // REMOVES AUTHENTICATION TOKEN ONCE USER GOES TO LOGIN OR REGISTER
+    localStorage.removeItem('Authorization');
+  },
   methods: {}
 });
 
@@ -67487,7 +67490,7 @@ vue__WEBPACK_IMPORTED_MODULE_3___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
 
 vue__WEBPACK_IMPORTED_MODULE_3___default.a.use(vue_axios__WEBPACK_IMPORTED_MODULE_5___default.a, axios__WEBPACK_IMPORTED_MODULE_1___default.a); // FETCHES DEFAULT axios URL PATH FROM .env FILE
 
-axios__WEBPACK_IMPORTED_MODULE_1___default.a.defaults.baseURL = "".concat("http://127.0.0.1:8000", "/api");
+axios__WEBPACK_IMPORTED_MODULE_1___default.a.defaults.baseURL = "/api";
 vue__WEBPACK_IMPORTED_MODULE_3___default.a.use(_websanova_vue_auth__WEBPACK_IMPORTED_MODULE_4___default.a, _auth__WEBPACK_IMPORTED_MODULE_9__["default"]); // FRONT-END VALIDATION
 
 vue__WEBPACK_IMPORTED_MODULE_3___default.a.use(vee_validate__WEBPACK_IMPORTED_MODULE_7__["default"]); // CUSTOM MESSAGES FOR VeeValidate
@@ -67696,10 +67699,7 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_0__["default"]({
     {
       path: '/login',
       name: 'login',
-      component: _views_Authentication_Login__WEBPACK_IMPORTED_MODULE_3__["default"],
-      meta: {
-        auth: undefined
-      }
+      component: _views_Authentication_Login__WEBPACK_IMPORTED_MODULE_3__["default"]
     }, {
       path: '/register',
       name: 'register',
@@ -68533,8 +68533,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\xampp\htdocs\projekti\quizic\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\projekti\quizic\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\xampp\htdocs\Development\Projects\Quizic\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\xampp\htdocs\Development\Projects\Quizic\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
