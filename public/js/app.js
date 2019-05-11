@@ -67511,6 +67511,41 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_3___default.a({
   components: {
     App: _views_App__WEBPACK_IMPORTED_MODULE_8__["default"]
   },
+  //
+  mounted: function mounted() {
+    var _this = this;
+
+    //// HANDLES TOKEN REFRESH
+    this.$auth.refresh({
+      success: function success(response) {
+        var data = response.data;
+
+        if (data.status) {
+          // REMOVES ANY PREVIOUS TOKENS
+          localStorage.removeItem('Authorization'); // STORES TOKEN
+
+          localStorage.setItem('Authorization', response.data.Authorization);
+        } else {
+          // REMOVES TOKEN IF THERE ARE ANY PROBLEMS
+          localStorage.removeItem('Authorization'); // REDIRECTS AGAIN TO LOGIN
+
+          _this.$router.push({
+            name: 'login'
+          });
+        }
+      },
+      error: function error(_error) {
+        // REMOVES TOKEN IF THERE ARE ANY PROBLEMS
+        localStorage.removeItem('Authorization'); // LOGS ERROR
+
+        console.log(_error); // REDIRECTS TO LOGIN
+
+        _this.$router.push({
+          name: 'login'
+        });
+      }
+    });
+  },
   router: _router__WEBPACK_IMPORTED_MODULE_10__["default"]
 });
 

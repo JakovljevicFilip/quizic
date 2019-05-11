@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use JWTAuth;
 
 
 class AuthController extends Controller
@@ -79,15 +80,36 @@ class AuthController extends Controller
 
 	// REFRESHES AUTHORIZATION TOKEN
 	public function refresh(){
-		if($token=$this->guard()->refresh()){
-			return response()->json([
-				'status'=>true
-			],200);
-		}
 
-		return response()->json([
-			'status'=>false
-		],401);
+        // TOKEN FOR VALDIATION
+        $token = JWTAuth::getToken();
+
+        // HAS IT BEEN SENT
+        if(!$token){
+            return response()->json([
+                'status'=>false,
+                'messages'=>'Token is missing.',
+            ],200);
+        }
+
+        // IF IT IS SENT
+        try{
+            // SETS NEW TOKEN IN PLACE OF OLD ONE
+            $token = JWTAuth::refresh($token);
+            JWTAuth::setToken($token);
+
+        }catch(TokenInvalidException $e){
+            // INVALID TOKEN
+            return response()->json([
+                'status'=>false,
+                'messages'=>'Invalid token.',
+            ],200);
+        }
+
+        return response()->json([
+            'status'=>true,
+            'Authorization'=>$token,
+        ],200);
 	}
 
 	// SHORTHAND

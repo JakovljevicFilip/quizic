@@ -49,5 +49,34 @@ Vue.component('App', App)
 const app = new Vue({
   el: '#app',
   components: { App },
+  //
+  mounted(){
+    //// HANDLES TOKEN REFRESH
+    this.$auth.refresh({
+        success:(response)=>{
+            let data = response.data;
+            if(data.status){
+                // REMOVES ANY PREVIOUS TOKENS
+                localStorage.removeItem('Authorization');
+                // STORES TOKEN
+                localStorage.setItem('Authorization',response.data.Authorization);
+            }
+            else{
+                // REMOVES TOKEN IF THERE ARE ANY PROBLEMS
+                localStorage.removeItem('Authorization');
+                // REDIRECTS AGAIN TO LOGIN
+                this.$router.push({name:'login'});
+            }
+        },
+        error:(error)=>{
+            // REMOVES TOKEN IF THERE ARE ANY PROBLEMS
+            localStorage.removeItem('Authorization');
+            // LOGS ERROR
+            console.log(error);
+            // REDIRECTS TO LOGIN
+            this.$router.push({name:'login'});
+        }
+    });
+  },
   router,
 });
