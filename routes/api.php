@@ -18,6 +18,7 @@ Route::namespace('Api')->group(function(){
 	Route::resource('question','QuestionController');
 });
 
+// AUTHENTICATION
 Route::prefix('auth')->namespace('Api')->group(function(){
 	Route::post('register','AuthController@register');
 	Route::post('login','AuthController@login');
@@ -25,10 +26,11 @@ Route::prefix('auth')->namespace('Api')->group(function(){
 
 	Route::group(['middleware'=>'auth:api'], function(){
 		Route::get('user','AuthController@user');
-		Route::get('logout','AuthController@logout');
+		Route::post('logout','AuthController@logout');
 	});
 });
 
+// ADMIN OR SELF
 Route::group(['middleware'=>'auth:api','namespace'=>'Api'],function(){
 	// lISTING ALL USERS INFORMATIONS, SHOULD BE ACCESSABLE BY ADMIN
 	Route::get('users','UserController@index')->middleware('isAdmin');

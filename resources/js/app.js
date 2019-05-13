@@ -51,7 +51,7 @@ const app = new Vue({
   components: { App },
   //
   mounted(){
-    //// HANDLES TOKEN REFRESH
+    // HANDLES TOKEN REFRESH
     this.$auth.refresh({
         success:(response)=>{
             let data = response.data;

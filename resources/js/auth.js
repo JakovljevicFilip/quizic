@@ -15,6 +15,7 @@ const config = {
   loginData: {url: 'auth/login', method: 'POST', fetchUser: true},
   logoutData: {url: 'auth/logout', method: 'POST', redirect: 'login', makeRequest: true},
   fetchData: {url: 'auth/user', method: 'GET', enabled: true},
+  // I AM HANDLING REFRESH FUNCTIONALITY MYSELF INSIDE app.js FILE
   refreshData: {url: 'auth/refresh', method: 'GET', enabled: false, interval: 30}
 }
 

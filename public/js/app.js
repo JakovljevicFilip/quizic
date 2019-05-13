@@ -3267,7 +3267,11 @@ __webpack_require__.r(__webpack_exports__);
     return {};
   },
   created: function created() {},
-  methods: {}
+  methods: {
+    logout: function logout() {
+      this.$auth.logout();
+    }
+  }
 });
 
 /***/ }),
@@ -52520,7 +52524,12 @@ var render = function() {
         [_vm._v("Edit Users")]
       ),
       _vm._v(" "),
-      _vm._m(1)
+      _c("div", { staticClass: "text-center mt-4" }, [
+        _c("i", {
+          staticClass: "fas fa-power-off menu-logout",
+          on: { click: _vm.logout }
+        })
+      ])
     ],
     1
   )
@@ -52543,14 +52552,6 @@ var staticRenderFns = [
         })
       ]
     )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "text-center mt-4" }, [
-      _c("i", { staticClass: "fas fa-power-off menu-logout" })
-    ])
   }
 ]
 render._withStripped = true
@@ -67515,7 +67516,7 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_3___default.a({
   mounted: function mounted() {
     var _this = this;
 
-    //// HANDLES TOKEN REFRESH
+    // HANDLES TOKEN REFRESH
     this.$auth.refresh({
       success: function success(response) {
         var data = response.data;
@@ -67599,6 +67600,7 @@ var config = {
     method: 'GET',
     enabled: true
   },
+  // I AM HANDLING REFRESH FUNCTIONALITY MYSELF INSIDE app.js FILE
   refreshData: {
     url: 'auth/refresh',
     method: 'GET',

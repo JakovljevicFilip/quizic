@@ -10,7 +10,7 @@
         <router-link :to="{ name: 'menu.admin' }" class="btn mb-2 mx-auto btn-main">Delete Question</router-link>
         <router-link :to="{ name: 'menu.admin' }" class="btn mx-auto btn-main">Edit Users</router-link>
         <div class="text-center mt-4">
-            <i class="fas fa-power-off menu-logout"></i>
+            <i class="fas fa-power-off menu-logout" @click="logout"></i>
         </div>
     </div>
 </template>
@@ -18,14 +18,16 @@
 export default {
     data() {
         return {
-            
+
         };
     },
     created() {
 
     },
     methods: {
-        
+        logout(){
+            this.$auth.logout();
+        }
     }
 }
 </script>
