@@ -54,7 +54,7 @@
 						username:this.username,
 						password:this.password,
 					},
-					success: (response)=>{
+					success: response=>{
                         // GET RESPONSE MESSAGE
                         let message = response.data.messages;
                         // WRITE RESPONSE MESSAGE
@@ -68,7 +68,7 @@
                             // REDIRECT TO USER
 							this.$router.push({name:'menu.user'});
 					},
-					error: (error)=>{
+					error: error=>{
                         try{
                             // GET RESPONSE MESSAGE
                             let message = error.response.data.messages;

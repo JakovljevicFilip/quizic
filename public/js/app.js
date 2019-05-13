@@ -3253,6 +3253,19 @@ __webpack_require__.r(__webpack_exports__);
           _this.$swal('Logout', message, 'success');
 
           _this.$router.push('login');
+        },
+        error: function error(_error) {
+          try {
+            // GET RESPONSE MESSAGE
+            var message = _error.response.data.messages; // WRITE RESPONSE MESSAGE
+
+            _this.$swal('Login', _error.response.data.messages, 'error');
+          } catch (_unused) {
+            // WRITE DEFAULT MESSAGE
+            _this.$swal('Login', 'There has been an error.', 'error');
+          }
+
+          console.log(_error);
         }
       });
     }
@@ -3301,6 +3314,19 @@ __webpack_require__.r(__webpack_exports__);
           _this.$swal('Logout', message, 'success');
 
           _this.$router.push('login');
+        },
+        error: function error(_error) {
+          try {
+            // GET RESPONSE MESSAGE
+            var message = _error.response.data.messages; // WRITE RESPONSE MESSAGE
+
+            _this.$swal('Login', _error.response.data.messages, 'error');
+          } catch (_unused) {
+            // WRITE DEFAULT MESSAGE
+            _this.$swal('Login', 'There has been an error.', 'error');
+          }
+
+          console.log(_error);
         }
       });
     }
