@@ -48,7 +48,7 @@ const app = new Vue({
   mounted(){
     // HANDLES TOKEN REFRESH
     this.$auth.refresh({
-        success:(response)=>{
+        success:response =>{
             let data = response.data;
             if(data.status){
                 // REMOVES ANY PREVIOUS TOKENS
@@ -63,14 +63,7 @@ const app = new Vue({
                 this.$router.push({name:'login'});
             }
         },
-        error:(error)=>{
-            try{
-                let message = error.response.data.messages;
-                this.$swal('Login', error.response.data.messages, 'error');
-            }
-            catch{
-                this.$swal('Login', 'There has been an error.', 'error');
-            }
+        error:error =>{
             // REMOVES TOKEN IF THERE ARE ANY PROBLEMS
             localStorage.removeItem('Authorization');
             // LOGS ERROR

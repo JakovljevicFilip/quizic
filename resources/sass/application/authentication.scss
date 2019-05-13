@@ -1,5 +1,5 @@
-@import './components/logo';
-@import './components/btn-main';
+@import './_logo';
+@import './_btn-main';
 
 .authentication{
 	&-label{
@@ -25,7 +25,7 @@
 		border-radius: 5%;
 		text-decoration: none;
 		text-align: center;
-		
+
 		&:hover{
 			color: #000;
 			text-decoration: none;
@@ -42,7 +42,7 @@
 			}
 		}
 
-		
+
 	}
 
 	&-heading{

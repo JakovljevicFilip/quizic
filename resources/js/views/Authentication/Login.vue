@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<h3 class="text-center text-white pt-3 authentication-heading">Login</h3>
+		<h3 class="text-center text-white pt-3 heading">Login</h3>
 		<label for="username" class="authentication-label text-white" >Enter username:</label>
 		<input type="text" name="username" class="form-control" v-model="username" v-validate="rules.username">
 		<span class="d-block text-danger">{{ errors.first('username') }}</span>
@@ -54,7 +54,7 @@
 						username:this.username,
 						password:this.password,
 					},
-					success: response=>{
+					success:response =>{
                         // GET RESPONSE MESSAGE
                         let message = response.data.messages;
                         // WRITE RESPONSE MESSAGE
@@ -68,17 +68,12 @@
                             // REDIRECT TO USER
 							this.$router.push({name:'menu.user'});
 					},
-					error: error=>{
-                        try{
-                            // GET RESPONSE MESSAGE
-                            let message = error.response.data.messages;
-                            // WRITE RESPONSE MESSAGE
-                            this.$swal('Login', error.response.data.messages, 'error');
-                        }
-                        catch{
-                            // WRITE DEFAULT MESSAGE
+					error:error =>{
+                        let message = error.response.data.messages;
+                        if(message !== undefined)
+                            this.$swal('Login', message, 'error');
+                        else
                             this.$swal('Login', 'There has been an error.', 'error');
-                        }
 						console.log(error);
 					},
 				});
