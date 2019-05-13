@@ -52,20 +52,21 @@ class AuthController extends Controller
 			// LOGIN SUCCESSFUL
 			return response()->json([
 				'status'=>true,
-				'messages'=>'Login successful.',
+				'messages'=>'Logged in.',
 			],200)->header('Authorization',$token);
 		}
 		// LOGIN FAILED
 		return response()->json([
 			'status'=>false,
-			'messages'=>'Login error: invalid credidentials.',
+			'messages'=>'Username and/or password are wrong.',
 		], 401);
 	}
 
 	public function logout(){
 		$this->guard()->logout();
 		return response()->json([
-			'status'=>true
+            'status'=>true,
+            'messages'=>'Logged out.'
 		],200);
 	}
 

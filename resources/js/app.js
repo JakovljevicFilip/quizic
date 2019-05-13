@@ -1,55 +1,50 @@
-require('./bootstrap');
-
-import 'es6-promise/auto'
-import axios from 'axios'
-import './bootstrap'
-import Vue from 'vue'
-import VueAuth from '@websanova/vue-auth'
-import VueAxios from 'vue-axios'
-import VueRouter from 'vue-router'
-import VeeValidate from 'vee-validate';
-import { Validator } from 'vee-validate';
-
-// MAIN APPLICATION PAGE
-import App from './views/App'
-// AUTHENTICATION SETUP
-import auth from './auth'
-// ROUTER SETUP
-import router from './router'
+// require('./bootstrap');
 
 // SETS VUE GLOBALY
 window.Vue = Vue
 
-// SETS VUE ROUTER
-Vue.router = router
-Vue.use(VueRouter)
+// PACKAGES
+import './bootstrap';
+import 'es6-promise/auto';
+import axios from 'axios';
+import Vue from 'vue';
+import VueAuth from '@websanova/vue-auth';
+import VueAxios from 'vue-axios';
+import VueRouter from 'vue-router';
+import VeeValidate from 'vee-validate';
+import { Validator } from 'vee-validate';
+import VueSweetalert2 from 'vue-sweetalert2';
 
-// SETS VUE AUTHENTICATION
-Vue.use(VueAxios, axios)
-// FETCHES DEFAULT axios URL PATH FROM .env FILE
-axios.defaults.baseURL = `/api`
-Vue.use(VueAuth, auth)
 
-// FRONT-END VALIDATION
+// CONFIGURATIONS
+import auth from './config/auth';
+import router from './config/router';
+import validate from './config/validate.js';
+import sweetAlert2 from './config/sweetAlert2';
+
+
+// REGISTRATIONS
+// VueRouter
+Vue.router = router;
+Vue.use(VueRouter);
+// VueAuth
+Vue.use(VueAxios, axios);
+axios.defaults.baseURL = `/api`;
+Vue.use(VueAuth, auth);
+// VeeValidate
 Vue.use(VeeValidate);
-// CUSTOM MESSAGES FOR VeeValidate
-const dict = {
-	custom: {
-		passwordConfirm: {
-			confirmed: 'Passwords do not match.'
-		},
-	}
-};
-Validator.localize('en', dict);
+Validator.localize('en', validate);
+// SweetAlert
+Vue.use(VueSweetalert2, sweetAlert2);
 
-// LOADS SPA
-Vue.component('App', App)
+// MAIN APPLICATION PAGE
+import App from './views/App';
+Vue.component('App', App);
 
 // SETS UP VUE
 const app = new Vue({
   el: '#app',
   components: { App },
-  //
   mounted(){
     // HANDLES TOKEN REFRESH
     this.$auth.refresh({
@@ -69,6 +64,13 @@ const app = new Vue({
             }
         },
         error:(error)=>{
+            try{
+                let message = error.response.data.messages;
+                this.$swal('Login', error.response.data.messages, 'error');
+            }
+            catch{
+                this.$swal('Login', 'There has been an error.', 'error');
+            }
             // REMOVES TOKEN IF THERE ARE ANY PROBLEMS
             localStorage.removeItem('Authorization');
             // LOGS ERROR

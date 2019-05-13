@@ -32,14 +32,17 @@
 			loginController(){
 				// RUNS VALIDATION
 				this.$validator.validate().then(valid => {
-					// PASSES VALIDATION
+					// VALIDATION PASSED
 					if (valid) {
 						this.login();
 					}
-					// DOESN'T PASS VALIDATION
+					// VALIDATION DIDN'T PASS
 					else{
-						// SHOWS VALDIATION MESSAGES
-						this.$validator.validateAll();
+						// SHOW ERROR MESSAGES BENEATH INPUT FIELDS
+                        this.$validator.validateAll();
+                        // SHOW ALERT
+                        let message = this.$validator.errors.all()[0];
+                        this.$swal('Login', message, 'error');
 					}
 				});
 			},
@@ -52,14 +55,30 @@
 						password:this.password,
 					},
 					success: (response)=>{
-						alert(response.data.messages);
+                        // GET RESPONSE MESSAGE
+                        let message = response.data.messages;
+                        // WRITE RESPONSE MESSAGE
+                        this.$swal('Login', message, 'success');
+                        // IF USER IS ADMIN
 						if(this.$auth.user().role===2){
+                            // REDIRECT TO ADMIN
 							this.$router.push({name:'menu.admin'});
 						}
-						else
+                        else
+                            // REDIRECT TO USER
 							this.$router.push({name:'menu.user'});
 					},
 					error: (error)=>{
+                        try{
+                            // GET RESPONSE MESSAGE
+                            let message = error.response.data.messages;
+                            // WRITE RESPONSE MESSAGE
+                            this.$swal('Login', error.response.data.messages, 'error');
+                        }
+                        catch{
+                            // WRITE DEFAULT MESSAGE
+                            this.$swal('Login', 'There has been an error.', 'error');
+                        }
 						console.log(error);
 					},
 				});

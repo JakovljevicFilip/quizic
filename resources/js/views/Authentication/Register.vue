@@ -48,14 +48,17 @@
 			registerController(){
 				// RUNS VALIDATION
 				this.$validator.validate().then(valid => {
-					// PASSES VALIDATION
+					// VALIDATION PASSED
 					if (valid) {
 						this.register();
 					}
-					// DOESN'T PASS VALIDATION
+					// VALIDATION DIDN'T PASS
 					else{
-						// SHOWS VALDIATION MESSAGES
-						this.$validator.validateAll();
+						// SHOW ERROR MESSAGES BENEATH INPUT FIELDS
+                        this.$validator.validateAll();
+                        // SHOW ALERT
+                        let message = this.$validator.errors.all()[0];
+                        this.$swal('Register', message, 'error');
 					}
 				});
 			},
@@ -71,9 +74,24 @@
 						email:this.email
 					},
 					success: (response)=>{
-						alert(response.data.messages);
+						// GET RESPONSE MESSAGE
+                        let message = response.data.messages;
+                        // WRITE RESPONSE MESSAGE
+                        this.$swal('Register', message, 'success');
+                        // PUSH TO LOGIN
+                        this.$router.push('login');
 					},
 					error: (error)=>{
+						try{
+                            // GET RESPONSE MESSAGE
+                            let message = error.response.data.messages;
+                            // WRITE RESPONSE MESSAGE
+                            this.$swal('Register', error.response.data.messages, 'error');
+                        }
+                        catch{
+                            // WRITE DEFAULT MESSAGE
+                            this.$swal('Register', 'There has been an error.', 'error');
+                        }
 						console.log(error);
 					}
 				});

@@ -9,7 +9,7 @@
     </div>
 </template>
 <script>
-    export default {}
+export default {}
 </script>
 <style lang="scss" scoped>
     @import "../../sass/application/app.scss";
