@@ -81,8 +81,6 @@ class AuthController extends Controller
 
 	// REFRESHES AUTHORIZATION TOKEN
 	public function refresh(){
-        // $payload = auth()->payload();
-        // dd($payload('exp'));
         try {
 
             if (! $user = JWTAuth::parseToken()->authenticate()) {

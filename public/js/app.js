@@ -67751,7 +67751,7 @@ __webpack_require__.r(__webpack_exports__);
 // THIS FUNCTIONALITY DEALS WITH TIMESTAMPS AND SO IT NEEDS TO SEND A REQUEST SOME TIME BEFORE TOKEN BECOMES INVALID ON THE BACK-END
 // MOST OPTIMAL SOLUTION I'VE FOUND IS ONE MINUTE BEFORE EXPIRING WITH POSSIBLE PROBLEMS IF ONE MINUTE IS A BACK-END VALUE
 
-var refreshTime = "2" - 1; // IF TOKEN IS SET TO EXPIRE IN 1 MINUTE
+var refreshTime = "15" - 1; // IF TOKEN IS SET TO EXPIRE IN 1 MINUTE
 
 if (refreshTime < 1) {
   // refreshTime DEFAULTS TO 1 MINUTE AS WELL
@@ -67894,7 +67894,7 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_0__["default"]({
           name: 'login'
         },
         forbiddenRedirect: {
-          name: 'menu.user'
+          name: '/403'
         }
       }
     }
