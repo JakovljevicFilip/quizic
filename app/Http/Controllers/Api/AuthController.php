@@ -11,7 +11,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use JWTAuth;
-
+use Tymon\JWTAuth\Exceptions\JWTException;
 
 class AuthController extends Controller
 {
@@ -46,9 +46,9 @@ class AuthController extends Controller
 
 	public function login(Request $request){
 		// DATA NECESSARY FOR LOGIN
-		$credidentials=$request->only('username','password');
+		$credentials = $request->only('username','password');
 		// ATTEMPTS LOGIN
-		if($token=$this->guard()->attempt($credidentials)){
+		if($token = auth()->attempt($credentials)){
 			// LOGIN SUCCESSFUL
 			return response()->json([
 				'status'=>true,
@@ -81,36 +81,32 @@ class AuthController extends Controller
 
 	// REFRESHES AUTHORIZATION TOKEN
 	public function refresh(){
+        // $payload = auth()->payload();
+        // dd($payload('exp'));
+        try {
 
-        // TOKEN FOR VALDIATION
-        $token = JWTAuth::getToken();
+            if (! $user = JWTAuth::parseToken()->authenticate()) {
+                return response()->json(['user_not_found'], 404);
+            }
 
-        // HAS IT BEEN SENT
-        if(!$token){
-            return response()->json([
-                'status'=>false,
-                'messages'=>'Token is missing.',
-            ],200);
+        } catch (Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
+
+            return response()->json(['token_expired'], $e->getStatusCode());
+
+        } catch (Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
+
+            return response()->json(['token_invalid'], $e->getStatusCode());
+
+        } catch (Tymon\JWTAuth\Exceptions\JWTException $e) {
+
+            return response()->json(['token_absent'], $e->getStatusCode());
+
         }
-
-        // IF IT IS SENT
-        try{
-            // SETS NEW TOKEN IN PLACE OF OLD ONE
-            $token = JWTAuth::refresh($token);
-            JWTAuth::setToken($token);
-
-        }catch(TokenInvalidException $e){
-            // INVALID TOKEN
-            return response()->json([
-                'status'=>false,
-                'messages'=>'Invalid token.',
-            ],200);
-        }
-
+        $newToken = auth()->refresh();
+        // SEND NEW TOKEN
         return response()->json([
             'status'=>true,
-            'Authorization'=>$token,
-        ],200);
+        ],200)->header('Authorization',$newToken);
 	}
 
 	// SHORTHAND

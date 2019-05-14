@@ -52352,7 +52352,7 @@ var render = function() {
       _vm._l(_vm.difficulties, function(difficulty) {
         return _c(
           "div",
-          { key: difficulty, staticClass: "my-3 d-flex index-input" },
+          { key: difficulty.id, staticClass: "my-3 d-flex index-input" },
           [
             _c("p", { staticClass: "flex-grow-1 m-0" }, [
               _vm._v(_vm._s(difficulty.text))
@@ -67627,7 +67627,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _config_validate_js__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./config/validate.js */ "./resources/js/config/validate.js");
 /* harmony import */ var _config_sweetAlert2__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./config/sweetAlert2 */ "./resources/js/config/sweetAlert2.js");
 /* harmony import */ var _views_App__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./views/App */ "./resources/js/views/App.vue");
-// require('./bootstrap');
 // SETS VUE GLOBALY
 window.Vue = vue__WEBPACK_IMPORTED_MODULE_3___default.a; // PACKAGES
 
@@ -67667,40 +67666,6 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_3___default.a({
   el: '#app',
   components: {
     App: _views_App__WEBPACK_IMPORTED_MODULE_13__["default"]
-  },
-  mounted: function mounted() {
-    var _this = this;
-
-    // HANDLES TOKEN REFRESH
-    this.$auth.refresh({
-      success: function success(response) {
-        var data = response.data;
-
-        if (data.status) {
-          // REMOVES ANY PREVIOUS TOKENS
-          localStorage.removeItem('Authorization'); // STORES TOKEN
-
-          localStorage.setItem('Authorization', response.data.Authorization);
-        } else {
-          // REMOVES TOKEN IF THERE ARE ANY PROBLEMS
-          localStorage.removeItem('Authorization'); // REDIRECTS AGAIN TO LOGIN
-
-          _this.$router.push({
-            name: 'login'
-          });
-        }
-      },
-      error: function error(_error) {
-        // REMOVES TOKEN IF THERE ARE ANY PROBLEMS
-        localStorage.removeItem('Authorization'); // LOGS ERROR
-
-        console.log(_error); // REDIRECTS TO LOGIN
-
-        _this.$router.push({
-          name: 'login'
-        });
-      }
-    });
   },
   router: _config_router__WEBPACK_IMPORTED_MODULE_10__["default"]
 });
@@ -67782,8 +67747,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _websanova_vue_auth_drivers_router_vue_router_2_x__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_websanova_vue_auth_drivers_router_vue_router_2_x__WEBPACK_IMPORTED_MODULE_2__);
 
 
- // Auth base configuration some of this options
+ // SET TOKEN REFRESH TIME
+// THIS FUNCTIONALITY DEALS WITH TIMESTAMPS AND SO IT NEEDS TO SEND A REQUEST SOME TIME BEFORE TOKEN BECOMES INVALID ON THE BACK-END
+// MOST OPTIMAL SOLUTION I'VE FOUND IS ONE MINUTE BEFORE EXPIRING WITH POSSIBLE PROBLEMS IF ONE MINUTE IS A BACK-END VALUE
+
+var refreshTime = "2" - 1; // IF TOKEN IS SET TO EXPIRE IN 1 MINUTE
+
+if (refreshTime < 1) {
+  // refreshTime DEFAULTS TO 1 MINUTE AS WELL
+  refreshTime = 1;
+} // Auth base configuration some of this options
 // can be override in method calls
+
 
 var config = {
   auth: _websanova_vue_auth_drivers_auth_bearer__WEBPACK_IMPORTED_MODULE_0___default.a,
@@ -67813,12 +67788,11 @@ var config = {
     method: 'GET',
     enabled: true
   },
-  // I AM HANDLING REFRESH FUNCTIONALITY MYSELF INSIDE app.js FILE
   refreshData: {
     url: 'auth/refresh',
     method: 'GET',
-    enabled: false,
-    interval: 30
+    enabled: true,
+    interval: refreshTime
   }
 };
 /* harmony default export */ __webpack_exports__["default"] = (config);
