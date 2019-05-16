@@ -32,7 +32,7 @@
 				password:'',
 				passwordConfirm:'',
 				email:'',
-				// VEE VALIDATION
+				// VEE VALIDATION, VALIDATION RULES
 				rules:{
 					username:'required|alpha_num|min:6',
 					// target - CONFIRMED SHOULD LOOK AT THIS
@@ -73,24 +73,15 @@
 						password_confirmation:this.passwordConfirm,
 						email:this.email
 					},
-					success:response =>{
-						// GET RESPONSE MESSAGE
-                        let message = response.data.messages;
-                        // WRITE RESPONSE MESSAGE
-                        this.$swal('Register', message, 'success');
+					success: response =>{
                         // PUSH TO LOGIN
-                        this.$router.push('login');
+                        //this.$router.push('login');
 					},
-					error:error =>{
-						let message = error.response.data.messages;
-                        if(message !== undefined)
-                            this.$swal('Login', message, 'error');
-                        else
-                            this.$swal('Login', 'There has been an error.', 'error');
-						console.log(error);
+					error: error =>{
+                        console.log(error.body.messages);
 					}
-				});
-			}
+                });
+            }
 		}
 	});
 </script>

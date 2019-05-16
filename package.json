@@ -23,6 +23,7 @@
         "sass": "^1.15.2",
         "sass-loader": "^7.1.0",
         "vue": "^2.5.17",
+        "vue-resource": "^1.5.1",
         "vue-router": "^3.0.6",
         "vue-sweetalert2": "^1.6.4",
         "vue-template-compiler": "^2.6.10"
@@ -30,7 +31,6 @@
     "dependencies": {
         "@websanova/vue-auth": "^2.21.14-beta",
         "es6-promise": "^4.2.6",
-        "vee-validate": "^2.2.7",
-        "vue-axios": "^2.1.4"
+        "vee-validate": "^2.2.7"
     }
 }

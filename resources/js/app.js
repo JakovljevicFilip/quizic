@@ -4,10 +4,9 @@ window.Vue = Vue
 // PACKAGES
 import './bootstrap';
 import 'es6-promise/auto';
-import axios from 'axios';
+// import axios from 'axios';
 import Vue from 'vue';
 import VueAuth from '@websanova/vue-auth';
-import VueAxios from 'vue-axios';
 import VueRouter from 'vue-router';
 import VeeValidate from 'vee-validate';
 import { Validator } from 'vee-validate';
@@ -19,6 +18,7 @@ import auth from './config/auth';
 import router from './config/router';
 import validate from './config/validate.js';
 import sweetAlert2 from './config/sweetAlert2';
+import './config/resource';
 
 
 // REGISTRATIONS
@@ -26,8 +26,6 @@ import sweetAlert2 from './config/sweetAlert2';
 Vue.router = router;
 Vue.use(VueRouter);
 // VueAuth
-Vue.use(VueAxios, axios);
-axios.defaults.baseURL = `/api`;
 Vue.use(VueAuth, auth);
 // VeeValidate
 Vue.use(VeeValidate);

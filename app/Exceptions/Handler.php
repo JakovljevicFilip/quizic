@@ -4,6 +4,8 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+// VALIDATION
+use Illuminate\Validation\ValidationException;
 // JWT
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Exceptions\TokenBlacklistedException;
@@ -52,6 +54,17 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        // VALDIATION EXCEPTIONS
+        if($exception instanceof ValidationException){
+            $errors = $exception->errors();
+            $messages = [];
+            foreach ($errors as $key => $value) {
+                $messages[] = $value;
+            }
+            // 409 - CONFLICT
+            return response()->json(['messages' => $messages], 401);
+        }
+        // JWT TOKEN EXCEPTIONS
         if ($exception instanceof JWTException) {
             // EXPIRED TOKEN
             // 401 - UNAUTHORIZED

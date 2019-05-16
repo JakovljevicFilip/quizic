@@ -1,5 +1,5 @@
 import bearer from '@websanova/vue-auth/drivers/auth/bearer'
-import axios from '@websanova/vue-auth/drivers/http/axios.1.x'
+import VueResource from '@websanova/vue-auth/drivers/http/vue-resource.1.x.js'
 import router from '@websanova/vue-auth/drivers/router/vue-router.2.x'
 
 // SET TOKEN REFRESH TIME
@@ -16,7 +16,7 @@ if(refreshTime < 1){
 // can be override in method calls
 const config = {
     auth: bearer,
-    http: axios,
+    http: VueResource,
     router: router,
     tokenDefaultName: 'Authorization',
     tokenStore: ['localStorage'],

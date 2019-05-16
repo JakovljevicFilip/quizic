@@ -51,32 +51,16 @@
 			login(){
 				this.$auth.login({
 					params:{
-						username:this.username,
-						password:this.password,
+						username: this.username,
+						password: this.password,
 					},
-					success:response =>{
-                        // GET RESPONSE MESSAGE
-                        let message = response.data.messages;
-                        // WRITE RESPONSE MESSAGE
-                        this.$swal('Login', message, 'success');
-                        // IF USER IS ADMIN
-						if(this.$auth.user().role===2){
-                            // REDIRECT TO ADMIN
-							this.$router.push({name:'menu.admin'});
-						}
-                        else
-                            // REDIRECT TO USER
-							this.$router.push({name:'menu.user'});
+					success: response => {
+
 					},
-					error:error =>{
-                        let message = error.response.data.messages;
-                        if(message !== undefined)
-                            this.$swal('Login', message, 'error');
-                        else
-                            this.$swal('Login', 'There has been an error.', 'error');
-						console.log(error);
-					},
-				});
+					error: error => {
+                        console.log(error.body.messages);
+                    },
+                });
 			}
 		}
 	});

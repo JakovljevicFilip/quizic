@@ -10,40 +10,18 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-use JWTAuth;
-use Tymon\JWTAuth\Exceptions\TokenBlacklistedException;
-use Tymon\JWTAuth\Exceptions\TokenExpiredException;
-use Tymon\JWTAuth\Exceptions\JWTException;
+
+// REQUEST
+use App\Http\Requests\UserRegistrationRequest;
 
 class AuthController extends Controller
 {
-	public function register(Request $request){
-		// VALIDATION
-		$validation = Validator::make($request->all(),[
-			'username'=>'required|string|unique:users',
-			'email'=>'required|string|email|unique:users',
-			'password'=>'required|min:6|confirmed',
-		]);
-		// DID IT FAIL?
-		if($validation->fails()){
-			// STOPS THE CODE
-			return response()->json([
-				'status'=>false,
-				'messages'=>$validation->errors()->all(),
-			],422);
-		}
-		// CREATES NEW USER
-		$user=new User();
-		$user->username=$request->username;
-		$user->email=$request->email;
-		$user->password=bcrypt($request->password);
-		$user->save();
-
-		// RETURNS RESPONSE
-		return response()->json([
-			'status'=>true,
-			'messages'=>'Registration successful.',
-		],200);
+    public function register(UserRegistrationRequest $request)
+    {
+        // ATTEMPT TO REGISTER A NEW USER
+	    User::create($request->only('username','email','password'));
+		// IF SUCCESSFUL RETURN RESPONSE
+		return response()->json(['messages'=>'Registration successful.'],200);
 	}
 
 	public function login(Request $request){
@@ -53,7 +31,7 @@ class AuthController extends Controller
 		if($token = auth()->attempt($credentials)){
 			// LOGIN SUCCESSFUL
 			return response()->json([
-				'status'=>true,
+				// 'status'=>true,
 				'messages'=>'Logged in.',
 			],200)->header('Authorization',$token);
 		}
@@ -76,9 +54,9 @@ class AuthController extends Controller
 	public function user(Request $request){
 		$user = User::find(Auth::user()->id);
 		return response()->json([
-			'status' => 'success',
+			'messages' => 'User found.',
 			'data' => $user
-		]);
+        ],200);
 	}
 
     // VERIFIES TOKEN ON PAGE REFRESH
@@ -89,7 +67,7 @@ class AuthController extends Controller
         $newToken = auth()->refresh();
         // SEND NEW TOKEN
         return response()->json([
-            'status'=>true,
+            'messages'=>'Token extended.',
         ],200)->header('Authorization',$newToken);
 	}
 
