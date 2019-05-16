@@ -11,6 +11,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use JWTAuth;
+use Tymon\JWTAuth\Exceptions\TokenBlacklistedException;
+use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 use Tymon\JWTAuth\Exceptions\JWTException;
 
 class AuthController extends Controller
@@ -79,27 +81,11 @@ class AuthController extends Controller
 		]);
 	}
 
-	// REFRESHES AUTHORIZATION TOKEN
+    // VERIFIES TOKEN ON PAGE REFRESH
+    // EXTENDS EXSISTING TOKEN
 	public function refresh(){
-        try {
-
-            if (! $user = JWTAuth::parseToken()->authenticate()) {
-                return response()->json(['user_not_found'], 404);
-            }
-
-        } catch (Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
-
-            return response()->json(['token_expired'], $e->getStatusCode());
-
-        } catch (Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
-
-            return response()->json(['token_invalid'], $e->getStatusCode());
-
-        } catch (Tymon\JWTAuth\Exceptions\JWTException $e) {
-
-            return response()->json(['token_absent'], $e->getStatusCode());
-
-        }
+        // REFRESH TOKEN
+        // IF FAILED THROWS AN EXCEPTION HANDLED FROM Handler.php
         $newToken = auth()->refresh();
         // SEND NEW TOKEN
         return response()->json([
