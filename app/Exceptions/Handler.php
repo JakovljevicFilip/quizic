@@ -4,6 +4,8 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+// NOT FOUND
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 // VALIDATION
 use Illuminate\Validation\ValidationException;
 // JWT
@@ -56,41 +58,42 @@ class Handler extends ExceptionHandler
     {
         // VALDIATION EXCEPTIONS
         if($exception instanceof ValidationException){
-            $errors = $exception->errors();
-            $messages = [];
-            foreach ($errors as $key => $value) {
-                $messages[] = $value;
-            }
+            // BREAK DOWN OBJECT INTO ARRAY OF STRINGS
+            $message = collect($exception->errors())->collapse();
             // 409 - CONFLICT
-            return response()->json(['messages' => $messages], 401);
+            return response()->json(['message' => $message], 401);
         }
         // JWT TOKEN EXCEPTIONS
         if ($exception instanceof JWTException) {
             // EXPIRED TOKEN
             // 401 - UNAUTHORIZED
             if ($exception instanceof \Tymon\JWTAuth\Exceptions\TokenExpiredException) {
-                return response()->json(['token_expired'], 401);
+                return response()->json(['token expired'], 401);
             }
             // INVALID TOKEN
             else if ($exception instanceof \Tymon\JWTAuth\Exceptions\TokenInvalidException) {
-                return response()->json(['token_invalid'], 401);
+                return response()->json(['token invalid'], 401);
             }
             // BLAKLISTED TOKEN
             else if ($exception instanceof \Tymon\JWTAuth\Exceptions\TokenBlacklistedException) {
-                return response()->json(['token_blacklisted'], 401);
+                return response()->json(['token blacklisted'], 401);
             }
             // TOKEN COULD NOT BE PARSED
             else if ($exception->getMessage() === 'Token could not be parsed from the request.') {
-                return response()->json(['token_could_not_be_parsed'], 401);
+                return response()->json(['token could not be parsed'], 401);
             }
             // THIS ONE IS OKAY SINCE IT MEANS THAT USER HAS NOT LOGGED IN YET
             else if ($exception->getMessage() === 'Token not provided') {
-                return response()->json(['token_not_provided'], 200);
+                return response()->json(['token not provided'], 200);
             }
             // OTHER ERRORS
             else{
                 return response()->json('JWT error: '.$exception->getMessage(), 500);
             }
+        }
+        // NOT FOUND
+        if ($exception instanceof ModelNotFoundException) {
+            return response()->json(['message' => 'Not Found!'], 404);
         }
         return parent::render($request, $exception);
     }

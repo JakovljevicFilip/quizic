@@ -50,18 +50,12 @@
 			// LOLGIN USER
 			login(){
 				this.$auth.login({
-					params:{
-						username: this.username,
-						password: this.password,
-					},
-					success: response => {
-
-					},
-					error: error => {
-                        console.log(error.body.messages);
-                    },
+                    params:{
+						username:this.username,
+						password:this.password,
+					}
                 });
-			}
+            }
 		}
 	});
 </script>

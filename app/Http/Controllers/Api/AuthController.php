@@ -19,9 +19,9 @@ class AuthController extends Controller
     public function register(UserRegistrationRequest $request)
     {
         // ATTEMPT TO REGISTER A NEW USER
-	    User::create($request->only('username','email','password'));
+        User::create($request->only('username','email','password'));
 		// IF SUCCESSFUL RETURN RESPONSE
-		return response()->json(['messages'=>'Registration successful.'],200);
+		return response()->json(['message'=>'Registration successful.'],200);
 	}
 
 	public function login(Request $request){
@@ -31,14 +31,12 @@ class AuthController extends Controller
 		if($token = auth()->attempt($credentials)){
 			// LOGIN SUCCESSFUL
 			return response()->json([
-				// 'status'=>true,
-				'messages'=>'Logged in.',
+				'message'=>'Logged in.',
 			],200)->header('Authorization',$token);
 		}
 		// LOGIN FAILED
 		return response()->json([
-			'status'=>false,
-			'messages'=>'Username and/or password are wrong.',
+			'message'=>'Username and/or password are wrong.',
 		], 401);
 	}
 
@@ -46,7 +44,7 @@ class AuthController extends Controller
 		$this->guard()->logout();
 		return response()->json([
             'status'=>true,
-            'messages'=>'Logged out.'
+            'message'=>'Logged out.'
 		],200);
 	}
 
@@ -54,7 +52,7 @@ class AuthController extends Controller
 	public function user(Request $request){
 		$user = User::find(Auth::user()->id);
 		return response()->json([
-			'messages' => 'User found.',
+			'User found.',
 			'data' => $user
         ],200);
 	}
@@ -67,7 +65,7 @@ class AuthController extends Controller
         $newToken = auth()->refresh();
         // SEND NEW TOKEN
         return response()->json([
-            'messages'=>'Token extended.',
+            'Token extended.',
         ],200)->header('Authorization',$newToken);
 	}
 

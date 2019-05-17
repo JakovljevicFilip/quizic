@@ -6,14 +6,12 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use Validator;
+use App\Http\Requests\DifficultyStoreRequest;
 use App\Difficulty;
 
 class DifficultyController extends Controller
 {
-    private $apiResponse = [
-        'status'=>true,
-        'messages'=>'Task was successful.'
-    ];
+
     /**
      * Display a listing of the resource.
      *
@@ -21,9 +19,10 @@ class DifficultyController extends Controller
      */
     public function index()
     {
-        $this->apiResponse['difficulty']=Difficulty::get();
-        return response()->json($this->apiResponse);
+        $difficulties = Difficulty::all();
+        return response()->json(['difficulties' => $difficulties], 200);
     }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -33,17 +32,19 @@ class DifficultyController extends Controller
     {
         //
     }
+
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(DifficultyStoreRequest $request)
     {
-        if($this->validateRequest($request)) Difficulty::create($request->all());
-        return response()->json($this->apiResponse);
+        Difficulty::create($request->all());
+        return response()->json(['message' => 'Difficulty added.'], 200);
     }
+
     /**
      * Display the specified resource.
      *
@@ -52,9 +53,9 @@ class DifficultyController extends Controller
      */
     public function show(Difficulty $difficulty)
     {
-        $this->apiResponse['difficulty']=$difficulty;
-        return response()->json($this->apiResponse);
+        return response()->json(['difficulty' => $difficulty], 200);
     }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -65,6 +66,7 @@ class DifficultyController extends Controller
     {
         //
     }
+
     /**
      * Update the specified resource in storage.
      *
@@ -72,11 +74,12 @@ class DifficultyController extends Controller
      * @param  \App\Difficulty  $difficulty
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Difficulty $difficulty)
+    public function update(DifficultyStoreRequest $request, Difficulty $difficulty)
     {
-        if($this->validateRequest($request)) $difficulty->update($request->all());
-        return response()->json($this->apiResponse);
+        $difficulty->update($request->all());
+        return response()->json(['message' => 'Difficulty name updated.'], 200);
     }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -86,20 +89,6 @@ class DifficultyController extends Controller
     public function destroy(Difficulty $difficulty)
     {
         $difficulty->delete();
-        return response()->json($this->apiResponse);
-    }
-    private function setApiResponse($status, $messages){
-        $this->apiResponse['status']=$status;
-        $this->apiResponse['messages']=$messages;
-    }
-    
-    private function validateRequest($request){
-        $validated = Validator::make($request->all(), [
-            'text'=>'required'
-        ]);
-        if($validated->fails()){
-            $this->setApiResponse(false, $validated->errors()->all());
-        }
-        return !$validated->fails();
+        return response()->json(['message' => 'Difficulty deleted.'], 200);
     }
 }

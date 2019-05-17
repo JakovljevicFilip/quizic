@@ -12,7 +12,6 @@
     "devDependencies": {
         "@fortawesome/fontawesome-free": "^5.8.1",
         "animate.css": "^3.7.0",
-        "axios": "^0.18.0",
         "bootstrap": "^4.0.0",
         "cross-env": "^5.1",
         "jquery": "^3.2",

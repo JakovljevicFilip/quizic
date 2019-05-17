@@ -72,13 +72,6 @@
 						// pasword_confirmation HAS TO BE CALLED THIS WAY SO THAT BACK-END VALIDATION COULD WORK
 						password_confirmation:this.passwordConfirm,
 						email:this.email
-					},
-					success: response =>{
-                        // PUSH TO LOGIN
-                        //this.$router.push('login');
-					},
-					error: error =>{
-                        console.log(error.body.messages);
 					}
                 });
             }

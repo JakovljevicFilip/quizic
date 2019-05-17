@@ -80,23 +80,23 @@ const router = new VueRouter({
                 component: MenuUser,
             },
 
-            // DIFFICULTY
-            {
-                path: '/difficulty',
-                name: 'difficulty',
-                component: DifficultyIndex,
-                meta: {
-                    auth:{
-                        roles: 2,
-                        authRedirect: {
-                            name: 'login'
-                        },
-                        forbiddenRedirect: {
-                            name: '/403'
-                        }
-                    }
-                }
-            },
+            // // DIFFICULTY
+            // {
+            //     path: '/difficulty',
+            //     name: 'difficulty',
+            //     component: DifficultyIndex,
+            //     meta: {
+            //         auth:{
+            //             roles: 2,
+            //             authRedirect: {
+            //                 name: 'login'
+            //             },
+            //             forbiddenRedirect: {
+            //                 name: '/403'
+            //             }
+            //         }
+            //     }
+            // },
 
             // QUESTION
             {

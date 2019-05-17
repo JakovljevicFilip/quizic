@@ -8,15 +8,10 @@ use App\Http\Controllers\Controller;
 use Validator;
 use App\Question;
 use App\Answer;
-// A CUSTOM RULE I'VE MADE TO CHECK FOR CERTAIN NUMBER OF CERTAIN VALUES
-use App\Rules\NumberOfValues;
+use App\Http\Requests\QuestionStoreRequest;
 
 class QuestionController extends Controller
 {
-    private $apiResponse=[
-        'status'=>true,
-        'messages'=>'Task was successful.'
-    ];
 
     /**
      * Display a listing of the resource.
@@ -25,8 +20,8 @@ class QuestionController extends Controller
      */
     public function index()
     {
-        $this->apiResponse['questions']=Question::with('answers')->get();
-        return response()->json($this->apiResponse);
+        $questions = Question::with('answers')->get();
+        return response()->json(['questions' => $questions], 200);
     }
 
     /**
@@ -36,7 +31,7 @@ class QuestionController extends Controller
      */
     public function create()
     {
-        
+        //
     }
 
     /**
@@ -45,12 +40,11 @@ class QuestionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(QuestionStoreRequest $request)
     {
-        if($this->validateRequest($request)){
-            $this->storeQuestion($request);
-        }
-        return response()->json($this->apiResponse);
+        $question = Question::create($request->only('text','difficulty_id'));
+        $question->saveAnswers($request->answers);
+        return response()->json(['message' => 'Question saved.'], 200);
     }
 
     /**
@@ -61,8 +55,8 @@ class QuestionController extends Controller
      */
     public function show(Question $question)
     {
-        $this->apiRequest['question']=$question->with('answers')->get();
-        return response()->json($this->apiRequest);
+        $question = $question->with('answers')->find($question->id);
+        return response()->json(['question' => $question], 200);
     }
 
     /**
@@ -83,13 +77,11 @@ class QuestionController extends Controller
      * @param  \App\Question  $question
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Question $question)
+    public function update(QuestionStoreRequest $request, Question $question)
     {
-        if($this->validateRequest($request)){
-            $this->updateQuestion($question, $request);
-            $this->updateAnswers($question, $request);
-        }
-        return response()->json($this->apiResponse);
+        $question->update($request->only('difficulty_id', 'text'));
+        $question->updateAnswers($request->answers);
+        return response()->json(['message' => 'Question updated.'], 200);
     }
 
     /**
@@ -101,66 +93,6 @@ class QuestionController extends Controller
     public function destroy(Question $question)
     {
         $question->delete();
-        return response()->json($this->apiResponse);
-    }
-
-    private function setApiResponse($status, $messages){
-        $this->apiResponse['status']=$status;
-        $this->apiResponse['messages']=$messages;
-    }
-
-    private function validateRequest($request){
-        $validated = Validator::make($request->all(),[
-            'text'=>'required|unique:questions',
-            'difficulty_id'=>'required|exists:difficulties,id',
-            'answers'=>['required','array',new NumberOfValues('status',[
-                    // EXPECTING 3 ANSWERS WITH STATUS 0
-                    '0'=>3,
-                    // EXPECTING 1 ANSWER WITH STATUS 1
-                    '1'=>1
-                ]
-            )],
-            'answers.*.text'=>'required',
-            'answers.*.status'=>'required|boolean'
-        ]);
-
-        // VALIDATED FAILS CHANGES VALUE AFTER BEING CALLED ONCE ALREADY
-        // THAT'S WHY I'VE DECIDED TO CHECK IT ONCE AND THEN STORE THE RESULT
-        // THIS ONLY HAPPENS WITH MY CUSTOM RULE
-        $result=$validated->fails();
-        if($result){
-            $this->setApiResponse(false, $validated->errors()->all());
-        }
-        return !$result;
-    }
-
-    private function storeQuestion($request){
-        $question=new Question;
-        $question->text=$request->input('text');
-        $question->difficulty_id=$request->input('difficulty_id');
-        $question->save();
-        $this->storeAnswers($question, $request);
-    }
-
-    private function storeAnswers($question, $request){
-        foreach ($request->input('answers') as $answer) {
-            $answer=new Answer($answer);
-            $question->answers()->save($answer);
-        }   
-    }
-
-    private function updateQuestion($question, $request){
-      $question->text=$request->input('text');
-      $question->difficulty_id=$request->input('difficulty_id');
-      $question->update();
-    }
-
-    private function updateAnswers($question, $request){
-        $answers = $question->answers()->get();
-        for($i=0;$i<count($answers);$i++){
-            $answers[$i]->text=$request->input('answers')[$i]['text'];
-            $answers[$i]->status=$request->input('answers')[$i]['status'];
-            $answers[$i]->update();
-        }
+        return response()->json(['message' => 'Question has been deleted.']);
     }
 }

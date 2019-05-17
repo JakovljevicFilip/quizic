@@ -1,6 +1,6 @@
 <template>
     <div class="questions">
-        <div class="loading" v-if="loading">
+        <!-- <div class="loading" v-if="loading">
             Loading...
         </div>
 
@@ -14,41 +14,41 @@
                 <ul>
                    <li v-for="{text} in answers">
                        <strong>Text:</strong> {{ text }}
-                   </li> 
+                   </li>
                 </ul>
             </li>
-        </ul>
+        </ul> -->
     </div>
 </template>
 <script>
-import axios from 'axios';
-export default {
-    data() {
-        return {
-            loading: false,
-            questions: null,
-            error: null,
-        };
-    },
-    created() {
-        this.fetchData();
-    },
-    methods: {
-        fetchData() {
-            this.error = this.questions = null;
-            this.loading = true;
-            axios
-                .get('/api/question')
-                .then(response => {
-                    this.loading=false;
-                    this.questions=response.data.questions;
-                })
-                .catch(error=>{
-                    console.log(error);
-                    this.loading=false;
-                    this.error = error.response.data.message || error.message;
-                });
-        }
-    }
-}
+// import axios from 'axios';
+// export default {
+//     data() {
+//         return {
+//             loading: false,
+//             questions: null,
+//             error: null,
+//         };
+//     },
+//     created() {
+//         this.fetchData();
+//     },
+//     methods: {
+//         fetchData() {
+//             this.error = this.questions = null;
+//             this.loading = true;
+//             axios
+//                 .get('/api/question')
+//                 .then(response => {
+//                     this.loading=false;
+//                     this.questions=response.data.questions;
+//                 })
+//                 .catch(error=>{
+//                     console.log(error);
+//                     this.loading=false;
+//                     this.error = error.response.data.message || error.message;
+//                 });
+//         }
+//     }
+// }
 </script>

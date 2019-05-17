@@ -25,16 +25,12 @@ export default {
     },
     methods:{
         getDifficulties(){
-            Vue.axios.get('/difficulty')
-            .then(response=>{
-                let difficulties = response.data.difficulty;
-                if(difficulties.length>0)
-                    this.difficulties = response.data.difficulty;
-                else
-                    this.$swal('Difficulty', 'There are no difficulties set.', 'info');
+            this.$http.get('difficulty')
+            .then(response => {
+                this.difficulties = response.body.difficulties;
             })
-            .catch(error =>{
-                console.log(error);
+            .catch(error => {
+                console.log(error.body.messages);
             });
         },
         edit(){

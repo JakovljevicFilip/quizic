@@ -24,20 +24,7 @@ export default {
     },
     methods: {
         logout(){
-            this.$auth.logout({
-                success:response =>{
-                    // GETS RESPONSE MESSAGE
-                    let message = response.data.messages;
-                    // WRITES CONFIRMATION MESSAGE
-                    this.$swal('Logout', message, 'success');
-                    this.$router.push('login');
-                },
-                error:error =>{
-                    let message = error.response.data.messages;
-                    this.$swal('Logout', 'There has been an error.', 'error');
-                    console.log(error);
-                },
-            });
+            this.$auth.logout();
         }
     }
 }
