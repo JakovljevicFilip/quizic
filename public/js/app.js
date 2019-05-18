@@ -67432,6 +67432,7 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_0__["default"]({
     path: '/authentication',
     name: 'authentication',
     component: _views_Authentication_Authentication__WEBPACK_IMPORTED_MODULE_1__["default"],
+    redirect: 'login',
     children: [{
       path: '/login',
       name: 'login',

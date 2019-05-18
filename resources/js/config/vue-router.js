@@ -34,6 +34,7 @@ const router = new VueRouter({
             path:'/authentication',
             name:'authentication',
             component: Authentication,
+            redirect: 'login',
             children: [
                 {
                     path:'/login',
