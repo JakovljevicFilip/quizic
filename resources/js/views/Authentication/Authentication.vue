@@ -21,6 +21,7 @@ export default {
 	created() {
         // REMOVES AUTHENTICATION TOKEN ONCE USER GOES TO LOGIN OR REGISTER
         localStorage.removeItem('Authorization');
+        console.log('Token removed.');
 	},
 	methods: {
 

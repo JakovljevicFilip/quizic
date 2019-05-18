@@ -76,12 +76,7 @@ const router = new VueRouter({
                     // BACK-END VERIFICATION FOR AN ADMINISTRATOR
                     roles:2,
                     // GUEST IS TRYING TO ACCESS THIS PAGE
-                    redirect:{
-                        // SENDS THEM TO A LOGIN PAGE
-                        name:'login',
-                    },
-                    // REGULAR USER IS TRYING TO ACCESS THIS PAGE
-                    forbiddenRedirect: 'questions/403',
+                    redirect: 'questions/403',
                 }
             }
         },

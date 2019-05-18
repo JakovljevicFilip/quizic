@@ -1314,6 +1314,7 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     // REMOVES AUTHENTICATION TOKEN ONCE USER GOES TO LOGIN OR REGISTER
     localStorage.removeItem('Authorization');
+    console.log('Token removed.');
   },
   methods: {}
 });
@@ -1506,7 +1507,7 @@ __webpack_require__.r(__webpack_exports__);
       // MESSAGES FOR ERROR CODES
       messages: {
         404: 'Resource not found.',
-        403: 'Access forbidden.',
+        403: 'Access forbidden. Try to login again.',
         500: 'Internal server error.'
       },
       // DISPLAYING MESSAGE
@@ -67466,12 +67467,7 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_0__["default"]({
         // BACK-END VERIFICATION FOR AN ADMINISTRATOR
         roles: 2,
         // GUEST IS TRYING TO ACCESS THIS PAGE
-        redirect: {
-          // SENDS THEM TO A LOGIN PAGE
-          name: 'login'
-        },
-        // REGULAR USER IS TRYING TO ACCESS THIS PAGE
-        forbiddenRedirect: 'questions/403'
+        redirect: 'questions/403'
       }
     }
   }, // ERROR

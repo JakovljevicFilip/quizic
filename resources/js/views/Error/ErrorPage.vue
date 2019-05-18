@@ -11,7 +11,7 @@ export default {
             // MESSAGES FOR ERROR CODES
             messages: {
                 404: 'Resource not found.',
-                403: 'Access forbidden.',
+                403: 'Access forbidden. Try to login again.',
                 500: 'Internal server error.',
             },
             // DISPLAYING MESSAGE
