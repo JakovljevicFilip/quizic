@@ -14,8 +14,7 @@ import Menu from '../views/Menu/Menu';
 import QuestionIndex from '../views/Questions/QuestionIndex'
 
 // ERROR
-import PageNotFound from '../views/Errors/PageNotFound'
-import ForbiddenAccess from '../views/Errors/ForbiddenAccess'
+import ErrorPage from '../views/Error/ErrorPage'
 
 
 const router = new VueRouter({
@@ -68,7 +67,7 @@ const router = new VueRouter({
 
         // QUESTION
         {
-            path:'/question',
+            path:'/questions',
             name:'question.index',
             component: QuestionIndex,
             meta: {
@@ -79,14 +78,10 @@ const router = new VueRouter({
                     // GUEST IS TRYING TO ACCESS THIS PAGE
                     redirect:{
                         // SENDS THEM TO A LOGIN PAGE
-                        name:'/login'
+                        name:'login',
                     },
                     // REGULAR USER IS TRYING TO ACCESS THIS PAGE
-                    forbiddenRedirect:{
-                        // SENDS THEM TO A FORBIDEN ACCESS PAGE
-                        name:'/403'
-                    }
-
+                    forbiddenRedirect: 'questions/403',
                 }
             }
         },
@@ -96,18 +91,30 @@ const router = new VueRouter({
         {
             // ANYTHING THAT ENDS WITH /403
             path:'*/403',
-            name:'/403',
-            component: ForbiddenAccess
+            name:'403',
+            props: {
+                statusCode: 403
+            },
+            component: ErrorPage
 
         },
-        // 404 - PAGE NOT FOUND
-        // HAS TO BE THE LAST
+        // 404 - NOT FOUND
         {
-            // ANY PATH
-            path: "*",
-            component: PageNotFound
-        }
+            // ANYTHING THAT ENDS WITH /404
+            path: '*/404',
+            name: '404',
+            props: {
+                statusCode: 404
+            },
+            component: ErrorPage
+        },
 
+        // HANDLES UMATCHED ROUTES
+        {
+            // REDIRECT TO 404
+            path: '*',
+            redirect: '/404'
+        },
     ],
 });
 
