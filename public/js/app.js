@@ -67608,13 +67608,15 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.http.options.root = '/api'; // SET X-
 var token = document.head.querySelector('meta[name="csrf-token"]');
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.http.headers.common['X-CSRF-TOKEN'] = token.content;
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.http.interceptors.push(function (request) {
-  // return response callback
+  // BEFORE EVERY AJAX RESPONSE
   return function (response) {
+    // SUCCESS
     if (response.status >= 200 && response.status < 300) {
       interceptorHandler.handleResponse(response, true);
-    } else {
-      interceptorHandler.handleResponse(response, false);
-    }
+    } // FAIL
+    else {
+        interceptorHandler.handleResponse(response, false);
+      }
   };
 }); // HANDLES EVERY AXIOS REQUEST RESPONSE
 

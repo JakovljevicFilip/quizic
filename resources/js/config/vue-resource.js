@@ -10,11 +10,13 @@ let token = document.head.querySelector('meta[name="csrf-token"]');
 Vue.http.headers.common['X-CSRF-TOKEN'] = token.content;
 
 Vue.http.interceptors.push(function(request) {
-    // return response callback
+    // BEFORE EVERY AJAX RESPONSE
     return function(response) {
+        // SUCCESS
         if(response.status >= 200 && response.status < 300){
             interceptorHandler.handleResponse(response, true);
         }
+        // FAIL
         else{
             interceptorHandler.handleResponse(response, false);
         }

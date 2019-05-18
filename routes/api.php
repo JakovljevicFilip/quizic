@@ -14,11 +14,11 @@ use Illuminate\Http\Request;
 */
 
 Route::namespace('Api')->group(function(){
-	Route::resource('difficulty','DifficultyController');
-	Route::resource('question','QuestionController');
+	Route::resource('difficulties','DifficultyController');
+	Route::resource('questions','QuestionController');
 });
 
-// AUTHENTICATION
+// AUTHENTFICATION
 Route::prefix('auth')->namespace('Api')->group(function(){
 	Route::post('register','AuthController@register');
 	Route::post('login','AuthController@login');
