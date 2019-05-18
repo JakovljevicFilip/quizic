@@ -21,17 +21,11 @@ class QuestionController extends Controller
     public function index()
     {
         $questions = Question::with('answers')->get();
-        return response()->json(['questions' => $questions], 200);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return response()->json([
+            'message' => 'Questions fetched.',
+            'write' => false,
+            'questions' => $questions,
+        ], 200);
     }
 
     /**
@@ -44,7 +38,10 @@ class QuestionController extends Controller
     {
         $question = Question::create($request->only('text','difficulty_id'));
         $question->saveAnswers($request->answers);
-        return response()->json(['message' => 'Question saved.'], 200);
+        return response()->json([
+            'message' => 'Question saved.',
+            'write' => true,
+        ], 200);
     }
 
     /**
@@ -56,18 +53,11 @@ class QuestionController extends Controller
     public function show(Question $question)
     {
         $question = $question->with('answers')->find($question->id);
-        return response()->json(['question' => $question], 200);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Question  $question
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Question $question)
-    {
-        //
+        return response()->json([
+            'message' => 'Question fetched.',
+            'write' => false,
+            'question' => $question,
+        ], 200);
     }
 
     /**
@@ -81,7 +71,10 @@ class QuestionController extends Controller
     {
         $question->update($request->only('difficulty_id', 'text'));
         $question->updateAnswers($request->answers);
-        return response()->json(['message' => 'Question updated.'], 200);
+        return response()->json([
+            'message' => 'Question updated.',
+            'write' => true,
+        ], 200);
     }
 
     /**
@@ -93,6 +86,9 @@ class QuestionController extends Controller
     public function destroy(Question $question)
     {
         $question->delete();
-        return response()->json(['message' => 'Question has been deleted.']);
+        return response()->json([
+            'message' => 'Question has been deleted.',
+            'write' => true,
+        ], 200);
     }
 }

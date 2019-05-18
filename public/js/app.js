@@ -67623,15 +67623,26 @@ var interceptorHandler = {
   messageType: null,
   // VALID RESPONSE ENTRY POINT
   handleResponse: function handleResponse(response, status) {
-    // ATTEMPT TO GET MESSAGES
-    var message = response.body.message; // THERE ARE MESSAGES
+    // GET MESSAGES
+    var message = response.body.message; // GET WHETER OR NOT THEY SHOULD BE SHOWN
+
+    var write = response.body.write; // THERE ARE MESSAGES
 
     if (message !== undefined) {
-      // WHICH TYPE OF MESSAGE IS SUPPOSSED TO BE SHOWN
-      status ? interceptorHandler.messageType = 'success' : interceptorHandler.messageType = 'error'; // DETERMINE MESSAGES FORMAT
+      // THEY ARE SUPPOSED TO BE SHOWN
+      if (write) {
+        // WHICH TYPE OF MESSAGE IS SUPPOSSED TO BE SHOWN
+        status ? interceptorHandler.messageType = 'success' : interceptorHandler.messageType = 'error'; // DETERMINE MESSAGES FORMAT
 
-      interceptorHandler.checkType(message);
-    }
+        interceptorHandler.checkType(message);
+      } // THEY ARE NOT SUPPOSED TO BE SHOWN
+      else {
+          console.log(response.body.message);
+        }
+    } // ISN'T SUPPOSED TO HAPPEN
+    else {
+        console.log(response.body);
+      }
   },
   // FORMAT IN WHICH MESSAGES ARE PROVIDED
   checkType: function checkType(message) {

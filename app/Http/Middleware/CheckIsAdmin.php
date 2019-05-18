@@ -23,8 +23,8 @@ class CheckIsAdmin
         }
         // USER IS NOT AN ADMINISTRATOR
         return response()->json([
-            'status'=>false,
-            'message'=>'Unauthorized access.',
+            'message' => 'Unauthorized access, you need to be an administrator in order to have access to this functionality.',
+            'write' => false,
         ],403);
     }
 }

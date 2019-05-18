@@ -9,7 +9,10 @@ class Authenticate extends Middleware
 {
     public function handle($request, Closure $next, ...$guards){
         if($this->authenticate($request,$guards) === 'authentication_error'){
-            return response()->json(['error'=>'Unauthorized']);
+            return response()->json([
+                'message' => 'Unauthorized access, authentification failed. Try to login again.',
+                'write' => true,
+            ], 403);
         }
         return $next($request);
     }

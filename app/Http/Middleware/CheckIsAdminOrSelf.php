@@ -25,8 +25,8 @@ class CheckIsAdminOrSelf
         }
         // USER DOESN'T HAVE ACCESS TO THE INFORMATION
         return response()->json([
-            'status'=>false,
-            'message'=>'Unauthorized access.',
-        ],403); 
+            'message' => 'Unauthorized, You have to be either user or administrator to have access this functionality.',
+            'write' => true,
+        ],403);
     }
 }

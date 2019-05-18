@@ -20,17 +20,11 @@ class DifficultyController extends Controller
     public function index()
     {
         $difficulties = Difficulty::all();
-        return response()->json(['difficulties' => $difficulties], 200);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return response()->json([
+            'message' => 'Difficulties fetched.',
+            'write' => false,
+            'difficulties' => $difficulties,
+        ], 200);
     }
 
     /**
@@ -42,7 +36,10 @@ class DifficultyController extends Controller
     public function store(DifficultyStoreRequest $request)
     {
         Difficulty::create($request->all());
-        return response()->json(['message' => 'Difficulty added.'], 200);
+        return response()->json([
+            'message' => 'Difficulty added.',
+            'write' => true,
+        ], 200);
     }
 
     /**
@@ -53,18 +50,11 @@ class DifficultyController extends Controller
      */
     public function show(Difficulty $difficulty)
     {
-        return response()->json(['difficulty' => $difficulty], 200);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Difficulty  $difficulty
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Difficulty $difficulty)
-    {
-        //
+        return response()->json([
+            'message' => 'Difficulty fetched.',
+            'write' => false,
+            'difficulty' => $difficulty,
+        ], 200);
     }
 
     /**
@@ -77,7 +67,10 @@ class DifficultyController extends Controller
     public function update(DifficultyStoreRequest $request, Difficulty $difficulty)
     {
         $difficulty->update($request->all());
-        return response()->json(['message' => 'Difficulty name updated.'], 200);
+        return response()->json([
+            'message' => 'Difficulty name updated.',
+            'write' => true,
+        ], 200);
     }
 
     /**
@@ -89,6 +82,9 @@ class DifficultyController extends Controller
     public function destroy(Difficulty $difficulty)
     {
         $difficulty->delete();
-        return response()->json(['message' => 'Difficulty deleted.'], 200);
+        return response()->json([
+            'message' => 'Difficulty deleted.',
+            'write' => true,
+        ], 200);
     }
 }

@@ -61,30 +61,48 @@ class Handler extends ExceptionHandler
             // BREAK DOWN OBJECT INTO ARRAY OF STRINGS
             $message = collect($exception->errors())->collapse();
             // 409 - CONFLICT
-            return response()->json(['message' => $message], 401);
+            return response()->json([
+                'message' => $message,
+                'write' => true,
+            ], 401);
         }
         // JWT TOKEN EXCEPTIONS
         if ($exception instanceof JWTException) {
             // EXPIRED TOKEN
             // 401 - UNAUTHORIZED
             if ($exception instanceof \Tymon\JWTAuth\Exceptions\TokenExpiredException) {
-                return response()->json(['token expired'], 401);
+                return response()->json([
+                    'message' => 'Token expired.',
+                    'write' => false,
+                ], 401);
             }
             // INVALID TOKEN
             else if ($exception instanceof \Tymon\JWTAuth\Exceptions\TokenInvalidException) {
-                return response()->json(['token invalid'], 401);
+                return response()->json([
+                    'message' => 'Token invalid.',
+                    'write' => false,
+                ], 401);
             }
             // BLAKLISTED TOKEN
             else if ($exception instanceof \Tymon\JWTAuth\Exceptions\TokenBlacklistedException) {
-                return response()->json(['token blacklisted'], 401);
+                return response()->json([
+                    'message' => 'Token blacklisted.',
+                    'write' => false,
+                ], 401);
             }
             // TOKEN COULD NOT BE PARSED
             else if ($exception->getMessage() === 'Token could not be parsed from the request.') {
-                return response()->json(['token could not be parsed'], 401);
+                return response()->json([
+                    'message' => 'Token could not be parsed.',
+                    'write' => false,
+                ], 401);
             }
             // THIS ONE IS OKAY SINCE IT MEANS THAT USER HAS NOT LOGGED IN YET
             else if ($exception->getMessage() === 'Token not provided') {
-                return response()->json(['token not provided'], 200);
+                return response()->json([
+                    'message' => 'Token not provided.',
+                    'write' => false,
+                ], 200);
             }
             // OTHER ERRORS
             else{
@@ -93,7 +111,10 @@ class Handler extends ExceptionHandler
         }
         // NOT FOUND
         if ($exception instanceof ModelNotFoundException) {
-            return response()->json(['message' => 'Not Found!'], 404);
+            return response()->json([
+                'message' => 'Resource not Found!',
+                'write' => true,
+            ], 404);
         }
         return parent::render($request, $exception);
     }
