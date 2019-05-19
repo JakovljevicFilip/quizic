@@ -13,30 +13,30 @@ class AnswersTableSeeder extends Seeder
      */
     public function run()
     {
-        for($i=1;$i<5;$i++){
-        	$question=Question::where('text','Example question '.$i)->get()->pluck('id')[0];
-        	DB::table('answers')->insert([
+        $questions = Question::all()->pluck('id');
+        $questions->each(function($item){
+            DB::table('answers')->insert([
         		[
         			'text'=>'Incorrect answer',
         			'status'=>false,
-        			'question_id'=>$question
+        			'question_id'=>$item
         		],
         		[
         			'text'=>'Incorrect answer',
         			'status'=>false,
-        			'question_id'=>$question
+        			'question_id'=>$item
         		],
         		[
         			'text'=>'Incorrect answer',
         			'status'=>false,
-        			'question_id'=>$question
+        			'question_id'=>$item
         		],
         		[
         			'text'=>'Correct answer',
         			'status'=>true,
-        			'question_id'=>$question
+        			'question_id'=>$item
         		]
         	]);
-        }
+        });
     }
 }

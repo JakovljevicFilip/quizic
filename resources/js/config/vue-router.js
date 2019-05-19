@@ -11,7 +11,7 @@ import Menu from '../views/Menu/Menu';
 
 
 // QUESTION
-import QuestionIndex from '../views/Questions/QuestionIndex'
+import QuestionsIndex from '../views/Questions/QuestionsIndex'
 
 // ERROR
 import ErrorPage from '../views/Error/ErrorPage'
@@ -69,8 +69,8 @@ const router = new VueRouter({
         // QUESTION
         {
             path:'/questions',
-            name:'question.index',
-            component: QuestionIndex,
+            name:'questions.index',
+            component: QuestionsIndex,
             meta: {
                 // ONLY ACCESSABLE TO ADMINISTRATOR
                 auth: {

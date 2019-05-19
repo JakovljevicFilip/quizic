@@ -11,6 +11,6 @@ class HighscoresTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Highscore::class, 10);
+        factory(App\Highscore::class, 10)->create();
     }
 }
