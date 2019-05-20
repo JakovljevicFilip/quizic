@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
 
 // REQUEST
 use App\Http\Requests\UserRegistrationRequest;
@@ -67,13 +68,13 @@ class AuthController extends Controller
     // EXTENDS EXSISTING TOKEN
 	public function refresh(){
         // REFRESH TOKEN
-        // IF FAILED THROWS AN EXCEPTION HANDLED FROM Handler.php
         $newToken = auth()->refresh();
         // SEND NEW TOKEN
         return response()->json([
             'message' => 'Token extended.',
             'write' => false,
         ],200)->header('Authorization',$newToken);
+        // auth()->invalidate();
 	}
 
 	// SHORTHAND

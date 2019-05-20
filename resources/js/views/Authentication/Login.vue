@@ -17,8 +17,8 @@
 		data(){
 			return {
 				// FIELDS
-				username:'',
-				password:'',
+				username:'Administrator',
+				password:'111111',
 				// VEE VALIDATION
 				rules:{
 					username:'required|alpha_num|min:6',

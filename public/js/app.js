@@ -1348,8 +1348,8 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       // FIELDS
-      username: '',
-      password: '',
+      username: 'Administrator',
+      password: '111111',
       // VEE VALIDATION
       rules: {
         username: 'required|alpha_num|min:6',
@@ -1617,24 +1617,56 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      questions: []
+      questions: [],
+      difficulties: []
     };
   },
   methods: {
-    getQuestions: function getQuestions() {
+    getDifficulties: function getDifficulties() {
       var _this = this;
 
-      this.$http.get('questions').then(function (response) {
-        _this.questions = response.body.questions;
+      this.$http.get('difficulties').then(function (response) {
+        _this.difficulties = response.body.difficulties;
       })["catch"](function (error) {
         console.log(error);
       });
+    },
+    getQuestions: function getQuestions() {
+      var _this2 = this;
+
+      this.$http.get('questions').then(function (response) {
+        _this2.questions = response.body.questions;
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    goBack: function goBack() {
+      this.$router.push('/menu');
     }
   },
   created: function created() {
+    this.getDifficulties();
     this.getQuestions();
   }
 });
@@ -6117,7 +6149,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".logo-height {\n  height: 75px;\n}\n.logo-animation-delay {\n  -webkit-animation-delay: 0.2s;\n          animation-delay: 0.2s;\n}\n.btn-main {\n  display: block;\n  background: linear-gradient(to right, transparent, rgba(114, 27, 106, 0.7), transparent);\n  color: #fff;\n  text-shadow: 1px 1px 5px #000;\n  font-size: 18px;\n  width: 180px;\n  font-weight: 500;\n  transition: 1s;\n  line-height: 1.5rem;\n}\n.btn-main:hover {\n  color: #fff;\n  background: rgba(114, 27, 106, 0.5);\n}\n.authentication-label {\n  font-size: 12px;\n  text-shadow: 1px 1px 5px #000;\n}\n.authentication-toggle {\n  display: inline-block;\n  width: 80px;\n  background-color: #fff;\n  color: #000;\n  font-size: 14px;\n  text-align: center;\n  padding: 6px 14px;\n  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px rgba(255, 255, 255, 0.1);\n  transition: all 0.1s ease-in-out;\n  border-radius: 5%;\n  text-decoration: none;\n  text-align: center;\n}\n.authentication-toggle:hover {\n  color: #000;\n  text-decoration: none;\n}\n.authentication-toggle-active {\n  background-color: #721b6a;\n  text-shadow: black 1px 1px 5px;\n  box-shadow: none;\n  color: #fff;\n}\n.authentication-toggle-active:hover {\n  color: #fff;\n  text-decoration: none;\n}\n.authentication-heading {\n  text-shadow: 1px 1px 5px #000;\n}", ""]);
+exports.push([module.i, ".logo-height {\n  height: 75px;\n}\n.logo-animation-delay {\n  -webkit-animation-delay: 0.2s;\n          animation-delay: 0.2s;\n}\n.btn-main {\n  display: block;\n  background: linear-gradient(to right, transparent, rgba(114, 27, 106, 0.7), transparent);\n  color: #fff;\n  text-shadow: 1px 1px 5px #000;\n  font-size: 18px;\n  width: 180px;\n  font-weight: 500;\n  transition: 1s;\n  line-height: 1.5rem;\n}\n.btn-main:hover {\n  color: #fff;\n  background: rgba(114, 27, 106, 0.5);\n  cursor: pointer;\n}\n.authentication-label {\n  font-size: 12px;\n  text-shadow: 1px 1px 5px #000;\n}\n.authentication-toggle {\n  display: inline-block;\n  width: 80px;\n  background-color: #fff;\n  color: #000;\n  font-size: 14px;\n  text-align: center;\n  padding: 6px 14px;\n  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px rgba(255, 255, 255, 0.1);\n  transition: all 0.1s ease-in-out;\n  border-radius: 5%;\n  text-decoration: none;\n  text-align: center;\n}\n.authentication-toggle:hover {\n  color: #000;\n  text-decoration: none;\n}\n.authentication-toggle-active {\n  background-color: #721b6a;\n  text-shadow: black 1px 1px 5px;\n  box-shadow: none;\n  color: #fff;\n}\n.authentication-toggle-active:hover {\n  color: #fff;\n  text-decoration: none;\n}\n.authentication-heading {\n  text-shadow: 1px 1px 5px #000;\n}", ""]);
 
 // exports
 
@@ -6136,7 +6168,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".logo-height[data-v-69132aa0] {\n  height: 75px;\n}\n.logo-animation-delay[data-v-69132aa0] {\n  -webkit-animation-delay: 0.2s;\n          animation-delay: 0.2s;\n}\n.btn-main[data-v-69132aa0] {\n  display: block;\n  background: linear-gradient(to right, transparent, rgba(114, 27, 106, 0.7), transparent);\n  color: #fff;\n  text-shadow: 1px 1px 5px #000;\n  font-size: 18px;\n  width: 180px;\n  font-weight: 500;\n  transition: 1s;\n  line-height: 1.5rem;\n}\n.btn-main[data-v-69132aa0]:hover {\n  color: #fff;\n  background: rgba(114, 27, 106, 0.5);\n}\n.menu-logout[data-v-69132aa0] {\n  color: white;\n  opacity: 0.7;\n  font-size: 40px;\n}\n.menu-logout[data-v-69132aa0]:hover {\n  cursor: pointer;\n  opacity: 1;\n}\n.menu-heading[data-v-69132aa0] {\n  color: #fff;\n  text-shadow: 1px 1px 5px #000;\n  font-size: 1.75rem;\n}", ""]);
+exports.push([module.i, ".logo-height[data-v-69132aa0] {\n  height: 75px;\n}\n.logo-animation-delay[data-v-69132aa0] {\n  -webkit-animation-delay: 0.2s;\n          animation-delay: 0.2s;\n}\n.btn-main[data-v-69132aa0] {\n  display: block;\n  background: linear-gradient(to right, transparent, rgba(114, 27, 106, 0.7), transparent);\n  color: #fff;\n  text-shadow: 1px 1px 5px #000;\n  font-size: 18px;\n  width: 180px;\n  font-weight: 500;\n  transition: 1s;\n  line-height: 1.5rem;\n}\n.btn-main[data-v-69132aa0]:hover {\n  color: #fff;\n  background: rgba(114, 27, 106, 0.5);\n  cursor: pointer;\n}\n.menu-logout[data-v-69132aa0] {\n  color: white;\n  opacity: 0.7;\n  font-size: 40px;\n}\n.menu-logout[data-v-69132aa0]:hover {\n  cursor: pointer;\n  opacity: 1;\n}\n.menu-heading[data-v-69132aa0] {\n  color: #fff;\n  text-shadow: 1px 1px 5px #000;\n  font-size: 1.75rem;\n}", ""]);
 
 // exports
 
@@ -6155,7 +6187,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "", ""]);
+exports.push([module.i, ".back {\n  font-size: 70px;\n  cursor: pointer;\n}\n.back:hover {\n  text-decoration: none;\n}\n.question-container {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  -webkit-transform: translateY(-50%) translateX(-50%);\n          transform: translateY(-50%) translateX(-50%);\n  /* width */\n  /* Track */\n  /* Handle */\n  /* Handle on hover */\n}\n.question-container ::-webkit-scrollbar {\n  width: 10px;\n}\n.question-container ::-webkit-scrollbar-track {\n  background: rgba(0, 0, 0, 0.5);\n  border-radius: 4px;\n}\n.question-container ::-webkit-scrollbar-thumb {\n  background: rgba(255, 255, 255, 0.9);\n  border-radius: 4px;\n}\n.question-container ::-webkit-scrollbar-thumb:hover {\n  background: rgba(255, 255, 255, 0.5);\n}\n.question-wrapper {\n  height: 50vh;\n  overflow: auto;\n  overflow-x: hidden;\n}\n.question-field {\n  background-color: rgba(0, 0, 0, 0.5);\n  border-radius: 20px;\n  padding: 10px;\n}\n.question-delete {\n  font-size: 40px;\n  color: #fff;\n}", ""]);
 
 // exports
 
@@ -50587,27 +50619,80 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    _vm._l(_vm.questions, function(question) {
-      return _c(
-        "div",
-        { key: question.id },
-        [
-          _vm._v("\n        " + _vm._s(question.text) + "\n        "),
-          _vm._l(question.answers, function(answer) {
-            return _c("ul", { key: answer.id }, [
-              _c("li", [_vm._v(_vm._s(answer.text))])
-            ])
-          })
-        ],
-        2
-      )
-    }),
-    0
-  )
+  return _c("div", { staticClass: "container visible question-container" }, [
+    _vm._m(0),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "mb-5 d-flex justify-content-center" },
+      _vm._l(_vm.difficulties, function(difficulty) {
+        return _c(
+          "div",
+          { key: difficulty.id, staticClass: "mx-3 btn btn-main text-center" },
+          [_vm._v(_vm._s(difficulty.text))]
+        )
+      }),
+      0
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "question-wrapper" },
+      _vm._l(_vm.questions, function(question) {
+        return _c("div", { key: question.id, staticClass: "row mt-2" }, [
+          _c(
+            "div",
+            { staticClass: "col-11 text-white" },
+            [
+              _c("div", { staticClass: "lead question-field" }, [
+                _c("p", [_vm._v(_vm._s(question.text))])
+              ]),
+              _vm._v(" "),
+              _vm._l(question.answers, function(answer) {
+                return _c("ul", { key: answer.id, staticClass: "d-none" }, [
+                  _c("li", [_vm._v(_vm._s(answer.text))])
+                ])
+              })
+            ],
+            2
+          ),
+          _vm._v(" "),
+          _vm._m(1, true)
+        ])
+      }),
+      0
+    ),
+    _vm._v(" "),
+    _c("div", { staticClass: "back text-white text-center" }, [
+      _c("i", {
+        staticClass: "fas fa-long-arrow-alt-left",
+        attrs: { alt: "back" },
+        on: { click: _vm.goBack }
+      })
+    ])
+  ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "text-center pb-5" }, [
+      _c("img", {
+        staticClass: "logo-height",
+        attrs: { src: "/img/logo.png", alt: "logo" }
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-1 my-auto" }, [
+      _c("i", { staticClass: "fas fa-times question-delete" })
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -67256,9 +67341,9 @@ __webpack_require__.r(__webpack_exports__);
 // THIS FUNCTIONALITY DEALS WITH TIMESTAMPS AND SO IT NEEDS TO SEND A REQUEST SOME TIME BEFORE TOKEN BECOMES INVALID ON THE BACK-END
 // MOST OPTIMAL SOLUTION I'VE FOUND IS ONE MINUTE BEFORE EXPIRING WITH POSSIBLE PROBLEMS IF ONE MINUTE IS A BACK-END VALUE
 
-var refreshTime = "15" - 1; // IF TOKEN IS SET TO EXPIRE IN 1 MINUTE
+var refreshTime = "5" - 1; // IF TOKEN IS SET TO EXPIRE IN 1 MINUTE
 
-if (refreshTime < 1) {
+if (refreshTime <= 1) {
   // refreshTime DEFAULTS TO 1 MINUTE AS WELL
   refreshTime = 1;
 } // Auth base configuration some of this options

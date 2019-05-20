@@ -7,7 +7,7 @@ import router from '@websanova/vue-auth/drivers/router/vue-router.2.x'
 // MOST OPTIMAL SOLUTION I'VE FOUND IS ONE MINUTE BEFORE EXPIRING WITH POSSIBLE PROBLEMS IF ONE MINUTE IS A BACK-END VALUE
 let refreshTime = process.env.MIX_JWT_TTL - 1;
 // IF TOKEN IS SET TO EXPIRE IN 1 MINUTE
-if(refreshTime < 1){
+if(refreshTime <= 1){
     // refreshTime DEFAULTS TO 1 MINUTE AS WELL
     refreshTime = 1;
 }

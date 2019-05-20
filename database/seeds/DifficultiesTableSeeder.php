@@ -15,17 +15,17 @@ class DifficultiesTableSeeder extends Seeder
     {
         DB::table('difficulties')->insert([
         	[
-                'text'=>'easy',
+                'text'=>'Easy',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ],
         	[
-                'text'=>'moderate',
+                'text'=>'Moderate',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ],
         	[
-                'text'=>'hard',
+                'text'=>'Hard',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ]

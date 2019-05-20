@@ -1,3 +1,47 @@
-.question{
+@import './back';
+// @import './btn-main';
 
+.question{
+    &-container{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translateY(-50%) translateX(-50%);
+        /* width */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        /* Track */
+        ::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.5);
+            border-radius:4px;
+        }
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.9);
+            border-radius:4px;
+        }
+        /* Handle on hover */
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255,255,255,0.5);
+
+        }
+    }
+
+    &-wrapper{
+        height: 50vh;
+        overflow: auto;
+        overflow-x: hidden;
+    }
+
+    &-field{
+        background-color: rgba(0,0,0,0.5);
+        border-radius: 20px;
+        padding: 10px;
+    }
+
+    &-delete{
+        font-size: 40px;
+        color: #fff;
+    }
 }
