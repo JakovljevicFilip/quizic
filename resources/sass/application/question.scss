@@ -39,19 +39,15 @@
     &-wrapper{
         background-color: rgba(0,0,0,0.5);
         border-radius: 20px;
-        width: 800px;
-        padding: 25px;
-    }
-
-    &-field{
-        &-text{
-            width: 550px;
+        &-create{
+            width: 800px;
+            padding: 25px;
         }
     }
 
-    &-text-hover{
-        &:hover{
-            cursor: pointer;
+    &-field{
+        &-difficulty{
+            width: 200px;
         }
     }
 
@@ -69,7 +65,7 @@
         font-size: 40px;
         color: #fff;
         width: 50px;
-        &-cancel{
+        &-times{
             &:hover{
                 color: red;
             }

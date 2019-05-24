@@ -1679,7 +1679,7 @@ __webpack_require__.r(__webpack_exports__);
         // VALIDATION PASSED
         if (valid) {
           // RUN AJAX REQUEST
-          _this2.store();
+          _this2.questionStore();
         } // VALIDATION DIDN'T PASS
         else {
             // SHOW ERROR MESSAGES BENEATH INPUT FIELDS
@@ -1692,7 +1692,7 @@ __webpack_require__.r(__webpack_exports__);
           }
       });
     },
-    store: function store() {
+    questionStore: function questionStore() {
       var _this3 = this;
 
       this.$http.post('questions', this.question).then(function (repsonse) {
@@ -1733,10 +1733,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Questions/QuestionsIndex.vue?vue&type=script&lang=js&":
-/*!******************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Questions/QuestionsIndex.vue?vue&type=script&lang=js& ***!
-  \******************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Questions/QuestionsEdit.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Questions/QuestionsEdit.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1770,44 +1770,202 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['question', 'difficulties'],
+  data: function data() {
+    return {
+      // KEEP DATA SEPARATE FROM ORIGINAL OBJECT
+      questionClone: {},
+      // VEE VALIDATE
+      rules: {
+        text: 'required',
+        answer: 'required',
+        difficulty: 'required|numeric'
+      },
+      // DELETE MODAL CONFIGURATION
+      swalDeleteConfig: {
+        // ICON
+        type: 'error',
+        // TITLE
+        title: 'Delete',
+        // BODY
+        text: 'Are you sure that you want to delete this question?',
+        // SHOW BUTTONS
+        showConfirmButton: true,
+        showCancelButton: true,
+        // BUTTON TEXT
+        confirmButtonText: 'Yes',
+        cancelButtonText: 'No',
+        // BUTTON COLOR - BOOTSTRAP RED
+        confirmButtonColor: '#dc3545',
+        // MESSAGE POSITION
+        position: 'center',
+        // MESSAGE TO DISSAPEAR IN
+        timer: false,
+        // COMPACT MESSAGE
+        toast: false,
+        // PREVENT MESSAGE DISMISAL FROM AN OUTSIDE CLICK
+        allowOutsideClick: false
+      }
+    };
+  },
+  methods: {
+    setQuestionClone: function setQuestionClone() {
+      // KEEP ORIGINAL QUESTION DATA AND EDIT NEW OBJECT
+      this.questionClone = JSON.parse(JSON.stringify(this.question));
+    },
+    answerStatusChange: function answerStatusChange(answer) {
+      // SET NEW ANSWER STATUS
+      answer.status = 1; // CLEAR ALL OTHER ANSWERS STATUSES
+
+      this.answerClearStatuses(answer.id);
+    },
+    answerClearStatuses: function answerClearStatuses(avoid) {
+      // CHANGED ANSWERS
+      var answers = this.questionClone.answers; // ITTERATE THROUGH ANSWERS
+
+      for (var i = 0; i < answers.length; i++) {
+        // ANSWER IS NOT RECENTLY CHANGED ONE
+        if (answers[i].id !== avoid) // SET TO INCORRECT ANSWER
+          answers[i].status = 0;
+      }
+    },
+    validate: function validate() {
+      var _this = this;
+
+      this.$validator.validate().then(function (valid) {
+        // VALIDATION PASSED
+        if (valid) {
+          // RUN AJAX REQUEST
+          _this.questionUpdate();
+        } // VALIDATION DIDN'T PASS
+        else {
+            // SHOW ERROR MESSAGES BENEATH INPUT FIELDS
+            _this.$validator.validateAll(); // SHOW ALERT
+
+
+            var message = _this.$validator.errors.all()[0];
+
+            _this.$swal('Question', message, 'error');
+          }
+      });
+    },
+    questionUpdate: function questionUpdate() {
+      var _this2 = this;
+
+      this.$http.put('questions', this.questionClone).then(function (response) {
+        _this2.$emit('reloadQuestions');
+      })["catch"](function (error) {});
+    },
+    deleteController: function deleteController() {
+      var _this3 = this;
+
+      // RUN DELETE MODAL
+      this.$swal(this.swalDeleteConfig).then(function (response) {
+        // AFFIRMATIVE ANSWER
+        if (response.value) {
+          // DELETE QUESTION
+          _this3.questionDelete();
+        }
+      });
+    },
+    questionDelete: function questionDelete() {
+      var _this4 = this;
+
+      this.$http["delete"]('questions/' + this.question.id).then(function (response) {
+        // RELOAD QUESTIONS
+        _this4.$emit('reloadQuestions');
+      })["catch"](function (error) {});
+    },
+    closeEdit: function closeEdit() {
+      // TOGGLE EDIT VIEW
+      this.$emit('closeEdit');
+    }
+  },
+  created: function created() {
+    this.setQuestionClone();
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Questions/QuestionsIndex.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Questions/QuestionsIndex.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _QuestionsEdit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./QuestionsEdit */ "./resources/js/views/Questions/QuestionsEdit.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       // DATA USED FOR FETCHING QUESTIONS
-      fetchQuestions: {
+      pagination: {
         // QUESTIONS DIFFICULTY
         difficulty: 1,
         // CURRENT PAGE FOR PAGINATION
         page: 1,
         // NUMBER OF QUESTIONS BEING FETCHED PER REQUEST
-        per_page: 6,
+        per_page: 15,
         // LAST PAGE FOR PAGIANTION
         last_page: null
       },
       questions: [],
       difficulties: [],
-      // QUESTION THAT IS BEING VIEWED
-      questionOriginal: {},
-      // QUESTION OBJECT THAT IS BEING CHANGED
-      questionChanged: {},
-      // IS AN ANSWER CHANGED
-      answerIsChanged: false,
-      // IS QUESTION DIFFICULTY CHANGED
-      difficultyIsChanged: false,
-      // IS QUESTIONS TEXT CHANGED
-      textIsChanged: false,
-      // CSS EXPANDED DOWN
-      expandedDown: 'question-icon fas fa-angle-up',
-      // CSS EXPANDED UP
-      expandedUp: 'question-icon fas fa-angle-down'
+      // ID OF QUESTION THAT IS BEING EDITED
+      questionEditId: null
     };
   },
   computed: {
     isNotOnLastPage: function isNotOnLastPage() {
-      return this.fetchQuestions.page <= this.fetchQuestions.last_page;
+      return this.pagination.page <= this.pagination.last_page;
     },
     loadButtonText: function loadButtonText() {
-      return this.fetchQuestions.page <= this.fetchQuestions.last_page ? 'Load more questions' : 'No more questions';
+      return this.pagination.page <= this.pagination.last_page ? 'Load more questions' : 'No more questions';
     }
   },
   methods: {
@@ -1820,22 +1978,30 @@ __webpack_require__.r(__webpack_exports__);
         console.log(error);
       });
     },
-    getQuestions: function getQuestions() {
+    getQuestions: function getQuestions(append) {
       var _this2 = this;
 
       this.$http.get('questions', {
         params: {
-          'difficulty': this.fetchQuestions.difficulty,
-          'page': this.fetchQuestions.page,
-          'per_page': this.fetchQuestions.per_page
+          'difficulty': this.pagination.difficulty,
+          'page': this.pagination.page,
+          'per_page': this.pagination.per_page
         }
       }).then(function (response) {
-        // ADD QUESTIONS TO DISPLAY ARRAY
-        _this2.questions = _this2.questions.concat(response.body.questions); // SET LAST PAGE
+        // SHOULD APPEND TO QUESTIONS
+        if (append) {
+          // APPEND NEW QUESTIONS TO QUESTIONS ARRAY
+          _this2.questions = _this2.questions.concat(response.body.questions);
+        } // SHOULD RESET QUESTIONS ARRAY
+        else {
+            // RESET QUESTIONS ARRAY
+            _this2.questions = response.body.questions;
+          } // SET LAST PAGE
 
-        _this2.fetchQuestions.last_page = response.body.last_page; // INCREMENT CURRENT PAGE
 
-        _this2.fetchQuestions.page++;
+        _this2.pagination.last_page = response.body.last_page; // INCREMENT CURRENT PAGE
+
+        _this2.pagination.page++;
       })["catch"](function (error) {
         console.log(error);
       });
@@ -1845,97 +2011,38 @@ __webpack_require__.r(__webpack_exports__);
     },
     loadMore: function loadMore() {
       if (this.isNotOnLastPage) {
-        this.getQuestions();
+        this.getQuestions(true);
       }
     },
     changeDifficulty: function changeDifficulty(difficulty) {
-      // EMPTY QUESTIONS ARRAY
-      this.questions = []; // SET NEW DIFFICULTY
+      // SET NEW DIFFICULTY
+      this.pagination.difficulty = difficulty; // RESET PAGE PROPERTY
 
-      this.fetchQuestions.difficulty = difficulty; // RESET PAGE PROPERTY
-
-      this.fetchQuestions.page = 1; // RESET SHOWING QUESTION
-
-      this.resetViewQuestion();
+      this.pagination.page = 1;
       this.getQuestions();
-    },
-    setViewQuestion: function setViewQuestion(question) {
-      // RESET COMPARISON CHECK
-      this.questionIsChanged = false; // QUESTION IS NOT ALREADY SHOWING
-
-      if (this.questionOriginal.id != question.id) {
-        // SETUP QUESTION COMPARISON
-        this.setQuestionReferences(question);
-      } else {
-        // RESET SHOWING QUESTION
-        this.resetViewQuestion();
-      }
-    },
-    resetViewQuestion: function resetViewQuestion() {
-      this.questionOriginal = {};
-      this.questionChanged = {};
-      this.answerIsChanged = false;
-      this.difficultyIsChanged = false;
-      this.textIsChanged = false;
-    },
-    // COMPARES QUESTION DURING EDIT
-    setQuestionReferences: function setQuestionReferences(question) {
-      // MAKES NEW OBJECT OUT OF ORIGINAL QUESTION IN ORDER TO COMPARE THE TWO VERSIONS
-      this.questionOriginal = JSON.parse(JSON.stringify(question));
-      this.questionChanged = JSON.parse(JSON.stringify(question));
-    },
-    textChange: function textChange() {
-      this.textIsChanged = this.questionOriginal.text !== this.questionChanged.text;
-      console.log(this.questionOriginal.text !== this.questionChanged.text);
-    },
-    answerChange: function answerChange() {
-      var answersOriginal = this.questionOriginal.answers;
-      var answersChanged = this.questionChanged.answers; // ITTERATE THROUGH ALL ANSWERS
-
-      for (var i = 0; i < answersOriginal.length; i++) {
-        // ITTERATE THROUGH ALL PROPERTIES
-        for (var key in answersOriginal[i]) {
-          // THERE IS A DIFFERENCE IN PROPERTY
-          if (answersOriginal[i][key] !== answersChanged[i][key]) {
-            console.log('entered'); // ANSWER IS CHANGED
-
-            return this.answerIsChanged = true;
-          }
-        }
-      } // NO ANSWER IS CHANGED
-
-
-      return this.answerIsChanged = false;
-    },
-    answerStatusChange: function answerStatusChange(answer) {
-      // SET NEW ANSWER STATUS
-      answer.status = 1; // CLEAR ALL OTHER ANSWERS STATUSES
-
-      this.answerClearStatuses(answer.id);
-    },
-    answerClearStatuses: function answerClearStatuses(avoid) {
-      // CHANGED ANSWERS
-      var answers = this.questionChanged.answers; // ITTERATE THROUGH ANSWERS
-
-      for (var i = 0; i < answers.length; i++) {
-        // ANSWER IS NOT RECENTLY CHANGED ONE
-        if (answers[i].id !== avoid) // SET TO INCORRECT ANSWER
-          answers[i].status = 0;
-      } // RE-CHECK ANSWERS
-
-
-      this.answerChange();
-    },
-    difficultyChange: function difficultyChange() {
-      this.difficultyIsChanged = this.questionOriginal.difficulty_id !== this.questionChanged.difficulty_id;
     },
     goQuestionCreate: function goQuestionCreate() {
       this.$router.push('questions/create');
+    },
+    reloadQuestions: function reloadQuestions() {
+      // RESET PAGINATION PAGE
+      this.pagination.page = 1; // FETCH QUESTIONS AGAIN
+
+      this.getQuestions(); // RESET EDIT VIEW
+
+      this.closeEdit();
+    },
+    closeEdit: function closeEdit() {
+      // RESET QUESTION THAT IS BEING EDITED
+      this.questionEditId = null;
     }
   },
   created: function created() {
     this.getDifficulties();
     this.getQuestions();
+  },
+  components: {
+    QuestionsEdit: _QuestionsEdit__WEBPACK_IMPORTED_MODULE_0__["default"]
   }
 });
 
@@ -6417,7 +6524,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".logo-height {\n  height: 75px;\n}\n.logo-animation-delay {\n  -webkit-animation-delay: 0.2s;\n          animation-delay: 0.2s;\n}\n.btn-main {\n  display: block;\n  background: linear-gradient(to right, transparent, rgba(114, 27, 106, 0.7), transparent);\n  color: #fff;\n  text-shadow: 1px 1px 5px #000;\n  font-size: 18px;\n  width: 180px;\n  font-weight: 500;\n  transition: 1s;\n  line-height: 1.5rem;\n}\n.btn-main:hover {\n  color: #fff;\n  background: rgba(114, 27, 106, 0.5);\n  cursor: pointer;\n}\n.authentication-label {\n  font-size: 12px;\n  text-shadow: 1px 1px 5px #000;\n}\n.authentication-toggle {\n  display: inline-block;\n  width: 80px;\n  background-color: #fff;\n  color: #000;\n  font-size: 14px;\n  text-align: center;\n  padding: 6px 14px;\n  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px rgba(255, 255, 255, 0.1);\n  transition: all 0.1s ease-in-out;\n  border-radius: 5%;\n  text-decoration: none;\n  text-align: center;\n}\n.authentication-toggle:hover {\n  color: #000;\n  text-decoration: none;\n}\n.authentication-toggle-active {\n  background-color: #721b6a;\n  text-shadow: black 1px 1px 5px;\n  box-shadow: none;\n  color: #fff;\n}\n.authentication-toggle-active:hover {\n  color: #fff;\n  text-decoration: none;\n}\n.authentication-heading {\n  text-shadow: 1px 1px 5px #000;\n}", ""]);
+exports.push([module.i, ".logo-height {\n  height: 75px;\n}\n.logo-animation-delay {\n  -webkit-animation-delay: 0.2s;\n          animation-delay: 0.2s;\n}\n.btn-main {\n  display: block;\n  background: linear-gradient(to right, transparent, rgba(114, 27, 106, 0.7), transparent);\n  color: #fff;\n  text-shadow: 1px 1px 5px #000;\n  font-size: 18px;\n  width: 180px;\n  font-weight: 500;\n  transition: 1s;\n  line-height: 1.5rem;\n}\n.btn-main:hover {\n  color: #fff;\n  background: rgba(114, 27, 106, 0.5);\n  cursor: pointer;\n}\n.btn-main-active {\n  border: solid blue 1px;\n}\n.authentication-label {\n  font-size: 12px;\n  text-shadow: 1px 1px 5px #000;\n}\n.authentication-toggle {\n  display: inline-block;\n  width: 80px;\n  background-color: #fff;\n  color: #000;\n  font-size: 14px;\n  text-align: center;\n  padding: 6px 14px;\n  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px rgba(255, 255, 255, 0.1);\n  transition: all 0.1s ease-in-out;\n  border-radius: 5%;\n  text-decoration: none;\n  text-align: center;\n}\n.authentication-toggle:hover {\n  color: #000;\n  text-decoration: none;\n}\n.authentication-toggle-active {\n  background-color: #721b6a;\n  text-shadow: black 1px 1px 5px;\n  box-shadow: none;\n  color: #fff;\n}\n.authentication-toggle-active:hover {\n  color: #fff;\n  text-decoration: none;\n}\n.authentication-heading {\n  text-shadow: 1px 1px 5px #000;\n}", ""]);
 
 // exports
 
@@ -6436,7 +6543,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".logo-height[data-v-69132aa0] {\n  height: 75px;\n}\n.logo-animation-delay[data-v-69132aa0] {\n  -webkit-animation-delay: 0.2s;\n          animation-delay: 0.2s;\n}\n.btn-main[data-v-69132aa0] {\n  display: block;\n  background: linear-gradient(to right, transparent, rgba(114, 27, 106, 0.7), transparent);\n  color: #fff;\n  text-shadow: 1px 1px 5px #000;\n  font-size: 18px;\n  width: 180px;\n  font-weight: 500;\n  transition: 1s;\n  line-height: 1.5rem;\n}\n.btn-main[data-v-69132aa0]:hover {\n  color: #fff;\n  background: rgba(114, 27, 106, 0.5);\n  cursor: pointer;\n}\n.menu-logout[data-v-69132aa0] {\n  color: white;\n  opacity: 0.7;\n  font-size: 40px;\n}\n.menu-logout[data-v-69132aa0]:hover {\n  cursor: pointer;\n  opacity: 1;\n}\n.menu-heading[data-v-69132aa0] {\n  color: #fff;\n  text-shadow: 1px 1px 5px #000;\n  font-size: 1.75rem;\n}", ""]);
+exports.push([module.i, ".logo-height[data-v-69132aa0] {\n  height: 75px;\n}\n.logo-animation-delay[data-v-69132aa0] {\n  -webkit-animation-delay: 0.2s;\n          animation-delay: 0.2s;\n}\n.btn-main[data-v-69132aa0] {\n  display: block;\n  background: linear-gradient(to right, transparent, rgba(114, 27, 106, 0.7), transparent);\n  color: #fff;\n  text-shadow: 1px 1px 5px #000;\n  font-size: 18px;\n  width: 180px;\n  font-weight: 500;\n  transition: 1s;\n  line-height: 1.5rem;\n}\n.btn-main[data-v-69132aa0]:hover {\n  color: #fff;\n  background: rgba(114, 27, 106, 0.5);\n  cursor: pointer;\n}\n.btn-main-active[data-v-69132aa0] {\n  border: solid blue 1px;\n}\n.menu-logout[data-v-69132aa0] {\n  color: white;\n  opacity: 0.7;\n  font-size: 40px;\n}\n.menu-logout[data-v-69132aa0]:hover {\n  cursor: pointer;\n  opacity: 1;\n}\n.menu-heading[data-v-69132aa0] {\n  color: #fff;\n  text-shadow: 1px 1px 5px #000;\n  font-size: 1.75rem;\n}", ""]);
 
 // exports
 
@@ -6455,7 +6562,26 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".back[data-v-1686e038] {\n  font-size: 70px;\n  cursor: pointer;\n}\n.back[data-v-1686e038]:hover {\n  text-decoration: none;\n}\n.answer[data-v-1686e038] {\n  position: relative;\n  border: none;\n  cursor: pointer;\n  background: rgba(114, 27, 106, 0.7);\n  color: #fff;\n  padding: 10px;\n  font-size: 25px;\n  transition: all 1s;\n  text-shadow: 0px 0px 5px black;\n}\n.answer-correct[data-v-1686e038] {\n  background: darkgreen;\n  -webkit-transform: rotateY(360deg);\n  /* Safari */\n  transform: rotateY(360deg);\n}\n.answer-incorrect[data-v-1686e038] {\n  background: red;\n  -webkit-transform: rotateY(360deg);\n  /* Safari */\n  transform: rotateY(360deg);\n}\n.answer-grid-template[data-v-1686e038] {\n  display: grid;\n  grid-gap: 15px;\n  grid-template-areas: \"answer answer\" \"answer answer\";\n}\n.input[data-v-1686e038] {\n  background-color: rgba(0, 0, 0, 0.5);\n  border-radius: 20px;\n  color: white;\n}\n.question-container-outer[data-v-1686e038] {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  -webkit-transform: translateY(-50%) translateX(-50%);\n          transform: translateY(-50%) translateX(-50%);\n  /* width */\n  /* Track */\n  /* Handle */\n  /* Handle on hover */\n}\n.question-container-outer[data-v-1686e038] ::-webkit-scrollbar {\n  width: 10px;\n}\n.question-container-outer[data-v-1686e038] ::-webkit-scrollbar-track {\n  background: rgba(0, 0, 0, 0.5);\n  border-radius: 4px;\n}\n.question-container-outer[data-v-1686e038] ::-webkit-scrollbar-thumb {\n  background: rgba(255, 255, 255, 0.9);\n  border-radius: 4px;\n}\n.question-container-outer[data-v-1686e038] ::-webkit-scrollbar-thumb:hover {\n  background: rgba(255, 255, 255, 0.5);\n}\n.question-container-inner[data-v-1686e038] {\n  height: 50vh;\n  overflow: auto;\n  overflow-x: hidden;\n  position: relative;\n}\n.question-wrapper[data-v-1686e038] {\n  background-color: rgba(0, 0, 0, 0.5);\n  border-radius: 20px;\n  width: 800px;\n  padding: 25px;\n}\n.question-field-text[data-v-1686e038] {\n  width: 550px;\n}\n.question-text-hover[data-v-1686e038]:hover {\n  cursor: pointer;\n}\n.question-input[data-v-1686e038] {\n  color: white;\n  background: none;\n  border: none;\n}\n.question-input[data-v-1686e038]:hover {\n  background: #FF9800;\n  color: black;\n}\n.question-icon[data-v-1686e038] {\n  font-size: 40px;\n  color: #fff;\n  width: 50px;\n}\n.question-icon-cancel[data-v-1686e038]:hover {\n  color: red;\n}\n.question-icon-confirm[data-v-1686e038]:hover {\n  color: darkgreen;\n}\n.question-icon[data-v-1686e038]:hover {\n  cursor: pointer;\n}", ""]);
+exports.push([module.i, ".back[data-v-1686e038] {\n  font-size: 70px;\n  cursor: pointer;\n}\n.back[data-v-1686e038]:hover {\n  text-decoration: none;\n}\n.answer[data-v-1686e038] {\n  position: relative;\n  border: none;\n  cursor: pointer;\n  background: rgba(114, 27, 106, 0.7);\n  color: #fff;\n  padding: 10px;\n  font-size: 25px;\n  transition: all 1s;\n  text-shadow: 0px 0px 5px black;\n}\n.answer-correct[data-v-1686e038] {\n  background: darkgreen;\n  -webkit-transform: rotateY(360deg);\n  /* Safari */\n  transform: rotateY(360deg);\n}\n.answer-incorrect[data-v-1686e038] {\n  background: red;\n  -webkit-transform: rotateY(360deg);\n  /* Safari */\n  transform: rotateY(360deg);\n}\n.answer-grid-template[data-v-1686e038] {\n  display: grid;\n  grid-gap: 15px;\n  grid-template-areas: \"answer answer\" \"answer answer\";\n}\n.input[data-v-1686e038] {\n  background-color: rgba(0, 0, 0, 0.5);\n  border-radius: 20px;\n  color: white;\n}\n.question-container-outer[data-v-1686e038] {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  -webkit-transform: translateY(-50%) translateX(-50%);\n          transform: translateY(-50%) translateX(-50%);\n  /* width */\n  /* Track */\n  /* Handle */\n  /* Handle on hover */\n}\n.question-container-outer[data-v-1686e038] ::-webkit-scrollbar {\n  width: 10px;\n}\n.question-container-outer[data-v-1686e038] ::-webkit-scrollbar-track {\n  background: rgba(0, 0, 0, 0.5);\n  border-radius: 4px;\n}\n.question-container-outer[data-v-1686e038] ::-webkit-scrollbar-thumb {\n  background: rgba(255, 255, 255, 0.9);\n  border-radius: 4px;\n}\n.question-container-outer[data-v-1686e038] ::-webkit-scrollbar-thumb:hover {\n  background: rgba(255, 255, 255, 0.5);\n}\n.question-container-inner[data-v-1686e038] {\n  height: 50vh;\n  overflow: auto;\n  overflow-x: hidden;\n  position: relative;\n}\n.question-wrapper[data-v-1686e038] {\n  background-color: rgba(0, 0, 0, 0.5);\n  border-radius: 20px;\n}\n.question-wrapper-create[data-v-1686e038] {\n  width: 800px;\n  padding: 25px;\n}\n.question-field-difficulty[data-v-1686e038] {\n  width: 200px;\n}\n.question-input[data-v-1686e038] {\n  color: white;\n  background: none;\n  border: none;\n}\n.question-input[data-v-1686e038]:hover {\n  background: #FF9800;\n  color: black;\n}\n.question-icon[data-v-1686e038] {\n  font-size: 40px;\n  color: #fff;\n  width: 50px;\n}\n.question-icon-times[data-v-1686e038]:hover {\n  color: red;\n}\n.question-icon-confirm[data-v-1686e038]:hover {\n  color: darkgreen;\n}\n.question-icon[data-v-1686e038]:hover {\n  cursor: pointer;\n}", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Questions/QuestionsEdit.vue?vue&type=style&index=0&id=04c9cf46&lang=scss&scoped=true&":
+/*!******************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/lib/loader.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Questions/QuestionsEdit.vue?vue&type=style&index=0&id=04c9cf46&lang=scss&scoped=true& ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".back[data-v-04c9cf46] {\n  font-size: 70px;\n  cursor: pointer;\n}\n.back[data-v-04c9cf46]:hover {\n  text-decoration: none;\n}\n.answer[data-v-04c9cf46] {\n  position: relative;\n  border: none;\n  cursor: pointer;\n  background: rgba(114, 27, 106, 0.7);\n  color: #fff;\n  padding: 10px;\n  font-size: 25px;\n  transition: all 1s;\n  text-shadow: 0px 0px 5px black;\n}\n.answer-correct[data-v-04c9cf46] {\n  background: darkgreen;\n  -webkit-transform: rotateY(360deg);\n  /* Safari */\n  transform: rotateY(360deg);\n}\n.answer-incorrect[data-v-04c9cf46] {\n  background: red;\n  -webkit-transform: rotateY(360deg);\n  /* Safari */\n  transform: rotateY(360deg);\n}\n.answer-grid-template[data-v-04c9cf46] {\n  display: grid;\n  grid-gap: 15px;\n  grid-template-areas: \"answer answer\" \"answer answer\";\n}\n.input[data-v-04c9cf46] {\n  background-color: rgba(0, 0, 0, 0.5);\n  border-radius: 20px;\n  color: white;\n}\n.question-container-outer[data-v-04c9cf46] {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  -webkit-transform: translateY(-50%) translateX(-50%);\n          transform: translateY(-50%) translateX(-50%);\n  /* width */\n  /* Track */\n  /* Handle */\n  /* Handle on hover */\n}\n.question-container-outer[data-v-04c9cf46] ::-webkit-scrollbar {\n  width: 10px;\n}\n.question-container-outer[data-v-04c9cf46] ::-webkit-scrollbar-track {\n  background: rgba(0, 0, 0, 0.5);\n  border-radius: 4px;\n}\n.question-container-outer[data-v-04c9cf46] ::-webkit-scrollbar-thumb {\n  background: rgba(255, 255, 255, 0.9);\n  border-radius: 4px;\n}\n.question-container-outer[data-v-04c9cf46] ::-webkit-scrollbar-thumb:hover {\n  background: rgba(255, 255, 255, 0.5);\n}\n.question-container-inner[data-v-04c9cf46] {\n  height: 50vh;\n  overflow: auto;\n  overflow-x: hidden;\n  position: relative;\n}\n.question-wrapper[data-v-04c9cf46] {\n  background-color: rgba(0, 0, 0, 0.5);\n  border-radius: 20px;\n}\n.question-wrapper-create[data-v-04c9cf46] {\n  width: 800px;\n  padding: 25px;\n}\n.question-field-difficulty[data-v-04c9cf46] {\n  width: 200px;\n}\n.question-input[data-v-04c9cf46] {\n  color: white;\n  background: none;\n  border: none;\n}\n.question-input[data-v-04c9cf46]:hover {\n  background: #FF9800;\n  color: black;\n}\n.question-icon[data-v-04c9cf46] {\n  font-size: 40px;\n  color: #fff;\n  width: 50px;\n}\n.question-icon-times[data-v-04c9cf46]:hover {\n  color: red;\n}\n.question-icon-confirm[data-v-04c9cf46]:hover {\n  color: darkgreen;\n}\n.question-icon[data-v-04c9cf46]:hover {\n  cursor: pointer;\n}", ""]);
 
 // exports
 
@@ -6474,7 +6600,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".back[data-v-53b05974] {\n  font-size: 70px;\n  cursor: pointer;\n}\n.back[data-v-53b05974]:hover {\n  text-decoration: none;\n}\n.answer[data-v-53b05974] {\n  position: relative;\n  border: none;\n  cursor: pointer;\n  background: rgba(114, 27, 106, 0.7);\n  color: #fff;\n  padding: 10px;\n  font-size: 25px;\n  transition: all 1s;\n  text-shadow: 0px 0px 5px black;\n}\n.answer-correct[data-v-53b05974] {\n  background: darkgreen;\n  -webkit-transform: rotateY(360deg);\n  /* Safari */\n  transform: rotateY(360deg);\n}\n.answer-incorrect[data-v-53b05974] {\n  background: red;\n  -webkit-transform: rotateY(360deg);\n  /* Safari */\n  transform: rotateY(360deg);\n}\n.answer-grid-template[data-v-53b05974] {\n  display: grid;\n  grid-gap: 15px;\n  grid-template-areas: \"answer answer\" \"answer answer\";\n}\n.input[data-v-53b05974] {\n  background-color: rgba(0, 0, 0, 0.5);\n  border-radius: 20px;\n  color: white;\n}\n.question-container-outer[data-v-53b05974] {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  -webkit-transform: translateY(-50%) translateX(-50%);\n          transform: translateY(-50%) translateX(-50%);\n  /* width */\n  /* Track */\n  /* Handle */\n  /* Handle on hover */\n}\n.question-container-outer[data-v-53b05974] ::-webkit-scrollbar {\n  width: 10px;\n}\n.question-container-outer[data-v-53b05974] ::-webkit-scrollbar-track {\n  background: rgba(0, 0, 0, 0.5);\n  border-radius: 4px;\n}\n.question-container-outer[data-v-53b05974] ::-webkit-scrollbar-thumb {\n  background: rgba(255, 255, 255, 0.9);\n  border-radius: 4px;\n}\n.question-container-outer[data-v-53b05974] ::-webkit-scrollbar-thumb:hover {\n  background: rgba(255, 255, 255, 0.5);\n}\n.question-container-inner[data-v-53b05974] {\n  height: 50vh;\n  overflow: auto;\n  overflow-x: hidden;\n  position: relative;\n}\n.question-wrapper[data-v-53b05974] {\n  background-color: rgba(0, 0, 0, 0.5);\n  border-radius: 20px;\n  width: 800px;\n  padding: 25px;\n}\n.question-field-text[data-v-53b05974] {\n  width: 550px;\n}\n.question-text-hover[data-v-53b05974]:hover {\n  cursor: pointer;\n}\n.question-input[data-v-53b05974] {\n  color: white;\n  background: none;\n  border: none;\n}\n.question-input[data-v-53b05974]:hover {\n  background: #FF9800;\n  color: black;\n}\n.question-icon[data-v-53b05974] {\n  font-size: 40px;\n  color: #fff;\n  width: 50px;\n}\n.question-icon-cancel[data-v-53b05974]:hover {\n  color: red;\n}\n.question-icon-confirm[data-v-53b05974]:hover {\n  color: darkgreen;\n}\n.question-icon[data-v-53b05974]:hover {\n  cursor: pointer;\n}", ""]);
+exports.push([module.i, ".back[data-v-53b05974] {\n  font-size: 70px;\n  cursor: pointer;\n}\n.back[data-v-53b05974]:hover {\n  text-decoration: none;\n}\n.answer[data-v-53b05974] {\n  position: relative;\n  border: none;\n  cursor: pointer;\n  background: rgba(114, 27, 106, 0.7);\n  color: #fff;\n  padding: 10px;\n  font-size: 25px;\n  transition: all 1s;\n  text-shadow: 0px 0px 5px black;\n}\n.answer-correct[data-v-53b05974] {\n  background: darkgreen;\n  -webkit-transform: rotateY(360deg);\n  /* Safari */\n  transform: rotateY(360deg);\n}\n.answer-incorrect[data-v-53b05974] {\n  background: red;\n  -webkit-transform: rotateY(360deg);\n  /* Safari */\n  transform: rotateY(360deg);\n}\n.answer-grid-template[data-v-53b05974] {\n  display: grid;\n  grid-gap: 15px;\n  grid-template-areas: \"answer answer\" \"answer answer\";\n}\n.input[data-v-53b05974] {\n  background-color: rgba(0, 0, 0, 0.5);\n  border-radius: 20px;\n  color: white;\n}\n.question-container-outer[data-v-53b05974] {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  -webkit-transform: translateY(-50%) translateX(-50%);\n          transform: translateY(-50%) translateX(-50%);\n  /* width */\n  /* Track */\n  /* Handle */\n  /* Handle on hover */\n}\n.question-container-outer[data-v-53b05974] ::-webkit-scrollbar {\n  width: 10px;\n}\n.question-container-outer[data-v-53b05974] ::-webkit-scrollbar-track {\n  background: rgba(0, 0, 0, 0.5);\n  border-radius: 4px;\n}\n.question-container-outer[data-v-53b05974] ::-webkit-scrollbar-thumb {\n  background: rgba(255, 255, 255, 0.9);\n  border-radius: 4px;\n}\n.question-container-outer[data-v-53b05974] ::-webkit-scrollbar-thumb:hover {\n  background: rgba(255, 255, 255, 0.5);\n}\n.question-container-inner[data-v-53b05974] {\n  height: 50vh;\n  overflow: auto;\n  overflow-x: hidden;\n  position: relative;\n}\n.question-wrapper[data-v-53b05974] {\n  background-color: rgba(0, 0, 0, 0.5);\n  border-radius: 20px;\n}\n.question-wrapper-create[data-v-53b05974] {\n  width: 800px;\n  padding: 25px;\n}\n.question-field-difficulty[data-v-53b05974] {\n  width: 200px;\n}\n.question-input[data-v-53b05974] {\n  color: white;\n  background: none;\n  border: none;\n}\n.question-input[data-v-53b05974]:hover {\n  background: #FF9800;\n  color: black;\n}\n.question-icon[data-v-53b05974] {\n  font-size: 40px;\n  color: #fff;\n  width: 50px;\n}\n.question-icon-times[data-v-53b05974]:hover {\n  color: red;\n}\n.question-icon-confirm[data-v-53b05974]:hover {\n  color: darkgreen;\n}\n.question-icon[data-v-53b05974]:hover {\n  cursor: pointer;\n}", ""]);
 
 // exports
 
@@ -38639,6 +38765,36 @@ if(false) {}
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Questions/QuestionsEdit.vue?vue&type=style&index=0&id=04c9cf46&lang=scss&scoped=true&":
+/*!**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/lib/loader.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Questions/QuestionsEdit.vue?vue&type=style&index=0&id=04c9cf46&lang=scss&scoped=true& ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../../node_modules/css-loader!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--7-2!../../../../node_modules/sass-loader/lib/loader.js??ref--7-3!../../../../node_modules/vue-loader/lib??vue-loader-options!./QuestionsEdit.vue?vue&type=style&index=0&id=04c9cf46&lang=scss&scoped=true& */ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Questions/QuestionsEdit.vue?vue&type=style&index=0&id=04c9cf46&lang=scss&scoped=true&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Questions/QuestionsIndex.vue?vue&type=style&index=0&id=53b05974&lang=scss&scoped=true&":
 /*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader!./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/lib/loader.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Questions/QuestionsIndex.vue?vue&type=style&index=0&id=53b05974&lang=scss&scoped=true& ***!
@@ -50945,12 +51101,12 @@ var render = function() {
       },
       [
         _c("div", [
-          _c("div", { staticClass: "question-wrapper" }, [
-            _c("div", { staticClass: "d-flex mb-3" }, [
-              _c(
-                "div",
-                { staticClass: "d-inline-block question-field-text mr-1" },
-                [
+          _c(
+            "div",
+            { staticClass: "question-wrapper question-wrapper-create" },
+            [
+              _c("div", { staticClass: "d-flex mb-3" }, [
+                _c("div", { staticClass: "d-inline-block flex-grow-1 mr-1" }, [
                   _c(
                     "label",
                     {
@@ -50987,131 +51143,141 @@ var render = function() {
                       }
                     }
                   })
-                ]
-              ),
-              _vm._v(" "),
-              _c("div", { staticClass: "d-inline-block flex-grow-1" }, [
-                _c(
-                  "label",
-                  {
-                    staticClass: "lead text-white",
-                    attrs: { for: "difficulty" }
-                  },
-                  [_vm._v("Question difficulty:")]
-                ),
+                ]),
                 _vm._v(" "),
                 _c(
-                  "select",
-                  {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.question.difficulty_id,
-                        expression: "question.difficulty_id"
-                      },
-                      {
-                        name: "validate",
-                        rawName: "v-validate",
-                        value: _vm.rules.difficulty,
-                        expression: "rules.difficulty"
-                      }
-                    ],
-                    staticClass: "form-control input",
-                    attrs: { id: "difficulty", name: "difficulty" },
-                    on: {
-                      change: function($event) {
-                        var $$selectedVal = Array.prototype.filter
-                          .call($event.target.options, function(o) {
-                            return o.selected
-                          })
-                          .map(function(o) {
-                            var val = "_value" in o ? o._value : o.value
-                            return val
-                          })
-                        _vm.$set(
-                          _vm.question,
-                          "difficulty_id",
-                          $event.target.multiple
-                            ? $$selectedVal
-                            : $$selectedVal[0]
-                        )
-                      }
-                    }
-                  },
-                  _vm._l(_vm.difficulties, function(difficulty) {
-                    return _c(
-                      "option",
-                      {
-                        key: difficulty.id,
-                        domProps: {
-                          value: difficulty.id,
-                          selected: _vm.question.difficulty_id === difficulty.id
-                        }
-                      },
-                      [_vm._v(_vm._s(difficulty.text))]
-                    )
-                  }),
-                  0
-                )
-              ])
-            ]),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "answer-grid-template" },
-              _vm._l(_vm.question.answers, function(answer) {
-                return _c(
                   "div",
-                  {
-                    key: answer.id,
-                    staticClass: "text-center answer",
-                    class: {
-                      "answer-correct": answer.status,
-                      "answer-incorrect": !answer.status
-                    }
-                  },
+                  { staticClass: "d-inline-block question-field-text" },
                   [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "validate",
-                          rawName: "v-validate",
-                          value: _vm.rules.answer,
-                          expression: "rules.answer"
-                        },
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: answer.text,
-                          expression: "answer.text"
-                        }
-                      ],
-                      staticClass: "text-center question-input",
-                      attrs: { type: "text", name: "answer" },
-                      domProps: { value: answer.text },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
+                    _c(
+                      "label",
+                      {
+                        staticClass: "lead text-white",
+                        attrs: { for: "difficulty" }
+                      },
+                      [_vm._v("Question difficulty:")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.question.difficulty_id,
+                            expression: "question.difficulty_id"
+                          },
+                          {
+                            name: "validate",
+                            rawName: "v-validate",
+                            value: _vm.rules.difficulty,
+                            expression: "rules.difficulty"
                           }
-                          _vm.$set(answer, "text", $event.target.value)
+                        ],
+                        staticClass: "form-control input",
+                        attrs: { id: "difficulty", name: "difficulty" },
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              _vm.question,
+                              "difficulty_id",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          }
                         }
-                      }
-                    })
+                      },
+                      _vm._l(_vm.difficulties, function(difficulty) {
+                        return _c(
+                          "option",
+                          {
+                            key: difficulty.id,
+                            domProps: {
+                              value: difficulty.id,
+                              selected:
+                                _vm.question.difficulty_id === difficulty.id
+                            }
+                          },
+                          [_vm._v(_vm._s(difficulty.text))]
+                        )
+                      }),
+                      0
+                    )
                   ]
                 )
-              }),
-              0
-            ),
-            _vm._v(" "),
-            _c("div", { staticClass: "text-center my-3" }, [
-              _c("i", {
-                staticClass: "fas fa-check question-icon question-icon-confirm",
-                on: { click: _vm.validate }
-              })
-            ])
-          ])
+              ]),
+              _vm._v(" "),
+              _c("p", { staticClass: "lead text-white ml-1 mb-0" }, [
+                _vm._v("Question answers:")
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "answer-grid-template" },
+                _vm._l(_vm.question.answers, function(answer) {
+                  return _c(
+                    "div",
+                    {
+                      key: answer.id,
+                      staticClass: "text-center answer",
+                      class: {
+                        "answer-correct": answer.status,
+                        "answer-incorrect": !answer.status
+                      }
+                    },
+                    [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "validate",
+                            rawName: "v-validate",
+                            value: _vm.rules.answer,
+                            expression: "rules.answer"
+                          },
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: answer.text,
+                            expression: "answer.text"
+                          }
+                        ],
+                        staticClass: "text-center question-input",
+                        attrs: { type: "text", name: "answer" },
+                        domProps: { value: answer.text },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(answer, "text", $event.target.value)
+                          }
+                        }
+                      })
+                    ]
+                  )
+                }),
+                0
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "text-center my-3" }, [
+                _c("i", {
+                  staticClass:
+                    "fas fa-check question-icon question-icon-confirm",
+                  on: { click: _vm.validate }
+                })
+              ])
+            ]
+          )
         ])
       ]
     ),
@@ -51121,6 +51287,216 @@ var render = function() {
         staticClass: "fas fa-long-arrow-alt-left back",
         attrs: { alt: "back" },
         on: { click: _vm.goBack }
+      })
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Questions/QuestionsEdit.vue?vue&type=template&id=04c9cf46&scoped=true&":
+/*!*********************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Questions/QuestionsEdit.vue?vue&type=template&id=04c9cf46&scoped=true& ***!
+  \*********************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("div", { staticClass: "d-flex" }, [
+      _c("div", { staticClass: "d-inline-block flex-grow-1 mr-1 p-1" }, [
+        _c(
+          "label",
+          { staticClass: "lead text-white", attrs: { for: "questionText" } },
+          [_vm._v("Question text:")]
+        ),
+        _vm._v(" "),
+        _c("input", {
+          directives: [
+            {
+              name: "validate",
+              rawName: "v-validate",
+              value: _vm.rules.text,
+              expression: "rules.text"
+            },
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.questionClone.text,
+              expression: "questionClone.text"
+            }
+          ],
+          staticClass: "lead px-1 form-control w-100 input",
+          attrs: { id: "questionText", name: "text" },
+          domProps: { value: _vm.questionClone.text },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.$set(_vm.questionClone, "text", $event.target.value)
+            }
+          }
+        })
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "d-inline-block p-1 question-field-difficulty" },
+        [
+          _c(
+            "label",
+            { staticClass: "lead text-white", attrs: { for: "difficulty" } },
+            [_vm._v("Question difficulty:")]
+          ),
+          _vm._v(" "),
+          _c(
+            "select",
+            {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.questionClone.difficulty_id,
+                  expression: "questionClone.difficulty_id"
+                },
+                {
+                  name: "validate",
+                  rawName: "v-validate",
+                  value: _vm.rules.difficulty,
+                  expression: "rules.difficulty"
+                }
+              ],
+              staticClass: "form-control input",
+              attrs: { id: "difficulty", name: "difficulty" },
+              on: {
+                change: function($event) {
+                  var $$selectedVal = Array.prototype.filter
+                    .call($event.target.options, function(o) {
+                      return o.selected
+                    })
+                    .map(function(o) {
+                      var val = "_value" in o ? o._value : o.value
+                      return val
+                    })
+                  _vm.$set(
+                    _vm.questionClone,
+                    "difficulty_id",
+                    $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+                  )
+                }
+              }
+            },
+            _vm._l(_vm.difficulties, function(difficulty) {
+              return _c(
+                "option",
+                {
+                  key: difficulty.id,
+                  domProps: {
+                    value: difficulty.id,
+                    selected: _vm.questionClone.difficulty_id === difficulty.id
+                  }
+                },
+                [_vm._v(_vm._s(difficulty.text))]
+              )
+            }),
+            0
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "question-icon" }, [
+        _c("i", {
+          staticClass: "fas fa-angle-up",
+          on: {
+            click: function($event) {
+              return _vm.closeEdit()
+            }
+          }
+        })
+      ])
+    ]),
+    _vm._v(" "),
+    _c("p", { staticClass: "lead text-white ml-1 mb-0" }, [
+      _vm._v("Question answers:")
+    ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "answer-grid-template mb-3 p-3" },
+      _vm._l(_vm.questionClone.answers, function(answer) {
+        return _c(
+          "div",
+          {
+            key: answer.id,
+            staticClass: "text-center answer",
+            class: {
+              "answer-correct": answer.status,
+              "answer-incorrect": !answer.status
+            },
+            on: {
+              click: function($event) {
+                if ($event.target !== $event.currentTarget) {
+                  return null
+                }
+                return _vm.answerStatusChange(answer)
+              }
+            }
+          },
+          [
+            _c("input", {
+              directives: [
+                {
+                  name: "validate",
+                  rawName: "v-validate",
+                  value: _vm.rules.answer,
+                  expression: "rules.answer"
+                },
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: answer.text,
+                  expression: "answer.text"
+                }
+              ],
+              staticClass: "text-center question-input",
+              attrs: { type: "text", name: "answer" },
+              domProps: { value: answer.text },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(answer, "text", $event.target.value)
+                }
+              }
+            })
+          ]
+        )
+      }),
+      0
+    ),
+    _vm._v(" "),
+    _c("div", { staticClass: "text-center pb-3" }, [
+      _c("i", {
+        staticClass: "fas fa-check question-icon question-icon-confirm",
+        on: { click: _vm.validate }
+      }),
+      _vm._v(" "),
+      _c("i", {
+        staticClass: "fas fa-times question-icon question-icon-times",
+        on: { click: _vm.deleteController }
       })
     ])
   ])
@@ -51153,15 +51529,33 @@ var render = function() {
     [
       _vm._m(0),
       _vm._v(" "),
+      _c("div", { staticClass: "d-flex justify-content-center my-3" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-main text-center",
+            on: {
+              click: function($event) {
+                return _vm.goQuestionCreate()
+              }
+            }
+          },
+          [_vm._v("New Question")]
+        )
+      ]),
+      _vm._v(" "),
       _c(
         "div",
-        { staticClass: "mb-5 d-flex justify-content-center" },
+        { staticClass: "d-flex justify-content-center mb-3" },
         _vm._l(_vm.difficulties, function(difficulty) {
           return _c(
             "div",
             {
               key: difficulty.id,
               staticClass: "mx-3 btn btn-main text-center",
+              class: {
+                "btn-main-active": difficulty.id === _vm.pagination.difficulty
+              },
               on: {
                 click: function($event) {
                   return _vm.changeDifficulty(difficulty.id)
@@ -51176,78 +51570,69 @@ var render = function() {
       _vm._v(" "),
       _c(
         "div",
-        {
-          staticClass: "d-flex justify-content-center mb-3 question-navigation"
-        },
-        [
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-main text-center w-auto",
-              attrs: { disabled: !_vm.isNotOnLastPage },
-              on: {
-                click: function($event) {
-                  return _vm.loadMore()
-                }
-              }
-            },
-            [_vm._v(_vm._s(_vm.loadButtonText))]
-          ),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-main text-center",
-              on: {
-                click: function($event) {
-                  return _vm.goQuestionCreate()
-                }
-              }
-            },
-            [_vm._v("New Question")]
-          )
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "div",
         { staticClass: "question-container-inner p-3" },
-        _vm._l(_vm.questions, function(question, index) {
-          return _c(
-            "div",
-            {
-              key: index,
-              staticClass: "text-white question-wrapper px-3 my-3"
-            },
-            [
-              _vm.questionOriginal.id !== question.id
-                ? _c(
-                    "div",
-                    {
-                      staticClass: "question-wrapper d-flex align-items-center"
-                    },
-                    [
-                      _c("p", { staticClass: "lead px-1 flex-grow-1" }, [
-                        _vm._v(_vm._s(question.text))
-                      ]),
+        [
+          _vm._l(_vm.questions, function(question, index) {
+            return _c(
+              "div",
+              { key: index, staticClass: "text-white question-wrapper my-3" },
+              [
+                _vm.questionEditId !== question.id
+                  ? _c("div", { staticClass: "d-flex" }, [
+                      _c(
+                        "p",
+                        { staticClass: "lead px-2 my-auto flex-grow-1" },
+                        [_vm._v(_vm._s(question.text))]
+                      ),
                       _vm._v(" "),
                       _c("div", { staticClass: "question-icon" }, [
                         _c("i", {
                           staticClass: "fas fa-angle-down",
                           on: {
                             click: function($event) {
-                              return _vm.setQuestionReferences(question)
+                              _vm.questionEditId = question.id
                             }
                           }
                         })
                       ])
-                    ]
-                  )
-                : _vm._e()
-            ]
-          )
-        }),
-        0
+                    ])
+                  : _c(
+                      "div",
+                      [
+                        _c("QuestionsEdit", {
+                          attrs: {
+                            question: question,
+                            difficulties: _vm.difficulties
+                          },
+                          on: {
+                            closeEdit: _vm.closeEdit,
+                            reloadQuestions: _vm.reloadQuestions
+                          }
+                        })
+                      ],
+                      1
+                    )
+              ]
+            )
+          }),
+          _vm._v(" "),
+          _c("div", { staticClass: "d-flex justify-content-center" }, [
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-main text-center w-auto",
+                attrs: { disabled: !_vm.isNotOnLastPage },
+                on: {
+                  click: function($event) {
+                    return _vm.loadMore()
+                  }
+                }
+              },
+              [_vm._v(_vm._s(_vm.loadButtonText))]
+            )
+          ])
+        ],
+        2
       ),
       _vm._v(" "),
       _c("div", { staticClass: "text-white text-center" }, [
@@ -68784,6 +69169,93 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_QuestionsCreate_vue_vue_type_template_id_1686e038_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_QuestionsCreate_vue_vue_type_template_id_1686e038_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/views/Questions/QuestionsEdit.vue":
+/*!********************************************************!*\
+  !*** ./resources/js/views/Questions/QuestionsEdit.vue ***!
+  \********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _QuestionsEdit_vue_vue_type_template_id_04c9cf46_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./QuestionsEdit.vue?vue&type=template&id=04c9cf46&scoped=true& */ "./resources/js/views/Questions/QuestionsEdit.vue?vue&type=template&id=04c9cf46&scoped=true&");
+/* harmony import */ var _QuestionsEdit_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./QuestionsEdit.vue?vue&type=script&lang=js& */ "./resources/js/views/Questions/QuestionsEdit.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _QuestionsEdit_vue_vue_type_style_index_0_id_04c9cf46_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./QuestionsEdit.vue?vue&type=style&index=0&id=04c9cf46&lang=scss&scoped=true& */ "./resources/js/views/Questions/QuestionsEdit.vue?vue&type=style&index=0&id=04c9cf46&lang=scss&scoped=true&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _QuestionsEdit_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _QuestionsEdit_vue_vue_type_template_id_04c9cf46_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _QuestionsEdit_vue_vue_type_template_id_04c9cf46_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "04c9cf46",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/views/Questions/QuestionsEdit.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/views/Questions/QuestionsEdit.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************!*\
+  !*** ./resources/js/views/Questions/QuestionsEdit.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_QuestionsEdit_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./QuestionsEdit.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Questions/QuestionsEdit.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_QuestionsEdit_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/views/Questions/QuestionsEdit.vue?vue&type=style&index=0&id=04c9cf46&lang=scss&scoped=true&":
+/*!******************************************************************************************************************!*\
+  !*** ./resources/js/views/Questions/QuestionsEdit.vue?vue&type=style&index=0&id=04c9cf46&lang=scss&scoped=true& ***!
+  \******************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_lib_loader_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_QuestionsEdit_vue_vue_type_style_index_0_id_04c9cf46_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader!../../../../node_modules/css-loader!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--7-2!../../../../node_modules/sass-loader/lib/loader.js??ref--7-3!../../../../node_modules/vue-loader/lib??vue-loader-options!./QuestionsEdit.vue?vue&type=style&index=0&id=04c9cf46&lang=scss&scoped=true& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Questions/QuestionsEdit.vue?vue&type=style&index=0&id=04c9cf46&lang=scss&scoped=true&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_lib_loader_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_QuestionsEdit_vue_vue_type_style_index_0_id_04c9cf46_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_lib_loader_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_QuestionsEdit_vue_vue_type_style_index_0_id_04c9cf46_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_lib_loader_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_QuestionsEdit_vue_vue_type_style_index_0_id_04c9cf46_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_lib_loader_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_QuestionsEdit_vue_vue_type_style_index_0_id_04c9cf46_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_lib_loader_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_QuestionsEdit_vue_vue_type_style_index_0_id_04c9cf46_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
+/***/ "./resources/js/views/Questions/QuestionsEdit.vue?vue&type=template&id=04c9cf46&scoped=true&":
+/*!***************************************************************************************************!*\
+  !*** ./resources/js/views/Questions/QuestionsEdit.vue?vue&type=template&id=04c9cf46&scoped=true& ***!
+  \***************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_QuestionsEdit_vue_vue_type_template_id_04c9cf46_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./QuestionsEdit.vue?vue&type=template&id=04c9cf46&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Questions/QuestionsEdit.vue?vue&type=template&id=04c9cf46&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_QuestionsEdit_vue_vue_type_template_id_04c9cf46_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_QuestionsEdit_vue_vue_type_template_id_04c9cf46_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

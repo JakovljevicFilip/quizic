@@ -15,8 +15,6 @@ use Illuminate\Http\Request;
 
 Route::namespace('Api')->group(function(){
 	Route::resource('difficulties','DifficultyController');
-    Route::get('questions','QuestionController@index');
-    Route::post('questions','QuestionController@store');
 });
 
 // AUTHENTFICATION
@@ -32,9 +30,13 @@ Route::prefix('auth')->namespace('Api')->group(function(){
 });
 
 // ADMIN OR SELF
-Route::group(['middleware'=>'auth:api','namespace'=>'Api'],function(){
-	// lISTING ALL USERS INFORMATIONS, SHOULD BE ACCESSABLE BY ADMIN
-	Route::get('users','UserController@index')->middleware('isAdmin');
-	// LISTING USER INFROMATION, SHOULD BE DONE BY EITHER ADMIN OR THE USER THEMSELF
-	Route::get('users/{id}','UserController@show')->middleware('isAdminOrSelf');
+Route::group(['middleware'=>'isAdmin','namespace'=>'Api'],function(){
+    Route::get('questions','QuestionController@index');
+    Route::post('questions','QuestionController@store');
+    Route::put('questions','QuestionController@update');
+    Route::delete('questions/{id}','QuestionController@destroy');
+	// // lISTING ALL USERS INFORMATIONS, SHOULD BE ACCESSABLE BY ADMIN
+	// Route::get('users','UserController@index')->middleware('isAdmin');
+	// // LISTING USER INFROMATION, SHOULD BE DONE BY EITHER ADMIN OR THE USER THEMSELF
+	// Route::get('users/{id}','UserController@show')->middleware('isAdminOrSelf');
 });

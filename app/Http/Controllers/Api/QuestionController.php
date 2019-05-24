@@ -10,6 +10,7 @@ use App\Question;
 use App\Answer;
 use App\Difficulty;
 use App\Http\Requests\QuestionStoreRequest;
+use App\Http\Requests\QuestionUpdateRequest;
 
 class QuestionController extends Controller
 {
@@ -54,9 +55,12 @@ class QuestionController extends Controller
      * @param  \App\Question  $question
      * @return \Illuminate\Http\Response
      */
-    public function update(QuestionStoreRequest $request, Question $question)
+    public function update(QuestionUpdateRequest $request)
     {
+        $question = Question::find($request->id);
+        // UPDATE QUESTION TEXT AND DIFFICULTY
         $question->update($request->only('difficulty_id', 'text'));
+        // UPDATE QUESTION ANSWERS
         $question->updateAnswers($request->answers);
         return response()->json([
             'message' => 'Question updated.',
@@ -70,8 +74,9 @@ class QuestionController extends Controller
      * @param  \App\Question  $question
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Question $question)
+    public function destroy(Request $request)
     {
+        $question = Question::findOrFail($request->id);
         $question->delete();
         return response()->json([
             'message' => 'Question has been deleted.',

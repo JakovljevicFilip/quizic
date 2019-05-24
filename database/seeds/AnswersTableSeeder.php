@@ -16,26 +16,26 @@ class AnswersTableSeeder extends Seeder
         $questions = Question::all()->pluck('id');
         $questions->each(function($item){
             DB::table('answers')->insert([
-        		[
-        			'text'=>'Incorrect answer',
-        			'status'=>false,
-        			'question_id'=>$item
-        		],
-        		[
-        			'text'=>'Incorrect answer',
-        			'status'=>false,
-        			'question_id'=>$item
-        		],
-        		[
-        			'text'=>'Incorrect answer',
-        			'status'=>false,
-        			'question_id'=>$item
-        		],
-        		[
+                [
         			'text'=>'Correct answer',
         			'status'=>true,
         			'question_id'=>$item
-        		]
+        		],
+        		[
+        			'text'=>'Incorrect answer',
+        			'status'=>false,
+        			'question_id'=>$item
+        		],
+        		[
+        			'text'=>'Incorrect answer',
+        			'status'=>false,
+        			'question_id'=>$item
+        		],
+        		[
+        			'text'=>'Incorrect answer',
+        			'status'=>false,
+        			'question_id'=>$item
+        		],
         	]);
         });
     }
