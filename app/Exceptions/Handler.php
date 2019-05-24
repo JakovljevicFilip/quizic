@@ -64,7 +64,7 @@ class Handler extends ExceptionHandler
             return response()->json([
                 'message' => $message,
                 'write' => true,
-            ], 401);
+            ], 422);
         }
         // JWT TOKEN EXCEPTIONS
         if ($exception instanceof JWTException) {

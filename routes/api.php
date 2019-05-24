@@ -15,7 +15,8 @@ use Illuminate\Http\Request;
 
 Route::namespace('Api')->group(function(){
 	Route::resource('difficulties','DifficultyController');
-	Route::resource('questions','QuestionController');
+    Route::get('questions','QuestionController@index');
+    Route::post('questions','QuestionController@store');
 });
 
 // AUTHENTFICATION

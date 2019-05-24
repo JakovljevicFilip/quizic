@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Validator;
 use App\Question;
 use App\Answer;
+use App\Difficulty;
 use App\Http\Requests\QuestionStoreRequest;
 
 class QuestionController extends Controller
@@ -18,13 +19,15 @@ class QuestionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $questions = Question::with('answers')->get();
+        $questions = new Question;
+        $questions = $questions->fetchQuestions($request);
         return response()->json([
             'message' => 'Questions fetched.',
             'write' => false,
-            'questions' => $questions,
+            'questions' => $questions->items(),
+            'last_page' => $questions->lastPage(),
         ], 200);
     }
 
@@ -41,22 +44,6 @@ class QuestionController extends Controller
         return response()->json([
             'message' => 'Question saved.',
             'write' => true,
-        ], 200);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Question  $question
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Question $question)
-    {
-        $question = $question->with('answers')->find($question->id);
-        return response()->json([
-            'message' => 'Question fetched.',
-            'write' => false,
-            'question' => $question,
         ], 200);
     }
 

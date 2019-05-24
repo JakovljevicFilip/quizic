@@ -1,20 +1,21 @@
-import VueRouter from 'vue-router'
+import VueRouter from 'vue-router';
 
 // AUTHENTICATION
 // LAYOUT COMPONENT
-import Authentication from '../views/Authentication/Authentication'
-import Login from '../views/Authentication/Login'
-import Register from '../views/Authentication/Register'
+import Authentication from '../views/Authentication/Authentication';
+import Login from '../views/Authentication/Login';
+import Register from '../views/Authentication/Register';
 
 // MENU
 import Menu from '../views/Menu/Menu';
 
 
-// QUESTION
-import QuestionsIndex from '../views/Questions/QuestionsIndex'
+// QUESTIONS
+import QuestionsIndex from '../views/Questions/QuestionsIndex';
+import QuestionsCreate from '../views/Questions/QuestionsCreate';
 
 // ERROR
-import ErrorPage from '../views/Error/ErrorPage'
+import ErrorPage from '../views/Error/ErrorPage';
 
 
 const router = new VueRouter({
@@ -81,6 +82,20 @@ const router = new VueRouter({
                 }
             }
         },
+        {
+            path:'/questions/create',
+            name:'questions.create',
+            component: QuestionsCreate,
+            meta: {
+                // ONLY ACCESSABLE TO ADMINISTRATOR
+                auth: {
+                    // BACK-END VERIFICATION FOR AN ADMINISTRATOR
+                    roles:2,
+                    // GUEST IS TRYING TO ACCESS THIS PAGE
+                    redirect: 'questions/403',
+                }
+            },
+        },
 
         // ERROR
         // 403 - FORBIDDEN ACCESS
@@ -109,7 +124,7 @@ const router = new VueRouter({
         {
             // REDIRECT TO 404
             path: '*',
-            redirect: '/404'
+            redirect: '*/404'
         },
     ],
 });

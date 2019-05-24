@@ -1,0 +1,135 @@
+<template>
+    <div class="app-container-height">
+        <div class="container h-100 d-flex justify-content-center align-items-center p-5">
+            <div>
+                <div class="question-wrapper">
+                    <div class="d-flex mb-3">
+                        <div class="d-inline-block question-field-text mr-1">
+                            <label for="questionText" class="lead text-white">Question text:</label>
+                            <input id="questionText" name="text" class="lead px-1 form-control w-100 input" v-validate="rules.text" v-model="question.text">
+                        </div>
+
+                        <div class="d-inline-block flex-grow-1">
+                            <label for="difficulty" class="lead text-white">Question difficulty:</label>
+                            <select id="difficulty" name="difficulty" class="form-control input" v-model="question.difficulty_id" v-validate="rules.difficulty">
+                                <option v-for="difficulty in difficulties" :key="difficulty.id" :value="difficulty.id" :selected="question.difficulty_id === difficulty.id">{{ difficulty.text }}</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="answer-grid-template">
+                        <div v-for="answer in question.answers" :key="answer.id" class="text-center answer" :class="{'answer-correct' : answer.status, 'answer-incorrect': !answer.status}">
+                            <input type="text" v-validate="rules.answer" name="answer" v-model="answer.text" class="text-center question-input">
+                        </div>
+                    </div>
+
+                    <div class="text-center my-3">
+                        <i class="fas fa-times question-icon question-icon-cancel"></i>
+                        <i class="fas fa-check question-icon question-icon-confirm" @click="validate"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-white text-center ">
+            <i class="fas fa-long-arrow-alt-left back" @click="goBack" alt="back"></i>
+        </div>
+    </div>
+</template>
+
+<script>
+export default {
+    data(){
+        return{
+            question: {},
+            difficulties: [],
+            // VEE VALIDATION
+            rules: {
+                text: 'required',
+                difficulty: 'required|numeric',
+                answer: 'required'
+            },
+        }
+    },
+    methods: {
+        getDifficulties(){
+            this.$http.get('difficulties')
+            .then(response => {
+                this.difficulties = response.body.difficulties;
+                // SET DEFAULT VALUES FOR QUESTION FIELDS
+                this.setDefaultQuestionValues();
+            })
+            .catch(error => {
+                console.log(error);
+            })
+        },
+        setDefaultDifficulty(){
+            this.question.difficulty_id = this.difficulties[0].id;
+        },
+        validate(){
+            this.$validator.validate()
+            .then(valid => {
+                // VALIDATION PASSED
+                if (valid) {
+                    // RUN AJAX REQUEST
+                    this.store();
+                }
+                // VALIDATION DIDN'T PASS
+                else{
+                    // SHOW ERROR MESSAGES BENEATH INPUT FIELDS
+                    this.$validator.validateAll();
+                    // SHOW ALERT
+                    let message = this.$validator.errors.all()[0];
+                    this.$swal('Question', message, 'error');
+                }
+            });
+        },
+        store(){
+            this.$http.post('questions', this.question)
+            .then(repsonse => {
+                // RESET FIELDS
+                this.setDefaultQuestionValues();
+            })
+            .catch(error => {
+                console.log(error);
+            });
+        },
+        setDefaultQuestionValues(){
+            this.question = {
+                text: 'Enter text here.',
+                difficulty_id: this.difficulties[0].id,
+                answers: [
+                    {
+                        text: 'Correct answer',
+                        status: true,
+                    },
+                    {
+                        text: 'Incorrect answer',
+                        status: false,
+                    },
+                    {
+                        text: 'Incorrect answer',
+                        status: false,
+                    },
+                    {
+                        text: 'Incorrect answer',
+                        status: false,
+                    },
+
+                ]
+            };
+        },
+        goBack(){
+            // BACK TO MENU
+            this.$router.push('/menu');
+        },
+    },
+    mounted(){
+        this.getDifficulties();
+    }
+}
+</script>
+
+<style lang="scss" scoped>
+    @import "../../../sass/application/question.scss";
+</style>

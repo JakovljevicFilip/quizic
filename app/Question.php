@@ -29,4 +29,12 @@ class Question extends Model
         // STORE NEW ANSWERS
         return $this->saveAnswers($answers);
     }
+
+    public function fetchQuestions($request){
+        return $this->fetchByDifficulty($request->difficulty)->paginate($request->per_page);
+    }
+
+    public function fetchByDifficulty($difficulty){
+        return $this->where('difficulty_id',$difficulty)->with('answers');
+    }
 }

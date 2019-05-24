@@ -9,7 +9,8 @@
         <router-link :to="{ name: 'menu' }" class="btn mx-auto btn-main">Change password</router-link>
         <!-- USER IS AN ADMINISTRATOR -->
         <template v-if="this.$auth.user().role === 2">
-            <router-link :to="{ name: 'questions.index' }" class="btn mb-2 mx-auto btn-main">Questions</router-link>
+            <router-link :to="{ name: 'questions.create' }" class="btn mb-2 mx-auto btn-main">New Question</router-link>
+            <router-link :to="{ name: 'questions.index' }" class="btn mb-2 mx-auto btn-main">View Questions</router-link>
             <router-link :to="{ name: 'menu' }" class="btn mx-auto btn-main">Users</router-link>
         </template>
         <div class="text-center mt-4">
