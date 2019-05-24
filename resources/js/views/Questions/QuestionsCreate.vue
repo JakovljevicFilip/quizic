@@ -25,7 +25,6 @@
                     </div>
 
                     <div class="text-center my-3">
-                        <i class="fas fa-times question-icon question-icon-cancel"></i>
                         <i class="fas fa-check question-icon question-icon-confirm" @click="validate"></i>
                     </div>
                 </div>
@@ -121,7 +120,7 @@ export default {
         },
         goBack(){
             // BACK TO MENU
-            this.$router.push('/menu');
+            this.$router.push('/questions');
         },
     },
     mounted(){

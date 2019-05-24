@@ -1587,7 +1587,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   methods: {
     logout: function logout() {
@@ -1607,7 +1606,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
 //
 //
 //
@@ -1725,7 +1723,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     goBack: function goBack() {
       // BACK TO MENU
-      this.$router.push('/menu');
+      this.$router.push('/questions');
     }
   },
   mounted: function mounted() {
@@ -1744,6 +1742,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
 //
 //
 //
@@ -1808,7 +1807,7 @@ __webpack_require__.r(__webpack_exports__);
       return this.fetchQuestions.page <= this.fetchQuestions.last_page;
     },
     loadButtonText: function loadButtonText() {
-      return this.fetchQuestions.page <= this.fetchQuestions.last_page ? 'Load questions' : 'No more questions';
+      return this.fetchQuestions.page <= this.fetchQuestions.last_page ? 'Load more questions' : 'No more questions';
     }
   },
   methods: {
@@ -1929,6 +1928,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     difficultyChange: function difficultyChange() {
       this.difficultyIsChanged = this.questionOriginal.difficulty_id !== this.questionChanged.difficulty_id;
+    },
+    goQuestionCreate: function goQuestionCreate() {
+      this.$router.push('questions/create');
     }
   },
   created: function created() {
@@ -6453,7 +6455,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".back[data-v-1686e038] {\n  font-size: 70px;\n  cursor: pointer;\n}\n.back[data-v-1686e038]:hover {\n  text-decoration: none;\n}\n.answer[data-v-1686e038] {\n  position: relative;\n  border: none;\n  cursor: pointer;\n  background: rgba(114, 27, 106, 0.7);\n  color: #fff;\n  padding: 10px;\n  font-size: 25px;\n  transition: all 1s;\n  text-shadow: 0px 0px 5px black;\n}\n.answer-correct[data-v-1686e038] {\n  background: darkgreen;\n  -webkit-transform: rotateY(360deg);\n  /* Safari */\n  transform: rotateY(360deg);\n}\n.answer-incorrect[data-v-1686e038] {\n  background: red;\n  -webkit-transform: rotateY(360deg);\n  /* Safari */\n  transform: rotateY(360deg);\n}\n.answer-grid-template[data-v-1686e038] {\n  display: grid;\n  grid-gap: 15px;\n  grid-template-areas: \"answer answer\" \"answer answer\";\n}\n.input[data-v-1686e038] {\n  background-color: rgba(0, 0, 0, 0.5);\n  border-radius: 20px;\n  color: white;\n}\n.question-container-outer[data-v-1686e038] {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  -webkit-transform: translateY(-50%) translateX(-50%);\n          transform: translateY(-50%) translateX(-50%);\n  /* width */\n  /* Track */\n  /* Handle */\n  /* Handle on hover */\n}\n.question-container-outer[data-v-1686e038] ::-webkit-scrollbar {\n  width: 10px;\n}\n.question-container-outer[data-v-1686e038] ::-webkit-scrollbar-track {\n  background: rgba(0, 0, 0, 0.5);\n  border-radius: 4px;\n}\n.question-container-outer[data-v-1686e038] ::-webkit-scrollbar-thumb {\n  background: rgba(255, 255, 255, 0.9);\n  border-radius: 4px;\n}\n.question-container-outer[data-v-1686e038] ::-webkit-scrollbar-thumb:hover {\n  background: rgba(255, 255, 255, 0.5);\n}\n.question-container-inner[data-v-1686e038] {\n  height: 50vh;\n  overflow: auto;\n  overflow-x: hidden;\n}\n.question-wrapper[data-v-1686e038] {\n  background-color: rgba(0, 0, 0, 0.5);\n  border-radius: 20px;\n  width: 800px;\n  padding: 25px;\n}\n.question-field-text[data-v-1686e038] {\n  width: 550px;\n}\n.question-text-hover[data-v-1686e038]:hover {\n  cursor: pointer;\n}\n.question-input[data-v-1686e038] {\n  color: white;\n  background: none;\n  border: none;\n}\n.question-input[data-v-1686e038]:hover {\n  background: #FF9800;\n  color: black;\n}\n.question-icon[data-v-1686e038] {\n  font-size: 40px;\n  color: #fff;\n  width: 50px;\n}\n.question-icon-cancel[data-v-1686e038]:hover {\n  color: red;\n}\n.question-icon-confirm[data-v-1686e038]:hover {\n  color: darkgreen;\n}\n.question-icon[data-v-1686e038]:hover {\n  cursor: pointer;\n}", ""]);
+exports.push([module.i, ".back[data-v-1686e038] {\n  font-size: 70px;\n  cursor: pointer;\n}\n.back[data-v-1686e038]:hover {\n  text-decoration: none;\n}\n.answer[data-v-1686e038] {\n  position: relative;\n  border: none;\n  cursor: pointer;\n  background: rgba(114, 27, 106, 0.7);\n  color: #fff;\n  padding: 10px;\n  font-size: 25px;\n  transition: all 1s;\n  text-shadow: 0px 0px 5px black;\n}\n.answer-correct[data-v-1686e038] {\n  background: darkgreen;\n  -webkit-transform: rotateY(360deg);\n  /* Safari */\n  transform: rotateY(360deg);\n}\n.answer-incorrect[data-v-1686e038] {\n  background: red;\n  -webkit-transform: rotateY(360deg);\n  /* Safari */\n  transform: rotateY(360deg);\n}\n.answer-grid-template[data-v-1686e038] {\n  display: grid;\n  grid-gap: 15px;\n  grid-template-areas: \"answer answer\" \"answer answer\";\n}\n.input[data-v-1686e038] {\n  background-color: rgba(0, 0, 0, 0.5);\n  border-radius: 20px;\n  color: white;\n}\n.question-container-outer[data-v-1686e038] {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  -webkit-transform: translateY(-50%) translateX(-50%);\n          transform: translateY(-50%) translateX(-50%);\n  /* width */\n  /* Track */\n  /* Handle */\n  /* Handle on hover */\n}\n.question-container-outer[data-v-1686e038] ::-webkit-scrollbar {\n  width: 10px;\n}\n.question-container-outer[data-v-1686e038] ::-webkit-scrollbar-track {\n  background: rgba(0, 0, 0, 0.5);\n  border-radius: 4px;\n}\n.question-container-outer[data-v-1686e038] ::-webkit-scrollbar-thumb {\n  background: rgba(255, 255, 255, 0.9);\n  border-radius: 4px;\n}\n.question-container-outer[data-v-1686e038] ::-webkit-scrollbar-thumb:hover {\n  background: rgba(255, 255, 255, 0.5);\n}\n.question-container-inner[data-v-1686e038] {\n  height: 50vh;\n  overflow: auto;\n  overflow-x: hidden;\n  position: relative;\n}\n.question-wrapper[data-v-1686e038] {\n  background-color: rgba(0, 0, 0, 0.5);\n  border-radius: 20px;\n  width: 800px;\n  padding: 25px;\n}\n.question-field-text[data-v-1686e038] {\n  width: 550px;\n}\n.question-text-hover[data-v-1686e038]:hover {\n  cursor: pointer;\n}\n.question-input[data-v-1686e038] {\n  color: white;\n  background: none;\n  border: none;\n}\n.question-input[data-v-1686e038]:hover {\n  background: #FF9800;\n  color: black;\n}\n.question-icon[data-v-1686e038] {\n  font-size: 40px;\n  color: #fff;\n  width: 50px;\n}\n.question-icon-cancel[data-v-1686e038]:hover {\n  color: red;\n}\n.question-icon-confirm[data-v-1686e038]:hover {\n  color: darkgreen;\n}\n.question-icon[data-v-1686e038]:hover {\n  cursor: pointer;\n}", ""]);
 
 // exports
 
@@ -6472,7 +6474,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".back[data-v-53b05974] {\n  font-size: 70px;\n  cursor: pointer;\n}\n.back[data-v-53b05974]:hover {\n  text-decoration: none;\n}\n.answer[data-v-53b05974] {\n  position: relative;\n  border: none;\n  cursor: pointer;\n  background: rgba(114, 27, 106, 0.7);\n  color: #fff;\n  padding: 10px;\n  font-size: 25px;\n  transition: all 1s;\n  text-shadow: 0px 0px 5px black;\n}\n.answer-correct[data-v-53b05974] {\n  background: darkgreen;\n  -webkit-transform: rotateY(360deg);\n  /* Safari */\n  transform: rotateY(360deg);\n}\n.answer-incorrect[data-v-53b05974] {\n  background: red;\n  -webkit-transform: rotateY(360deg);\n  /* Safari */\n  transform: rotateY(360deg);\n}\n.answer-grid-template[data-v-53b05974] {\n  display: grid;\n  grid-gap: 15px;\n  grid-template-areas: \"answer answer\" \"answer answer\";\n}\n.input[data-v-53b05974] {\n  background-color: rgba(0, 0, 0, 0.5);\n  border-radius: 20px;\n  color: white;\n}\n.question-container-outer[data-v-53b05974] {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  -webkit-transform: translateY(-50%) translateX(-50%);\n          transform: translateY(-50%) translateX(-50%);\n  /* width */\n  /* Track */\n  /* Handle */\n  /* Handle on hover */\n}\n.question-container-outer[data-v-53b05974] ::-webkit-scrollbar {\n  width: 10px;\n}\n.question-container-outer[data-v-53b05974] ::-webkit-scrollbar-track {\n  background: rgba(0, 0, 0, 0.5);\n  border-radius: 4px;\n}\n.question-container-outer[data-v-53b05974] ::-webkit-scrollbar-thumb {\n  background: rgba(255, 255, 255, 0.9);\n  border-radius: 4px;\n}\n.question-container-outer[data-v-53b05974] ::-webkit-scrollbar-thumb:hover {\n  background: rgba(255, 255, 255, 0.5);\n}\n.question-container-inner[data-v-53b05974] {\n  height: 50vh;\n  overflow: auto;\n  overflow-x: hidden;\n}\n.question-wrapper[data-v-53b05974] {\n  background-color: rgba(0, 0, 0, 0.5);\n  border-radius: 20px;\n  width: 800px;\n  padding: 25px;\n}\n.question-field-text[data-v-53b05974] {\n  width: 550px;\n}\n.question-text-hover[data-v-53b05974]:hover {\n  cursor: pointer;\n}\n.question-input[data-v-53b05974] {\n  color: white;\n  background: none;\n  border: none;\n}\n.question-input[data-v-53b05974]:hover {\n  background: #FF9800;\n  color: black;\n}\n.question-icon[data-v-53b05974] {\n  font-size: 40px;\n  color: #fff;\n  width: 50px;\n}\n.question-icon-cancel[data-v-53b05974]:hover {\n  color: red;\n}\n.question-icon-confirm[data-v-53b05974]:hover {\n  color: darkgreen;\n}\n.question-icon[data-v-53b05974]:hover {\n  cursor: pointer;\n}", ""]);
+exports.push([module.i, ".back[data-v-53b05974] {\n  font-size: 70px;\n  cursor: pointer;\n}\n.back[data-v-53b05974]:hover {\n  text-decoration: none;\n}\n.answer[data-v-53b05974] {\n  position: relative;\n  border: none;\n  cursor: pointer;\n  background: rgba(114, 27, 106, 0.7);\n  color: #fff;\n  padding: 10px;\n  font-size: 25px;\n  transition: all 1s;\n  text-shadow: 0px 0px 5px black;\n}\n.answer-correct[data-v-53b05974] {\n  background: darkgreen;\n  -webkit-transform: rotateY(360deg);\n  /* Safari */\n  transform: rotateY(360deg);\n}\n.answer-incorrect[data-v-53b05974] {\n  background: red;\n  -webkit-transform: rotateY(360deg);\n  /* Safari */\n  transform: rotateY(360deg);\n}\n.answer-grid-template[data-v-53b05974] {\n  display: grid;\n  grid-gap: 15px;\n  grid-template-areas: \"answer answer\" \"answer answer\";\n}\n.input[data-v-53b05974] {\n  background-color: rgba(0, 0, 0, 0.5);\n  border-radius: 20px;\n  color: white;\n}\n.question-container-outer[data-v-53b05974] {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  -webkit-transform: translateY(-50%) translateX(-50%);\n          transform: translateY(-50%) translateX(-50%);\n  /* width */\n  /* Track */\n  /* Handle */\n  /* Handle on hover */\n}\n.question-container-outer[data-v-53b05974] ::-webkit-scrollbar {\n  width: 10px;\n}\n.question-container-outer[data-v-53b05974] ::-webkit-scrollbar-track {\n  background: rgba(0, 0, 0, 0.5);\n  border-radius: 4px;\n}\n.question-container-outer[data-v-53b05974] ::-webkit-scrollbar-thumb {\n  background: rgba(255, 255, 255, 0.9);\n  border-radius: 4px;\n}\n.question-container-outer[data-v-53b05974] ::-webkit-scrollbar-thumb:hover {\n  background: rgba(255, 255, 255, 0.5);\n}\n.question-container-inner[data-v-53b05974] {\n  height: 50vh;\n  overflow: auto;\n  overflow-x: hidden;\n  position: relative;\n}\n.question-wrapper[data-v-53b05974] {\n  background-color: rgba(0, 0, 0, 0.5);\n  border-radius: 20px;\n  width: 800px;\n  padding: 25px;\n}\n.question-field-text[data-v-53b05974] {\n  width: 550px;\n}\n.question-text-hover[data-v-53b05974]:hover {\n  cursor: pointer;\n}\n.question-input[data-v-53b05974] {\n  color: white;\n  background: none;\n  border: none;\n}\n.question-input[data-v-53b05974]:hover {\n  background: #FF9800;\n  color: black;\n}\n.question-icon[data-v-53b05974] {\n  font-size: 40px;\n  color: #fff;\n  width: 50px;\n}\n.question-icon-cancel[data-v-53b05974]:hover {\n  color: red;\n}\n.question-icon-confirm[data-v-53b05974]:hover {\n  color: darkgreen;\n}\n.question-icon[data-v-53b05974]:hover {\n  cursor: pointer;\n}", ""]);
 
 // exports
 
@@ -50867,18 +50869,9 @@ var render = function() {
               "router-link",
               {
                 staticClass: "btn mb-2 mx-auto btn-main",
-                attrs: { to: { name: "questions.create" } }
-              },
-              [_vm._v("New Question")]
-            ),
-            _vm._v(" "),
-            _c(
-              "router-link",
-              {
-                staticClass: "btn mb-2 mx-auto btn-main",
                 attrs: { to: { name: "questions.index" } }
               },
-              [_vm._v("View Questions")]
+              [_vm._v("Questions")]
             ),
             _vm._v(" "),
             _c(
@@ -51114,10 +51107,6 @@ var render = function() {
             _vm._v(" "),
             _c("div", { staticClass: "text-center my-3" }, [
               _c("i", {
-                staticClass: "fas fa-times question-icon question-icon-cancel"
-              }),
-              _vm._v(" "),
-              _c("i", {
                 staticClass: "fas fa-check question-icon question-icon-confirm",
                 on: { click: _vm.validate }
               })
@@ -51187,62 +51176,78 @@ var render = function() {
       _vm._v(" "),
       _c(
         "div",
-        { staticClass: "question-container-inner px-3" },
+        {
+          staticClass: "d-flex justify-content-center mb-3 question-navigation"
+        },
         [
-          _vm._l(_vm.questions, function(question, index) {
-            return _c(
-              "div",
-              {
-                key: index,
-                staticClass: "text-white question-wrapper px-3 my-3"
-              },
-              [
-                _vm.questionOriginal.id !== question.id
-                  ? _c(
-                      "div",
-                      {
-                        staticClass:
-                          "question-wrapper d-flex align-items-center"
-                      },
-                      [
-                        _c("p", { staticClass: "lead px-1 flex-grow-1" }, [
-                          _vm._v(_vm._s(question.text))
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "question-icon" }, [
-                          _c("i", {
-                            staticClass: "fas fa-angle-down",
-                            on: {
-                              click: function($event) {
-                                return _vm.setQuestionReferences(question)
-                              }
-                            }
-                          })
-                        ])
-                      ]
-                    )
-                  : _vm._e()
-              ]
-            )
-          }),
-          _vm._v(" "),
-          _c("div", [
-            _c(
-              "button",
-              {
-                staticClass: "mx-auto mt-3 btn btn-main text-center",
-                attrs: { disabled: !_vm.isNotOnLastPage },
-                on: {
-                  click: function($event) {
-                    return _vm.loadMore()
-                  }
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-main text-center w-auto",
+              attrs: { disabled: !_vm.isNotOnLastPage },
+              on: {
+                click: function($event) {
+                  return _vm.loadMore()
                 }
-              },
-              [_vm._v(_vm._s(_vm.loadButtonText))]
-            )
-          ])
-        ],
-        2
+              }
+            },
+            [_vm._v(_vm._s(_vm.loadButtonText))]
+          ),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-main text-center",
+              on: {
+                click: function($event) {
+                  return _vm.goQuestionCreate()
+                }
+              }
+            },
+            [_vm._v("New Question")]
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "question-container-inner p-3" },
+        _vm._l(_vm.questions, function(question, index) {
+          return _c(
+            "div",
+            {
+              key: index,
+              staticClass: "text-white question-wrapper px-3 my-3"
+            },
+            [
+              _vm.questionOriginal.id !== question.id
+                ? _c(
+                    "div",
+                    {
+                      staticClass: "question-wrapper d-flex align-items-center"
+                    },
+                    [
+                      _c("p", { staticClass: "lead px-1 flex-grow-1" }, [
+                        _vm._v(_vm._s(question.text))
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "question-icon" }, [
+                        _c("i", {
+                          staticClass: "fas fa-angle-down",
+                          on: {
+                            click: function($event) {
+                              return _vm.setQuestionReferences(question)
+                            }
+                          }
+                        })
+                      ])
+                    ]
+                  )
+                : _vm._e()
+            ]
+          )
+        }),
+        0
       ),
       _vm._v(" "),
       _c("div", { staticClass: "text-white text-center" }, [

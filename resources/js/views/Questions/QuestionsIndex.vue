@@ -6,7 +6,11 @@
         <div class="mb-5 d-flex justify-content-center">
             <div v-for="difficulty in difficulties" :key="difficulty.id" class="mx-3 btn btn-main text-center" @click="changeDifficulty(difficulty.id)">{{ difficulty.text }}</div>
         </div>
-        <div class="question-container-inner px-3">
+        <div class="d-flex justify-content-center mb-3 question-navigation">
+                <button class="btn btn-main text-center w-auto" @click="loadMore()" :disabled="!isNotOnLastPage">{{ loadButtonText }}</button>
+                <button class="btn btn-main text-center" @click="goQuestionCreate()">New Question</button>
+            </div>
+        <div class="question-container-inner p-3">
             <div v-for="(question, index) in questions" :key="index" class="text-white question-wrapper px-3 my-3">
                 <div class="question-wrapper d-flex align-items-center" v-if="questionOriginal.id !== question.id">
                     <p class="lead px-1 flex-grow-1">{{ question.text }}</p>
@@ -14,9 +18,6 @@
                         <i class="fas fa-angle-down" @click="setQuestionReferences(question)"></i>
                     </div>
                 </div>
-            </div>
-            <div>
-                <button class="mx-auto mt-3 btn btn-main text-center" @click="loadMore()" :disabled="!isNotOnLastPage">{{ loadButtonText }}</button>
             </div>
         </div>
         <div class="text-white text-center">
@@ -64,7 +65,7 @@ export default {
             return this.fetchQuestions.page <= this.fetchQuestions.last_page;
         },
         loadButtonText: function(){
-            return this.fetchQuestions.page <= this.fetchQuestions.last_page ? 'Load questions' : 'No more questions';
+            return this.fetchQuestions.page <= this.fetchQuestions.last_page ? 'Load more questions' : 'No more questions';
         },
     },
     methods:{
@@ -197,7 +198,10 @@ export default {
 
         difficultyChange(){
             this.difficultyIsChanged = this.questionOriginal.difficulty_id !== this.questionChanged.difficulty_id;
-         },
+        },
+        goQuestionCreate(){
+            this.$router.push('questions/create');
+        },
     },
     created(){
         this.getDifficulties();
