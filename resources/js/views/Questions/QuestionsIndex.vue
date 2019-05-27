@@ -11,21 +11,25 @@
         </div>
 
         <div class="p-3 question-container-inner">
-            <div v-for="(question, index) in questions" :key="index" class="animated slideInDown fast text-white question-wrapper my-3">
-                <div class="d-flex" v-if="questionEditId !== question.id">
-                    <p class="lead px-2 my-auto flex-grow-1">{{ question.text }}</p>
-                    <div class="question-icon">
-                        <i class="fas fa-angle-down" @click="questionEditId = question.id"></i>
+            <!-- HIDE QUESTIONS CONTATINER IF THERE ARE NO QUESTIONS -->
+            <div v-if="questions.length !== 0 ">
+                <div v-for="(question, index) in questions" :key="index" class="animated slideInDown fast text-white question-wrapper my-3">
+                    <div class="d-flex" v-if="questionEditId !== question.id">
+                        <p class="lead px-2 my-auto flex-grow-1">{{ question.text }}</p>
+                        <div class="question-icon">
+                            <i class="fas fa-angle-down" @click="questionEditId = question.id"></i>
+                        </div>
+                    </div>
+                    <div v-else>
+                        <QuestionsEdit :question="question" :difficulties="difficulties" @closeEdit="closeEdit" @reloadQuestions="reloadQuestions"></QuestionsEdit>
                     </div>
                 </div>
-                <div v-else>
-                    <QuestionsEdit :question="question" :difficulties="difficulties" @closeEdit="closeEdit" @reloadQuestions="reloadQuestions"></QuestionsEdit>
+                <div class="d-flex justify-content-center">
+                    <button class="btn btn-main text-center w-auto" @click="loadMore()" :disabled="!isNotOnLastPage">{{ loadButtonText }}</button>
                 </div>
             </div>
-            <div class="d-flex justify-content-center">
-                <button class="btn btn-main text-center w-auto" @click="loadMore()" :disabled="!isNotOnLastPage">{{ loadButtonText }}</button>
-            </div>
         </div>
+
         <div class="text-white text-center">
             <i class="fas fa-long-arrow-alt-left back" @click="goBack" alt="back"></i>
         </div>

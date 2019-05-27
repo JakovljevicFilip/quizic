@@ -1,7 +1,8 @@
 <template>
     <div class="app-container-height">
         <div class="animated slideInDown fast container h-100 d-flex justify-content-center align-items-center p-5">
-            <div class="question-wrapper question-wrapper-create">
+            <!-- HIDE QUESTIONS CONTATINER IF THERE ARE NO DIFFICULTIES -->
+            <div class="question-wrapper question-wrapper-create" v-if="difficulties.length !== 0">
                 <div class="d-flex mb-3">
                     <div class="d-inline-block flex-grow-1 mr-1">
                         <label for="questionText" class="lead text-white">Question text:</label>
