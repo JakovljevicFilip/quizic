@@ -20058,28 +20058,36 @@ readers do not read off random characters that represent icons */
   border: none;
   cursor: pointer;
   background: rgba(114, 27, 106, 0.7);
-  color: #fff;
   padding: 10px;
   font-size: 25px;
   transition: all 1s;
   text-shadow: 0px 0px 5px black;
 }
 
-.answer-correct {
+.answer--correct {
   background: darkgreen;
   -webkit-transform: rotateY(360deg);
   /* Safari */
   transform: rotateY(360deg);
 }
 
-.answer-incorrect {
+.answer--incorrect {
   background: red;
   -webkit-transform: rotateY(360deg);
   /* Safari */
   transform: rotateY(360deg);
 }
 
-.answer-grid-template {
+.answer__input {
+  background: none;
+  border: none;
+}
+
+.answer__input:hover {
+  background: #FF9800;
+}
+
+.answer-grid {
   display: grid;
   grid-gap: 15px;
   grid-template-areas: "answer answer" "answer answer";
@@ -20094,7 +20102,7 @@ readers do not read off random characters that represent icons */
   text-decoration: none;
 }
 
-.btn-main {
+.btn__main {
   display: block;
   background: linear-gradient(to right, transparent, rgba(114, 27, 106, 0.7), transparent);
   color: #fff;
@@ -20106,14 +20114,19 @@ readers do not read off random characters that represent icons */
   line-height: 1.5rem;
 }
 
-.btn-main:hover {
+.btn__main:hover {
   color: #fff;
   background: rgba(114, 27, 106, 0.5);
   cursor: pointer;
 }
 
-.btn-main-active {
+.btn__main--active {
   border: solid blue 1px;
+}
+
+.footer {
+  font-size: 1.25rem;
+  font-weight: 300;
 }
 
 .heading {
@@ -20127,13 +20140,46 @@ readers do not read off random characters that represent icons */
   color: white;
 }
 
-.logo-height {
+.icon {
+  font-size: 40px;
+  color: #fff;
+  width: 50px;
+}
+
+.icon--times:hover {
+  color: red;
+}
+
+.icon--confirm:hover {
+  color: darkgreen;
+}
+
+.icon--back {
+  font-size: 65px;
+}
+
+.icon:hover {
+  cursor: pointer;
+}
+
+.logo--height {
   height: 75px;
 }
 
-.logo-animation-delay {
+.logo--animation-delay {
   -webkit-animation-delay: 0.2s;
           animation-delay: 0.2s;
+}
+
+.logout {
+  color: white;
+  opacity: 0.7;
+  font-size: 40px;
+}
+
+.logout:hover {
+  cursor: pointer;
+  opacity: 1;
 }
 
 .app-background {
@@ -20162,21 +20208,14 @@ readers do not read off random characters that represent icons */
   height: 85vh;
 }
 
-.app-footer {
-  font-size: 1.25rem;
-  font-weight: 300;
-}
-
-.authentication-label {
+.authentication__label {
   font-size: 12px;
   text-shadow: 1px 1px 5px #000;
 }
 
-.authentication-toggle {
+.authentication__toggle {
   display: inline-block;
   width: 80px;
-  background-color: #fff;
-  color: #000;
   font-size: 14px;
   text-align: center;
   padding: 6px 14px;
@@ -20185,79 +20224,28 @@ readers do not read off random characters that represent icons */
   border-radius: 5%;
   text-decoration: none;
   text-align: center;
+  background-color: #fff;
+  color: #000;
 }
 
-.authentication-toggle:hover {
+.authentication__toggle:hover {
   color: #000;
   text-decoration: none;
 }
 
-.authentication-toggle-active {
+.authentication__toggle--active {
   background-color: #721b6a;
   text-shadow: black 1px 1px 5px;
   box-shadow: none;
   color: #fff;
 }
 
-.authentication-toggle-active:hover {
+.authentication__toggle--active:hover {
   color: #fff;
   text-decoration: none;
 }
 
-.authentication-heading {
-  text-shadow: 1px 1px 5px #000;
-}
-
-.index-input {
-  color: #fff;
-  background-color: rgba(0, 0, 0, 0.5);
-  border-radius: 20px;
-  padding: 10px;
-  font-size: 1.25rem;
-}
-
-.index-input:focus {
-  color: #000;
-}
-
-.index-icon {
-  font-size: 30px;
-}
-
-.index-icon:hover {
-  cursor: pointer;
-}
-
-.index-edit {
-  font-size: 25px;
-}
-
-.index-edit:hover {
-  color: blueviolet;
-}
-
-.index-delete:hover {
-  color: red;
-}
-
-.menu-logout {
-  color: white;
-  opacity: 0.7;
-  font-size: 40px;
-}
-
-.menu-logout:hover {
-  cursor: pointer;
-  opacity: 1;
-}
-
-.menu-heading {
-  color: #fff;
-  text-shadow: 1px 1px 5px #000;
-  font-size: 1.75rem;
-}
-
-.question-container-outer {
+.question-container--outer {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -20269,25 +20257,25 @@ readers do not read off random characters that represent icons */
   /* Handle on hover */
 }
 
-.question-container-outer ::-webkit-scrollbar {
+.question-container--outer ::-webkit-scrollbar {
   width: 10px;
 }
 
-.question-container-outer ::-webkit-scrollbar-track {
+.question-container--outer ::-webkit-scrollbar-track {
   background: rgba(0, 0, 0, 0.5);
   border-radius: 4px;
 }
 
-.question-container-outer ::-webkit-scrollbar-thumb {
+.question-container--outer ::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.9);
   border-radius: 4px;
 }
 
-.question-container-outer ::-webkit-scrollbar-thumb:hover {
+.question-container--outer ::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.5);
 }
 
-.question-container-inner {
+.question-container--inner {
   height: 50vh;
   overflow: auto;
   overflow-x: hidden;
@@ -20304,36 +20292,7 @@ readers do not read off random characters that represent icons */
   padding: 25px;
 }
 
-.question-field-difficulty {
+.question__select {
   width: 200px;
-}
-
-.question-input {
-  color: white;
-  background: none;
-  border: none;
-}
-
-.question-input:hover {
-  background: #FF9800;
-  color: black;
-}
-
-.question-icon {
-  font-size: 40px;
-  color: #fff;
-  width: 50px;
-}
-
-.question-icon-times:hover {
-  color: red;
-}
-
-.question-icon-confirm:hover {
-  color: darkgreen;
-}
-
-.question-icon:hover {
-  cursor: pointer;
 }
 

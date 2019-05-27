@@ -1,11 +1,11 @@
 <template>
 	<div class="app-wrapper">
-			<div class="text-center pb-5 item animated fadeInDownBig logo-animation-delay">
-				<img src="/img/logo.png" alt="logo" class="logo-height">
+			<div class="text-center pb-5 animated fadeInDownBig logo--animation-delay">
+				<img src="/img/logo.png" alt="logo" class="logo--height">
 			</div>
 			<div class="d-flex justify-content-center">
-				<router-link :to="{ name: 'login' }" class="authentication-toggle flex-grow-1" active-class="authentication-toggle-active">Login</router-link>
-				<router-link :to="{ name: 'register' }" class="authentication-toggle flex-grow-1" active-class="authentication-toggle-active">Register</router-link>
+				<router-link :to="{ name: 'login' }" class="flex-grow-1 authentication__toggle" active-class="authentication__toggle--active">Login</router-link>
+				<router-link :to="{ name: 'register' }" class="flex-grow-1 authentication__toggle" active-class="authentication__toggle--active">Register</router-link>
 			</div>
 			<router-view></router-view>
 	</div>

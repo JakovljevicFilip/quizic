@@ -1,27 +1,28 @@
 <template>
+    <!-- USED TO HIDE PARTS OF ANIMATION THAT ARE OUTSIDE OF CONTAINER BLOCK -->
     <div class="overflow-hidden">
-        <div class="animated slideInDown slow">
+        <div class="animated slideInUp">
                 <h3 class="text-center text-white pt-3 heading">Register</h3>
-                <label for="username" class="authentication-label text-white" >Enter username:</label>
+                <label for="username" class="text-white authentication__label" >Enter username:</label>
                 <input type="text" name="username" class="form-control" v-model="username" v-validate="rules.username">
                 <span class="d-block text-danger">{{ errors.first('username') }}</span>
 
-                <label for="password" class="authentication-label text-white">Enter password:</label>
+                <label for="password" class="text-white authentication__label">Enter password:</label>
                 <!-- ref IS NEEDED FOR PASSWORD CONFIRM FUNCTIONALITY -->
                 <input type="password" name="password" class="form-control" ref="password" v-model="password" v-validate="rules.password">
                 <span class="d-block text-danger">{{ errors.first('password') }}</span>
 
-                <label for="passwordConfirm" class="authentication-label text-white">Confirm password:</label>
+                <label for="passwordConfirm" class="text-white authentication__label">Confirm password:</label>
                 <input type="password" name="passwordConfirm" class="form-control" v-model="passwordConfirm" v-validate="rules.passwordConfirm">
                 <span class="d-block text-danger">{{ errors.first('passwordConfirm') }}</span>
 
 
-                <label for="email" class="authentication-label text-white">Enter email:</label>
+                <label for="email" class="text-white authentication__label">Enter email:</label>
                 <input type="email" name="email" class="form-control" v-model="email" v-validate="rules.email">
                 <span class="d-block text-danger">{{ errors.first('email') }}</span>
 
 
-                <button class="btn btn-main mt-2" @click="registerController" :disabled="errors.any()">Register</button>
+                <button class="btn btn__main mt-2" @click="registerController" :disabled="errors.any()">Register</button>
         </div>
     </div>
 </template>

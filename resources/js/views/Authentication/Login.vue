@@ -1,16 +1,16 @@
 <template>
 <div class="overflow-hidden">
-    <div class="animated slideInDown slow">
+    <div class="animated slideInDown">
 		<h3 class="text-center text-white pt-3 heading">Login</h3>
-		<label for="username" class="authentication-label text-white" >Enter username:</label>
+		<label for="username" class="text-white authentication__label" >Enter username:</label>
 		<input type="text" name="username" class="form-control" v-model="username" v-validate="rules.username">
 		<span class="d-block text-danger">{{ errors.first('username') }}</span>
 
-		<label for="password" class="authentication-label text-white">Enter password:</label>
+		<label for="password" class="text-white authentication__label">Enter password:</label>
 		<input type="password" name="password" class="form-control" v-model="password" v-validate="rules.password">
 		<span class="d-block text-danger">{{ errors.first('password') }}</span>
 
-		<button class="btn btn-main mt-2" @click="loginController" :disabled="errors.any()">Login</button>
+		<button class="btn btn__main mt-2" @click="loginController" :disabled="errors.any()">Login</button>
 	</div>
 </div>
 </template>

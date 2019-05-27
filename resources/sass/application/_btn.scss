@@ -1,0 +1,22 @@
+.btn{
+    &__main{
+        display: block;
+        background: linear-gradient(to right,transparent, rgba(114,27,106,0.7),transparent);
+        color: #fff;
+        text-shadow: 1px 1px 5px #000;
+        font-size:18px;
+        width:180px;
+        font-weight:500;
+        transition:1s;
+        line-height: 1.5rem;
+        &:hover{
+            color: #fff;
+            background: rgba(114,27,106,0.5);
+            cursor: pointer;
+        }
+
+        &--active{
+            border: solid blue 1px;
+        }
+    }
+}

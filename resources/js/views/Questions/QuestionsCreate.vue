@@ -18,19 +18,19 @@
                 </div>
 
                 <p class="lead text-white ml-1 mb-0">Question answers:</p>
-                <div class="answer-grid-template">
-                    <div v-for="answer in question.answers" :key="answer.id" class="text-center answer" :class="{'answer-correct' : answer.status, 'answer-incorrect': !answer.status}">
-                        <input type="text" v-validate="rules.answer" name="answer" v-model="answer.text" class="text-center question-input">
+                <div class="answer-grid">
+                    <div v-for="answer in question.answers" :key="answer.id" class="text-center answer" :class="{'answer--correct' : answer.status, 'answer--incorrect': !answer.status}">
+                        <input type="text" v-validate="rules.answer" name="answer" v-model="answer.text" class="text-center text-white answer__input">
                     </div>
                 </div>
 
                 <div class="text-center my-3">
-                    <i class="fas fa-check question-icon question-icon-confirm" @click="validate"></i>
+                    <i class="fas fa-check question-icon icon icon--confirm" @click="validate"></i>
                 </div>
             </div>
         </div>
-        <div class="text-white text-center ">
-            <i class="fas fa-long-arrow-alt-left back" @click="goBack" alt="back"></i>
+        <div class="text-center">
+            <i class="fas fa-long-arrow-alt-left icon icon--back" @click="goBack" alt="back"></i>
         </div>
     </div>
 </template>

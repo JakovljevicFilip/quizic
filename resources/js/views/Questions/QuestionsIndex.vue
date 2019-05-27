@@ -1,22 +1,22 @@
 <template>
-    <div class="container visible question-container-outer">
+    <div class="container visible question-container--outer">
         <div class="text-center pb-5">
-            <img src="/img/logo.png" alt="logo" class="logo-height">
+            <img src="/img/logo.png" alt="logo" class="logo--height">
         </div>
         <div class="d-flex justify-content-center my-3">
-            <button class="btn btn-main text-center" @click="goQuestionCreate()">New Question</button>
+            <button class="btn text-center btn__main" @click="goQuestionCreate()">New Question</button>
         </div>
         <div class="d-flex justify-content-center mb-3">
-            <div v-for="difficulty in difficulties" :key="difficulty.id" class="mx-3 btn btn-main text-center" :class="{'btn-main-active': difficulty.id === pagination.difficulty}" @click="changeDifficulty(difficulty.id)">{{ difficulty.text }}</div>
+            <div v-for="difficulty in difficulties" :key="difficulty.id" class="mx-3 text-center btn btn__main" :class="{'btn__main--active': difficulty.id === pagination.difficulty}" @click="changeDifficulty(difficulty.id)">{{ difficulty.text }}</div>
         </div>
 
-        <div class="p-3 question-container-inner">
+        <div class="p-3 question-container--inner">
             <!-- HIDE QUESTIONS CONTATINER IF THERE ARE NO QUESTIONS -->
             <div v-if="questions.length !== 0 ">
-                <div v-for="(question, index) in questions" :key="index" class="animated slideInDown fast text-white question-wrapper my-3">
+                <div v-for="(question, index) in questions" :key="index" class="animated slideInDown text-white question-wrapper my-3">
                     <div class="d-flex" v-if="questionEditId !== question.id">
                         <p class="lead px-2 my-auto flex-grow-1">{{ question.text }}</p>
-                        <div class="question-icon">
+                        <div class="icon">
                             <i class="fas fa-angle-down" @click="questionEditId = question.id"></i>
                         </div>
                     </div>
@@ -25,13 +25,13 @@
                     </div>
                 </div>
                 <div class="d-flex justify-content-center">
-                    <button class="btn btn-main text-center w-auto" @click="loadMore()" :disabled="!isNotOnLastPage">{{ loadButtonText }}</button>
+                    <button class="btn text-center w-auto btn__main" @click="loadMore()" :disabled="!isNotOnLastPage">{{ loadButtonText }}</button>
                 </div>
             </div>
         </div>
 
         <div class="text-white text-center">
-            <i class="fas fa-long-arrow-alt-left back" @click="goBack" alt="back"></i>
+            <i class="fas fa-long-arrow-alt-left icon icon--back" @click="goBack" alt="back"></i>
         </div>
     </div>
 </template>

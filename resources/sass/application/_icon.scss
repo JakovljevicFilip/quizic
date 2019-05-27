@@ -1,0 +1,25 @@
+.icon{
+    font-size: 40px;
+    color: #fff;
+    width: 50px;
+
+    &--times{
+        &:hover{
+            color: red;
+        }
+    }
+
+    &--confirm{
+        &:hover{
+            color: darkgreen;
+        }
+    }
+
+    &--back{
+        font-size: 65px;
+    }
+
+    &:hover{
+        cursor: pointer;
+    }
+}

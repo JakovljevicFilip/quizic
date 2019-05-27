@@ -1,33 +1,32 @@
 <template>
     <div>
-
         <div class="d-flex">
             <div class="d-inline-block flex-grow-1 mr-1 p-1">
                 <label for="questionText" class="lead text-white">Question text:</label>
                 <input id="questionText" name="text" class="lead px-1 form-control w-100 input" v-validate="rules.text" v-model="questionClone.text">
             </div>
 
-            <div class="d-inline-block p-1 question-field-difficulty">
+            <div class="d-inline-block p-1 question__select">
                 <label for="difficulty" class="lead text-white">Question difficulty:</label>
                 <select id="difficulty" name="difficulty" class="form-control input" v-model="questionClone.difficulty_id" v-validate="rules.difficulty">
                     <option v-for="difficulty in difficulties" :key="difficulty.id" :value="difficulty.id" :selected="questionClone.difficulty_id === difficulty.id">{{ difficulty.text }}</option>
                 </select>
             </div>
-            <div class="question-icon">
+            <div class="icon">
                 <i class="fas fa-angle-up" @click="closeEdit()"></i>
             </div>
         </div>
 
         <p class="lead text-white ml-1 mb-0">Question answers:</p>
-        <div class="answer-grid-template mb-3 p-3">
-            <div v-for="answer in questionClone.answers" :key="answer.id" class="text-center answer" :class="{'answer-correct' : answer.status, 'answer-incorrect': !answer.status}" @click.self="answerStatusChange(answer)">
-                <input type="text" v-validate="rules.answer" name="answer" v-model="answer.text" class="text-center question-input">
+        <div class="answer-grid mb-3 p-3">
+            <div v-for="answer in questionClone.answers" :key="answer.id" class="text-center answer" :class="{'answer--correct' : answer.status, 'answer--incorrect': !answer.status}" @click.self="answerStatusChange(answer)">
+                <input type="text" v-validate="rules.answer" name="answer" v-model="answer.text" class="text-center text-white answer__input">
             </div>
         </div>
 
         <div class="text-center pb-3">
-            <i class="fas fa-check question-icon question-icon-confirm" @click="validate"></i>
-            <i class="fas fa-times question-icon question-icon-times" @click="deleteController"></i>
+            <i class="fas fa-check icon icon--confirm" @click="validate"></i>
+            <i class="fas fa-times icon icon--times" @click="deleteController"></i>
         </div>
     </div>
 </template>

@@ -20,14 +20,15 @@
 // PARTIALS
 @import './application/answer';
 @import './application/back';
-@import './application/btn-main';
+@import './application/btn';
+@import './application/footer';
 @import './application/heading';
 @import './application/input';
+@import './application/icon';
 @import './application/logo';
+@import './application/logout';
 
 // PAGES
 @import './application/app';
 @import './application/authentication';
-@import './application/index';
-@import './application/menu';
 @import './application/question';

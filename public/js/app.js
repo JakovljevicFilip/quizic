@@ -1432,6 +1432,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -1594,6 +1595,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   methods: {
     logout: function logout() {
+      // RUN VUE-AUTH LOGOUT METHOD
       this.$auth.logout();
     }
   }
@@ -1746,7 +1748,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
 //
 //
 //
@@ -50244,7 +50245,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("footer", { staticClass: "app-footer" }, [
+    return _c("footer", { staticClass: "footer" }, [
       _c("p", { staticClass: "text-center text-white fixed-bottom" }, [
         _vm._v("© 2019 QUIZZIĆ")
       ])
@@ -50285,10 +50286,10 @@ var render = function() {
           _c(
             "router-link",
             {
-              staticClass: "authentication-toggle flex-grow-1",
+              staticClass: "flex-grow-1 authentication__toggle",
               attrs: {
                 to: { name: "login" },
-                "active-class": "authentication-toggle-active"
+                "active-class": "authentication__toggle--active"
               }
             },
             [_vm._v("Login")]
@@ -50297,10 +50298,10 @@ var render = function() {
           _c(
             "router-link",
             {
-              staticClass: "authentication-toggle flex-grow-1",
+              staticClass: "flex-grow-1 authentication__toggle",
               attrs: {
                 to: { name: "register" },
-                "active-class": "authentication-toggle-active"
+                "active-class": "authentication__toggle--active"
               }
             },
             [_vm._v("Register")]
@@ -50323,11 +50324,11 @@ var staticRenderFns = [
       "div",
       {
         staticClass:
-          "text-center pb-5 item animated fadeInDownBig logo-animation-delay"
+          "text-center pb-5 animated fadeInDownBig logo--animation-delay"
       },
       [
         _c("img", {
-          staticClass: "logo-height",
+          staticClass: "logo--height",
           attrs: { src: "/img/logo.png", alt: "logo" }
         })
       ]
@@ -50356,7 +50357,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "overflow-hidden" }, [
-    _c("div", { staticClass: "animated slideInDown slow" }, [
+    _c("div", { staticClass: "animated slideInDown" }, [
       _c("h3", { staticClass: "text-center text-white pt-3 heading" }, [
         _vm._v("Login")
       ]),
@@ -50364,7 +50365,7 @@ var render = function() {
       _c(
         "label",
         {
-          staticClass: "authentication-label text-white",
+          staticClass: "text-white authentication__label",
           attrs: { for: "username" }
         },
         [_vm._v("Enter username:")]
@@ -50405,7 +50406,7 @@ var render = function() {
       _c(
         "label",
         {
-          staticClass: "authentication-label text-white",
+          staticClass: "text-white authentication__label",
           attrs: { for: "password" }
         },
         [_vm._v("Enter password:")]
@@ -50446,7 +50447,7 @@ var render = function() {
       _c(
         "button",
         {
-          staticClass: "btn btn-main mt-2",
+          staticClass: "btn btn__main mt-2",
           attrs: { disabled: _vm.errors.any() },
           on: { click: _vm.loginController }
         },
@@ -50478,7 +50479,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "overflow-hidden" }, [
-    _c("div", { staticClass: "animated slideInDown slow" }, [
+    _c("div", { staticClass: "animated slideInUp" }, [
       _c("h3", { staticClass: "text-center text-white pt-3 heading" }, [
         _vm._v("Register")
       ]),
@@ -50486,7 +50487,7 @@ var render = function() {
       _c(
         "label",
         {
-          staticClass: "authentication-label text-white",
+          staticClass: "text-white authentication__label",
           attrs: { for: "username" }
         },
         [_vm._v("Enter username:")]
@@ -50527,7 +50528,7 @@ var render = function() {
       _c(
         "label",
         {
-          staticClass: "authentication-label text-white",
+          staticClass: "text-white authentication__label",
           attrs: { for: "password" }
         },
         [_vm._v("Enter password:")]
@@ -50569,7 +50570,7 @@ var render = function() {
       _c(
         "label",
         {
-          staticClass: "authentication-label text-white",
+          staticClass: "text-white authentication__label",
           attrs: { for: "passwordConfirm" }
         },
         [_vm._v("Confirm password:")]
@@ -50610,7 +50611,7 @@ var render = function() {
       _c(
         "label",
         {
-          staticClass: "authentication-label text-white",
+          staticClass: "text-white authentication__label",
           attrs: { for: "email" }
         },
         [_vm._v("Enter email:")]
@@ -50651,7 +50652,7 @@ var render = function() {
       _c(
         "button",
         {
-          staticClass: "btn btn-main mt-2",
+          staticClass: "btn btn__main mt-2",
           attrs: { disabled: _vm.errors.any() },
           on: { click: _vm.registerController }
         },
@@ -50721,7 +50722,7 @@ var render = function() {
       _c(
         "router-link",
         {
-          staticClass: "btn mb-2 mx-auto btn-main",
+          staticClass: "btn mb-2 mx-auto btn__main",
           attrs: { to: { name: "menu" } }
         },
         [_vm._v("New Game")]
@@ -50730,7 +50731,7 @@ var render = function() {
       _c(
         "router-link",
         {
-          staticClass: "btn mb-2 mx-auto btn-main",
+          staticClass: "btn mb-2 mx-auto btn__main",
           attrs: { to: { name: "menu" } }
         },
         [_vm._v("Highscores")]
@@ -50739,7 +50740,7 @@ var render = function() {
       _c(
         "router-link",
         {
-          staticClass: "btn mx-auto btn-main",
+          staticClass: "btn mx-auto btn__main",
           attrs: { to: { name: "menu" } }
         },
         [_vm._v("Change password")]
@@ -50750,7 +50751,7 @@ var render = function() {
             _c(
               "router-link",
               {
-                staticClass: "btn mb-2 mx-auto btn-main",
+                staticClass: "btn mb-2 mx-auto btn__main",
                 attrs: { to: { name: "questions.index" } }
               },
               [_vm._v("Questions")]
@@ -50759,7 +50760,7 @@ var render = function() {
             _c(
               "router-link",
               {
-                staticClass: "btn mx-auto btn-main",
+                staticClass: "btn mx-auto btn__main",
                 attrs: { to: { name: "menu" } }
               },
               [_vm._v("Users")]
@@ -50769,7 +50770,7 @@ var render = function() {
       _vm._v(" "),
       _c("div", { staticClass: "text-center mt-4" }, [
         _c("i", {
-          staticClass: "fas fa-power-off menu-logout",
+          staticClass: "fas fa-power-off logout",
           on: { click: _vm.logout }
         })
       ])
@@ -50784,7 +50785,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "text-center pb-5" }, [
       _c("img", {
-        staticClass: "logo-height",
+        staticClass: "logo--height",
         attrs: { src: "/img/logo.png", alt: "logo" }
       })
     ])
@@ -50946,7 +50947,7 @@ var render = function() {
                 _vm._v(" "),
                 _c(
                   "div",
-                  { staticClass: "answer-grid-template" },
+                  { staticClass: "answer-grid" },
                   _vm._l(_vm.question.answers, function(answer) {
                     return _c(
                       "div",
@@ -50954,8 +50955,8 @@ var render = function() {
                         key: answer.id,
                         staticClass: "text-center answer",
                         class: {
-                          "answer-correct": answer.status,
-                          "answer-incorrect": !answer.status
+                          "answer--correct": answer.status,
+                          "answer--incorrect": !answer.status
                         }
                       },
                       [
@@ -50974,7 +50975,7 @@ var render = function() {
                               expression: "answer.text"
                             }
                           ],
-                          staticClass: "text-center question-input",
+                          staticClass: "text-center text-white answer__input",
                           attrs: { type: "text", name: "answer" },
                           domProps: { value: answer.text },
                           on: {
@@ -50995,7 +50996,7 @@ var render = function() {
                 _c("div", { staticClass: "text-center my-3" }, [
                   _c("i", {
                     staticClass:
-                      "fas fa-check question-icon question-icon-confirm",
+                      "fas fa-check question-icon icon icon--confirm",
                     on: { click: _vm.validate }
                   })
                 ])
@@ -51005,9 +51006,9 @@ var render = function() {
       ]
     ),
     _vm._v(" "),
-    _c("div", { staticClass: "text-white text-center " }, [
+    _c("div", { staticClass: "text-center" }, [
       _c("i", {
-        staticClass: "fas fa-long-arrow-alt-left back",
+        staticClass: "fas fa-long-arrow-alt-left icon icon--back",
         attrs: { alt: "back" },
         on: { click: _vm.goBack }
       })
@@ -51074,72 +51075,68 @@ var render = function() {
         })
       ]),
       _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "d-inline-block p-1 question-field-difficulty" },
-        [
-          _c(
-            "label",
-            { staticClass: "lead text-white", attrs: { for: "difficulty" } },
-            [_vm._v("Question difficulty:")]
-          ),
-          _vm._v(" "),
-          _c(
-            "select",
-            {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.questionClone.difficulty_id,
-                  expression: "questionClone.difficulty_id"
-                },
-                {
-                  name: "validate",
-                  rawName: "v-validate",
-                  value: _vm.rules.difficulty,
-                  expression: "rules.difficulty"
-                }
-              ],
-              staticClass: "form-control input",
-              attrs: { id: "difficulty", name: "difficulty" },
-              on: {
-                change: function($event) {
-                  var $$selectedVal = Array.prototype.filter
-                    .call($event.target.options, function(o) {
-                      return o.selected
-                    })
-                    .map(function(o) {
-                      var val = "_value" in o ? o._value : o.value
-                      return val
-                    })
-                  _vm.$set(
-                    _vm.questionClone,
-                    "difficulty_id",
-                    $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-                  )
-                }
+      _c("div", { staticClass: "d-inline-block p-1 question__select" }, [
+        _c(
+          "label",
+          { staticClass: "lead text-white", attrs: { for: "difficulty" } },
+          [_vm._v("Question difficulty:")]
+        ),
+        _vm._v(" "),
+        _c(
+          "select",
+          {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.questionClone.difficulty_id,
+                expression: "questionClone.difficulty_id"
+              },
+              {
+                name: "validate",
+                rawName: "v-validate",
+                value: _vm.rules.difficulty,
+                expression: "rules.difficulty"
               }
-            },
-            _vm._l(_vm.difficulties, function(difficulty) {
-              return _c(
-                "option",
-                {
-                  key: difficulty.id,
-                  domProps: {
-                    value: difficulty.id,
-                    selected: _vm.questionClone.difficulty_id === difficulty.id
-                  }
-                },
-                [_vm._v(_vm._s(difficulty.text))]
-              )
-            }),
-            0
-          )
-        ]
-      ),
+            ],
+            staticClass: "form-control input",
+            attrs: { id: "difficulty", name: "difficulty" },
+            on: {
+              change: function($event) {
+                var $$selectedVal = Array.prototype.filter
+                  .call($event.target.options, function(o) {
+                    return o.selected
+                  })
+                  .map(function(o) {
+                    var val = "_value" in o ? o._value : o.value
+                    return val
+                  })
+                _vm.$set(
+                  _vm.questionClone,
+                  "difficulty_id",
+                  $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+                )
+              }
+            }
+          },
+          _vm._l(_vm.difficulties, function(difficulty) {
+            return _c(
+              "option",
+              {
+                key: difficulty.id,
+                domProps: {
+                  value: difficulty.id,
+                  selected: _vm.questionClone.difficulty_id === difficulty.id
+                }
+              },
+              [_vm._v(_vm._s(difficulty.text))]
+            )
+          }),
+          0
+        )
+      ]),
       _vm._v(" "),
-      _c("div", { staticClass: "question-icon" }, [
+      _c("div", { staticClass: "icon" }, [
         _c("i", {
           staticClass: "fas fa-angle-up",
           on: {
@@ -51157,7 +51154,7 @@ var render = function() {
     _vm._v(" "),
     _c(
       "div",
-      { staticClass: "answer-grid-template mb-3 p-3" },
+      { staticClass: "answer-grid mb-3 p-3" },
       _vm._l(_vm.questionClone.answers, function(answer) {
         return _c(
           "div",
@@ -51165,8 +51162,8 @@ var render = function() {
             key: answer.id,
             staticClass: "text-center answer",
             class: {
-              "answer-correct": answer.status,
-              "answer-incorrect": !answer.status
+              "answer--correct": answer.status,
+              "answer--incorrect": !answer.status
             },
             on: {
               click: function($event) {
@@ -51193,7 +51190,7 @@ var render = function() {
                   expression: "answer.text"
                 }
               ],
-              staticClass: "text-center question-input",
+              staticClass: "text-center text-white answer__input",
               attrs: { type: "text", name: "answer" },
               domProps: { value: answer.text },
               on: {
@@ -51213,12 +51210,12 @@ var render = function() {
     _vm._v(" "),
     _c("div", { staticClass: "text-center pb-3" }, [
       _c("i", {
-        staticClass: "fas fa-check question-icon question-icon-confirm",
+        staticClass: "fas fa-check icon icon--confirm",
         on: { click: _vm.validate }
       }),
       _vm._v(" "),
       _c("i", {
-        staticClass: "fas fa-times question-icon question-icon-times",
+        staticClass: "fas fa-times icon icon--times",
         on: { click: _vm.deleteController }
       })
     ])
@@ -51248,7 +51245,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "container visible question-container-outer" },
+    { staticClass: "container visible question-container--outer" },
     [
       _vm._m(0),
       _vm._v(" "),
@@ -51256,7 +51253,7 @@ var render = function() {
         _c(
           "button",
           {
-            staticClass: "btn btn-main text-center",
+            staticClass: "btn text-center btn__main",
             on: {
               click: function($event) {
                 return _vm.goQuestionCreate()
@@ -51275,9 +51272,9 @@ var render = function() {
             "div",
             {
               key: difficulty.id,
-              staticClass: "mx-3 btn btn-main text-center",
+              staticClass: "mx-3 text-center btn btn__main",
               class: {
-                "btn-main-active": difficulty.id === _vm.pagination.difficulty
+                "btn__main--active": difficulty.id === _vm.pagination.difficulty
               },
               on: {
                 click: function($event) {
@@ -51291,7 +51288,7 @@ var render = function() {
         0
       ),
       _vm._v(" "),
-      _c("div", { staticClass: "p-3 question-container-inner" }, [
+      _c("div", { staticClass: "p-3 question-container--inner" }, [
         _vm.questions.length !== 0
           ? _c(
               "div",
@@ -51302,7 +51299,7 @@ var render = function() {
                     {
                       key: index,
                       staticClass:
-                        "animated slideInDown fast text-white question-wrapper my-3"
+                        "animated slideInDown text-white question-wrapper my-3"
                     },
                     [
                       _vm.questionEditId !== question.id
@@ -51313,7 +51310,7 @@ var render = function() {
                               [_vm._v(_vm._s(question.text))]
                             ),
                             _vm._v(" "),
-                            _c("div", { staticClass: "question-icon" }, [
+                            _c("div", { staticClass: "icon" }, [
                               _c("i", {
                                 staticClass: "fas fa-angle-down",
                                 on: {
@@ -51348,7 +51345,7 @@ var render = function() {
                   _c(
                     "button",
                     {
-                      staticClass: "btn btn-main text-center w-auto",
+                      staticClass: "btn text-center w-auto btn__main",
                       attrs: { disabled: !_vm.isNotOnLastPage },
                       on: {
                         click: function($event) {
@@ -51367,7 +51364,7 @@ var render = function() {
       _vm._v(" "),
       _c("div", { staticClass: "text-white text-center" }, [
         _c("i", {
-          staticClass: "fas fa-long-arrow-alt-left back",
+          staticClass: "fas fa-long-arrow-alt-left icon icon--back",
           attrs: { alt: "back" },
           on: { click: _vm.goBack }
         })
@@ -51382,7 +51379,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "text-center pb-5" }, [
       _c("img", {
-        staticClass: "logo-height",
+        staticClass: "logo--height",
         attrs: { src: "/img/logo.png", alt: "logo" }
       })
     ])
