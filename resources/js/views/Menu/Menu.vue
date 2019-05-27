@@ -26,6 +26,3 @@ export default {
     }
 }
 </script>
-<style lang="scss" scoped>
-    @import "../../../sass/application/menu.scss";
-</style>

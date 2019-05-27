@@ -28,6 +28,3 @@ export default {
 	}
 }
 </script>
-<style lang="scss">
-	@import "../../../sass/application/authentication.scss";
-</style>

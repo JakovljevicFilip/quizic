@@ -15,3 +15,19 @@
 @import '~@fortawesome/fontawesome-free/scss/regular';
 @import '~@fortawesome/fontawesome-free/scss/solid';
 @import '~@fortawesome/fontawesome-free/scss/fontawesome';
+
+// MY STLYES
+// PARTIALS
+@import './application/answer';
+@import './application/back';
+@import './application/btn-main';
+@import './application/heading';
+@import './application/input';
+@import './application/logo';
+
+// PAGES
+@import './application/app';
+@import './application/authentication';
+@import './application/index';
+@import './application/menu';
+@import './application/question';

@@ -45,6 +45,3 @@ export default {
     }
 }
 </script>
-<style lang="scss">
-    @import "../../../sass/application/index.scss";
-</style>
