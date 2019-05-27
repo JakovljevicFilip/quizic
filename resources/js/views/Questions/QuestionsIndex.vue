@@ -10,8 +10,8 @@
             <div v-for="difficulty in difficulties" :key="difficulty.id" class="mx-3 btn btn-main text-center" :class="{'btn-main-active': difficulty.id === pagination.difficulty}" @click="changeDifficulty(difficulty.id)">{{ difficulty.text }}</div>
         </div>
 
-        <div class="question-container-inner p-3">
-            <div v-for="(question, index) in questions" :key="index" class="text-white question-wrapper my-3">
+        <div class="p-3 question-container-inner">
+            <div v-for="(question, index) in questions" :key="index" class="animated slideInDown fast text-white question-wrapper my-3">
                 <div class="d-flex" v-if="questionEditId !== question.id">
                     <p class="lead px-2 my-auto flex-grow-1">{{ question.text }}</p>
                     <div class="question-icon">
@@ -93,6 +93,7 @@ export default {
                 }
                 // SHOULD RESET QUESTIONS ARRAY
                 else{
+                    this.questions = [];
                     // RESET QUESTIONS ARRAY
                     this.questions = response.body.questions;
                 }

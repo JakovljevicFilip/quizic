@@ -1,5 +1,6 @@
 <template>
-	<div>
+<div class="overflow-hidden">
+    <div class="animated slideInDown slow">
 		<h3 class="text-center text-white pt-3 heading">Login</h3>
 		<label for="username" class="authentication-label text-white" >Enter username:</label>
 		<input type="text" name="username" class="form-control" v-model="username" v-validate="rules.username">
@@ -11,6 +12,7 @@
 
 		<button class="btn btn-main mt-2" @click="loginController" :disabled="errors.any()">Login</button>
 	</div>
+</div>
 </template>
 <script>
 	export default({

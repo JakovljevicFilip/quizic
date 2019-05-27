@@ -1,6 +1,6 @@
 <template>
     <div class="app-wrapper">
-        <div class="text-center pb-5 item animated fadeInDownBig logo-animation-delay">
+        <div class="text-center pb-5">
             <img src="/img/logo.png" alt="logo" class="logo-height">
         </div>
         <h3 class="text-center text-white mb-5 heading">Welcome,<br>{{this.$auth.user().username}}</h3>

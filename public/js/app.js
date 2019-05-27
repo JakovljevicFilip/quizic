@@ -1344,6 +1344,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -1403,6 +1405,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
 //
 //
 //
@@ -1994,7 +1998,8 @@ __webpack_require__.r(__webpack_exports__);
           _this2.questions = _this2.questions.concat(response.body.questions);
         } // SHOULD RESET QUESTIONS ARRAY
         else {
-            // RESET QUESTIONS ARRAY
+            _this2.questions = []; // RESET QUESTIONS ARRAY
+
             _this2.questions = response.body.questions;
           } // SET LAST PAGE
 
@@ -50345,102 +50350,104 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("h3", { staticClass: "text-center text-white pt-3 heading" }, [
-      _vm._v("Login")
-    ]),
-    _vm._v(" "),
-    _c(
-      "label",
-      {
-        staticClass: "authentication-label text-white",
-        attrs: { for: "username" }
-      },
-      [_vm._v("Enter username:")]
-    ),
-    _vm._v(" "),
-    _c("input", {
-      directives: [
+  return _c("div", { staticClass: "overflow-hidden" }, [
+    _c("div", { staticClass: "animated slideInDown slow" }, [
+      _c("h3", { staticClass: "text-center text-white pt-3 heading" }, [
+        _vm._v("Login")
+      ]),
+      _vm._v(" "),
+      _c(
+        "label",
         {
-          name: "model",
-          rawName: "v-model",
-          value: _vm.username,
-          expression: "username"
+          staticClass: "authentication-label text-white",
+          attrs: { for: "username" }
         },
-        {
-          name: "validate",
-          rawName: "v-validate",
-          value: _vm.rules.username,
-          expression: "rules.username"
-        }
-      ],
-      staticClass: "form-control",
-      attrs: { type: "text", name: "username" },
-      domProps: { value: _vm.username },
-      on: {
-        input: function($event) {
-          if ($event.target.composing) {
-            return
+        [_vm._v("Enter username:")]
+      ),
+      _vm._v(" "),
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.username,
+            expression: "username"
+          },
+          {
+            name: "validate",
+            rawName: "v-validate",
+            value: _vm.rules.username,
+            expression: "rules.username"
           }
-          _vm.username = $event.target.value
+        ],
+        staticClass: "form-control",
+        attrs: { type: "text", name: "username" },
+        domProps: { value: _vm.username },
+        on: {
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.username = $event.target.value
+          }
         }
-      }
-    }),
-    _vm._v(" "),
-    _c("span", { staticClass: "d-block text-danger" }, [
-      _vm._v(_vm._s(_vm.errors.first("username")))
-    ]),
-    _vm._v(" "),
-    _c(
-      "label",
-      {
-        staticClass: "authentication-label text-white",
-        attrs: { for: "password" }
-      },
-      [_vm._v("Enter password:")]
-    ),
-    _vm._v(" "),
-    _c("input", {
-      directives: [
+      }),
+      _vm._v(" "),
+      _c("span", { staticClass: "d-block text-danger" }, [
+        _vm._v(_vm._s(_vm.errors.first("username")))
+      ]),
+      _vm._v(" "),
+      _c(
+        "label",
         {
-          name: "model",
-          rawName: "v-model",
-          value: _vm.password,
-          expression: "password"
+          staticClass: "authentication-label text-white",
+          attrs: { for: "password" }
         },
-        {
-          name: "validate",
-          rawName: "v-validate",
-          value: _vm.rules.password,
-          expression: "rules.password"
-        }
-      ],
-      staticClass: "form-control",
-      attrs: { type: "password", name: "password" },
-      domProps: { value: _vm.password },
-      on: {
-        input: function($event) {
-          if ($event.target.composing) {
-            return
+        [_vm._v("Enter password:")]
+      ),
+      _vm._v(" "),
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.password,
+            expression: "password"
+          },
+          {
+            name: "validate",
+            rawName: "v-validate",
+            value: _vm.rules.password,
+            expression: "rules.password"
           }
-          _vm.password = $event.target.value
+        ],
+        staticClass: "form-control",
+        attrs: { type: "password", name: "password" },
+        domProps: { value: _vm.password },
+        on: {
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.password = $event.target.value
+          }
         }
-      }
-    }),
-    _vm._v(" "),
-    _c("span", { staticClass: "d-block text-danger" }, [
-      _vm._v(_vm._s(_vm.errors.first("password")))
-    ]),
-    _vm._v(" "),
-    _c(
-      "button",
-      {
-        staticClass: "btn btn-main mt-2",
-        attrs: { disabled: _vm.errors.any() },
-        on: { click: _vm.loginController }
-      },
-      [_vm._v("Login")]
-    )
+      }),
+      _vm._v(" "),
+      _c("span", { staticClass: "d-block text-danger" }, [
+        _vm._v(_vm._s(_vm.errors.first("password")))
+      ]),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-main mt-2",
+          attrs: { disabled: _vm.errors.any() },
+          on: { click: _vm.loginController }
+        },
+        [_vm._v("Login")]
+      )
+    ])
   ])
 }
 var staticRenderFns = []
@@ -50465,185 +50472,187 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("h3", { staticClass: "text-center text-white pt-3 heading" }, [
-      _vm._v("Register")
-    ]),
-    _vm._v(" "),
-    _c(
-      "label",
-      {
-        staticClass: "authentication-label text-white",
-        attrs: { for: "username" }
-      },
-      [_vm._v("Enter username:")]
-    ),
-    _vm._v(" "),
-    _c("input", {
-      directives: [
+  return _c("div", { staticClass: "overflow-hidden" }, [
+    _c("div", { staticClass: "animated slideInDown slow" }, [
+      _c("h3", { staticClass: "text-center text-white pt-3 heading" }, [
+        _vm._v("Register")
+      ]),
+      _vm._v(" "),
+      _c(
+        "label",
         {
-          name: "model",
-          rawName: "v-model",
-          value: _vm.username,
-          expression: "username"
+          staticClass: "authentication-label text-white",
+          attrs: { for: "username" }
         },
-        {
-          name: "validate",
-          rawName: "v-validate",
-          value: _vm.rules.username,
-          expression: "rules.username"
-        }
-      ],
-      staticClass: "form-control",
-      attrs: { type: "text", name: "username" },
-      domProps: { value: _vm.username },
-      on: {
-        input: function($event) {
-          if ($event.target.composing) {
-            return
+        [_vm._v("Enter username:")]
+      ),
+      _vm._v(" "),
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.username,
+            expression: "username"
+          },
+          {
+            name: "validate",
+            rawName: "v-validate",
+            value: _vm.rules.username,
+            expression: "rules.username"
           }
-          _vm.username = $event.target.value
+        ],
+        staticClass: "form-control",
+        attrs: { type: "text", name: "username" },
+        domProps: { value: _vm.username },
+        on: {
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.username = $event.target.value
+          }
         }
-      }
-    }),
-    _vm._v(" "),
-    _c("span", { staticClass: "d-block text-danger" }, [
-      _vm._v(_vm._s(_vm.errors.first("username")))
-    ]),
-    _vm._v(" "),
-    _c(
-      "label",
-      {
-        staticClass: "authentication-label text-white",
-        attrs: { for: "password" }
-      },
-      [_vm._v("Enter password:")]
-    ),
-    _vm._v(" "),
-    _c("input", {
-      directives: [
+      }),
+      _vm._v(" "),
+      _c("span", { staticClass: "d-block text-danger" }, [
+        _vm._v(_vm._s(_vm.errors.first("username")))
+      ]),
+      _vm._v(" "),
+      _c(
+        "label",
         {
-          name: "model",
-          rawName: "v-model",
-          value: _vm.password,
-          expression: "password"
+          staticClass: "authentication-label text-white",
+          attrs: { for: "password" }
         },
-        {
-          name: "validate",
-          rawName: "v-validate",
-          value: _vm.rules.password,
-          expression: "rules.password"
-        }
-      ],
-      ref: "password",
-      staticClass: "form-control",
-      attrs: { type: "password", name: "password" },
-      domProps: { value: _vm.password },
-      on: {
-        input: function($event) {
-          if ($event.target.composing) {
-            return
+        [_vm._v("Enter password:")]
+      ),
+      _vm._v(" "),
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.password,
+            expression: "password"
+          },
+          {
+            name: "validate",
+            rawName: "v-validate",
+            value: _vm.rules.password,
+            expression: "rules.password"
           }
-          _vm.password = $event.target.value
+        ],
+        ref: "password",
+        staticClass: "form-control",
+        attrs: { type: "password", name: "password" },
+        domProps: { value: _vm.password },
+        on: {
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.password = $event.target.value
+          }
         }
-      }
-    }),
-    _vm._v(" "),
-    _c("span", { staticClass: "d-block text-danger" }, [
-      _vm._v(_vm._s(_vm.errors.first("password")))
-    ]),
-    _vm._v(" "),
-    _c(
-      "label",
-      {
-        staticClass: "authentication-label text-white",
-        attrs: { for: "passwordConfirm" }
-      },
-      [_vm._v("Confirm password:")]
-    ),
-    _vm._v(" "),
-    _c("input", {
-      directives: [
+      }),
+      _vm._v(" "),
+      _c("span", { staticClass: "d-block text-danger" }, [
+        _vm._v(_vm._s(_vm.errors.first("password")))
+      ]),
+      _vm._v(" "),
+      _c(
+        "label",
         {
-          name: "model",
-          rawName: "v-model",
-          value: _vm.passwordConfirm,
-          expression: "passwordConfirm"
+          staticClass: "authentication-label text-white",
+          attrs: { for: "passwordConfirm" }
         },
-        {
-          name: "validate",
-          rawName: "v-validate",
-          value: _vm.rules.passwordConfirm,
-          expression: "rules.passwordConfirm"
-        }
-      ],
-      staticClass: "form-control",
-      attrs: { type: "password", name: "passwordConfirm" },
-      domProps: { value: _vm.passwordConfirm },
-      on: {
-        input: function($event) {
-          if ($event.target.composing) {
-            return
+        [_vm._v("Confirm password:")]
+      ),
+      _vm._v(" "),
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.passwordConfirm,
+            expression: "passwordConfirm"
+          },
+          {
+            name: "validate",
+            rawName: "v-validate",
+            value: _vm.rules.passwordConfirm,
+            expression: "rules.passwordConfirm"
           }
-          _vm.passwordConfirm = $event.target.value
+        ],
+        staticClass: "form-control",
+        attrs: { type: "password", name: "passwordConfirm" },
+        domProps: { value: _vm.passwordConfirm },
+        on: {
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.passwordConfirm = $event.target.value
+          }
         }
-      }
-    }),
-    _vm._v(" "),
-    _c("span", { staticClass: "d-block text-danger" }, [
-      _vm._v(_vm._s(_vm.errors.first("passwordConfirm")))
-    ]),
-    _vm._v(" "),
-    _c(
-      "label",
-      {
-        staticClass: "authentication-label text-white",
-        attrs: { for: "email" }
-      },
-      [_vm._v("Enter email:")]
-    ),
-    _vm._v(" "),
-    _c("input", {
-      directives: [
+      }),
+      _vm._v(" "),
+      _c("span", { staticClass: "d-block text-danger" }, [
+        _vm._v(_vm._s(_vm.errors.first("passwordConfirm")))
+      ]),
+      _vm._v(" "),
+      _c(
+        "label",
         {
-          name: "model",
-          rawName: "v-model",
-          value: _vm.email,
-          expression: "email"
+          staticClass: "authentication-label text-white",
+          attrs: { for: "email" }
         },
-        {
-          name: "validate",
-          rawName: "v-validate",
-          value: _vm.rules.email,
-          expression: "rules.email"
-        }
-      ],
-      staticClass: "form-control",
-      attrs: { type: "email", name: "email" },
-      domProps: { value: _vm.email },
-      on: {
-        input: function($event) {
-          if ($event.target.composing) {
-            return
+        [_vm._v("Enter email:")]
+      ),
+      _vm._v(" "),
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.email,
+            expression: "email"
+          },
+          {
+            name: "validate",
+            rawName: "v-validate",
+            value: _vm.rules.email,
+            expression: "rules.email"
           }
-          _vm.email = $event.target.value
+        ],
+        staticClass: "form-control",
+        attrs: { type: "email", name: "email" },
+        domProps: { value: _vm.email },
+        on: {
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.email = $event.target.value
+          }
         }
-      }
-    }),
-    _vm._v(" "),
-    _c("span", { staticClass: "d-block text-danger" }, [
-      _vm._v(_vm._s(_vm.errors.first("email")))
-    ]),
-    _vm._v(" "),
-    _c(
-      "button",
-      {
-        staticClass: "btn btn-main mt-2",
-        attrs: { disabled: _vm.errors.any() },
-        on: { click: _vm.registerController }
-      },
-      [_vm._v("Register")]
-    )
+      }),
+      _vm._v(" "),
+      _c("span", { staticClass: "d-block text-danger" }, [
+        _vm._v(_vm._s(_vm.errors.first("email")))
+      ]),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-main mt-2",
+          attrs: { disabled: _vm.errors.any() },
+          on: { click: _vm.registerController }
+        },
+        [_vm._v("Register")]
+      )
+    ])
   ])
 }
 var staticRenderFns = []
@@ -50768,19 +50777,12 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass:
-          "text-center pb-5 item animated fadeInDownBig logo-animation-delay"
-      },
-      [
-        _c("img", {
-          staticClass: "logo-height",
-          attrs: { src: "/img/logo.png", alt: "logo" }
-        })
-      ]
-    )
+    return _c("div", { staticClass: "text-center pb-5" }, [
+      _c("img", {
+        staticClass: "logo-height",
+        attrs: { src: "/img/logo.png", alt: "logo" }
+      })
+    ])
   }
 ]
 render._withStripped = true
@@ -50809,7 +50811,7 @@ var render = function() {
       "div",
       {
         staticClass:
-          "container h-100 d-flex justify-content-center align-items-center p-5"
+          "animated slideInDown fast container h-100 d-flex justify-content-center align-items-center p-5"
       },
       [
         _c("div", { staticClass: "question-wrapper question-wrapper-create" }, [
@@ -51270,12 +51272,16 @@ var render = function() {
       _vm._v(" "),
       _c(
         "div",
-        { staticClass: "question-container-inner p-3" },
+        { staticClass: "p-3 question-container-inner" },
         [
           _vm._l(_vm.questions, function(question, index) {
             return _c(
               "div",
-              { key: index, staticClass: "text-white question-wrapper my-3" },
+              {
+                key: index,
+                staticClass:
+                  "animated slideInDown fast text-white question-wrapper my-3"
+              },
               [
                 _vm.questionEditId !== question.id
                   ? _c("div", { staticClass: "d-flex" }, [

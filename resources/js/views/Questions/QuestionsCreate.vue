@@ -1,6 +1,6 @@
 <template>
     <div class="app-container-height">
-        <div class="container h-100 d-flex justify-content-center align-items-center p-5">
+        <div class="animated slideInDown fast container h-100 d-flex justify-content-center align-items-center p-5">
             <div class="question-wrapper question-wrapper-create">
                 <div class="d-flex mb-3">
                     <div class="d-inline-block flex-grow-1 mr-1">

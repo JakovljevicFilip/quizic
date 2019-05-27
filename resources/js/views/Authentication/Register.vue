@@ -1,27 +1,29 @@
 <template>
-	<div>
-		<h3 class="text-center text-white pt-3 heading">Register</h3>
-		<label for="username" class="authentication-label text-white" >Enter username:</label>
-		<input type="text" name="username" class="form-control" v-model="username" v-validate="rules.username">
-		<span class="d-block text-danger">{{ errors.first('username') }}</span>
+    <div class="overflow-hidden">
+        <div class="animated slideInDown slow">
+                <h3 class="text-center text-white pt-3 heading">Register</h3>
+                <label for="username" class="authentication-label text-white" >Enter username:</label>
+                <input type="text" name="username" class="form-control" v-model="username" v-validate="rules.username">
+                <span class="d-block text-danger">{{ errors.first('username') }}</span>
 
-		<label for="password" class="authentication-label text-white">Enter password:</label>
-		<!-- ref IS NEEDED FOR PASSWORD CONFIRM FUNCTIONALITY -->
-		<input type="password" name="password" class="form-control" ref="password" v-model="password" v-validate="rules.password">
-		<span class="d-block text-danger">{{ errors.first('password') }}</span>
+                <label for="password" class="authentication-label text-white">Enter password:</label>
+                <!-- ref IS NEEDED FOR PASSWORD CONFIRM FUNCTIONALITY -->
+                <input type="password" name="password" class="form-control" ref="password" v-model="password" v-validate="rules.password">
+                <span class="d-block text-danger">{{ errors.first('password') }}</span>
 
-		<label for="passwordConfirm" class="authentication-label text-white">Confirm password:</label>
-		<input type="password" name="passwordConfirm" class="form-control" v-model="passwordConfirm" v-validate="rules.passwordConfirm">
-		<span class="d-block text-danger">{{ errors.first('passwordConfirm') }}</span>
-
-
-		<label for="email" class="authentication-label text-white">Enter email:</label>
-		<input type="email" name="email" class="form-control" v-model="email" v-validate="rules.email">
-		<span class="d-block text-danger">{{ errors.first('email') }}</span>
+                <label for="passwordConfirm" class="authentication-label text-white">Confirm password:</label>
+                <input type="password" name="passwordConfirm" class="form-control" v-model="passwordConfirm" v-validate="rules.passwordConfirm">
+                <span class="d-block text-danger">{{ errors.first('passwordConfirm') }}</span>
 
 
-		<button class="btn btn-main mt-2" @click="registerController" :disabled="errors.any()">Register</button>
-	</div>
+                <label for="email" class="authentication-label text-white">Enter email:</label>
+                <input type="email" name="email" class="form-control" v-model="email" v-validate="rules.email">
+                <span class="d-block text-danger">{{ errors.first('email') }}</span>
+
+
+                <button class="btn btn-main mt-2" @click="registerController" :disabled="errors.any()">Register</button>
+        </div>
+    </div>
 </template>
 <script>
 	export default({
