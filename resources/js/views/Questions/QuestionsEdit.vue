@@ -74,7 +74,7 @@ export default {
     },
     methods: {
         setQuestionClone(){
-            // KEEP ORIGINAL QUESTION DATA AND EDIT NEW OBJECT
+            // KEEP ORIGINAL QUESTION DATA AND EDIT NEW OBJECT INSTEAD
             this.questionClone = JSON.parse(JSON.stringify(this.question));
         },
 
@@ -90,7 +90,7 @@ export default {
             let answers = this.questionClone.answers;
             // ITTERATE THROUGH ANSWERS
             for(let i=0; i < answers.length; i++){
-                // ANSWER IS NOT RECENTLY CHANGED ONE
+                // ANSWER IS NOT THE RECENTLY CHANGED ONE
                 if(answers[i].id !== avoid)
                     // SET TO INCORRECT ANSWER
                     answers[i].status = 0;
@@ -107,8 +107,6 @@ export default {
                 }
                 // VALIDATION DIDN'T PASS
                 else{
-                    // SHOW ERROR MESSAGES BENEATH INPUT FIELDS
-                    this.$validator.validateAll();
                     // SHOW ALERT
                     let message = this.$validator.errors.all()[0];
                     this.$swal('Question', message, 'error');
@@ -119,6 +117,7 @@ export default {
         questionUpdate(){
             this.$http.put('questions', this.questionClone)
             .then(response => {
+                // RELOAD QUESTIONS ARRAY ON PARENT COMPONENT
                 this.$emit('reloadQuestions');
             })
             .catch(error => {});
@@ -139,18 +138,19 @@ export default {
         questionDelete(){
             this.$http.delete('questions/'+this.question.id)
             .then(response => {
-                // RELOAD QUESTIONS
+                // RELOAD QUESTIONS ARRAY ON PARENT COMPONENT
                 this.$emit('reloadQuestions');
             })
             .catch(error => {});
         },
 
         closeEdit(){
-            // TOGGLE EDIT VIEW
+            // RESETS EDIT VIEW
             this.$emit('closeEdit');
         },
     },
     created(){
+        // CLONE QUESTION SO THAT ORIGINAL WOULDN'T BE CHANGED
         this.setQuestionClone();
     }
 }

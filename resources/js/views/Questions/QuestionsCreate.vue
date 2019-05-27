@@ -1,32 +1,30 @@
 <template>
     <div class="app-container-height">
         <div class="container h-100 d-flex justify-content-center align-items-center p-5">
-            <div>
-                <div class="question-wrapper question-wrapper-create">
-                    <div class="d-flex mb-3">
-                        <div class="d-inline-block flex-grow-1 mr-1">
-                            <label for="questionText" class="lead text-white">Question text:</label>
-                            <input id="questionText" name="text" class="lead px-1 form-control w-100 input" v-validate="rules.text" v-model="question.text">
-                        </div>
-
-                        <div class="d-inline-block question-field-text">
-                            <label for="difficulty" class="lead text-white">Question difficulty:</label>
-                            <select id="difficulty" name="difficulty" class="form-control input" v-model="question.difficulty_id" v-validate="rules.difficulty">
-                                <option v-for="difficulty in difficulties" :key="difficulty.id" :value="difficulty.id" :selected="question.difficulty_id === difficulty.id">{{ difficulty.text }}</option>
-                            </select>
-                        </div>
+            <div class="question-wrapper question-wrapper-create">
+                <div class="d-flex mb-3">
+                    <div class="d-inline-block flex-grow-1 mr-1">
+                        <label for="questionText" class="lead text-white">Question text:</label>
+                        <input id="questionText" name="text" class="lead px-1 form-control w-100 input" v-validate="rules.text" v-model="question.text">
                     </div>
 
-                    <p class="lead text-white ml-1 mb-0">Question answers:</p>
-                    <div class="answer-grid-template">
-                        <div v-for="answer in question.answers" :key="answer.id" class="text-center answer" :class="{'answer-correct' : answer.status, 'answer-incorrect': !answer.status}">
-                            <input type="text" v-validate="rules.answer" name="answer" v-model="answer.text" class="text-center question-input">
-                        </div>
+                    <div class="d-inline-block question-field-text">
+                        <label for="difficulty" class="lead text-white">Question difficulty:</label>
+                        <select id="difficulty" name="difficulty" class="form-control input" v-model="question.difficulty_id" v-validate="rules.difficulty">
+                            <option v-for="difficulty in difficulties" :key="difficulty.id" :value="difficulty.id" :selected="question.difficulty_id === difficulty.id">{{ difficulty.text }}</option>
+                        </select>
                     </div>
+                </div>
 
-                    <div class="text-center my-3">
-                        <i class="fas fa-check question-icon question-icon-confirm" @click="validate"></i>
+                <p class="lead text-white ml-1 mb-0">Question answers:</p>
+                <div class="answer-grid-template">
+                    <div v-for="answer in question.answers" :key="answer.id" class="text-center answer" :class="{'answer-correct' : answer.status, 'answer-incorrect': !answer.status}">
+                        <input type="text" v-validate="rules.answer" name="answer" v-model="answer.text" class="text-center question-input">
                     </div>
+                </div>
+
+                <div class="text-center my-3">
+                    <i class="fas fa-check question-icon question-icon-confirm" @click="validate"></i>
                 </div>
             </div>
         </div>
@@ -58,11 +56,10 @@ export default {
                 // SET DEFAULT VALUES FOR QUESTION FIELDS
                 this.setDefaultQuestionValues();
             })
-            .catch(error => {
-                console.log(error);
-            })
+            .catch(error => {})
         },
         setDefaultDifficulty(){
+            // SET SELECTED QUESTION DIFFICULTY TO THE FIRST ARRAY MEMBER
             this.question.difficulty_id = this.difficulties[0].id;
         },
         validate(){
@@ -86,7 +83,7 @@ export default {
         questionStore(){
             this.$http.post('questions', this.question)
             .then(repsonse => {
-                // RESET FIELDS
+                // RESET QUESTION FIELDS
                 this.setDefaultQuestionValues();
             })
             .catch(error => {
@@ -94,6 +91,7 @@ export default {
             });
         },
         setDefaultQuestionValues(){
+            // DEFAULT QUESTION FIELDS
             this.question = {
                 text: 'Enter text here.',
                 difficulty_id: this.difficulties[0].id,
@@ -124,6 +122,7 @@ export default {
         },
     },
     mounted(){
+        // FETCH DIFFICULTIES
         this.getDifficulties();
     }
 }

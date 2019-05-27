@@ -50,7 +50,9 @@ export default {
                 // LAST PAGE FOR PAGIANTION
                 last_page: null,
             },
+            // ARRAY USED FOR SHOWING QUESTIONS
             questions: [],
+            // DIFFICULTY NAVIGATION BUTTONS
             difficulties: [],
             // ID OF QUESTION THAT IS BEING EDITED
             questionEditId: null,
@@ -68,11 +70,11 @@ export default {
         getDifficulties(){
             this.$http.get('difficulties')
             .then(response =>{
+                // SETS DIFFICULTY BUTTONS
                 this.difficulties = response.body.difficulties;
             })
-            .catch(error => {
-                console.log(error);
-            });
+            // CATCHES ERROR IF THERE IS ONE
+            .catch(error => {});
         },
 
         getQuestions(append){
@@ -99,17 +101,19 @@ export default {
                 // INCREMENT CURRENT PAGE
                 this.pagination.page++;
             })
-            .catch(error => {
-                console.log(error);
-            });
+
+            .catch(error => {});
         },
 
         goBack(){
+            // GO BACK TO MENU
             this.$router.push('/menu');
         },
 
         loadMore(){
+            // ARE THERE MORE QUESTIONS THAT COULD BE FETCHED
             if(this.isNotOnLastPage){
+                // FETCH QUESTIONS
                 this.getQuestions(true);
             }
         },
@@ -117,17 +121,19 @@ export default {
         changeDifficulty(difficulty){
             // SET NEW DIFFICULTY
             this.pagination.difficulty = difficulty;
-            // RESET PAGE PROPERTY
+            // RESET CURRENT PAGE PROPERTY USED FOR PAGIANTION
             this.pagination.page = 1;
+            // FETCH QUESTIONS
             this.getQuestions();
         },
 
         goQuestionCreate(){
+            // GO TO QUESTION CREATE PAGE
             this.$router.push('questions/create');
         },
 
         reloadQuestions(){
-            // RESET PAGINATION PAGE
+            // RESET PAGINATION PAGE PROPERTY
             this.pagination.page = 1;
             // FETCH QUESTIONS AGAIN
             this.getQuestions();
@@ -141,10 +147,13 @@ export default {
         }
     },
     created(){
+        // GET DIFFICULTIES
         this.getDifficulties();
+        // GET QUESTIONS
         this.getQuestions();
     },
     components: {
+        // COMPONENT FOR QUESTION EDITING
         QuestionsEdit
     }
 }

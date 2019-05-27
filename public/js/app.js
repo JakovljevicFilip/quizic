@@ -1642,8 +1642,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -1665,11 +1663,10 @@ __webpack_require__.r(__webpack_exports__);
         _this.difficulties = response.body.difficulties; // SET DEFAULT VALUES FOR QUESTION FIELDS
 
         _this.setDefaultQuestionValues();
-      })["catch"](function (error) {
-        console.log(error);
-      });
+      })["catch"](function (error) {});
     },
     setDefaultDifficulty: function setDefaultDifficulty() {
+      // SET SELECTED QUESTION DIFFICULTY TO THE FIRST ARRAY MEMBER
       this.question.difficulty_id = this.difficulties[0].id;
     },
     validate: function validate() {
@@ -1696,13 +1693,14 @@ __webpack_require__.r(__webpack_exports__);
       var _this3 = this;
 
       this.$http.post('questions', this.question).then(function (repsonse) {
-        // RESET FIELDS
+        // RESET QUESTION FIELDS
         _this3.setDefaultQuestionValues();
       })["catch"](function (error) {
         console.log(error);
       });
     },
     setDefaultQuestionValues: function setDefaultQuestionValues() {
+      // DEFAULT QUESTION FIELDS
       this.question = {
         text: 'Enter text here.',
         difficulty_id: this.difficulties[0].id,
@@ -1727,6 +1725,7 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
+    // FETCH DIFFICULTIES
     this.getDifficulties();
   }
 });
@@ -1817,7 +1816,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     setQuestionClone: function setQuestionClone() {
-      // KEEP ORIGINAL QUESTION DATA AND EDIT NEW OBJECT
+      // KEEP ORIGINAL QUESTION DATA AND EDIT NEW OBJECT INSTEAD
       this.questionClone = JSON.parse(JSON.stringify(this.question));
     },
     answerStatusChange: function answerStatusChange(answer) {
@@ -1831,7 +1830,7 @@ __webpack_require__.r(__webpack_exports__);
       var answers = this.questionClone.answers; // ITTERATE THROUGH ANSWERS
 
       for (var i = 0; i < answers.length; i++) {
-        // ANSWER IS NOT RECENTLY CHANGED ONE
+        // ANSWER IS NOT THE RECENTLY CHANGED ONE
         if (answers[i].id !== avoid) // SET TO INCORRECT ANSWER
           answers[i].status = 0;
       }
@@ -1846,10 +1845,7 @@ __webpack_require__.r(__webpack_exports__);
           _this.questionUpdate();
         } // VALIDATION DIDN'T PASS
         else {
-            // SHOW ERROR MESSAGES BENEATH INPUT FIELDS
-            _this.$validator.validateAll(); // SHOW ALERT
-
-
+            // SHOW ALERT
             var message = _this.$validator.errors.all()[0];
 
             _this.$swal('Question', message, 'error');
@@ -1860,6 +1856,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       this.$http.put('questions', this.questionClone).then(function (response) {
+        // RELOAD QUESTIONS ARRAY ON PARENT COMPONENT
         _this2.$emit('reloadQuestions');
       })["catch"](function (error) {});
     },
@@ -1879,16 +1876,17 @@ __webpack_require__.r(__webpack_exports__);
       var _this4 = this;
 
       this.$http["delete"]('questions/' + this.question.id).then(function (response) {
-        // RELOAD QUESTIONS
+        // RELOAD QUESTIONS ARRAY ON PARENT COMPONENT
         _this4.$emit('reloadQuestions');
       })["catch"](function (error) {});
     },
     closeEdit: function closeEdit() {
-      // TOGGLE EDIT VIEW
+      // RESETS EDIT VIEW
       this.$emit('closeEdit');
     }
   },
   created: function created() {
+    // CLONE QUESTION SO THAT ORIGINAL WOULDN'T BE CHANGED
     this.setQuestionClone();
   }
 });
@@ -1954,7 +1952,9 @@ __webpack_require__.r(__webpack_exports__);
         // LAST PAGE FOR PAGIANTION
         last_page: null
       },
+      // ARRAY USED FOR SHOWING QUESTIONS
       questions: [],
+      // DIFFICULTY NAVIGATION BUTTONS
       difficulties: [],
       // ID OF QUESTION THAT IS BEING EDITED
       questionEditId: null
@@ -1973,10 +1973,10 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       this.$http.get('difficulties').then(function (response) {
+        // SETS DIFFICULTY BUTTONS
         _this.difficulties = response.body.difficulties;
-      })["catch"](function (error) {
-        console.log(error);
-      });
+      }) // CATCHES ERROR IF THERE IS ONE
+      ["catch"](function (error) {});
     },
     getQuestions: function getQuestions(append) {
       var _this2 = this;
@@ -2002,30 +2002,33 @@ __webpack_require__.r(__webpack_exports__);
         _this2.pagination.last_page = response.body.last_page; // INCREMENT CURRENT PAGE
 
         _this2.pagination.page++;
-      })["catch"](function (error) {
-        console.log(error);
-      });
+      })["catch"](function (error) {});
     },
     goBack: function goBack() {
+      // GO BACK TO MENU
       this.$router.push('/menu');
     },
     loadMore: function loadMore() {
+      // ARE THERE MORE QUESTIONS THAT COULD BE FETCHED
       if (this.isNotOnLastPage) {
+        // FETCH QUESTIONS
         this.getQuestions(true);
       }
     },
     changeDifficulty: function changeDifficulty(difficulty) {
       // SET NEW DIFFICULTY
-      this.pagination.difficulty = difficulty; // RESET PAGE PROPERTY
+      this.pagination.difficulty = difficulty; // RESET CURRENT PAGE PROPERTY USED FOR PAGIANTION
 
-      this.pagination.page = 1;
+      this.pagination.page = 1; // FETCH QUESTIONS
+
       this.getQuestions();
     },
     goQuestionCreate: function goQuestionCreate() {
+      // GO TO QUESTION CREATE PAGE
       this.$router.push('questions/create');
     },
     reloadQuestions: function reloadQuestions() {
-      // RESET PAGINATION PAGE
+      // RESET PAGINATION PAGE PROPERTY
       this.pagination.page = 1; // FETCH QUESTIONS AGAIN
 
       this.getQuestions(); // RESET EDIT VIEW
@@ -2038,10 +2041,13 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   created: function created() {
-    this.getDifficulties();
+    // GET DIFFICULTIES
+    this.getDifficulties(); // GET QUESTIONS
+
     this.getQuestions();
   },
   components: {
+    // COMPONENT FOR QUESTION EDITING
     QuestionsEdit: _QuestionsEdit__WEBPACK_IMPORTED_MODULE_0__["default"]
   }
 });
@@ -51100,184 +51106,172 @@ var render = function() {
           "container h-100 d-flex justify-content-center align-items-center p-5"
       },
       [
-        _c("div", [
+        _c("div", { staticClass: "question-wrapper question-wrapper-create" }, [
+          _c("div", { staticClass: "d-flex mb-3" }, [
+            _c("div", { staticClass: "d-inline-block flex-grow-1 mr-1" }, [
+              _c(
+                "label",
+                {
+                  staticClass: "lead text-white",
+                  attrs: { for: "questionText" }
+                },
+                [_vm._v("Question text:")]
+              ),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "validate",
+                    rawName: "v-validate",
+                    value: _vm.rules.text,
+                    expression: "rules.text"
+                  },
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.question.text,
+                    expression: "question.text"
+                  }
+                ],
+                staticClass: "lead px-1 form-control w-100 input",
+                attrs: { id: "questionText", name: "text" },
+                domProps: { value: _vm.question.text },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.question, "text", $event.target.value)
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "d-inline-block question-field-text" }, [
+              _c(
+                "label",
+                {
+                  staticClass: "lead text-white",
+                  attrs: { for: "difficulty" }
+                },
+                [_vm._v("Question difficulty:")]
+              ),
+              _vm._v(" "),
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.question.difficulty_id,
+                      expression: "question.difficulty_id"
+                    },
+                    {
+                      name: "validate",
+                      rawName: "v-validate",
+                      value: _vm.rules.difficulty,
+                      expression: "rules.difficulty"
+                    }
+                  ],
+                  staticClass: "form-control input",
+                  attrs: { id: "difficulty", name: "difficulty" },
+                  on: {
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.$set(
+                        _vm.question,
+                        "difficulty_id",
+                        $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      )
+                    }
+                  }
+                },
+                _vm._l(_vm.difficulties, function(difficulty) {
+                  return _c(
+                    "option",
+                    {
+                      key: difficulty.id,
+                      domProps: {
+                        value: difficulty.id,
+                        selected: _vm.question.difficulty_id === difficulty.id
+                      }
+                    },
+                    [_vm._v(_vm._s(difficulty.text))]
+                  )
+                }),
+                0
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _c("p", { staticClass: "lead text-white ml-1 mb-0" }, [
+            _vm._v("Question answers:")
+          ]),
+          _vm._v(" "),
           _c(
             "div",
-            { staticClass: "question-wrapper question-wrapper-create" },
-            [
-              _c("div", { staticClass: "d-flex mb-3" }, [
-                _c("div", { staticClass: "d-inline-block flex-grow-1 mr-1" }, [
-                  _c(
-                    "label",
-                    {
-                      staticClass: "lead text-white",
-                      attrs: { for: "questionText" }
-                    },
-                    [_vm._v("Question text:")]
-                  ),
-                  _vm._v(" "),
+            { staticClass: "answer-grid-template" },
+            _vm._l(_vm.question.answers, function(answer) {
+              return _c(
+                "div",
+                {
+                  key: answer.id,
+                  staticClass: "text-center answer",
+                  class: {
+                    "answer-correct": answer.status,
+                    "answer-incorrect": !answer.status
+                  }
+                },
+                [
                   _c("input", {
                     directives: [
                       {
                         name: "validate",
                         rawName: "v-validate",
-                        value: _vm.rules.text,
-                        expression: "rules.text"
+                        value: _vm.rules.answer,
+                        expression: "rules.answer"
                       },
                       {
                         name: "model",
                         rawName: "v-model",
-                        value: _vm.question.text,
-                        expression: "question.text"
+                        value: answer.text,
+                        expression: "answer.text"
                       }
                     ],
-                    staticClass: "lead px-1 form-control w-100 input",
-                    attrs: { id: "questionText", name: "text" },
-                    domProps: { value: _vm.question.text },
+                    staticClass: "text-center question-input",
+                    attrs: { type: "text", name: "answer" },
+                    domProps: { value: answer.text },
                     on: {
                       input: function($event) {
                         if ($event.target.composing) {
                           return
                         }
-                        _vm.$set(_vm.question, "text", $event.target.value)
+                        _vm.$set(answer, "text", $event.target.value)
                       }
                     }
                   })
-                ]),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  { staticClass: "d-inline-block question-field-text" },
-                  [
-                    _c(
-                      "label",
-                      {
-                        staticClass: "lead text-white",
-                        attrs: { for: "difficulty" }
-                      },
-                      [_vm._v("Question difficulty:")]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "select",
-                      {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.question.difficulty_id,
-                            expression: "question.difficulty_id"
-                          },
-                          {
-                            name: "validate",
-                            rawName: "v-validate",
-                            value: _vm.rules.difficulty,
-                            expression: "rules.difficulty"
-                          }
-                        ],
-                        staticClass: "form-control input",
-                        attrs: { id: "difficulty", name: "difficulty" },
-                        on: {
-                          change: function($event) {
-                            var $$selectedVal = Array.prototype.filter
-                              .call($event.target.options, function(o) {
-                                return o.selected
-                              })
-                              .map(function(o) {
-                                var val = "_value" in o ? o._value : o.value
-                                return val
-                              })
-                            _vm.$set(
-                              _vm.question,
-                              "difficulty_id",
-                              $event.target.multiple
-                                ? $$selectedVal
-                                : $$selectedVal[0]
-                            )
-                          }
-                        }
-                      },
-                      _vm._l(_vm.difficulties, function(difficulty) {
-                        return _c(
-                          "option",
-                          {
-                            key: difficulty.id,
-                            domProps: {
-                              value: difficulty.id,
-                              selected:
-                                _vm.question.difficulty_id === difficulty.id
-                            }
-                          },
-                          [_vm._v(_vm._s(difficulty.text))]
-                        )
-                      }),
-                      0
-                    )
-                  ]
-                )
-              ]),
-              _vm._v(" "),
-              _c("p", { staticClass: "lead text-white ml-1 mb-0" }, [
-                _vm._v("Question answers:")
-              ]),
-              _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "answer-grid-template" },
-                _vm._l(_vm.question.answers, function(answer) {
-                  return _c(
-                    "div",
-                    {
-                      key: answer.id,
-                      staticClass: "text-center answer",
-                      class: {
-                        "answer-correct": answer.status,
-                        "answer-incorrect": !answer.status
-                      }
-                    },
-                    [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "validate",
-                            rawName: "v-validate",
-                            value: _vm.rules.answer,
-                            expression: "rules.answer"
-                          },
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: answer.text,
-                            expression: "answer.text"
-                          }
-                        ],
-                        staticClass: "text-center question-input",
-                        attrs: { type: "text", name: "answer" },
-                        domProps: { value: answer.text },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(answer, "text", $event.target.value)
-                          }
-                        }
-                      })
-                    ]
-                  )
-                }),
-                0
-              ),
-              _vm._v(" "),
-              _c("div", { staticClass: "text-center my-3" }, [
-                _c("i", {
-                  staticClass:
-                    "fas fa-check question-icon question-icon-confirm",
-                  on: { click: _vm.validate }
-                })
-              ])
-            ]
-          )
+                ]
+              )
+            }),
+            0
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "text-center my-3" }, [
+            _c("i", {
+              staticClass: "fas fa-check question-icon question-icon-confirm",
+              on: { click: _vm.validate }
+            })
+          ])
         ])
       ]
     ),
@@ -68431,7 +68425,7 @@ var interceptorHandler = {
         }
     } // ISN'T SUPPOSED TO HAPPEN
     else {
-        console.log(response.body);
+        console.log(response);
       }
   },
   // FORMAT IN WHICH MESSAGES ARE PROVIDED

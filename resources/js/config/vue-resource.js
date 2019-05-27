@@ -51,7 +51,7 @@ let interceptorHandler = {
         }
         // ISN'T SUPPOSED TO HAPPEN
         else {
-            console.log(response.body);
+            console.log(response);
         }
     },
 
