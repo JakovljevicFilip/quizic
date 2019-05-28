@@ -1,15 +1,14 @@
 <template>
-    <div class="app-container-height">
+    <div class="container--height">
         <div class="animated slideInDown fast container h-100 d-flex justify-content-center align-items-center p-5">
-            <!-- HIDE QUESTIONS CONTATINER IF THERE ARE NO DIFFICULTIES -->
-            <div class="question-wrapper question-wrapper-create" v-if="difficulties.length !== 0">
+            <div class="wrapper wrapper--create">
                 <div class="d-flex mb-3">
                     <div class="d-inline-block flex-grow-1 mr-1">
                         <label for="questionText" class="lead text-white">Question text:</label>
                         <input id="questionText" name="text" class="lead px-1 form-control w-100 input" v-validate="rules.text" v-model="question.text">
                     </div>
 
-                    <div class="d-inline-block question-field-text">
+                    <div class="d-inline-block">
                         <label for="difficulty" class="lead text-white">Question difficulty:</label>
                         <select id="difficulty" name="difficulty" class="form-control input" v-model="question.difficulty_id" v-validate="rules.difficulty">
                             <option v-for="difficulty in difficulties" :key="difficulty.id" :value="difficulty.id" :selected="question.difficulty_id === difficulty.id">{{ difficulty.text }}</option>

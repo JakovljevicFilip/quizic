@@ -1648,7 +1648,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -50275,7 +50274,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "app-wrapper" },
+    { staticClass: "container-menu" },
     [
       _vm._m(0),
       _vm._v(" "),
@@ -50709,7 +50708,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "app-wrapper" },
+    { staticClass: "container-menu" },
     [
       _vm._m(0),
       _vm._v(" "),
@@ -50812,7 +50811,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "app-container-height" }, [
+  return _c("div", { staticClass: "container--height" }, [
     _c(
       "div",
       {
@@ -50820,189 +50819,173 @@ var render = function() {
           "animated slideInDown fast container h-100 d-flex justify-content-center align-items-center p-5"
       },
       [
-        _vm.difficulties.length !== 0
-          ? _c(
-              "div",
-              { staticClass: "question-wrapper question-wrapper-create" },
-              [
-                _c("div", { staticClass: "d-flex mb-3" }, [
-                  _c(
-                    "div",
-                    { staticClass: "d-inline-block flex-grow-1 mr-1" },
-                    [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "lead text-white",
-                          attrs: { for: "questionText" }
-                        },
-                        [_vm._v("Question text:")]
-                      ),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "validate",
-                            rawName: "v-validate",
-                            value: _vm.rules.text,
-                            expression: "rules.text"
-                          },
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.question.text,
-                            expression: "question.text"
-                          }
-                        ],
-                        staticClass: "lead px-1 form-control w-100 input",
-                        attrs: { id: "questionText", name: "text" },
-                        domProps: { value: _vm.question.text },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(_vm.question, "text", $event.target.value)
-                          }
-                        }
-                      })
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "d-inline-block question-field-text" },
-                    [
-                      _c(
-                        "label",
-                        {
-                          staticClass: "lead text-white",
-                          attrs: { for: "difficulty" }
-                        },
-                        [_vm._v("Question difficulty:")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "select",
-                        {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.question.difficulty_id,
-                              expression: "question.difficulty_id"
-                            },
-                            {
-                              name: "validate",
-                              rawName: "v-validate",
-                              value: _vm.rules.difficulty,
-                              expression: "rules.difficulty"
-                            }
-                          ],
-                          staticClass: "form-control input",
-                          attrs: { id: "difficulty", name: "difficulty" },
-                          on: {
-                            change: function($event) {
-                              var $$selectedVal = Array.prototype.filter
-                                .call($event.target.options, function(o) {
-                                  return o.selected
-                                })
-                                .map(function(o) {
-                                  var val = "_value" in o ? o._value : o.value
-                                  return val
-                                })
-                              _vm.$set(
-                                _vm.question,
-                                "difficulty_id",
-                                $event.target.multiple
-                                  ? $$selectedVal
-                                  : $$selectedVal[0]
-                              )
-                            }
-                          }
-                        },
-                        _vm._l(_vm.difficulties, function(difficulty) {
-                          return _c(
-                            "option",
-                            {
-                              key: difficulty.id,
-                              domProps: {
-                                value: difficulty.id,
-                                selected:
-                                  _vm.question.difficulty_id === difficulty.id
-                              }
-                            },
-                            [_vm._v(_vm._s(difficulty.text))]
-                          )
-                        }),
-                        0
-                      )
-                    ]
-                  )
-                ]),
-                _vm._v(" "),
-                _c("p", { staticClass: "lead text-white ml-1 mb-0" }, [
-                  _vm._v("Question answers:")
-                ]),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  { staticClass: "answer-grid" },
-                  _vm._l(_vm.question.answers, function(answer) {
-                    return _c(
-                      "div",
-                      {
-                        key: answer.id,
-                        staticClass: "text-center answer",
-                        class: {
-                          "answer--correct": answer.status,
-                          "answer--incorrect": !answer.status
-                        }
-                      },
-                      [
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "validate",
-                              rawName: "v-validate",
-                              value: _vm.rules.answer,
-                              expression: "rules.answer"
-                            },
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: answer.text,
-                              expression: "answer.text"
-                            }
-                          ],
-                          staticClass: "text-center text-white answer__input",
-                          attrs: { type: "text", name: "answer" },
-                          domProps: { value: answer.text },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.$set(answer, "text", $event.target.value)
-                            }
-                          }
+        _c("div", { staticClass: "wrapper wrapper--create" }, [
+          _c("div", { staticClass: "d-flex mb-3" }, [
+            _c("div", { staticClass: "d-inline-block flex-grow-1 mr-1" }, [
+              _c(
+                "label",
+                {
+                  staticClass: "lead text-white",
+                  attrs: { for: "questionText" }
+                },
+                [_vm._v("Question text:")]
+              ),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "validate",
+                    rawName: "v-validate",
+                    value: _vm.rules.text,
+                    expression: "rules.text"
+                  },
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.question.text,
+                    expression: "question.text"
+                  }
+                ],
+                staticClass: "lead px-1 form-control w-100 input",
+                attrs: { id: "questionText", name: "text" },
+                domProps: { value: _vm.question.text },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.question, "text", $event.target.value)
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "d-inline-block" }, [
+              _c(
+                "label",
+                {
+                  staticClass: "lead text-white",
+                  attrs: { for: "difficulty" }
+                },
+                [_vm._v("Question difficulty:")]
+              ),
+              _vm._v(" "),
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.question.difficulty_id,
+                      expression: "question.difficulty_id"
+                    },
+                    {
+                      name: "validate",
+                      rawName: "v-validate",
+                      value: _vm.rules.difficulty,
+                      expression: "rules.difficulty"
+                    }
+                  ],
+                  staticClass: "form-control input",
+                  attrs: { id: "difficulty", name: "difficulty" },
+                  on: {
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
                         })
-                      ]
-                    )
-                  }),
-                  0
-                ),
-                _vm._v(" "),
-                _c("div", { staticClass: "text-center my-3" }, [
-                  _c("i", {
-                    staticClass:
-                      "fas fa-check question-icon icon icon--confirm",
-                    on: { click: _vm.validate }
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.$set(
+                        _vm.question,
+                        "difficulty_id",
+                        $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      )
+                    }
+                  }
+                },
+                _vm._l(_vm.difficulties, function(difficulty) {
+                  return _c(
+                    "option",
+                    {
+                      key: difficulty.id,
+                      domProps: {
+                        value: difficulty.id,
+                        selected: _vm.question.difficulty_id === difficulty.id
+                      }
+                    },
+                    [_vm._v(_vm._s(difficulty.text))]
+                  )
+                }),
+                0
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _c("p", { staticClass: "lead text-white ml-1 mb-0" }, [
+            _vm._v("Question answers:")
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "answer-grid" },
+            _vm._l(_vm.question.answers, function(answer) {
+              return _c(
+                "div",
+                {
+                  key: answer.id,
+                  staticClass: "text-center answer",
+                  class: {
+                    "answer--correct": answer.status,
+                    "answer--incorrect": !answer.status
+                  }
+                },
+                [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "validate",
+                        rawName: "v-validate",
+                        value: _vm.rules.answer,
+                        expression: "rules.answer"
+                      },
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: answer.text,
+                        expression: "answer.text"
+                      }
+                    ],
+                    staticClass: "text-center text-white answer__input",
+                    attrs: { type: "text", name: "answer" },
+                    domProps: { value: answer.text },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(answer, "text", $event.target.value)
+                      }
+                    }
                   })
-                ])
-              ]
-            )
-          : _vm._e()
+                ]
+              )
+            }),
+            0
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "text-center my-3" }, [
+            _c("i", {
+              staticClass: "fas fa-check question-icon icon icon--confirm",
+              on: { click: _vm.validate }
+            })
+          ])
+        ])
       ]
     ),
     _vm._v(" "),
@@ -51245,7 +51228,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "container visible question-container--outer" },
+    { staticClass: "container visible container-index--outer" },
     [
       _vm._m(0),
       _vm._v(" "),
@@ -51288,7 +51271,7 @@ var render = function() {
         0
       ),
       _vm._v(" "),
-      _c("div", { staticClass: "p-3 question-container--inner" }, [
+      _c("div", { staticClass: "p-3 container-index--inner" }, [
         _vm.questions.length !== 0
           ? _c(
               "div",
@@ -51299,7 +51282,7 @@ var render = function() {
                     {
                       key: index,
                       staticClass:
-                        "animated slideInDown text-white question-wrapper my-3"
+                        "animated slideInDown text-white wrapper my-3"
                     },
                     [
                       _vm.questionEditId !== question.id

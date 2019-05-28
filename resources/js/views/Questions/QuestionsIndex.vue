@@ -1,5 +1,5 @@
 <template>
-    <div class="container visible question-container--outer">
+    <div class="container visible container-index--outer">
         <div class="text-center pb-5">
             <img src="/img/logo.png" alt="logo" class="logo--height">
         </div>
@@ -10,10 +10,10 @@
             <div v-for="difficulty in difficulties" :key="difficulty.id" class="mx-3 text-center btn btn__main" :class="{'btn__main--active': difficulty.id === pagination.difficulty}" @click="changeDifficulty(difficulty.id)">{{ difficulty.text }}</div>
         </div>
 
-        <div class="p-3 question-container--inner">
+        <div class="p-3 container-index--inner">
             <!-- HIDE QUESTIONS CONTATINER IF THERE ARE NO QUESTIONS -->
             <div v-if="questions.length !== 0 ">
-                <div v-for="(question, index) in questions" :key="index" class="animated slideInDown text-white question-wrapper my-3">
+                <div v-for="(question, index) in questions" :key="index" class="animated slideInDown text-white wrapper my-3">
                     <div class="d-flex" v-if="questionEditId !== question.id">
                         <p class="lead px-2 my-auto flex-grow-1">{{ question.text }}</p>
                         <div class="icon">

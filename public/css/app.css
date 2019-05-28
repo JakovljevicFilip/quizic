@@ -20124,6 +20124,59 @@ readers do not read off random characters that represent icons */
   border: solid blue 1px;
 }
 
+.container-menu {
+  padding: 40px 80px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translateY(-50%) translateX(-50%);
+          transform: translateY(-50%) translateX(-50%);
+  width: 350px;
+  box-shadow: -5px 6px 24px 14px rgba(0, 0, 0, 0.75);
+  transition: all 0.1s ease-in-out;
+}
+
+.container-index--outer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translateY(-50%) translateX(-50%);
+          transform: translateY(-50%) translateX(-50%);
+  /* width */
+  /* Track */
+  /* Handle */
+  /* Handle on hover */
+}
+
+.container-index--outer ::-webkit-scrollbar {
+  width: 10px;
+}
+
+.container-index--outer ::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 4px;
+}
+
+.container-index--outer ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 4px;
+}
+
+.container-index--outer ::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.container-index--inner {
+  height: 50vh;
+  overflow: auto;
+  overflow-x: hidden;
+  position: relative;
+}
+
+.container--height {
+  height: 85vh;
+}
+
 .footer {
   font-size: 1.25rem;
   font-weight: 300;
@@ -20182,6 +20235,16 @@ readers do not read off random characters that represent icons */
   opacity: 1;
 }
 
+.wrapper {
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 20px;
+}
+
+.wrapper--create {
+  width: 800px;
+  padding: 25px;
+}
+
 .app-background {
   background: url("/img/background.jpg");
   height: 100vh;
@@ -20190,22 +20253,6 @@ readers do not read off random characters that represent icons */
   background-repeat: no-repeat;
   background-position: center;
   overflow-x: hidden;
-}
-
-.app-wrapper {
-  padding: 40px 80px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translateY(-50%) translateX(-50%);
-          transform: translateY(-50%) translateX(-50%);
-  width: 350px;
-  box-shadow: -5px 6px 24px 14px rgba(0, 0, 0, 0.75);
-  transition: all 0.1s ease-in-out;
-}
-
-.app-container-height {
-  height: 85vh;
 }
 
 .authentication__label {
@@ -20243,53 +20290,6 @@ readers do not read off random characters that represent icons */
 .authentication__toggle--active:hover {
   color: #fff;
   text-decoration: none;
-}
-
-.question-container--outer {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translateY(-50%) translateX(-50%);
-          transform: translateY(-50%) translateX(-50%);
-  /* width */
-  /* Track */
-  /* Handle */
-  /* Handle on hover */
-}
-
-.question-container--outer ::-webkit-scrollbar {
-  width: 10px;
-}
-
-.question-container--outer ::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.5);
-  border-radius: 4px;
-}
-
-.question-container--outer ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 4px;
-}
-
-.question-container--outer ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.5);
-}
-
-.question-container--inner {
-  height: 50vh;
-  overflow: auto;
-  overflow-x: hidden;
-  position: relative;
-}
-
-.question-wrapper {
-  background-color: rgba(0, 0, 0, 0.5);
-  border-radius: 20px;
-}
-
-.question-wrapper-create {
-  width: 800px;
-  padding: 25px;
 }
 
 .question__select {

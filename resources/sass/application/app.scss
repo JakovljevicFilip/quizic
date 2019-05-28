@@ -8,27 +8,4 @@
 		background-position: center;
 		overflow-x:hidden;
 	}
-
-	&-wrapper{
-        padding: 40px 80px;
-		position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translateY(-50%) translateX(-50%);
-        width: 350px;
-        -webkit-box-shadow: -5px 6px 24px 14px rgba(0,0,0,0.75);
-        -moz-box-shadow: -5px 6px 24px 14px rgba(0,0,0,0.75);
-        box-shadow: -5px 6px 24px 14px rgba(0,0,0,0.75);
-        -webkit-transition: all 0.1s ease-in-out;
-        -moz-transition:    all 0.1s ease-in-out;
-        -ms-transition:     all 0.1s ease-in-out;
-        -o-transition:      all 0.1s ease-in-out;
-        transition:         all 0.1s ease-in-out;
-    }
-
-    &-container{
-        &-height{
-            height: 85vh;
-        }
-    }
 }
