@@ -21,6 +21,7 @@ class DifficultyController extends Controller
     {
         $difficulties = Difficulty::all();
         return response()->json([
+            'title' => 'Difficulty',
             'message' => 'Difficulties fetched.',
             'write' => false,
             'difficulties' => $difficulties,
@@ -51,6 +52,7 @@ class DifficultyController extends Controller
     public function show(Difficulty $difficulty)
     {
         return response()->json([
+            'title' => 'Difficulty',
             'message' => 'Difficulty fetched.',
             'write' => false,
             'difficulty' => $difficulty,
@@ -68,6 +70,7 @@ class DifficultyController extends Controller
     {
         $difficulty->update($request->all());
         return response()->json([
+            'title' => 'Difficulty',
             'message' => 'Difficulty name updated.',
             'write' => true,
         ], 200);
@@ -83,6 +86,7 @@ class DifficultyController extends Controller
     {
         $difficulty->delete();
         return response()->json([
+            'title' => 'Difficulty',
             'message' => 'Difficulty deleted.',
             'write' => true,
         ], 200);

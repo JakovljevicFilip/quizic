@@ -68121,17 +68121,23 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.http.interceptors.push(function (requ
 var interceptorHandler = {
   // DETERMINES MESSAGE ICON FOR sweetAlert
   messageType: null,
-  // VALID RESPONSE ENTRY POINT
+  // MODAL TITLE
+  messageTitle: '',
+  // RESPONSE ENTRY POINT
   handleResponse: function handleResponse(response, status) {
     // GET MESSAGES
-    var message = response.body.message; // GET WHETER OR NOT THEY SHOULD BE SHOWN
+    var message = response.body.message; // GET TITLE
+
+    var title = response.body.title; // GET WHETER OR NOT THEY SHOULD BE SHOWN
 
     var write = response.body.write; // THERE ARE MESSAGES
 
     if (message !== undefined) {
       // THEY ARE SUPPOSED TO BE SHOWN
       if (write) {
-        // WHICH TYPE OF MESSAGE IS SUPPOSSED TO BE SHOWN
+        // SET TITLE
+        interceptorHandler.setTitle(title); // WHICH TYPE OF MESSAGE IS SUPPOSSED TO BE SHOWN
+
         status ? interceptorHandler.messageType = 'success' : interceptorHandler.messageType = 'error'; // DETERMINE MESSAGES FORMAT
 
         interceptorHandler.checkType(message);
@@ -68144,7 +68150,10 @@ var interceptorHandler = {
         console.log(response);
       }
   },
-  // FORMAT IN WHICH MESSAGES ARE PROVIDED
+  setTitle: function setTitle(title) {
+    // IF THERE IS THERE IS TITLE SET IT, IF THERE IS NO TITLE SET 'Message' FOR THE TITLE
+    title ? interceptorHandler.messageTitle = title : interceptorHandler.messageTitle = 'Message';
+  },
   checkType: function checkType(message) {
     // MESSAGES IS AN OBJECT
     if (_typeof(message) === 'object') {
@@ -68194,7 +68203,7 @@ var interceptorHandler = {
   // WRITE MESSAGE
   writeMessage: function writeMessage(message) {
     // WRITES MESSAGE VIA sweetAlert
-    vue__WEBPACK_IMPORTED_MODULE_0___default.a.swal('Login', message, interceptorHandler.messageType); // END OF FUNCTION
+    vue__WEBPACK_IMPORTED_MODULE_0___default.a.swal(interceptorHandler.messageTitle, message, interceptorHandler.messageType); // END OF FUNCTION
 
     return;
   }

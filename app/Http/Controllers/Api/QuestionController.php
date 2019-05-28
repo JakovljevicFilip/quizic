@@ -25,6 +25,7 @@ class QuestionController extends Controller
         $questions = new Question;
         $questions = $questions->fetchQuestions($request);
         return response()->json([
+            'title' => 'Question',
             'message' => 'Questions fetched.',
             'write' => false,
             'questions' => $questions->items(),
@@ -43,6 +44,7 @@ class QuestionController extends Controller
         $question = Question::create($request->only('text','difficulty_id'));
         $question->saveAnswers($request->answers);
         return response()->json([
+            'title' => 'Question',
             'message' => 'Question saved.',
             'write' => true,
         ], 200);
@@ -63,6 +65,7 @@ class QuestionController extends Controller
         // UPDATE QUESTION ANSWERS
         $question->updateAnswers($request->answers);
         return response()->json([
+            'title' => 'Question',
             'message' => 'Question updated.',
             'write' => true,
         ], 200);
@@ -79,6 +82,7 @@ class QuestionController extends Controller
         $question = Question::findOrFail($request->id);
         $question->delete();
         return response()->json([
+            'title' => 'Question',
             'message' => 'Question has been deleted.',
             'write' => true,
         ], 200);

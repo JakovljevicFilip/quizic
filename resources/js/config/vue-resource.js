@@ -27,11 +27,16 @@ Vue.http.interceptors.push(function(request) {
 let interceptorHandler = {
     // DETERMINES MESSAGE ICON FOR sweetAlert
     messageType: null,
+    // MODAL TITLE
+    messageTitle: '',
 
-    // VALID RESPONSE ENTRY POINT
+    // RESPONSE ENTRY POINT
     handleResponse: (response, status) => {
         // GET MESSAGES
         let message = response.body.message;
+        // GET TITLE
+        let title = response.body.title;
+
         // GET WHETER OR NOT THEY SHOULD BE SHOWN
         let write = response.body.write;
 
@@ -39,6 +44,8 @@ let interceptorHandler = {
         if(message !== undefined){
             // THEY ARE SUPPOSED TO BE SHOWN
             if(write){
+                // SET TITLE
+                interceptorHandler.setTitle(title);
                 // WHICH TYPE OF MESSAGE IS SUPPOSSED TO BE SHOWN
                 status ? interceptorHandler.messageType = 'success' : interceptorHandler.messageType = 'error';
                 // DETERMINE MESSAGES FORMAT
@@ -55,7 +62,11 @@ let interceptorHandler = {
         }
     },
 
-    // FORMAT IN WHICH MESSAGES ARE PROVIDED
+    setTitle: title => {
+        // IF THERE IS THERE IS TITLE SET IT, IF THERE IS NO TITLE SET 'Message' FOR THE TITLE
+        title ? interceptorHandler.messageTitle = title : interceptorHandler.messageTitle = 'Message';
+    },
+
     checkType: message => {
 
         // MESSAGES IS AN OBJECT
@@ -117,7 +128,7 @@ let interceptorHandler = {
     // WRITE MESSAGE
     writeMessage: message => {
         // WRITES MESSAGE VIA sweetAlert
-        Vue.swal('Login', message, interceptorHandler.messageType);
+        Vue.swal(interceptorHandler.messageTitle, message, interceptorHandler.messageType);
         // END OF FUNCTION
         return;
     }

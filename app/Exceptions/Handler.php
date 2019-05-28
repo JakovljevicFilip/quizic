@@ -62,6 +62,7 @@ class Handler extends ExceptionHandler
             $message = collect($exception->errors())->collapse();
             // 409 - CONFLICT
             return response()->json([
+                'title' => 'Validation',
                 'message' => $message,
                 'write' => true,
             ], 422);
@@ -72,13 +73,15 @@ class Handler extends ExceptionHandler
             // 401 - UNAUTHORIZED
             if ($exception instanceof \Tymon\JWTAuth\Exceptions\TokenExpiredException) {
                 return response()->json([
+                    'title' => 'Token',
                     'message' => 'Token expired.',
-                    'write' => true,
+                    'write' => false,
                 ], 401);
             }
             // INVALID TOKEN
             else if ($exception instanceof \Tymon\JWTAuth\Exceptions\TokenInvalidException) {
                 return response()->json([
+                    'title' => 'Token',
                     'message' => 'Token invalid.',
                     'write' => false,
                 ], 401);
@@ -86,6 +89,7 @@ class Handler extends ExceptionHandler
             // BLAKLISTED TOKEN
             else if ($exception instanceof \Tymon\JWTAuth\Exceptions\TokenBlacklistedException) {
                 return response()->json([
+                    'title' => 'Token',
                     'message' => 'Token blacklisted.',
                     'write' => false,
                 ], 401);
@@ -93,6 +97,7 @@ class Handler extends ExceptionHandler
             // TOKEN COULD NOT BE PARSED
             else if ($exception->getMessage() === 'Token could not be parsed from the request.') {
                 return response()->json([
+                    'title' => 'Token',
                     'message' => 'Token could not be parsed.',
                     'write' => false,
                 ], 401);
@@ -100,6 +105,7 @@ class Handler extends ExceptionHandler
             // THIS ONE IS OKAY SINCE IT MEANS THAT USER HAS NOT LOGGED IN YET
             else if ($exception->getMessage() === 'Token not provided') {
                 return response()->json([
+                    'title' => 'Token',
                     'message' => 'Token not provided.',
                     'write' => false,
                 ], 200);
@@ -112,6 +118,7 @@ class Handler extends ExceptionHandler
         // NOT FOUND
         if ($exception instanceof ModelNotFoundException) {
             return response()->json([
+                'title' => 'Error',
                 'message' => 'Resource not Found!',
                 'write' => true,
             ], 404);

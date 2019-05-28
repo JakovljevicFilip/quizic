@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use App\Highscore;
-use Illuminate\Http\Request;
 
 class HighscoreController extends Controller
 {

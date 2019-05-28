@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use App\Game;
-use Illuminate\Http\Request;
 
 class GameController extends Controller
 {

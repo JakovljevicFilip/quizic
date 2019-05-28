@@ -14,7 +14,8 @@ use Illuminate\Http\Request;
 */
 
 Route::namespace('Api')->group(function(){
-	Route::resource('difficulties','DifficultyController');
+    Route::resource('difficulties','DifficultyController');
+    Route::get('users','UserController@index');
 });
 
 // AUTHENTFICATION
@@ -29,14 +30,17 @@ Route::prefix('auth')->namespace('Api')->group(function(){
 	});
 });
 
-// ADMIN OR SELF
+// ADMIN
 Route::group(['middleware'=>'isAdmin','namespace'=>'Api'],function(){
+    // QUESTIONS
     Route::get('questions','QuestionController@index');
     Route::post('questions','QuestionController@store');
     Route::put('questions','QuestionController@update');
     Route::delete('questions/{id}','QuestionController@destroy');
-	// // lISTING ALL USERS INFORMATIONS, SHOULD BE ACCESSABLE BY ADMIN
-	// Route::get('users','UserController@index')->middleware('isAdmin');
+
+    // USERS
+	// lISTING ALL USERS INFORMATIONS, SHOULD BE ACCESSABLE BY ADMIN
+	// Route::get('users','UserController@index');
 	// // LISTING USER INFROMATION, SHOULD BE DONE BY EITHER ADMIN OR THE USER THEMSELF
 	// Route::get('users/{id}','UserController@show')->middleware('isAdminOrSelf');
 });
