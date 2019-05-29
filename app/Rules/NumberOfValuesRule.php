@@ -4,7 +4,7 @@ namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 
-class NumberOfValues implements Rule
+class NumberOfValuesRule implements Rule
 {
     private $parameters;
     private $fieldName;
@@ -57,7 +57,7 @@ class NumberOfValues implements Rule
             }
         }
 
-        // ITTERATES THROUGH THE ARRAY OF RULES        
+        // ITTERATES THROUGH THE ARRAY OF RULES
         for($i=0;$i<count($this->parameters);$i++){
             // IF NUMBER OF TIMES WE'VE WANTED SOMETHING TO APPEAR INS'T MET
             if($this->parameters[$i]['number']!==$this->parameters[$i]['counter'])

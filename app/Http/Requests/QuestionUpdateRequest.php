@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Foundation\Http\FormRequest;
 
 // A CUSTOM RULE I'VE MADE TO CHECK FOR CERTAIN NUMBER OF CERTAIN VALUES
-use App\Rules\NumberOfValues;
+use App\Rules\NumberOfValuesRule;
 
 class QuestionUpdateRequest extends FormRequest
 {
@@ -29,17 +29,17 @@ class QuestionUpdateRequest extends FormRequest
     {
         return [
             'id' => 'required|numeric|exists:questions,id',
-            'text'=>'required|unique:questions,text,'.$this->get('id'),
-            'difficulty_id'=>'required|exists:difficulties,id',
-            'answers'=>['required','array',new NumberOfValues('status',[
+            'text' => 'required|unique:questions,text,'.$this->get('id'),
+            'difficulty_id' => 'required|exists:difficulties,id',
+            'answers' => ['required', 'array', new NumberOfValuesRule('status', [
                     // EXPECTING 3 ANSWERS WITH STATUS 0
-                    '0'=>3,
+                    '0' => 3,
                     // EXPECTING 1 ANSWER WITH STATUS 1
-                    '1'=>1
+                    '1' => 1
                 ]
             )],
-            'answers.*.text'=>'required',
-            'answers.*.status'=>'required|boolean'
+            'answers.*.text' => 'required',
+            'answers.*.status' => 'required|boolean'
         ];
     }
 }

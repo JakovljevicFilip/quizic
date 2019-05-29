@@ -6,6 +6,7 @@ use App\User;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UserUpdateRequest;
 
 class UserController extends Controller
 {
@@ -18,13 +19,8 @@ class UserController extends Controller
     	]);
     }
 
-    public function show(User $user){
-        $user = $user->all();
-
-    	return response()->json([
-    		'status' => true,
-    		'messages' => 'User fetched',
-    		'user' => $user->all(),
-    	]);
+    public function update(UserUpdateRequest $users){
+        dd('inside of model');
+    //    validateAdministrators($users);
     }
 }
