@@ -16,7 +16,7 @@ use Illuminate\Http\Request;
 Route::namespace('Api')->group(function(){
     Route::resource('difficulties','DifficultyController');
     Route::get('users','UserController@index');
-    Route::patch('users','UserController@update');
+    Route::patch('users/role','UserController@changeRole');
 });
 
 // AUTHENTFICATION

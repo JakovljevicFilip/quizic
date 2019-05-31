@@ -13,14 +13,28 @@ class UserController extends Controller
     public function index(){
         $users = User::all();
     	return response()->json([
-    		'status '=> true,
+    		'write '=> false,
     		'messages' => 'Users fetched.',
     		'users' => $users,
     	]);
     }
 
-    public function update(UserUpdateRequest $users){
-        dd('inside of model');
-    //    validateAdministrators($users);
+    public function changeRole(UserUpdateRequest $request){
+        // FRONT-END INFORMATION
+        $id = $request->user['id'];
+        $role = $request->user['role'];
+
+        // GET USER INFORMATION
+        $user = User::find($id);
+        // CHANGE USER ROLE
+        $user->role = $role;
+        // UPDATE USER
+        $user->save();
+
+        // RETURN RESPONSE
+        return response()->json([
+    		'write '=> true,
+            'messages' => 'User has been updated.',
+        ]);
     }
 }

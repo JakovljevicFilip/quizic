@@ -27,17 +27,17 @@ class UserUpdateRequest extends FormRequest
     {
         return [
             // ExistsOnUpdate - ENSURES THAT THERE STILL EXISTS A COLUMN WITH CERTAIN VALUE
-            'users' => ['required', 'array', new ExistsOnUpdateRule(new User, 'role', 2)],
-            'users.*.id' => 'required|exists:users,id',
-            'users.*.role' => 'required|in:1,2',
+            'user' => [new ExistsOnUpdateRule(new User, 'role', 2)],
+            'user.id' => 'required|exists:users,id',
+            'user.role' => 'required|in:1,2',
         ];
     }
 
     public function messages()
     {
         return [
-            'users.*.id.exists' => 'Invalid id for :attribute',
-            'users.*.role.in' => 'Invalid role for :attribute',
+            'user.id.exists' => 'Request error: Invalid value.',
+            'user.role.in' => 'Request error: Invalid value.',
         ];
     }
 }
