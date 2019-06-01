@@ -18,6 +18,7 @@ Route::namespace('Api')->group(function(){
     Route::get('users','UserController@index');
     Route::patch('users/role','UserController@changeRole');
     Route::patch('users/password','UserController@changePassword');
+    Route::delete('users','UserController@destroy');
 });
 
 // AUTHENTFICATION

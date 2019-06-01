@@ -3,9 +3,8 @@
 namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
-use Illuminate\Support\Collection;
 
-class ExistsOnUpdateRule implements Rule
+class ExistsOnUpdateWithoutRequestRule implements Rule
 {
     // MODEL THAT IS BEING UPDATED
     private $model;
@@ -38,18 +37,19 @@ class ExistsOnUpdateRule implements Rule
      */
     public function passes($attribute, $data)
     {
-        // CHECK REQUEST AND REMAINING ROWS IN THE DB FOR REQUIRED COLUMN VALUE
-        return $this->requestCheckRule($data) || $this->databaseCheckRule($data);
+        // GET REQUEST COLUMN VALUE
+        $requestColumnValue = $this->getRequestColumnValue($data);
+        // COLUMN VALUE IS RESTRICTED
+        if($requestColumnValue === $this->value){
+            // THERE ARE OTHER ROWS IN THE DB WITH THE REQUESTED COLUMN
+            return $this->model->where($this->column, $this->value)->whereNotIn('id', [$data])->count() > 0;
+        }
+        // COLUMN VALUE IS SOMETHING ELSE
+        return true;
     }
 
-    private function requestCheckRule($data){
-        // REQUIRED COLUMN VALUE IS BEING SET THROUGH REQUEST
-        return $data[$this->column] === $this->value;
-    }
-
-    private function databaseCheckRule($data){
-        // THERE ARE OTHER ROWS IN THE DB WITH THE REQUESTED COLUMN
-        return $this->model->where($this->column, $this->value)->whereNotIn('id', [$data['id']])->count() > 0;
+    private function getRequestColumnValue($data){
+        return $this->model->where('id', $data)->first()[$this->column];
     }
 
     /**

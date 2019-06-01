@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserChangeRoleRequest;
 use App\Http\Requests\UserChangePasswordRequest;
+use App\Http\Requests\UserDestroyRequest;
 
 
 class UserController extends Controller
@@ -51,6 +52,18 @@ class UserController extends Controller
         return response()->json([
     		'write '=> true,
             'messages' => 'Password has been changed.',
+        ]);
+    }
+
+    public function destroy(UserDestroyRequest $request){
+        // GET USER
+        $user = User::find($request->id);
+        // DELETE USER
+        $user->delete();
+
+        return response()->json([
+    		'write '=> true,
+            'messages' => 'User has been deleted.',
         ]);
     }
 }

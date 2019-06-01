@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Rules\ExistsOnUpdateRule;
+use App\Rules\ExistsOnUpdateWithRequestRule;
 use App\User;
 
 class UserChangeRoleRequest extends FormRequest
@@ -27,7 +27,7 @@ class UserChangeRoleRequest extends FormRequest
     {
         return [
             // ExistsOnUpdate - ENSURES THAT THERE STILL EXISTS A COLUMN WITH CERTAIN VALUE
-            'user' => [new ExistsOnUpdateRule(new User, 'role', 2)],
+            'user' => [new ExistsOnUpdateWithRequestRule(new User, 'role', 2)],
             'user.id' => 'required|exists:users,id',
             'user.role' => 'required|in:1,2',
         ];
