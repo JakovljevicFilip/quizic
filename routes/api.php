@@ -17,6 +17,7 @@ Route::namespace('Api')->group(function(){
     Route::resource('difficulties','DifficultyController');
     Route::get('users','UserController@index');
     Route::patch('users/role','UserController@changeRole');
+    Route::patch('users/password','UserController@changePassword');
 });
 
 // AUTHENTFICATION
@@ -38,10 +39,4 @@ Route::group(['middleware'=>'isAdmin','namespace'=>'Api'],function(){
     Route::post('questions','QuestionController@store');
     Route::put('questions','QuestionController@update');
     Route::delete('questions/{id}','QuestionController@destroy');
-
-    // USERS
-	// lISTING ALL USERS INFORMATIONS, SHOULD BE ACCESSABLE BY ADMIN
-	// Route::get('users','UserController@index');
-	// // LISTING USER INFROMATION, SHOULD BE DONE BY EITHER ADMIN OR THE USER THEMSELF
-	// Route::get('users/{id}','UserController@show')->middleware('isAdminOrSelf');
 });

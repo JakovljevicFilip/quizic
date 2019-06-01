@@ -38,7 +38,7 @@ class ExistsOnUpdateRule implements Rule
      */
     public function passes($attribute, $data)
     {
-        // CHECK REQUEST AND REMAINING COLUMNS IN THE DB FOR REQUIRED COLUMN VALUE
+        // CHECK REQUEST AND REMAINING ROWS IN THE DB FOR REQUIRED COLUMN VALUE
         return $this->requestCheckRule($data) || $this->databaseCheckRule($data);
     }
 
@@ -48,7 +48,7 @@ class ExistsOnUpdateRule implements Rule
     }
 
     private function databaseCheckRule($data){
-        // THERE ARE OTHER USERS IN THE DB WITH THE REQUESTED COLUMN
+        // THERE ARE OTHER ROWS IN THE DB WITH THE REQUESTED COLUMN
         return $this->model->where($this->column, $this->value)->whereNotIn('id', [$data['id']])->count() > 0;
     }
 

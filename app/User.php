@@ -8,6 +8,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 // USED FOR USER VALIDATION
 use Tymon\JWTAuth\Contracts\JWTSubject;
+// USED FOR UPDATING PASSWORD
+use Illuminate\Support\Facades\Hash;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -66,6 +68,15 @@ class User extends Authenticatable implements JWTSubject
 
     public function getJWTCustomClaims(){
         return [];
+    }
+
+    public function updatePassword($passwordNew){
+        // HASH NEW PASSWORD
+        $passwordNew1 = Hash::make($passwordNew);
+        // SET NEW PASSWORD
+        $this->password = $passwordNew;
+        // SAVE TO DB
+        $this->save();
     }
 
 }

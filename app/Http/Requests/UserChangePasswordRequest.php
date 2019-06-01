@@ -3,10 +3,10 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Rules\ExistsOnUpdateRule;
+use App\Rules\VerifyHashRule;
 use App\User;
 
-class UserUpdateRequest extends FormRequest
+class UserChangePasswordRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,18 +26,16 @@ class UserUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            // ExistsOnUpdate - ENSURES THAT THERE STILL EXISTS A COLUMN WITH CERTAIN VALUE
-            'user' => [new ExistsOnUpdateRule(new User, 'role', 2)],
+            'user' => [new VerifyHashRule(new User, 'id', 'password')],
             'user.id' => 'required|exists:users,id',
-            'user.role' => 'required|in:1,2',
+            'user.password_compare' => 'required|min:6',
+            'user.password' => 'required|min:6|confirmed',
         ];
     }
 
-    public function messages()
-    {
+    public function messages(){
         return [
-            'user.id.exists' => 'Request error: Invalid value.',
-            'user.role.in' => 'Request error: Invalid value.',
+
         ];
     }
 }
