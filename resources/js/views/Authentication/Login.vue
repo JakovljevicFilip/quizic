@@ -10,7 +10,9 @@
 		<input type="password" name="password" class="form-control" v-model="password" v-validate="rules.password">
 		<span class="d-block text-danger">{{ errors.first('password') }}</span>
 
-		<button class="btn btn__main mt-2" @click="loginController" :disabled="errors.any()">Login</button>
+        <div>
+            <button class="mt-2 mx-auto btn btn__main" @click="loginController" :disabled="errors.any()">Login</button>
+        </div>
 	</div>
 </div>
 </template>

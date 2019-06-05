@@ -14,6 +14,9 @@ import Menu from '../views/Menu/Menu';
 import QuestionsIndex from '../views/Questions/QuestionsIndex';
 import QuestionsCreate from '../views/Questions/QuestionsCreate';
 
+// USERS
+import UsersChangePassword from '../views/Users/UsersChangePassword';
+
 // ERROR
 import ErrorPage from '../views/Error/ErrorPage';
 
@@ -94,6 +97,17 @@ const router = new VueRouter({
                     // GUEST IS TRYING TO ACCESS THIS PAGE
                     redirect: 'questions/403',
                 }
+            },
+        },
+
+        // USER
+        {
+            path: '/users/password',
+            name: 'users.password',
+            component: UsersChangePassword,
+            meta: {
+                // ONLY ACCESSABLE IF LOGGED IN
+                auth: true,
             },
         },
 

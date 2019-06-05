@@ -21,8 +21,10 @@
                 <input type="email" name="email" class="form-control" v-model="email" v-validate="rules.email">
                 <span class="d-block text-danger">{{ errors.first('email') }}</span>
 
+                <div>
+                    <button class="mt-2 mx-auto btn btn__main" @click="registerController" :disabled="errors.any()">Register</button>
+                </div>
 
-                <button class="btn btn__main mt-2" @click="registerController" :disabled="errors.any()">Register</button>
         </div>
     </div>
 </template>
@@ -40,7 +42,7 @@
 					username:'required|alpha_num|min:6',
 					// target - CONFIRMED SHOULD LOOK AT THIS
 					password:'required|alpha_num|min:6',
-					// confirmed - SHOULD HAVE THE SAME VALUE AS
+					// confirmed - SHOULD HAVE THE SAME VALUE AS REF
 					passwordConfirm:'required|confirmed:password',
 					email:'required|email',
 				}

@@ -6,6 +6,7 @@ use App\User;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\UserChangeRoleRequest;
 use App\Http\Requests\UserChangePasswordRequest;
 use App\Http\Requests\UserDestroyRequest;
@@ -16,6 +17,7 @@ class UserController extends Controller
     public function index(){
         $users = User::all();
     	return response()->json([
+            'title' => 'User',
     		'write '=> false,
     		'messages' => 'Users fetched.',
     		'users' => $users,
@@ -23,8 +25,9 @@ class UserController extends Controller
     }
 
     public function changeRole(UserChangeRoleRequest $request){
-        // FRONT-END INFORMATION
-        $id = $request->user['id'];
+        // GET USER ID
+        $id = Auth::user()->id;
+        // GET ROLE
         $role = $request->user['role'];
 
         // GET USER INFORMATION
@@ -36,23 +39,28 @@ class UserController extends Controller
 
         // RETURN RESPONSE
         return response()->json([
-    		'write '=> true,
-            'messages' => 'User has been updated.',
-        ]);
+    		'title' => 'User',
+            'message' => 'User has been updated.',
+            'write' => true,
+        ], 200);
     }
 
     public function changePassword(UserChangePasswordRequest $request){
+        // GET USER ID
+        $id = Auth::user()->id;
         // GET NEW PASSWORD FROM REQUEST
-        $passwordNew = $request->user['password'];
+        $passwordNew = $request->password;
+
         // FIND USER
-        $user = User::find($request->user['id']);
+        $user = User::find($id);
         // UPDATE USER PASSWORD
         $user->updatePassword($passwordNew);
 
         return response()->json([
-    		'write '=> true,
-            'messages' => 'Password has been changed.',
-        ]);
+    		'title' => 'Password',
+            'message' => 'Password has been changed.',
+            'write' => true,
+        ], 200);
     }
 
     public function destroy(UserDestroyRequest $request){
@@ -62,8 +70,9 @@ class UserController extends Controller
         $user->delete();
 
         return response()->json([
+            'title' => 'User',
+            'message' => 'User has been deleted.',
     		'write '=> true,
-            'messages' => 'User has been deleted.',
         ]);
     }
 }

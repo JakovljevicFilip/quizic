@@ -4,7 +4,6 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Rules\VerifyHashRule;
-use App\User;
 
 class UserChangePasswordRequest extends FormRequest
 {
@@ -26,10 +25,8 @@ class UserChangePasswordRequest extends FormRequest
     public function rules()
     {
         return [
-            'user' => [new VerifyHashRule(new User, 'id', 'password')],
-            'user.id' => 'required|exists:users,id',
-            'user.password_compare' => 'required|min:6',
-            'user.password' => 'required|min:6|confirmed',
+            'password_compare' => ['required', 'min:6', new VerifyHashRule('id', 'password')],
+            'password' => 'required|min:6|confirmed',
         ];
     }
 

@@ -1,7 +1,7 @@
 <template>
     <div class="container--height">
         <div class="animated slideInDown fast container h-100 d-flex justify-content-center align-items-center p-5">
-            <div class="wrapper wrapper--create">
+            <div class="wrapper wrapper--lg">
                 <div class="d-flex mb-3">
                     <div class="d-inline-block flex-grow-1 mr-1">
                         <label for="questionText" class="lead text-white">Question text:</label>
@@ -117,7 +117,7 @@ export default {
             };
         },
         goBack(){
-            // BACK TO MENU
+            // BACK TO QUESTIONS INDEX
             this.$router.push('/questions');
         },
     },

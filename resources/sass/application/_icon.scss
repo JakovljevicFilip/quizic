@@ -3,6 +3,10 @@
     color: #fff;
     width: 50px;
 
+    &:hover{
+        cursor: pointer;
+    }
+
     &--times{
         &:hover{
             color: red;
@@ -19,7 +23,16 @@
         font-size: 65px;
     }
 
-    &:hover{
-        cursor: pointer;
+    &--fixed-top-right{
+        top: 0;
+        right: 5px;
+        width: 30px;
+        height: 35px;
     }
+
+    &--eye{
+        color: #495057;
+        font-size: 25px;
+    }
+
 }
