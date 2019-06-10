@@ -1,6 +1,6 @@
 <template>
     <div class="container visible container-index--outer">
-        <div class="text-center pb-5">
+        <div class="text-center mb-3">
             <img src="/img/logo.png" alt="logo" class="logo--height">
         </div>
         <div class="d-flex justify-content-center my-3">
@@ -13,10 +13,10 @@
         <div class="p-3 container-index--inner">
             <!-- HIDE QUESTIONS CONTATINER IF THERE ARE NO QUESTIONS -->
             <div v-if="questions.length !== 0 ">
-                <div v-for="(question, index) in questions" :key="index" class="animated slideInDown text-white wrapper my-3">
-                    <div class="d-flex" v-if="questionEditId !== question.id">
-                        <p class="lead px-2 my-auto flex-grow-1">{{ question.text }}</p>
-                        <div class="icon">
+                <div v-for="(question, index) in questions" :key="index" class="animated slideInDown text-white  my-3 wrapper">
+                    <div class="p-2 question-grid-show" v-if="questionEditId !== question.id">
+                        <p class="lead my-auto question__text">{{ question.text }}</p>
+                        <div class="icon question__collapse">
                             <i class="fas fa-angle-down" @click="questionEditId = question.id"></i>
                         </div>
                     </div>
@@ -31,7 +31,7 @@
         </div>
 
         <div class="text-white text-center">
-            <i class="fas fa-long-arrow-alt-left icon icon--back" @click="goBack" alt="back"></i>
+            <i class="fas fa-long-arrow-alt-left icon icon__back" @click="goBack" alt="back"></i>
         </div>
     </div>
 </template>

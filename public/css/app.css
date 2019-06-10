@@ -20090,7 +20090,13 @@ readers do not read off random characters that represent icons */
 .answer-grid {
   display: grid;
   grid-gap: 15px;
-  grid-template-areas: "answer answer" "answer answer";
+  grid-template-areas: "answer" "answer" "answer" "asnwer";
+}
+
+@media (min-width: 800px) {
+  .answer-grid {
+    grid-template-areas: "answer answer" "answer answer";
+  }
 }
 
 .back {
@@ -20196,35 +20202,81 @@ readers do not read off random characters that represent icons */
 .icon {
   font-size: 40px;
   color: #fff;
-  width: 50px;
 }
 
 .icon:hover {
   cursor: pointer;
 }
 
-.icon--times:hover {
+.icon__logout {
+  color: white;
+  opacity: 0.7;
+  font-size: 40px;
+}
+
+.icon__logout:hover {
+  opacity: 1;
+}
+
+.icon__times:hover {
   color: red;
 }
 
-.icon--confirm:hover {
+.icon__confirm:hover {
   color: darkgreen;
 }
 
-.icon--back {
+.icon__back {
   font-size: 65px;
 }
 
-.icon--fixed-top-right {
+.icon__fixed-top-right {
   top: 0;
   right: 5px;
   width: 30px;
   height: 35px;
 }
 
-.icon--eye {
+.icon__eye {
   color: #495057;
   font-size: 25px;
+}
+
+.icon__switch {
+  width: 60px;
+  height: 34px;
+  border-radius: 34px;
+  cursor: pointer;
+  position: relative;
+}
+
+.icon__switch--active {
+  background: #822878;
+}
+
+.icon__switch--inactive {
+  background-color: #ccc;
+}
+
+.icon__slider {
+  position: absolute;
+  border-radius: 34px;
+  height: 30px;
+  width: 30px;
+  background-color: #fff;
+  margin: auto;
+}
+
+.icon__slider--active {
+  top: 2px;
+  right: 3px;
+  transition: 0.4s;
+}
+
+.icon__slider--inactive {
+  top: 2px;
+  left: 3px;
+  transition: 0.4s;
 }
 
 .logo--height {
@@ -20236,20 +20288,75 @@ readers do not read off random characters that represent icons */
           animation-delay: 0.2s;
 }
 
-.logout {
-  color: white;
-  opacity: 0.7;
-  font-size: 40px;
+@media (min-width: 400px) {
+  .screen-sm-show {
+    display: block;
+  }
 }
 
-.logout:hover {
-  cursor: pointer;
-  opacity: 1;
+@media (min-width: 600px) {
+  .screen-sm-show {
+    display: none;
+  }
+}
+
+.screen-md-show {
+  display: none;
+}
+
+@media (min-width: 600px) {
+  .screen-md-show {
+    display: block;
+  }
+}
+
+.screen-lg-show {
+  display: none;
+}
+
+@media (min-width: 800px) {
+  .screen-lg-show {
+    display: block;
+  }
+}
+
+.text-center-md {
+  text-align: center;
+}
+
+@media (min-width: 600px) {
+  .text-center-md {
+    text-align: left;
+  }
 }
 
 .wrapper {
   background-color: rgba(0, 0, 0, 0.5);
   border-radius: 20px;
+}
+
+.wrapper--md-and-up {
+  background-color: transparent;
+  border-radius: 0;
+}
+
+@media (min-width: 600px) {
+  .wrapper--md-and-up {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 20px;
+  }
+}
+
+.wrapper--md-and-down {
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 20px;
+}
+
+@media (min-width: 600px) {
+  .wrapper--md-and-down {
+    background-color: transparent;
+    border-radius: 0;
+  }
 }
 
 .wrapper--lg {
@@ -20309,7 +20416,76 @@ readers do not read off random characters that represent icons */
   text-decoration: none;
 }
 
-.question__select {
+.question__text {
+  grid-area: text;
+}
+
+.question__difficulties {
+  grid-area: difficulties;
   width: 200px;
+}
+
+.question__collapse {
+  grid-area: collapse;
+}
+
+.question__answers {
+  grid-area: answers;
+}
+
+.question__buttons {
+  grid-area: buttons;
+}
+
+.question-grid-show {
+  display: grid;
+  grid-gap: 15px;
+  grid-template-columns: auto 50px;
+  grid-template-areas: "text collapse";
+}
+
+.question-grid-edit {
+  display: grid;
+  grid-gap: 15px;
+  grid-template-columns: auto 50px;
+  grid-template-areas: "text collapse" "difficulties difficulties" "answers answers" "buttons buttons";
+}
+
+@media (min-width: 800px) {
+  .question-grid-edit {
+    grid-template-columns: auto 200px 50px;
+    grid-template-areas: "text difficulties collapse" "answers answers answers" "buttons buttons buttons";
+  }
+}
+
+.user-grid__username {
+  grid-area: username;
+}
+
+.user-grid__status {
+  grid-area: status;
+}
+
+.user-grid__delete {
+  grid-area: delete;
+}
+
+.user-grid-nav {
+  display: grid;
+  grid-template-columns: auto 150px 150px;
+  grid-template-areas: "username status delete";
+}
+
+.user-grid-show {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas: "username username" "status delete";
+}
+
+@media (min-width: 600px) {
+  .user-grid-show {
+    grid-template-columns: auto 150px 150px;
+    grid-template-areas: "username status delete";
+  }
 }
 

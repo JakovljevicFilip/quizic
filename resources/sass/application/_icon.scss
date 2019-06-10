@@ -1,38 +1,86 @@
 .icon{
     font-size: 40px;
     color: #fff;
-    width: 50px;
+    // width: 50px;
 
     &:hover{
         cursor: pointer;
     }
 
-    &--times{
+    &__logout{
+        color:white;
+        opacity:0.7;
+        font-size:40px;
+
+        &:hover{
+            opacity: 1;
+        }
+    }
+
+    &__times{
         &:hover{
             color: red;
         }
     }
 
-    &--confirm{
+    &__confirm{
         &:hover{
             color: darkgreen;
         }
     }
 
-    &--back{
+    &__back{
         font-size: 65px;
     }
 
-    &--fixed-top-right{
+    &__fixed-top-right{
         top: 0;
         right: 5px;
         width: 30px;
         height: 35px;
     }
 
-    &--eye{
+    &__eye{
         color: #495057;
         font-size: 25px;
     }
 
+    &__switch{
+        width: 60px;
+        height: 34px;
+        border-radius: 34px;
+        cursor: pointer;
+        position: relative;
+
+        &--active{
+            background: rgb(130,40,120);
+        }
+
+        &--inactive{
+            background-color: #ccc;
+        }
+    }
+
+    &__slider{
+        position: absolute;
+        border-radius: 34px;
+        height: 30px;
+        width: 30px;
+        background-color: #fff;
+        margin: auto;
+
+        &--active{
+            top: 2px;
+            right: 3px;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        &--inactive{
+            top: 2px;
+            left: 3px;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+    }
 }

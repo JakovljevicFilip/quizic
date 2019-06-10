@@ -1,0 +1,29 @@
+.screen{
+    &-sm-show{
+        @include atSmall{
+            display: block;
+        }
+
+        @include atMedium{
+            display: none;
+        }
+    }
+
+    &-md-show{
+        display: none;
+
+        @include atMedium{
+            display: block;
+        }
+    }
+
+
+
+    &-lg-show{
+        display: none;
+
+        @include atLarge{
+            display: block;
+        }
+    }
+}

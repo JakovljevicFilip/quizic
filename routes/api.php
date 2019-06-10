@@ -14,30 +14,40 @@ use Illuminate\Http\Request;
 */
 
 Route::namespace('Api')->group(function(){
-    Route::resource('difficulties','DifficultyController');
-    Route::get('users','UserController@index');
-    Route::patch('users/role','UserController@changeRole');
-    Route::patch('users/password','UserController@changePassword');
-    Route::delete('users','UserController@destroy');
+
+    // AUTHENTFICATION
+    Route::prefix('auth')->group(function(){
+        Route::post('register','AuthController@register');
+        Route::post('login','AuthController@login');
+        Route::get('refresh','AuthController@refresh');
+
+        Route::group(['middleware'=>'auth:api'], function(){
+            Route::get('user','AuthController@user');
+            Route::post('logout','AuthController@logout');
+        });
+    });
+
+    // USER
+    Route::group(['middleware'=>'isAdminOrSelf'],function(){
+        // USERS
+        Route::patch('users/password','UserController@changePassword');
+    });
+
+    // ADMIN
+    Route::group(['middleware'=>'isAdmin'],function(){
+        // QUESTIONS
+        Route::get('questions','QuestionController@index');
+        Route::post('questions','QuestionController@store');
+        Route::put('questions','QuestionController@update');
+        Route::delete('questions/{id}','QuestionController@destroy');
+
+        // USERS
+        Route::get('users','UserController@index');
+        Route::patch('users/role','UserController@changeRole');
+        Route::delete('users','UserController@destroy');
+    });
+
 });
 
-// AUTHENTFICATION
-Route::prefix('auth')->namespace('Api')->group(function(){
-	Route::post('register','AuthController@register');
-	Route::post('login','AuthController@login');
-	Route::get('refresh','AuthController@refresh');
 
-	Route::group(['middleware'=>'auth:api'], function(){
-		Route::get('user','AuthController@user');
-		Route::post('logout','AuthController@logout');
-	});
-});
 
-// ADMIN
-Route::group(['middleware'=>'isAdmin','namespace'=>'Api'],function(){
-    // QUESTIONS
-    Route::get('questions','QuestionController@index');
-    Route::post('questions','QuestionController@store');
-    Route::put('questions','QuestionController@update');
-    Route::delete('questions/{id}','QuestionController@destroy');
-});

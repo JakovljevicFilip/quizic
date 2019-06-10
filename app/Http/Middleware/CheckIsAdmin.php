@@ -16,6 +16,14 @@ class CheckIsAdmin
      */
     public function handle($request, Closure $next)
     {
+        // CHECK IF USER IS LOGGED IN
+        if(! is_object(Auth::user())){
+            // USER IS NOT LOGGED IN
+            return response()->json([
+                'message' => 'Unauthorized access, you are not logged in.',
+                'write' => false,
+            ],403);
+        }
         // CHECK IF USER IS ADMINISTRATOR
         if(Auth::user()->role===2){
             // USER IS ADMINISTRATOR

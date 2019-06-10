@@ -1,5 +1,54 @@
 .question{
-    &__select{
+    &__text{
+        grid-area: text;
+    }
+
+    &__difficulties{
+        grid-area: difficulties;
         width: 200px;
+    }
+
+    &__collapse{
+        grid-area: collapse;
+    }
+
+    &__answers{
+        grid-area: answers;
+    }
+
+    &__buttons{
+        grid-area: buttons;
+    }
+
+    &-grid{
+
+        &-show{
+            display: grid;
+            grid-gap: 15px;
+            grid-template-columns: auto 50px;
+            grid-template-areas:
+                "text collapse";
+
+        }
+
+        &-edit{
+            display: grid;
+            grid-gap: 15px;
+            grid-template-columns: auto 50px;
+            grid-template-areas:
+                "text collapse"
+                "difficulties difficulties"
+                "answers answers"
+                "buttons buttons";
+
+            @include atLarge{
+                grid-template-columns: auto 200px 50px;
+                grid-template-areas:
+                    "text difficulties collapse"
+                    "answers answers answers"
+                    "buttons buttons buttons";
+            }
+        }
+
     }
 }

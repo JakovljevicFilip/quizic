@@ -17,6 +17,9 @@
 @import '~@fortawesome/fontawesome-free/scss/fontawesome';
 
 // MY STLYES
+// MIXINS
+@import './application/mixins';
+
 // PARTIALS
 @import './application/answer';
 @import './application/back';
@@ -27,10 +30,12 @@
 @import './application/input';
 @import './application/icon';
 @import './application/logo';
-@import './application/logout';
+@import './application/screen';
+@import './application/text';
 @import './application/wrapper';
 
 // PAGES
 @import './application/app';
 @import './application/authentication';
 @import './application/question';
+@import './application/user.scss';

@@ -16,6 +16,7 @@ import QuestionsCreate from '../views/Questions/QuestionsCreate';
 
 // USERS
 import UsersChangePassword from '../views/Users/UsersChangePassword';
+import UsersIndex from '../views/Users/UsersIndex';
 
 // ERROR
 import ErrorPage from '../views/Error/ErrorPage';
@@ -59,14 +60,7 @@ const router = new VueRouter({
             name: 'menu',
             component: Menu,
             meta:{
-                auth:{
-                    // USER HAS TO BE LOGGED IN
-                    roles: true,
-                    // IF AUTHENTICATION TOKEN IS MISSING
-                    authRedirect:{
-                        name:'login',
-                    }
-                }
+                auth: true
             }
         },
 
@@ -109,6 +103,18 @@ const router = new VueRouter({
                 // ONLY ACCESSABLE IF LOGGED IN
                 auth: true,
             },
+        },
+        {
+            path: '/users',
+            name: 'users.index',
+            component: UsersIndex,
+            meta: {
+                auth: {
+                    roles:2,
+                    forbiddenRedirect: 'users/403',
+                    redirect: 'menu'
+                }
+            }
         },
 
         // ERROR

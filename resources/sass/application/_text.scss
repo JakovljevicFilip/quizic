@@ -1,0 +1,9 @@
+.text{
+    &-center-md{
+        text-align: center;
+
+        @include atMedium {
+            text-align: left;
+        }
+    }
+}

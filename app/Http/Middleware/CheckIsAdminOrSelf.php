@@ -16,10 +16,19 @@ class CheckIsAdminOrSelf
      */
     public function handle($request, Closure $next)
     {
+        // CHECK IF USER IS LOGGED IN
+        if(! is_object(Auth::user())){
+            // USER IS NOT LOGGED IN
+            return response()->json([
+                'message' => 'Unauthorized access, you are not logged in.',
+                'write' => false,
+            ],403);
+        }
+
         // USER ID THAT COMES FROM THE FRONT-END
-        $userId=$request->route()->parameter('id');
+        $id = Auth::user()->id;
         // IF USER IS AN ADMINISTRATOR OR IS TRYING TO ACCESS THEIR OWN INFORMATIONS
-        if(Auth::user()->role===2 || Auth::user()->id===$userId){
+        if(Auth::user()->role===2 || Auth::user()->id===$id){
             // LET THEM CONTINUE
             return $next($request);
         }

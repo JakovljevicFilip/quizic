@@ -1,0 +1,38 @@
+.user{
+    &-grid{
+
+        &__username{
+            grid-area: username;
+        }
+
+        &__status{
+            grid-area: status;
+        }
+
+        &__delete{
+            grid-area: delete;
+        }
+
+        &-nav{
+            display: grid;
+            grid-template-columns: auto 150px 150px;
+            grid-template-areas:
+                "username status delete";
+        }
+
+        &-show{
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-areas:
+                "username username"
+                "status delete";
+
+            @include atMedium{
+                grid-template-columns: auto 150px 150px;
+                grid-template-areas:
+                    "username status delete";
+
+            }
+        }
+    }
+}

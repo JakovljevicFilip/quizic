@@ -24,12 +24,12 @@
                 </div>
 
                 <div class="text-center my-3">
-                    <i class="fas fa-check question-icon icon icon--confirm" @click="validate"></i>
+                    <i class="fas fa-check question-icon icon icon__confirm" @click="validate"></i>
                 </div>
             </div>
         </div>
         <div class="text-center">
-            <i class="fas fa-long-arrow-alt-left icon icon--back" @click="goBack" alt="back"></i>
+            <i class="fas fa-long-arrow-alt-left icon icon__back" @click="goBack" alt="back"></i>
         </div>
     </div>
 </template>

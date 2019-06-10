@@ -2,6 +2,26 @@
     background-color: rgba(0,0,0,0.5);
     border-radius: 20px;
 
+    &--md-and-up{
+        background-color: transparent;
+        border-radius: 0;
+
+        @include atMedium{
+            background-color: rgba(0,0,0,0.5);
+            border-radius: 20px;
+        }
+    }
+
+    &--md-and-down{
+        background-color: rgba(0,0,0,0.5);
+        border-radius: 20px;
+
+        @include atMedium{
+            background-color: transparent;
+            border-radius: 0;
+        }
+    }
+
     &--lg{
         width: 800px;
         padding: 25px;

@@ -22,15 +22,15 @@
                         v-validate="rules.passwordCurrent">
 
                     <!-- SHOW ICON -->
-                    <div class="position-absolute d-flex icon--fixed-top-right" v-if="passwordCurrent.text !== ''">
+                    <div class="position-absolute d-flex icon__fixed-top-right" v-if="passwordCurrent.text !== ''">
                         <!-- SHOW -->
-                        <i class="fas fa-eye m-auto icon icon--eye"
+                        <i class="fas fa-eye m-auto icon icon__eye"
                             alt="show"
                             v-if="passwordCurrent.type !== 'text'"
                             @click="passwordCurrent.type = 'text'">
                         </i>
                         <!-- HIDE -->
-                        <i class="fas fa-eye-slash m-auto icon icon--eye"
+                        <i class="fas fa-eye-slash m-auto icon icon__eye"
                             alt="hide"
                             v-if="passwordCurrent.type !== 'password'"
                             @click="passwordCurrent.type = 'password'">
@@ -50,14 +50,14 @@
                         v-validate="rules.passwordNew"
                     >
 
-                    <div class="position-absolute d-flex icon--fixed-top-right" v-if="passwordNew.text !== ''">
-                        <i class="fas fa-eye m-auto icon icon--eye"
+                    <div class="position-absolute d-flex icon__fixed-top-right" v-if="passwordNew.text !== ''">
+                        <i class="fas fa-eye m-auto icon icon__eye"
                             alt="show"
                             v-if="passwordNew.type !== 'text'"
                             @click="passwordNew.type = 'text'">
                         </i>
 
-                        <i class="fas fa-eye-slash m-auto icon icon--eye"
+                        <i class="fas fa-eye-slash m-auto icon icon__eye"
                             alt="hide"
                             v-if="passwordNew.type !== 'password'"
                             @click="passwordNew.type = 'password'">
@@ -75,14 +75,14 @@
                         v-validate="rules.passwordConfirm"
                     >
 
-                    <div class="position-absolute d-flex icon--fixed-top-right" v-if="passwordConfirm.text !== ''">
-                        <i class="fas fa-eye m-auto icon icon--eye"
+                    <div class="position-absolute d-flex icon__fixed-top-right" v-if="passwordConfirm.text !== ''">
+                        <i class="fas fa-eye m-auto icon icon__eye"
                             alt="show"
                             v-if="passwordConfirm.type !== 'text'"
                             @click="passwordConfirm.type = 'text'">
                         </i>
 
-                        <i class="fas fa-eye-slash m-auto icon icon--eye"
+                        <i class="fas fa-eye-slash m-auto icon icon__eye"
                             alt="hide"
                             v-if="passwordConfirm.type !== 'password'"
                             @click="passwordConfirm.type = 'password'">
@@ -96,7 +96,7 @@
         </div>
 
         <div class="text-center">
-            <i class="fas fa-long-arrow-alt-left icon icon--back" @click="goBack" alt="back"></i>
+            <i class="fas fa-long-arrow-alt-left icon icon__back" @click="goBack" alt="back"></i>
         </div>
     </div>
 </template>

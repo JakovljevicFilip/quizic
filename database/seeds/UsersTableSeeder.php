@@ -23,13 +23,15 @@ class UsersTableSeeder extends Seeder
                 'updated_at' => Carbon::now()
             ],
         	[
-                'username' => 'User',
+                'username' => 'JohnDoe',
                 'password' => bcrypt('111111'),
-                'email' => 'user@test.com',
+                'email' => 'JohnDoe@test.com',
                 'role' => 1,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ],
         ]);
+
+        factory(App\User::class, 20)->create();
     }
 }

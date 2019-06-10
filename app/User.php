@@ -70,6 +70,10 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
+    public function fetchUsers($request){
+        return $this->paginate($request->per_page);
+    }
+
     public function updatePassword($passwordNew){
         // HASH NEW PASSWORD
         $passwordNew1 = Hash::make($passwordNew);

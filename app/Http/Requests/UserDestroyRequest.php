@@ -26,7 +26,7 @@ class UserDestroyRequest extends FormRequest
     public function rules()
     {
         return [
-            'id' => ['exists:users,id', new ExistsOnUpdateWithoutRequestRule(new User, 'role', 2)]
+            'id' => ['required','exists:users,id', new ExistsOnUpdateWithoutRequestRule(new User, 'role', 2)]
         ];
     }
 }

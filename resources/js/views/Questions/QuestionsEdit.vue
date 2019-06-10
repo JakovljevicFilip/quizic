@@ -1,32 +1,34 @@
 <template>
-    <div>
-        <div class="d-flex">
-            <div class="d-inline-block flex-grow-1 mr-1 p-1">
-                <label for="questionText" class="lead text-white">Question text:</label>
-                <input id="questionText" name="text" class="lead px-1 form-control w-100 input" v-validate="rules.text" v-model="questionClone.text">
-            </div>
+    <div class="p-2 question-grid-edit">
+        <div class="question__text">
+            <label for="questionText" class="lead text-white">Question text:</label>
+            <input id="questionText" name="text" class="lead px-1 form-control w-100 input" v-validate="rules.text" v-model="questionClone.text">
+        </div>
 
-            <div class="d-inline-block p-1 question__select">
-                <label for="difficulty" class="lead text-white">Question difficulty:</label>
-                <select id="difficulty" name="difficulty" class="form-control input" v-model="questionClone.difficulty_id" v-validate="rules.difficulty">
-                    <option v-for="difficulty in difficulties" :key="difficulty.id" :value="difficulty.id" :selected="questionClone.difficulty_id === difficulty.id">{{ difficulty.text }}</option>
-                </select>
-            </div>
-            <div class="icon">
-                <i class="fas fa-angle-up" @click="closeEdit()"></i>
+        <div class="question__difficulties">
+            <label for="difficulty" class="lead text-white">Question difficulty:</label>
+            <select id="difficulty" name="difficulty" class="form-control input" v-model="questionClone.difficulty_id" v-validate="rules.difficulty">
+                <option v-for="difficulty in difficulties" :key="difficulty.id" :value="difficulty.id" :selected="questionClone.difficulty_id === difficulty.id">{{ difficulty.text }}</option>
+            </select>
+        </div>
+
+        <div class="icon question__collapse">
+            <i class="fas fa-angle-up" @click="closeEdit()"></i>
+        </div>
+
+        <div class="question__answers">
+            <p class="lead text-white ml-1 mb-0">Question answers:</p>
+            <div class="answer-grid mb-3 p-3">
+                <div v-for="answer in questionClone.answers" :key="answer.id" class="text-center answer" :class="{'answer--correct' : answer.status, 'answer--incorrect': !answer.status}" @click.self="answerStatusChange(answer)">
+                    <input type="text" v-validate="rules.answer" name="answer" v-model="answer.text" class="text-center text-white answer__input">
+                </div>
             </div>
         </div>
 
-        <p class="lead text-white ml-1 mb-0">Question answers:</p>
-        <div class="answer-grid mb-3 p-3">
-            <div v-for="answer in questionClone.answers" :key="answer.id" class="text-center answer" :class="{'answer--correct' : answer.status, 'answer--incorrect': !answer.status}" @click.self="answerStatusChange(answer)">
-                <input type="text" v-validate="rules.answer" name="answer" v-model="answer.text" class="text-center text-white answer__input">
-            </div>
-        </div>
 
-        <div class="text-center pb-3">
-            <i class="fas fa-check icon icon--confirm" @click="validate"></i>
-            <i class="fas fa-times icon icon--times" @click="deleteController"></i>
+        <div class="text-center pb-3 question__buttons">
+            <i class="fas fa-check icon icon__confirm mr-3" @click="validate"></i>
+            <i class="fas fa-times icon icon__times ml-3" @click="deleteController"></i>
         </div>
     </div>
 </template>
@@ -51,7 +53,7 @@ export default {
                 // TITLE
                 title: 'Delete',
                 // BODY
-                text: 'Are you sure that you want to delete this question?',
+                text: 'Are you sure you want to delete this question?',
                 // SHOW BUTTONS
                 showConfirmButton: true,
                 showCancelButton: true,
