@@ -1,6 +1,6 @@
 <template>
-    <div class="container visible container-index__scroll">
-        <div class="text-center mb-3">
+    <div class="container visible container-index--outer container-index__scroll">
+        <div class="text-center my-3">
             <img src="/img/logo.png" alt="logo" class="logo--height">
         </div>
         <div class="d-flex justify-content-center my-3">
@@ -10,22 +10,24 @@
             <div v-for="difficulty in difficulties" :key="difficulty.id" class="mx-3 text-center btn btn__main" :class="{'btn__main--active': difficulty.id === pagination.difficulty}" @click="changeDifficulty(difficulty.id)">{{ difficulty.text }}</div>
         </div>
 
-        <div class="p-3 container-index--inner">
-            <!-- HIDE QUESTIONS CONTATINER IF THERE ARE NO QUESTIONS -->
-            <div v-if="questions.length !== 0 ">
-                <div v-for="(question, index) in questions" :key="index" class="animated slideInDown text-white  my-3 wrapper">
-                    <div class="p-2 question-grid-show" v-if="questionEditId !== question.id">
-                        <p class="lead my-auto question__text">{{ question.text }}</p>
-                        <div class="icon question__collapse">
-                            <i class="fas fa-angle-down" @click="questionEditId = question.id"></i>
+        <div class="p-3 flex-grow-1">
+            <div class="container-index__questions">
+                <!-- HIDE QUESTIONS CONTATINER IF THERE ARE NO QUESTIONS -->
+                <div v-if="questions.length !== 0 ">
+                    <div v-for="(question, index) in questions" :key="index" class="animated slideInDown text-white  my-3 wrapper">
+                        <div class="p-2 question-grid-show" v-if="questionEditId !== question.id">
+                            <p class="lead my-auto question__text">{{ question.text }}</p>
+                            <div class="icon question__collapse">
+                                <i class="fas fa-angle-down" @click="questionEditId = question.id"></i>
+                            </div>
+                        </div>
+                        <div v-else>
+                            <QuestionsEdit :question="question" :difficulties="difficulties" @closeEdit="closeEdit" @reloadQuestions="reloadQuestions"></QuestionsEdit>
                         </div>
                     </div>
-                    <div v-else>
-                        <QuestionsEdit :question="question" :difficulties="difficulties" @closeEdit="closeEdit" @reloadQuestions="reloadQuestions"></QuestionsEdit>
+                    <div class="d-flex justify-content-center">
+                        <button class="btn text-center w-auto btn__main" @click="loadMore()" :disabled="!isNotOnLastPage">{{ loadButtonText }}</button>
                     </div>
-                </div>
-                <div class="d-flex justify-content-center">
-                    <button class="btn text-center w-auto btn__main" @click="loadMore()" :disabled="!isNotOnLastPage">{{ loadButtonText }}</button>
                 </div>
             </div>
         </div>

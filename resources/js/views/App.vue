@@ -5,7 +5,7 @@
                 <router-view></router-view>
             </div>
             <Back></Back>
-            <footer class="container-bottom footer">
+            <footer class="footer">
                 <p class="text-center text-white">© 2019 QUIZZIĆ</p>
             </footer>
         </div>

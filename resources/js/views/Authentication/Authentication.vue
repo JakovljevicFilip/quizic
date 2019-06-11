@@ -1,5 +1,6 @@
 <template>
-	<div class="container-menu">
+<div class="d-flex h-100">
+	<div class="m-auto p-5 container-menu">
 			<div class="text-center pb-5 animated fadeInDownBig logo--animation-delay">
 				<img src="/img/logo.png" alt="logo" class="logo--height">
 			</div>
@@ -9,6 +10,7 @@
 			</div>
 			<router-view></router-view>
 	</div>
+</div>
 </template>
 <script>
 

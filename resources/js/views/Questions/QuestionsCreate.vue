@@ -1,6 +1,10 @@
 <template>
     <div class="container--height">
-        <div class="animated slideInDown fast container h-100 d-flex justify-content-center align-items-center p-5">
+        <div class="text-center my-3">
+            <img src="/img/logo.png" alt="logo" class="logo--height">
+        </div>
+
+        <div class="animated slideInDown fast container h-100 d-flex justify-content-center align-items-center p-1">
             <div class="wrapper wrapper--lg">
                 <div class="d-flex mb-3">
                     <div class="d-inline-block flex-grow-1 mr-1">

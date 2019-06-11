@@ -20132,34 +20132,28 @@ readers do not read off random characters that represent icons */
 
 .container-app {
   width: 80%;
-  height: 100%;
+  height: 100vh;
   margin: auto;
   display: flex;
   flex-direction: column;
-  min-width: 450px;
-  overflow: auto;
+  min-width: 500px;
+  overflow: visible;
 }
 
 .container-main {
   flex-grow: 1;
-  width: 100%;
-}
-
-.container-bottom {
-  height: 50px;
-  width: 100%;
+  min-width: 500px;
 }
 
 .container-menu {
-  padding: 40px 60px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translateY(-50%) translateX(-50%);
-          transform: translateY(-50%) translateX(-50%);
   width: 350px;
   box-shadow: -5px 6px 24px 14px rgba(0, 0, 0, 0.75);
   transition: all 0.1s ease-in-out;
+}
+
+.container-index--outer {
+  display: flex;
+  flex-direction: column;
 }
 
 .container-index__scroll {
@@ -20187,20 +20181,22 @@ readers do not read off random characters that represent icons */
   background: rgba(255, 255, 255, 0.5);
 }
 
-.container-index--inner {
+.container-index__questions {
   height: 50vh;
   overflow: auto;
   overflow-x: hidden;
-  position: relative;
 }
 
-.container--height {
-  height: 85vh;
+.container-index__users {
+  height: 60vh;
+  overflow: auto;
+  overflow-x: hidden;
 }
 
 .footer {
   font-size: 1.25rem;
   font-weight: 300;
+  height: 50px;
 }
 
 .heading {
@@ -20392,6 +20388,7 @@ readers do not read off random characters that represent icons */
   background-repeat: no-repeat;
   background-position: center;
   overflow-x: hidden;
+  min-width: 500px;
 }
 
 .authentication__label {

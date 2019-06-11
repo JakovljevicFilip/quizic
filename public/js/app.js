@@ -1316,6 +1316,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {};
@@ -1651,6 +1653,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   methods: {
     logout: function logout() {
@@ -1671,6 +1676,10 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
 //
 //
 //
@@ -1997,6 +2006,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2214,8 +2225,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2284,6 +2293,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
 //
 //
 //
@@ -50745,7 +50755,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("footer", { staticClass: "container-bottom footer" }, [
+    return _c("footer", { staticClass: "footer" }, [
       _c("p", { staticClass: "text-center text-white" }, [
         _vm._v("© 2019 QUIZZIĆ")
       ])
@@ -50773,47 +50783,49 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "container-menu" },
-    [
-      _vm._m(0),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "d-flex justify-content-center" },
-        [
-          _c(
-            "router-link",
-            {
-              staticClass: "flex-grow-1 authentication__toggle",
-              attrs: {
-                to: { name: "login" },
-                "active-class": "authentication__toggle--active"
-              }
-            },
-            [_vm._v("Login")]
-          ),
-          _vm._v(" "),
-          _c(
-            "router-link",
-            {
-              staticClass: "flex-grow-1 authentication__toggle",
-              attrs: {
-                to: { name: "register" },
-                "active-class": "authentication__toggle--active"
-              }
-            },
-            [_vm._v("Register")]
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c("router-view")
-    ],
-    1
-  )
+  return _c("div", { staticClass: "d-flex h-100" }, [
+    _c(
+      "div",
+      { staticClass: "m-auto p-5 container-menu" },
+      [
+        _vm._m(0),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "d-flex justify-content-center" },
+          [
+            _c(
+              "router-link",
+              {
+                staticClass: "flex-grow-1 authentication__toggle",
+                attrs: {
+                  to: { name: "login" },
+                  "active-class": "authentication__toggle--active"
+                }
+              },
+              [_vm._v("Login")]
+            ),
+            _vm._v(" "),
+            _c(
+              "router-link",
+              {
+                staticClass: "flex-grow-1 authentication__toggle",
+                attrs: {
+                  to: { name: "register" },
+                  "active-class": "authentication__toggle--active"
+                }
+              },
+              [_vm._v("Register")]
+            )
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c("router-view")
+      ],
+      1
+    )
+  ])
 }
 var staticRenderFns = [
   function() {
@@ -51245,76 +51257,78 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "container-menu" },
-    [
-      _vm._m(0),
-      _vm._v(" "),
-      _c("h3", { staticClass: "text-center text-white mb-5 heading" }, [
-        _vm._v("Welcome,"),
-        _c("br"),
-        _vm._v(_vm._s(this.$auth.user().username))
-      ]),
-      _vm._v(" "),
-      _c(
-        "router-link",
-        {
-          staticClass: "btn mb-2 mx-auto btn__main",
-          attrs: { to: { name: "menu" } }
-        },
-        [_vm._v("New Game")]
-      ),
-      _vm._v(" "),
-      _c(
-        "router-link",
-        {
-          staticClass: "btn mb-2 mx-auto btn__main",
-          attrs: { to: { name: "menu" } }
-        },
-        [_vm._v("Highscores")]
-      ),
-      _vm._v(" "),
-      _c(
-        "router-link",
-        {
-          staticClass: "btn mx-auto btn__main",
-          attrs: { to: { name: "users.password" } }
-        },
-        [_vm._v("Change password")]
-      ),
-      _vm._v(" "),
-      this.$auth.user().role === 2
-        ? [
-            _c(
-              "router-link",
-              {
-                staticClass: "btn mb-2 mx-auto btn__main",
-                attrs: { to: { name: "questions.index" } }
-              },
-              [_vm._v("Questions")]
-            ),
-            _vm._v(" "),
-            _c(
-              "router-link",
-              {
-                staticClass: "btn mx-auto btn__main",
-                attrs: { to: { name: "users.index" } }
-              },
-              [_vm._v("Users")]
-            )
-          ]
-        : _vm._e(),
-      _vm._v(" "),
-      _c("div", { staticClass: "text-center mt-4" }, [
-        _c("i", {
-          staticClass: "fas fa-power-off icon icon__logout",
-          on: { click: _vm.logout }
-        })
-      ])
-    ],
-    2
-  )
+  return _c("div", { staticClass: "d-flex h-100" }, [
+    _c(
+      "div",
+      { staticClass: "m-auto p-3 container-menu" },
+      [
+        _vm._m(0),
+        _vm._v(" "),
+        _c("h3", { staticClass: "text-center text-white mb-5 heading" }, [
+          _vm._v("Welcome,"),
+          _c("br"),
+          _vm._v(_vm._s(this.$auth.user().username))
+        ]),
+        _vm._v(" "),
+        _c(
+          "router-link",
+          {
+            staticClass: "btn mb-2 mx-auto btn__main",
+            attrs: { to: { name: "menu" } }
+          },
+          [_vm._v("New Game")]
+        ),
+        _vm._v(" "),
+        _c(
+          "router-link",
+          {
+            staticClass: "btn mb-2 mx-auto btn__main",
+            attrs: { to: { name: "menu" } }
+          },
+          [_vm._v("Highscores")]
+        ),
+        _vm._v(" "),
+        _c(
+          "router-link",
+          {
+            staticClass: "btn mx-auto btn__main",
+            attrs: { to: { name: "users.password" } }
+          },
+          [_vm._v("Change password")]
+        ),
+        _vm._v(" "),
+        this.$auth.user().role === 2
+          ? [
+              _c(
+                "router-link",
+                {
+                  staticClass: "btn mb-2 mx-auto btn__main",
+                  attrs: { to: { name: "questions.index" } }
+                },
+                [_vm._v("Questions")]
+              ),
+              _vm._v(" "),
+              _c(
+                "router-link",
+                {
+                  staticClass: "btn mx-auto btn__main",
+                  attrs: { to: { name: "users.index" } }
+                },
+                [_vm._v("Users")]
+              )
+            ]
+          : _vm._e(),
+        _vm._v(" "),
+        _c("div", { staticClass: "text-center mt-4" }, [
+          _c("i", {
+            staticClass: "fas fa-power-off icon icon__logout",
+            on: { click: _vm.logout }
+          })
+        ])
+      ],
+      2
+    )
+  ])
 }
 var staticRenderFns = [
   function() {
@@ -51351,11 +51365,13 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container--height" }, [
+    _vm._m(0),
+    _vm._v(" "),
     _c(
       "div",
       {
         staticClass:
-          "animated slideInDown fast container h-100 d-flex justify-content-center align-items-center p-5"
+          "animated slideInDown fast container h-100 d-flex justify-content-center align-items-center p-1"
       },
       [
         _c("div", { staticClass: "wrapper wrapper--lg" }, [
@@ -51529,7 +51545,19 @@ var render = function() {
     )
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "text-center my-3" }, [
+      _c("img", {
+        staticClass: "logo--height",
+        attrs: { src: "/img/logo.png", alt: "logo" }
+      })
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -51759,7 +51787,10 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "container visible container-index__scroll" },
+    {
+      staticClass:
+        "container visible container-index--outer container-index__scroll"
+    },
     [
       _vm._m(0),
       _vm._v(" "),
@@ -51802,82 +51833,90 @@ var render = function() {
         0
       ),
       _vm._v(" "),
-      _c("div", { staticClass: "p-3 container-index--inner" }, [
-        _vm.questions.length !== 0
-          ? _c(
-              "div",
-              [
-                _vm._l(_vm.questions, function(question, index) {
-                  return _c(
-                    "div",
-                    {
-                      key: index,
-                      staticClass:
-                        "animated slideInDown text-white  my-3 wrapper"
-                    },
-                    [
-                      _vm.questionEditId !== question.id
-                        ? _c("div", { staticClass: "p-2 question-grid-show" }, [
-                            _c(
-                              "p",
-                              { staticClass: "lead my-auto question__text" },
-                              [_vm._v(_vm._s(question.text))]
-                            ),
-                            _vm._v(" "),
-                            _c(
+      _c("div", { staticClass: "p-3 flex-grow-1" }, [
+        _c("div", { staticClass: "container-index__questions" }, [
+          _vm.questions.length !== 0
+            ? _c(
+                "div",
+                [
+                  _vm._l(_vm.questions, function(question, index) {
+                    return _c(
+                      "div",
+                      {
+                        key: index,
+                        staticClass:
+                          "animated slideInDown text-white  my-3 wrapper"
+                      },
+                      [
+                        _vm.questionEditId !== question.id
+                          ? _c(
                               "div",
-                              { staticClass: "icon question__collapse" },
+                              { staticClass: "p-2 question-grid-show" },
                               [
-                                _c("i", {
-                                  staticClass: "fas fa-angle-down",
-                                  on: {
-                                    click: function($event) {
-                                      _vm.questionEditId = question.id
-                                    }
-                                  }
-                                })
+                                _c(
+                                  "p",
+                                  {
+                                    staticClass: "lead my-auto question__text"
+                                  },
+                                  [_vm._v(_vm._s(question.text))]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  { staticClass: "icon question__collapse" },
+                                  [
+                                    _c("i", {
+                                      staticClass: "fas fa-angle-down",
+                                      on: {
+                                        click: function($event) {
+                                          _vm.questionEditId = question.id
+                                        }
+                                      }
+                                    })
+                                  ]
+                                )
                               ]
                             )
-                          ])
-                        : _c(
-                            "div",
-                            [
-                              _c("QuestionsEdit", {
-                                attrs: {
-                                  question: question,
-                                  difficulties: _vm.difficulties
-                                },
-                                on: {
-                                  closeEdit: _vm.closeEdit,
-                                  reloadQuestions: _vm.reloadQuestions
-                                }
-                              })
-                            ],
-                            1
-                          )
-                    ]
-                  )
-                }),
-                _vm._v(" "),
-                _c("div", { staticClass: "d-flex justify-content-center" }, [
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn text-center w-auto btn__main",
-                      attrs: { disabled: !_vm.isNotOnLastPage },
-                      on: {
-                        click: function($event) {
-                          return _vm.loadMore()
+                          : _c(
+                              "div",
+                              [
+                                _c("QuestionsEdit", {
+                                  attrs: {
+                                    question: question,
+                                    difficulties: _vm.difficulties
+                                  },
+                                  on: {
+                                    closeEdit: _vm.closeEdit,
+                                    reloadQuestions: _vm.reloadQuestions
+                                  }
+                                })
+                              ],
+                              1
+                            )
+                      ]
+                    )
+                  }),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "d-flex justify-content-center" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn text-center w-auto btn__main",
+                        attrs: { disabled: !_vm.isNotOnLastPage },
+                        on: {
+                          click: function($event) {
+                            return _vm.loadMore()
+                          }
                         }
-                      }
-                    },
-                    [_vm._v(_vm._s(_vm.loadButtonText))]
-                  )
-                ])
-              ],
-              2
-            )
-          : _vm._e()
+                      },
+                      [_vm._v(_vm._s(_vm.loadButtonText))]
+                    )
+                  ])
+                ],
+                2
+              )
+            : _vm._e()
+        ])
       ])
     ]
   )
@@ -51887,7 +51926,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "text-center mb-3" }, [
+    return _c("div", { staticClass: "text-center my-3" }, [
       _c("img", {
         staticClass: "logo--height",
         attrs: { src: "/img/logo.png", alt: "logo" }
@@ -51916,479 +51955,463 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("div", { staticClass: "container--height" }, [
-      _c("div", { staticClass: "container-menu" }, [
-        _vm._m(0),
-        _vm._v(" "),
-        _c("h3", { staticClass: "text-center text-white mb-3 heading" }, [
-          _vm._v("Change Password")
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "my-3 position-relative" }, [
-          _vm.passwordCurrent.type === "checkbox"
-            ? _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.passwordCurrent.text,
-                    expression: "passwordCurrent.text"
-                  },
-                  {
-                    name: "validate",
-                    rawName: "v-validate",
-                    value: _vm.rules.passwordCurrent,
-                    expression: "rules.passwordCurrent"
-                  }
-                ],
-                staticClass: "lead px-1 form-control w-100",
-                attrs: {
-                  name: "passwordCurrent",
-                  placeholder: "Enter current password",
-                  type: "checkbox"
-                },
-                domProps: {
-                  checked: Array.isArray(_vm.passwordCurrent.text)
-                    ? _vm._i(_vm.passwordCurrent.text, null) > -1
-                    : _vm.passwordCurrent.text
-                },
-                on: {
-                  change: function($event) {
-                    var $$a = _vm.passwordCurrent.text,
-                      $$el = $event.target,
-                      $$c = $$el.checked ? true : false
-                    if (Array.isArray($$a)) {
-                      var $$v = null,
-                        $$i = _vm._i($$a, $$v)
-                      if ($$el.checked) {
-                        $$i < 0 &&
-                          _vm.$set(
-                            _vm.passwordCurrent,
-                            "text",
-                            $$a.concat([$$v])
-                          )
-                      } else {
-                        $$i > -1 &&
-                          _vm.$set(
-                            _vm.passwordCurrent,
-                            "text",
-                            $$a.slice(0, $$i).concat($$a.slice($$i + 1))
-                          )
-                      }
-                    } else {
-                      _vm.$set(_vm.passwordCurrent, "text", $$c)
-                    }
-                  }
-                }
-              })
-            : _vm.passwordCurrent.type === "radio"
-            ? _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.passwordCurrent.text,
-                    expression: "passwordCurrent.text"
-                  },
-                  {
-                    name: "validate",
-                    rawName: "v-validate",
-                    value: _vm.rules.passwordCurrent,
-                    expression: "rules.passwordCurrent"
-                  }
-                ],
-                staticClass: "lead px-1 form-control w-100",
-                attrs: {
-                  name: "passwordCurrent",
-                  placeholder: "Enter current password",
-                  type: "radio"
-                },
-                domProps: { checked: _vm._q(_vm.passwordCurrent.text, null) },
-                on: {
-                  change: function($event) {
-                    return _vm.$set(_vm.passwordCurrent, "text", null)
-                  }
-                }
-              })
-            : _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.passwordCurrent.text,
-                    expression: "passwordCurrent.text"
-                  },
-                  {
-                    name: "validate",
-                    rawName: "v-validate",
-                    value: _vm.rules.passwordCurrent,
-                    expression: "rules.passwordCurrent"
-                  }
-                ],
-                staticClass: "lead px-1 form-control w-100",
-                attrs: {
-                  name: "passwordCurrent",
-                  placeholder: "Enter current password",
-                  type: _vm.passwordCurrent.type
-                },
-                domProps: { value: _vm.passwordCurrent.text },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.passwordCurrent, "text", $event.target.value)
-                  }
-                }
-              }),
-          _vm._v(" "),
-          _vm.passwordCurrent.text !== ""
-            ? _c(
-                "div",
+  return _c("div", { staticClass: "h-100 d-flex" }, [
+    _c("div", { staticClass: "m-auto p-5 container-menu" }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _c("h3", { staticClass: "text-center text-white mb-3 heading" }, [
+        _vm._v("Change Password")
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "my-3 position-relative" }, [
+        _vm.passwordCurrent.type === "checkbox"
+          ? _c("input", {
+              directives: [
                 {
-                  staticClass: "position-absolute d-flex icon__fixed-top-right"
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.passwordCurrent.text,
+                  expression: "passwordCurrent.text"
                 },
-                [
-                  _vm.passwordCurrent.type !== "text"
-                    ? _c("i", {
-                        staticClass: "fas fa-eye m-auto icon icon__eye",
-                        attrs: { alt: "show" },
-                        on: {
-                          click: function($event) {
-                            _vm.passwordCurrent.type = "text"
-                          }
-                        }
-                      })
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _vm.passwordCurrent.type !== "password"
-                    ? _c("i", {
-                        staticClass: "fas fa-eye-slash m-auto icon icon__eye",
-                        attrs: { alt: "hide" },
-                        on: {
-                          click: function($event) {
-                            _vm.passwordCurrent.type = "password"
-                          }
-                        }
-                      })
-                    : _vm._e()
-                ]
-              )
-            : _vm._e()
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "my-3 position-relative" }, [
-          _vm.passwordNew.type === "checkbox"
-            ? _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.passwordNew.text,
-                    expression: "passwordNew.text"
-                  },
-                  {
-                    name: "validate",
-                    rawName: "v-validate",
-                    value: _vm.rules.passwordNew,
-                    expression: "rules.passwordNew"
-                  }
-                ],
-                ref: "passwordNew",
-                staticClass: "lead px-1 form-control w-100",
-                attrs: {
-                  name: "passwordNew",
-                  placeholder: "Enter new password",
-                  type: "checkbox"
-                },
-                domProps: {
-                  checked: Array.isArray(_vm.passwordNew.text)
-                    ? _vm._i(_vm.passwordNew.text, null) > -1
-                    : _vm.passwordNew.text
-                },
-                on: {
-                  change: function($event) {
-                    var $$a = _vm.passwordNew.text,
-                      $$el = $event.target,
-                      $$c = $$el.checked ? true : false
-                    if (Array.isArray($$a)) {
-                      var $$v = null,
-                        $$i = _vm._i($$a, $$v)
-                      if ($$el.checked) {
-                        $$i < 0 &&
-                          _vm.$set(_vm.passwordNew, "text", $$a.concat([$$v]))
-                      } else {
-                        $$i > -1 &&
-                          _vm.$set(
-                            _vm.passwordNew,
-                            "text",
-                            $$a.slice(0, $$i).concat($$a.slice($$i + 1))
-                          )
-                      }
-                    } else {
-                      _vm.$set(_vm.passwordNew, "text", $$c)
-                    }
-                  }
-                }
-              })
-            : _vm.passwordNew.type === "radio"
-            ? _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.passwordNew.text,
-                    expression: "passwordNew.text"
-                  },
-                  {
-                    name: "validate",
-                    rawName: "v-validate",
-                    value: _vm.rules.passwordNew,
-                    expression: "rules.passwordNew"
-                  }
-                ],
-                ref: "passwordNew",
-                staticClass: "lead px-1 form-control w-100",
-                attrs: {
-                  name: "passwordNew",
-                  placeholder: "Enter new password",
-                  type: "radio"
-                },
-                domProps: { checked: _vm._q(_vm.passwordNew.text, null) },
-                on: {
-                  change: function($event) {
-                    return _vm.$set(_vm.passwordNew, "text", null)
-                  }
-                }
-              })
-            : _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.passwordNew.text,
-                    expression: "passwordNew.text"
-                  },
-                  {
-                    name: "validate",
-                    rawName: "v-validate",
-                    value: _vm.rules.passwordNew,
-                    expression: "rules.passwordNew"
-                  }
-                ],
-                ref: "passwordNew",
-                staticClass: "lead px-1 form-control w-100",
-                attrs: {
-                  name: "passwordNew",
-                  placeholder: "Enter new password",
-                  type: _vm.passwordNew.type
-                },
-                domProps: { value: _vm.passwordNew.text },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.passwordNew, "text", $event.target.value)
-                  }
-                }
-              }),
-          _vm._v(" "),
-          _vm.passwordNew.text !== ""
-            ? _c(
-                "div",
                 {
-                  staticClass: "position-absolute d-flex icon__fixed-top-right"
-                },
-                [
-                  _vm.passwordNew.type !== "text"
-                    ? _c("i", {
-                        staticClass: "fas fa-eye m-auto icon icon__eye",
-                        attrs: { alt: "show" },
-                        on: {
-                          click: function($event) {
-                            _vm.passwordNew.type = "text"
-                          }
-                        }
-                      })
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _vm.passwordNew.type !== "password"
-                    ? _c("i", {
-                        staticClass: "fas fa-eye-slash m-auto icon icon__eye",
-                        attrs: { alt: "hide" },
-                        on: {
-                          click: function($event) {
-                            _vm.passwordNew.type = "password"
-                          }
-                        }
-                      })
-                    : _vm._e()
-                ]
-              )
-            : _vm._e()
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "my-3 position-relative" }, [
-          _vm.passwordConfirm.type === "checkbox"
-            ? _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.passwordConfirm.text,
-                    expression: "passwordConfirm.text"
-                  },
-                  {
-                    name: "validate",
-                    rawName: "v-validate",
-                    value: _vm.rules.passwordConfirm,
-                    expression: "rules.passwordConfirm"
-                  }
-                ],
-                staticClass: "lead px-1 form-control w-100",
-                attrs: {
-                  name: "passwordConfirm",
-                  placeholder: "Repeat new password",
-                  type: "checkbox"
-                },
-                domProps: {
-                  checked: Array.isArray(_vm.passwordConfirm.text)
-                    ? _vm._i(_vm.passwordConfirm.text, null) > -1
-                    : _vm.passwordConfirm.text
-                },
-                on: {
-                  change: function($event) {
-                    var $$a = _vm.passwordConfirm.text,
-                      $$el = $event.target,
-                      $$c = $$el.checked ? true : false
-                    if (Array.isArray($$a)) {
-                      var $$v = null,
-                        $$i = _vm._i($$a, $$v)
-                      if ($$el.checked) {
-                        $$i < 0 &&
-                          _vm.$set(
-                            _vm.passwordConfirm,
-                            "text",
-                            $$a.concat([$$v])
-                          )
-                      } else {
-                        $$i > -1 &&
-                          _vm.$set(
-                            _vm.passwordConfirm,
-                            "text",
-                            $$a.slice(0, $$i).concat($$a.slice($$i + 1))
-                          )
-                      }
+                  name: "validate",
+                  rawName: "v-validate",
+                  value: _vm.rules.passwordCurrent,
+                  expression: "rules.passwordCurrent"
+                }
+              ],
+              staticClass: "lead px-1 form-control w-100",
+              attrs: {
+                name: "passwordCurrent",
+                placeholder: "Enter current password",
+                type: "checkbox"
+              },
+              domProps: {
+                checked: Array.isArray(_vm.passwordCurrent.text)
+                  ? _vm._i(_vm.passwordCurrent.text, null) > -1
+                  : _vm.passwordCurrent.text
+              },
+              on: {
+                change: function($event) {
+                  var $$a = _vm.passwordCurrent.text,
+                    $$el = $event.target,
+                    $$c = $$el.checked ? true : false
+                  if (Array.isArray($$a)) {
+                    var $$v = null,
+                      $$i = _vm._i($$a, $$v)
+                    if ($$el.checked) {
+                      $$i < 0 &&
+                        _vm.$set(_vm.passwordCurrent, "text", $$a.concat([$$v]))
                     } else {
-                      _vm.$set(_vm.passwordConfirm, "text", $$c)
+                      $$i > -1 &&
+                        _vm.$set(
+                          _vm.passwordCurrent,
+                          "text",
+                          $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                        )
                     }
+                  } else {
+                    _vm.$set(_vm.passwordCurrent, "text", $$c)
                   }
                 }
-              })
-            : _vm.passwordConfirm.type === "radio"
-            ? _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.passwordConfirm.text,
-                    expression: "passwordConfirm.text"
-                  },
-                  {
-                    name: "validate",
-                    rawName: "v-validate",
-                    value: _vm.rules.passwordConfirm,
-                    expression: "rules.passwordConfirm"
-                  }
-                ],
-                staticClass: "lead px-1 form-control w-100",
-                attrs: {
-                  name: "passwordConfirm",
-                  placeholder: "Repeat new password",
-                  type: "radio"
-                },
-                domProps: { checked: _vm._q(_vm.passwordConfirm.text, null) },
-                on: {
-                  change: function($event) {
-                    return _vm.$set(_vm.passwordConfirm, "text", null)
-                  }
-                }
-              })
-            : _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.passwordConfirm.text,
-                    expression: "passwordConfirm.text"
-                  },
-                  {
-                    name: "validate",
-                    rawName: "v-validate",
-                    value: _vm.rules.passwordConfirm,
-                    expression: "rules.passwordConfirm"
-                  }
-                ],
-                staticClass: "lead px-1 form-control w-100",
-                attrs: {
-                  name: "passwordConfirm",
-                  placeholder: "Repeat new password",
-                  type: _vm.passwordConfirm.type
-                },
-                domProps: { value: _vm.passwordConfirm.text },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.passwordConfirm, "text", $event.target.value)
-                  }
-                }
-              }),
-          _vm._v(" "),
-          _vm.passwordConfirm.text !== ""
-            ? _c(
-                "div",
+              }
+            })
+          : _vm.passwordCurrent.type === "radio"
+          ? _c("input", {
+              directives: [
                 {
-                  staticClass: "position-absolute d-flex icon__fixed-top-right"
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.passwordCurrent.text,
+                  expression: "passwordCurrent.text"
                 },
-                [
-                  _vm.passwordConfirm.type !== "text"
-                    ? _c("i", {
-                        staticClass: "fas fa-eye m-auto icon icon__eye",
-                        attrs: { alt: "show" },
-                        on: {
-                          click: function($event) {
-                            _vm.passwordConfirm.type = "text"
-                          }
-                        }
-                      })
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _vm.passwordConfirm.type !== "password"
-                    ? _c("i", {
-                        staticClass: "fas fa-eye-slash m-auto icon icon__eye",
-                        attrs: { alt: "hide" },
-                        on: {
-                          click: function($event) {
-                            _vm.passwordConfirm.type = "password"
-                          }
-                        }
-                      })
-                    : _vm._e()
-                ]
-              )
-            : _vm._e()
-        ]),
+                {
+                  name: "validate",
+                  rawName: "v-validate",
+                  value: _vm.rules.passwordCurrent,
+                  expression: "rules.passwordCurrent"
+                }
+              ],
+              staticClass: "lead px-1 form-control w-100",
+              attrs: {
+                name: "passwordCurrent",
+                placeholder: "Enter current password",
+                type: "radio"
+              },
+              domProps: { checked: _vm._q(_vm.passwordCurrent.text, null) },
+              on: {
+                change: function($event) {
+                  return _vm.$set(_vm.passwordCurrent, "text", null)
+                }
+              }
+            })
+          : _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.passwordCurrent.text,
+                  expression: "passwordCurrent.text"
+                },
+                {
+                  name: "validate",
+                  rawName: "v-validate",
+                  value: _vm.rules.passwordCurrent,
+                  expression: "rules.passwordCurrent"
+                }
+              ],
+              staticClass: "lead px-1 form-control w-100",
+              attrs: {
+                name: "passwordCurrent",
+                placeholder: "Enter current password",
+                type: _vm.passwordCurrent.type
+              },
+              domProps: { value: _vm.passwordCurrent.text },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.passwordCurrent, "text", $event.target.value)
+                }
+              }
+            }),
         _vm._v(" "),
-        _c(
-          "button",
-          { staticClass: "btn mx-auto btn__main", on: { click: _vm.validate } },
-          [_vm._v("Confirm")]
-        )
-      ])
+        _vm.passwordCurrent.text !== ""
+          ? _c(
+              "div",
+              { staticClass: "position-absolute d-flex icon__fixed-top-right" },
+              [
+                _vm.passwordCurrent.type !== "text"
+                  ? _c("i", {
+                      staticClass: "fas fa-eye m-auto icon icon__eye",
+                      attrs: { alt: "show" },
+                      on: {
+                        click: function($event) {
+                          _vm.passwordCurrent.type = "text"
+                        }
+                      }
+                    })
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.passwordCurrent.type !== "password"
+                  ? _c("i", {
+                      staticClass: "fas fa-eye-slash m-auto icon icon__eye",
+                      attrs: { alt: "hide" },
+                      on: {
+                        click: function($event) {
+                          _vm.passwordCurrent.type = "password"
+                        }
+                      }
+                    })
+                  : _vm._e()
+              ]
+            )
+          : _vm._e()
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "my-3 position-relative" }, [
+        _vm.passwordNew.type === "checkbox"
+          ? _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.passwordNew.text,
+                  expression: "passwordNew.text"
+                },
+                {
+                  name: "validate",
+                  rawName: "v-validate",
+                  value: _vm.rules.passwordNew,
+                  expression: "rules.passwordNew"
+                }
+              ],
+              ref: "passwordNew",
+              staticClass: "lead px-1 form-control w-100",
+              attrs: {
+                name: "passwordNew",
+                placeholder: "Enter new password",
+                type: "checkbox"
+              },
+              domProps: {
+                checked: Array.isArray(_vm.passwordNew.text)
+                  ? _vm._i(_vm.passwordNew.text, null) > -1
+                  : _vm.passwordNew.text
+              },
+              on: {
+                change: function($event) {
+                  var $$a = _vm.passwordNew.text,
+                    $$el = $event.target,
+                    $$c = $$el.checked ? true : false
+                  if (Array.isArray($$a)) {
+                    var $$v = null,
+                      $$i = _vm._i($$a, $$v)
+                    if ($$el.checked) {
+                      $$i < 0 &&
+                        _vm.$set(_vm.passwordNew, "text", $$a.concat([$$v]))
+                    } else {
+                      $$i > -1 &&
+                        _vm.$set(
+                          _vm.passwordNew,
+                          "text",
+                          $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                        )
+                    }
+                  } else {
+                    _vm.$set(_vm.passwordNew, "text", $$c)
+                  }
+                }
+              }
+            })
+          : _vm.passwordNew.type === "radio"
+          ? _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.passwordNew.text,
+                  expression: "passwordNew.text"
+                },
+                {
+                  name: "validate",
+                  rawName: "v-validate",
+                  value: _vm.rules.passwordNew,
+                  expression: "rules.passwordNew"
+                }
+              ],
+              ref: "passwordNew",
+              staticClass: "lead px-1 form-control w-100",
+              attrs: {
+                name: "passwordNew",
+                placeholder: "Enter new password",
+                type: "radio"
+              },
+              domProps: { checked: _vm._q(_vm.passwordNew.text, null) },
+              on: {
+                change: function($event) {
+                  return _vm.$set(_vm.passwordNew, "text", null)
+                }
+              }
+            })
+          : _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.passwordNew.text,
+                  expression: "passwordNew.text"
+                },
+                {
+                  name: "validate",
+                  rawName: "v-validate",
+                  value: _vm.rules.passwordNew,
+                  expression: "rules.passwordNew"
+                }
+              ],
+              ref: "passwordNew",
+              staticClass: "lead px-1 form-control w-100",
+              attrs: {
+                name: "passwordNew",
+                placeholder: "Enter new password",
+                type: _vm.passwordNew.type
+              },
+              domProps: { value: _vm.passwordNew.text },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.passwordNew, "text", $event.target.value)
+                }
+              }
+            }),
+        _vm._v(" "),
+        _vm.passwordNew.text !== ""
+          ? _c(
+              "div",
+              { staticClass: "position-absolute d-flex icon__fixed-top-right" },
+              [
+                _vm.passwordNew.type !== "text"
+                  ? _c("i", {
+                      staticClass: "fas fa-eye m-auto icon icon__eye",
+                      attrs: { alt: "show" },
+                      on: {
+                        click: function($event) {
+                          _vm.passwordNew.type = "text"
+                        }
+                      }
+                    })
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.passwordNew.type !== "password"
+                  ? _c("i", {
+                      staticClass: "fas fa-eye-slash m-auto icon icon__eye",
+                      attrs: { alt: "hide" },
+                      on: {
+                        click: function($event) {
+                          _vm.passwordNew.type = "password"
+                        }
+                      }
+                    })
+                  : _vm._e()
+              ]
+            )
+          : _vm._e()
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "my-3 position-relative" }, [
+        _vm.passwordConfirm.type === "checkbox"
+          ? _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.passwordConfirm.text,
+                  expression: "passwordConfirm.text"
+                },
+                {
+                  name: "validate",
+                  rawName: "v-validate",
+                  value: _vm.rules.passwordConfirm,
+                  expression: "rules.passwordConfirm"
+                }
+              ],
+              staticClass: "lead px-1 form-control w-100",
+              attrs: {
+                name: "passwordConfirm",
+                placeholder: "Repeat new password",
+                type: "checkbox"
+              },
+              domProps: {
+                checked: Array.isArray(_vm.passwordConfirm.text)
+                  ? _vm._i(_vm.passwordConfirm.text, null) > -1
+                  : _vm.passwordConfirm.text
+              },
+              on: {
+                change: function($event) {
+                  var $$a = _vm.passwordConfirm.text,
+                    $$el = $event.target,
+                    $$c = $$el.checked ? true : false
+                  if (Array.isArray($$a)) {
+                    var $$v = null,
+                      $$i = _vm._i($$a, $$v)
+                    if ($$el.checked) {
+                      $$i < 0 &&
+                        _vm.$set(_vm.passwordConfirm, "text", $$a.concat([$$v]))
+                    } else {
+                      $$i > -1 &&
+                        _vm.$set(
+                          _vm.passwordConfirm,
+                          "text",
+                          $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                        )
+                    }
+                  } else {
+                    _vm.$set(_vm.passwordConfirm, "text", $$c)
+                  }
+                }
+              }
+            })
+          : _vm.passwordConfirm.type === "radio"
+          ? _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.passwordConfirm.text,
+                  expression: "passwordConfirm.text"
+                },
+                {
+                  name: "validate",
+                  rawName: "v-validate",
+                  value: _vm.rules.passwordConfirm,
+                  expression: "rules.passwordConfirm"
+                }
+              ],
+              staticClass: "lead px-1 form-control w-100",
+              attrs: {
+                name: "passwordConfirm",
+                placeholder: "Repeat new password",
+                type: "radio"
+              },
+              domProps: { checked: _vm._q(_vm.passwordConfirm.text, null) },
+              on: {
+                change: function($event) {
+                  return _vm.$set(_vm.passwordConfirm, "text", null)
+                }
+              }
+            })
+          : _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.passwordConfirm.text,
+                  expression: "passwordConfirm.text"
+                },
+                {
+                  name: "validate",
+                  rawName: "v-validate",
+                  value: _vm.rules.passwordConfirm,
+                  expression: "rules.passwordConfirm"
+                }
+              ],
+              staticClass: "lead px-1 form-control w-100",
+              attrs: {
+                name: "passwordConfirm",
+                placeholder: "Repeat new password",
+                type: _vm.passwordConfirm.type
+              },
+              domProps: { value: _vm.passwordConfirm.text },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.passwordConfirm, "text", $event.target.value)
+                }
+              }
+            }),
+        _vm._v(" "),
+        _vm.passwordConfirm.text !== ""
+          ? _c(
+              "div",
+              { staticClass: "position-absolute d-flex icon__fixed-top-right" },
+              [
+                _vm.passwordConfirm.type !== "text"
+                  ? _c("i", {
+                      staticClass: "fas fa-eye m-auto icon icon__eye",
+                      attrs: { alt: "show" },
+                      on: {
+                        click: function($event) {
+                          _vm.passwordConfirm.type = "text"
+                        }
+                      }
+                    })
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.passwordConfirm.type !== "password"
+                  ? _c("i", {
+                      staticClass: "fas fa-eye-slash m-auto icon icon__eye",
+                      attrs: { alt: "hide" },
+                      on: {
+                        click: function($event) {
+                          _vm.passwordConfirm.type = "password"
+                        }
+                      }
+                    })
+                  : _vm._e()
+              ]
+            )
+          : _vm._e()
+      ]),
+      _vm._v(" "),
+      _c(
+        "button",
+        { staticClass: "btn mx-auto btn__main", on: { click: _vm.validate } },
+        [_vm._v("Confirm")]
+      )
     ])
   ])
 }
@@ -52428,102 +52451,122 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "container visible container-index__scroll" },
+    { staticClass: "container visible h-100 container-index--outer" },
     [
       _vm._m(0),
       _vm._v(" "),
-      _c("div", { staticClass: "text-white lead p-3 container-index--inner" }, [
-        _vm.users.length !== 0
-          ? _c(
-              "div",
-              [
-                _vm._m(1),
-                _vm._v(" "),
-                _vm._m(2),
-                _vm._v(" "),
-                _vm._l(_vm.users, function(user, index) {
-                  return _c(
-                    "div",
-                    {
-                      key: index,
-                      staticClass:
-                        "animated slideInDown my-3 wrapper--md-and-down user-grid-show"
-                    },
-                    [
-                      _c(
-                        "p",
+      _vm.users.length !== 0
+        ? _c(
+            "div",
+            {
+              staticClass:
+                "text-white lead flex-grow-1 container-index--outer container-index__scroll"
+            },
+            [
+              _vm._m(1),
+              _vm._v(" "),
+              _vm._m(2),
+              _vm._v(" "),
+              _c("div", { staticClass: "flex-grow-1" }, [
+                _c(
+                  "div",
+                  { staticClass: "p-3 container-index__users" },
+                  [
+                    _vm._l(_vm.users, function(user, index) {
+                      return _c(
+                        "div",
                         {
+                          key: index,
                           staticClass:
-                            "lead p-2 my-auto text-center-md user-grid__username wrapper--md-and-up"
+                            "animated slideInDown my-3 wrapper--md-and-down user-grid-show"
                         },
-                        [_vm._v(_vm._s(user.username))]
-                      ),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "d-flex user-grid__status" }, [
-                        _c(
-                          "div",
-                          {
-                            staticClass: "m-auto icon__switch",
-                            class: {
-                              "icon__switch--inactive": user.role === 1,
-                              "icon__switch--active": user.role === 2
+                        [
+                          _c(
+                            "p",
+                            {
+                              staticClass:
+                                "lead p-2 my-auto text-center-md user-grid__username wrapper--md-and-up"
                             },
+                            [_vm._v(_vm._s(user.username))]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            { staticClass: "d-flex user-grid__status" },
+                            [
+                              _c(
+                                "div",
+                                {
+                                  staticClass: "m-auto icon__switch",
+                                  class: {
+                                    "icon__switch--inactive": user.role === 1,
+                                    "icon__switch--active": user.role === 2
+                                  },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.controllerChangeRole(user)
+                                    }
+                                  }
+                                },
+                                [
+                                  _c("div", {
+                                    staticClass: "icon__slider",
+                                    class: {
+                                      "icon__slider--inactive": user.role === 1,
+                                      "icon__slider--active": user.role === 2
+                                    }
+                                  })
+                                ]
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            {
+                              staticClass: "text-center user-grid__delete icon"
+                            },
+                            [
+                              _c("i", {
+                                staticClass: "fas fa-times icon icon__times",
+                                on: {
+                                  click: function($event) {
+                                    return _vm.controllerDelete(user)
+                                  }
+                                }
+                              })
+                            ]
+                          )
+                        ]
+                      )
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "d-flex justify-content-center" },
+                      [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn text-center w-auto btn__main",
+                            attrs: { disabled: !_vm.isNotOnLastPage },
                             on: {
                               click: function($event) {
-                                return _vm.controllerChangeRole(user)
+                                return _vm.loadMore()
                               }
                             }
                           },
-                          [
-                            _c("div", {
-                              staticClass: "icon__slider",
-                              class: {
-                                "icon__slider--inactive": user.role === 1,
-                                "icon__slider--active": user.role === 2
-                              }
-                            })
-                          ]
+                          [_vm._v(_vm._s(_vm.loadButtonText))]
                         )
-                      ]),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        { staticClass: "text-center user-grid__delete icon" },
-                        [
-                          _c("i", {
-                            staticClass: "fas fa-times icon icon__times",
-                            on: {
-                              click: function($event) {
-                                return _vm.controllerDelete(user)
-                              }
-                            }
-                          })
-                        ]
-                      )
-                    ]
-                  )
-                }),
-                _vm._v(" "),
-                _c("div", { staticClass: "d-flex justify-content-center" }, [
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn text-center w-auto btn__main",
-                      attrs: { disabled: !_vm.isNotOnLastPage },
-                      on: {
-                        click: function($event) {
-                          return _vm.loadMore()
-                        }
-                      }
-                    },
-                    [_vm._v(_vm._s(_vm.loadButtonText))]
-                  )
-                ])
-              ],
-              2
-            )
-          : _vm._e()
-      ])
+                      ]
+                    )
+                  ],
+                  2
+                )
+              ])
+            ]
+          )
+        : _vm._e()
     ]
   )
 }
@@ -52532,11 +52575,29 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "text-center pb-5" }, [
+    return _c("div", { staticClass: "text-center my-3" }, [
       _c("img", {
         staticClass: "logo--height",
         attrs: { src: "/img/logo.png", alt: "logo" }
       })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "screen-sm-show" }, [
+      _c("div", { staticClass: "text-center" }, [_vm._v("Users")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "d-flex" }, [
+        _c("div", { staticClass: "flex-grow-1 text-center" }, [
+          _vm._v("User/Administrator")
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "flex-grow-1 text-center" }, [
+          _vm._v("Delete")
+        ])
+      ])
     ])
   },
   function() {
@@ -52554,24 +52615,6 @@ var staticRenderFns = [
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "lead text-center user-grid-delete" }, [
-          _vm._v("Delete")
-        ])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "screen-sm-show" }, [
-      _c("div", { staticClass: "text-center" }, [_vm._v("Users")]),
-      _vm._v(" "),
-      _c("div", { staticClass: "d-flex" }, [
-        _c("div", { staticClass: "flex-grow-1 text-center" }, [
-          _vm._v("User/Administrator")
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "flex-grow-1 text-center" }, [
           _vm._v("Delete")
         ])
       ])
