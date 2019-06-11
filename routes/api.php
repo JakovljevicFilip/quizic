@@ -35,6 +35,9 @@ Route::namespace('Api')->group(function(){
 
     // ADMIN
     Route::group(['middleware'=>'isAdmin'],function(){
+        // DIFFCIULTIES
+        Route::get('difficulties', 'DifficultyController@index');
+
         // QUESTIONS
         Route::get('questions','QuestionController@index');
         Route::post('questions','QuestionController@store');

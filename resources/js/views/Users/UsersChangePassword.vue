@@ -91,10 +91,6 @@
                 <button class="btn mx-auto btn__main" @click="validate">Confirm</button>
             </div>
         </div>
-
-        <div class="text-center">
-            <i class="fas fa-long-arrow-alt-left icon icon__back" @click="goBack" alt="back"></i>
-        </div>
     </div>
 </template>
 
@@ -152,11 +148,6 @@ export default {
                 password_confirmation: this.passwordConfirm.text,
             })
             .catch(error => {})
-        },
-
-        goBack(){
-            // BACK TO MENU
-            this.$router.push('/menu');
         },
     }
 }

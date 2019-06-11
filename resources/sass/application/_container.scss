@@ -1,4 +1,24 @@
 .container{
+    &-app{
+        width: 80%;
+        height: 100%;
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+        min-width: 450px;
+        overflow: auto;
+    }
+
+    &-main{
+        flex-grow: 1;
+        width: 100%;
+    }
+
+    &-bottom{
+        height: 50px;
+        width: 100%;
+    }
+
     &-menu{
         padding: 40px 60px;
         position: absolute;
@@ -18,11 +38,7 @@
 
     &-index{
 
-        &--outer{
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translateY(-50%) translateX(-50%);
+        &__scroll{
             /* width */
             ::-webkit-scrollbar {
                 width: 10px;

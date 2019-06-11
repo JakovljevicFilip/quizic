@@ -1,13 +1,22 @@
 <template>
-    <div>
-        <div class="app-background">
-            <router-view></router-view>
+    <div class="app-background">
+        <div class="container-app">
+            <div class="container-main">
+                <router-view></router-view>
+            </div>
+            <Back></Back>
+            <footer class="container-bottom footer">
+                <p class="text-center text-white">© 2019 QUIZZIĆ</p>
+            </footer>
         </div>
-        <footer class="footer">
-            <p class="text-center text-white fixed-bottom">© 2019 QUIZZIĆ</p>
-        </footer>
     </div>
 </template>
 <script>
-export default {}
+import Back from './Back';
+
+export default {
+    components: {
+        Back
+    },
+}
 </script>

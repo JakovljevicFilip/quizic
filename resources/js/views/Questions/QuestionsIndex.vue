@@ -1,5 +1,5 @@
 <template>
-    <div class="container visible container-index--outer">
+    <div class="container visible container-index__scroll">
         <div class="text-center mb-3">
             <img src="/img/logo.png" alt="logo" class="logo--height">
         </div>
@@ -28,10 +28,6 @@
                     <button class="btn text-center w-auto btn__main" @click="loadMore()" :disabled="!isNotOnLastPage">{{ loadButtonText }}</button>
                 </div>
             </div>
-        </div>
-
-        <div class="text-white text-center">
-            <i class="fas fa-long-arrow-alt-left icon icon__back" @click="goBack" alt="back"></i>
         </div>
     </div>
 </template>
@@ -108,11 +104,6 @@ export default {
             })
 
             .catch(error => {});
-        },
-
-        goBack(){
-            // GO BACK TO MENU
-            this.$router.push('/menu');
         },
 
         loadMore(){

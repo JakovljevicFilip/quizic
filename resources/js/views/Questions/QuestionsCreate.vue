@@ -28,9 +28,6 @@
                 </div>
             </div>
         </div>
-        <div class="text-center">
-            <i class="fas fa-long-arrow-alt-left icon icon__back" @click="goBack" alt="back"></i>
-        </div>
     </div>
 </template>
 
@@ -52,16 +49,19 @@ export default {
         getDifficulties(){
             this.$http.get('difficulties')
             .then(response => {
+                // SET DIFFICULTIES
                 this.difficulties = response.body.difficulties;
                 // SET DEFAULT VALUES FOR QUESTION FIELDS
                 this.setDefaultQuestionValues();
             })
             .catch(error => {})
         },
+
         setDefaultDifficulty(){
             // SET SELECTED QUESTION DIFFICULTY TO THE FIRST ARRAY MEMBER
             this.question.difficulty_id = this.difficulties[0].id;
         },
+
         validate(){
             this.$validator.validate()
             .then(valid => {
@@ -80,6 +80,7 @@ export default {
                 }
             });
         },
+
         questionStore(){
             this.$http.post('questions', this.question)
             .then(repsonse => {
@@ -90,6 +91,7 @@ export default {
                 console.log(error);
             });
         },
+
         setDefaultQuestionValues(){
             // DEFAULT QUESTION FIELDS
             this.question = {
@@ -115,10 +117,6 @@ export default {
 
                 ]
             };
-        },
-        goBack(){
-            // BACK TO QUESTIONS INDEX
-            this.$router.push('/questions');
         },
     },
     mounted(){
