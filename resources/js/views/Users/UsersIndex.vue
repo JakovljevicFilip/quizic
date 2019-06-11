@@ -39,9 +39,7 @@
                                 }"></div>
                             </div>
                         </div>
-                        <div class="text-center user-grid__delete icon">
-                            <i class="fas fa-times icon icon__times" @click="controllerDelete(user)"></i>
-                        </div>
+                        <UsersDelete :user="user" @usersReload="usersReload"></UsersDelete>
                     </div>
 
                     <div class="d-flex justify-content-center">
@@ -54,7 +52,13 @@
 </template>
 
 <script>
+import UsersDelete from './UsersDelete';
+
 export default {
+    components: {
+        UsersDelete,
+    },
+
     computed: {
         isNotOnLastPage: function(){
             return this.pagination.page <= this.pagination.last_page;
@@ -63,6 +67,7 @@ export default {
             return this.pagination.page <= this.pagination.last_page ? 'Load more users' : 'No more users';
         },
     },
+
     data(){
         return{
             // ALL USERS
@@ -78,31 +83,6 @@ export default {
             },
             // USER THAT IS BEING ALTERED
             user: {},
-            // DELETE MODAL CONFIGURATION
-            swalConfigDelete: {
-                // ICON
-                type: 'error',
-                // TITLE
-                title: 'Delete',
-                // BODY
-                text: 'Are you sure you want to delete "',
-                // SHOW BUTTONS
-                showConfirmButton: true,
-                showCancelButton: true,
-                // BUTTON TEXT
-                confirmButtonText: 'Yes',
-                cancelButtonText: 'No',
-                // BUTTON COLOR - BOOTSTRAP RED
-                confirmButtonColor: '#dc3545',
-                // MESSAGE POSITION
-                position: 'center',
-                // MESSAGE TO DISSAPEAR IN
-                timer: false,
-                // COMPACT MESSAGE
-                toast: false,
-                // PREVENT MESSAGE DISMISAL FROM AN OUTSIDE CLICK
-                allowOutsideClick: false
-            },
 
             // REMOVING YOURSELF MODAL CONFIGURATION
             swalConfigChangeRole: {
@@ -121,6 +101,7 @@ export default {
             },
         }
     },
+
     methods: {
         getUsers(append){
             this.$http.get('users',{
@@ -230,49 +211,6 @@ export default {
                 per_page: 15,
                 last_page: null,
             }
-        },
-
-        controllerDelete(user){
-            // ADD USERNAME TO THE MODAL TEXT
-            this.swalConfigDelete.text += user.username+'"?';
-
-            // RUN DELETE MODAL
-            this.$swal(this.swalConfigDelete)
-            .then(response => {
-                // AFFIRMATIVE ANSWER
-                if(response.value){
-                    // SET USER FOR DELITION
-                    this.userSetAltered(user);
-                    // DELETE USER
-                    this.userDelete();
-                    // RESET USER THAT IS BEING ALTERED
-                    this.user = {};
-                }
-            });
-
-            // RESET MODAL TEXT
-            this.swalConfigDelete.text = 'Are you sure you want to delete "';
-        },
-
-        userDelete(){
-            this.$http.delete('users',{
-                params:{
-                    id: this.user.id,
-                }
-            })
-            .then(response =>{
-                // USER DELETED THEMSELF AS ADMINISTRATOR
-                if(response.data.logout){
-                    // LOGOUT
-                    this.$auth.logout();
-                }
-                // USER DELETED SOMEONE ELSE
-                else{
-                    // RELOAD USERS
-                    this.usersReload();
-                }
-            })
-            .catch(error => {});
         },
 
         loadMore(){

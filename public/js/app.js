@@ -2284,10 +2284,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Users/UsersIndex.vue?vue&type=script&lang=js&":
-/*!**********************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Users/UsersIndex.vue?vue&type=script&lang=js& ***!
-  \**********************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Users/UsersDelete.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Users/UsersDelete.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2299,56 +2299,142 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['user'],
+  data: function data() {
+    return {
+      // DELETE MODAL CONFIGURATION
+      swalConfigDelete: {
+        // ICON
+        type: 'error',
+        // TITLE
+        title: 'Delete',
+        // BODY
+        text: 'Are you sure you want to delete "' + this.user.username + '"?',
+        // SHOW BUTTONS
+        showConfirmButton: true,
+        showCancelButton: true,
+        // BUTTON TEXT
+        confirmButtonText: 'Yes',
+        cancelButtonText: 'No',
+        // BUTTON COLOR - BOOTSTRAP RED
+        confirmButtonColor: '#dc3545',
+        // MESSAGE POSITION
+        position: 'center',
+        // MESSAGE TO DISSAPEAR IN
+        timer: false,
+        // COMPACT MESSAGE
+        toast: false,
+        // PREVENT MESSAGE DISMISAL FROM AN OUTSIDE CLICK
+        allowOutsideClick: false
+      }
+    };
+  },
+  methods: {
+    controllerDelete: function controllerDelete() {
+      var _this = this;
+
+      // RUN DELETE MODAL
+      this.$swal(this.swalConfigDelete).then(function (response) {
+        // AFFIRMATIVE ANSWER
+        if (response.value) {
+          // DELETE USER
+          _this.userDelete();
+        }
+      });
+    },
+    userDelete: function userDelete() {
+      var _this2 = this;
+
+      this.$http["delete"]('users', {
+        params: {
+          id: this.user.id
+        }
+      }).then(function (response) {
+        // USER DELETED THEMSELF AS ADMINISTRATOR
+        if (response.data.logout) {
+          // LOGOUT
+          _this2.$auth.logout();
+        } // USER DELETED SOMEONE ELSE
+        else {
+            // RELOAD USERS
+            _this2.$emit('usersReload');
+          }
+      })["catch"](function (error) {});
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Users/UsersIndex.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Users/UsersIndex.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _UsersDelete__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./UsersDelete */ "./resources/js/views/Users/UsersDelete.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    UsersDelete: _UsersDelete__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
   computed: {
     isNotOnLastPage: function isNotOnLastPage() {
       return this.pagination.page <= this.pagination.last_page;
@@ -2372,31 +2458,6 @@ __webpack_require__.r(__webpack_exports__);
       },
       // USER THAT IS BEING ALTERED
       user: {},
-      // DELETE MODAL CONFIGURATION
-      swalConfigDelete: {
-        // ICON
-        type: 'error',
-        // TITLE
-        title: 'Delete',
-        // BODY
-        text: 'Are you sure you want to delete "',
-        // SHOW BUTTONS
-        showConfirmButton: true,
-        showCancelButton: true,
-        // BUTTON TEXT
-        confirmButtonText: 'Yes',
-        cancelButtonText: 'No',
-        // BUTTON COLOR - BOOTSTRAP RED
-        confirmButtonColor: '#dc3545',
-        // MESSAGE POSITION
-        position: 'center',
-        // MESSAGE TO DISSAPEAR IN
-        timer: false,
-        // COMPACT MESSAGE
-        toast: false,
-        // PREVENT MESSAGE DISMISAL FROM AN OUTSIDE CLICK
-        allowOutsideClick: false
-      },
       // REMOVING YOURSELF MODAL CONFIGURATION
       swalConfigChangeRole: {
         type: 'warning',
@@ -2511,47 +2572,6 @@ __webpack_require__.r(__webpack_exports__);
         per_page: 15,
         last_page: null
       };
-    },
-    controllerDelete: function controllerDelete(user) {
-      var _this4 = this;
-
-      // ADD USERNAME TO THE MODAL TEXT
-      this.swalConfigDelete.text += user.username + '"?'; // RUN DELETE MODAL
-
-      this.$swal(this.swalConfigDelete).then(function (response) {
-        // AFFIRMATIVE ANSWER
-        if (response.value) {
-          // SET USER FOR DELITION
-          _this4.userSetAltered(user); // DELETE USER
-
-
-          _this4.userDelete(); // RESET USER THAT IS BEING ALTERED
-
-
-          _this4.user = {};
-        }
-      }); // RESET MODAL TEXT
-
-      this.swalConfigDelete.text = 'Are you sure you want to delete "';
-    },
-    userDelete: function userDelete() {
-      var _this5 = this;
-
-      this.$http["delete"]('users', {
-        params: {
-          id: this.user.id
-        }
-      }).then(function (response) {
-        // USER DELETED THEMSELF AS ADMINISTRATOR
-        if (response.data.logout) {
-          // LOGOUT
-          _this5.$auth.logout();
-        } // USER DELETED SOMEONE ELSE
-        else {
-            // RELOAD USERS
-            _this5.usersReload();
-          }
-      })["catch"](function (error) {});
     },
     loadMore: function loadMore() {
       // GET USERS AND APPEND TO ARRAY
@@ -52434,6 +52454,39 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Users/UsersDelete.vue?vue&type=template&id=095d59c6&":
+/*!***************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Users/UsersDelete.vue?vue&type=template&id=095d59c6& ***!
+  \***************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "text-center user-grid__delete icon" }, [
+    _c("i", {
+      staticClass: "fas fa-times icon icon__times",
+      on: {
+        click: function($event) {
+          return _vm.controllerDelete()
+        }
+      }
+    })
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Users/UsersIndex.vue?vue&type=template&id=14e67260&":
 /*!**************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Users/UsersIndex.vue?vue&type=template&id=14e67260& ***!
@@ -52521,23 +52574,12 @@ var render = function() {
                             ]
                           ),
                           _vm._v(" "),
-                          _c(
-                            "div",
-                            {
-                              staticClass: "text-center user-grid__delete icon"
-                            },
-                            [
-                              _c("i", {
-                                staticClass: "fas fa-times icon icon__times",
-                                on: {
-                                  click: function($event) {
-                                    return _vm.controllerDelete(user)
-                                  }
-                                }
-                              })
-                            ]
-                          )
-                        ]
+                          _c("UsersDelete", {
+                            attrs: { user: user },
+                            on: { usersReload: _vm.usersReload }
+                          })
+                        ],
+                        1
                       )
                     }),
                     _vm._v(" "),
@@ -70373,6 +70415,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UsersChangePassword_vue_vue_type_template_id_4649f5dd___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UsersChangePassword_vue_vue_type_template_id_4649f5dd___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/views/Users/UsersDelete.vue":
+/*!**************************************************!*\
+  !*** ./resources/js/views/Users/UsersDelete.vue ***!
+  \**************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _UsersDelete_vue_vue_type_template_id_095d59c6___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./UsersDelete.vue?vue&type=template&id=095d59c6& */ "./resources/js/views/Users/UsersDelete.vue?vue&type=template&id=095d59c6&");
+/* harmony import */ var _UsersDelete_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./UsersDelete.vue?vue&type=script&lang=js& */ "./resources/js/views/Users/UsersDelete.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _UsersDelete_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _UsersDelete_vue_vue_type_template_id_095d59c6___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _UsersDelete_vue_vue_type_template_id_095d59c6___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/views/Users/UsersDelete.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/views/Users/UsersDelete.vue?vue&type=script&lang=js&":
+/*!***************************************************************************!*\
+  !*** ./resources/js/views/Users/UsersDelete.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_UsersDelete_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./UsersDelete.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Users/UsersDelete.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_UsersDelete_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/views/Users/UsersDelete.vue?vue&type=template&id=095d59c6&":
+/*!*********************************************************************************!*\
+  !*** ./resources/js/views/Users/UsersDelete.vue?vue&type=template&id=095d59c6& ***!
+  \*********************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UsersDelete_vue_vue_type_template_id_095d59c6___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./UsersDelete.vue?vue&type=template&id=095d59c6& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Users/UsersDelete.vue?vue&type=template&id=095d59c6&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UsersDelete_vue_vue_type_template_id_095d59c6___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UsersDelete_vue_vue_type_template_id_095d59c6___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
