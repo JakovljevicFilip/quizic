@@ -8,6 +8,7 @@ use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 // VALIDATION
 use Illuminate\Validation\ValidationException;
+
 // JWT
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Exceptions\TokenBlacklistedException;
@@ -67,8 +68,9 @@ class Handler extends ExceptionHandler
                 'write' => true,
             ], 422);
         }
+
         // JWT TOKEN EXCEPTIONS
-        if ($exception instanceof JWTException) {
+        else if ($exception instanceof JWTException) {
             // EXPIRED TOKEN
             // 401 - UNAUTHORIZED
             if ($exception instanceof \Tymon\JWTAuth\Exceptions\TokenExpiredException) {
@@ -78,6 +80,7 @@ class Handler extends ExceptionHandler
                     'write' => false,
                 ], 401);
             }
+
             // INVALID TOKEN
             else if ($exception instanceof \Tymon\JWTAuth\Exceptions\TokenInvalidException) {
                 return response()->json([
@@ -86,6 +89,7 @@ class Handler extends ExceptionHandler
                     'write' => false,
                 ], 401);
             }
+
             // BLAKLISTED TOKEN
             else if ($exception instanceof \Tymon\JWTAuth\Exceptions\TokenBlacklistedException) {
                 return response()->json([
@@ -94,6 +98,7 @@ class Handler extends ExceptionHandler
                     'write' => false,
                 ], 401);
             }
+
             // TOKEN COULD NOT BE PARSED
             else if ($exception->getMessage() === 'Token could not be parsed from the request.') {
                 return response()->json([
@@ -102,6 +107,7 @@ class Handler extends ExceptionHandler
                     'write' => false,
                 ], 401);
             }
+
             // THIS ONE IS OKAY SINCE IT MEANS THAT USER HAS NOT LOGGED IN YET
             else if ($exception->getMessage() === 'Token not provided') {
                 return response()->json([
@@ -110,19 +116,22 @@ class Handler extends ExceptionHandler
                     'write' => false,
                 ], 200);
             }
+
             // OTHER ERRORS
             else{
                 return response()->json('JWT error: '.$exception->getMessage(), 500);
             }
         }
+
         // NOT FOUND
-        if ($exception instanceof ModelNotFoundException) {
+        else if ($exception instanceof ModelNotFoundException) {
             return response()->json([
                 'title' => 'Error',
                 'message' => 'Resource not Found!',
                 'write' => true,
             ], 404);
         }
+
         return parent::render($request, $exception);
     }
 }

@@ -13,11 +13,10 @@
                 <!-- INPUT DIVS -->
                 <div class="my-3 position-relative">
                     <!-- INPUT FIELD -->
-                    <input :type="passwordCurrent.type"
-                        id="questionText"
-                        name="passwordCurrent"
+                    <input name="passwordCurrent"
                         class="lead px-1 form-control w-100"
                         placeholder="Enter current password"
+                        :type="passwordCurrent.type"
                         v-model="passwordCurrent.text"
                         v-validate="rules.passwordCurrent">
 
@@ -40,8 +39,7 @@
                 </div>
 
                 <div class="my-3 position-relative">
-                    <input id="questionText"
-                        name="passwordNew"
+                    <input name="passwordNew"
                         class="lead px-1 form-control w-100"
                         placeholder="Enter new password"
                         ref="passwordNew"
@@ -66,8 +64,7 @@
                 </div>
 
                 <div class="my-3 position-relative">
-                    <input id="questionText"
-                        name="passwordConfirm"
+                    <input name="passwordConfirm"
                         class="lead px-1 form-control w-100"
                         placeholder="Repeat new password"
                         :type="passwordConfirm.type"
@@ -147,6 +144,7 @@ export default {
                 }
             });
         },
+
         changePassword(){
             this.$http.patch('users/password',{
                 password_compare: this.passwordCurrent.text,
@@ -155,6 +153,7 @@ export default {
             })
             .catch(error => {})
         },
+
         goBack(){
             // BACK TO MENU
             this.$router.push('/menu');

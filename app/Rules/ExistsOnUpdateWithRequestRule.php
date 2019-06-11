@@ -13,6 +13,8 @@ class ExistsOnUpdateWithRequestRule implements Rule
     private $column;
     // VALUE THAT IS BEING UPDATED
     private $value;
+    // VALIDATION MESSAGE
+    private $message;
 
     /**
      * Create a new rule instance.
@@ -38,8 +40,21 @@ class ExistsOnUpdateWithRequestRule implements Rule
      */
     public function passes($attribute, $data)
     {
-        // CHECK REQUEST AND REMAINING ROWS IN THE DB FOR REQUIRED COLUMN VALUE
-        return $this->requestCheckRule($data) || $this->databaseCheckRule($data);
+        // NECESSARY DATA IS PROVIDED
+        if($this->checkKeys($data)){
+            // CHECK REQUEST AND REMAINING ROWS IN THE DB FOR REQUIRED COLUMN VALUE
+            return $this->requestCheckRule($data) || $this->databaseCheckRule($data);
+        }
+        else{
+            $this->message = 'There are missing parameters.';
+        }
+        // NECESSARY DATA IS NOT PROVIDED
+        return false;
+    }
+
+    private function checkKeys($data){
+        // REQUESTED COLUMN AND ID VALUES ARE BOTH PROVIDED
+        return array_key_exists($this->column, $data) && array_key_exists('id', $data);
     }
 
     private function requestCheckRule($data){
@@ -49,7 +64,16 @@ class ExistsOnUpdateWithRequestRule implements Rule
 
     private function databaseCheckRule($data){
         // THERE ARE OTHER ROWS IN THE DB WITH THE REQUESTED COLUMN
-        return $this->model->where($this->column, $this->value)->whereNotIn('id', [$data['id']])->count() > 0;
+        if($this->model->where($this->column, $this->value)->whereNotIn('id', [$data['id']])->count() > 0){
+            // VALDIATION PASSES
+            return true;
+        }
+        else{
+            // SET MESSAGE
+            $this->message = "Database needs at least one column with the '".$this->column."' value of ".$this->value;
+            // VALDIATION FAILS
+            return false;
+        }
     }
 
     /**
@@ -59,6 +83,6 @@ class ExistsOnUpdateWithRequestRule implements Rule
      */
     public function message()
     {
-        return "Database needs at least one column with the '".$this->column."' value of ".$this->value;
+        return $this->message;
     }
 }

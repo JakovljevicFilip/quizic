@@ -32,7 +32,7 @@
                             <div class="m-auto icon__switch" :class="{
                                 'icon__switch--inactive' : user.role === 1,
                                 'icon__switch--active' : user.role === 2,
-                            }" @click="changeRole(user)">
+                            }" @click="controllerChangeRole(user)">
                                 <div class="icon__slider" :class="{
                                     'icon__slider--inactive' : user.role === 1,
                                     'icon__slider--active' : user.role === 2
@@ -40,7 +40,7 @@
                             </div>
                         </div>
                         <div class="text-center user-grid__delete icon">
-                            <i class="fas fa-times icon icon__times" @click="deleteUser(user.id)"></i>
+                            <i class="fas fa-times icon icon__times" @click="controllerDelete(user)"></i>
                         </div>
                 </div>
 
@@ -68,6 +68,7 @@ export default {
     },
     data(){
         return{
+            // ALL USERS
             users: [],
             // DATA USED FOR FETCHING USERS
             pagination: {
@@ -77,6 +78,49 @@ export default {
                 per_page: 15,
                 // LAST PAGE FOR PAGIANTION
                 last_page: null,
+            },
+            // USER THAT IS BEING ALTERED
+            user: {},
+            // DELETE MODAL CONFIGURATION
+            swalConfigDelete: {
+                // ICON
+                type: 'error',
+                // TITLE
+                title: 'Delete',
+                // BODY
+                text: 'Are you sure you want to delete "',
+                // SHOW BUTTONS
+                showConfirmButton: true,
+                showCancelButton: true,
+                // BUTTON TEXT
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'No',
+                // BUTTON COLOR - BOOTSTRAP RED
+                confirmButtonColor: '#dc3545',
+                // MESSAGE POSITION
+                position: 'center',
+                // MESSAGE TO DISSAPEAR IN
+                timer: false,
+                // COMPACT MESSAGE
+                toast: false,
+                // PREVENT MESSAGE DISMISAL FROM AN OUTSIDE CLICK
+                allowOutsideClick: false
+            },
+
+            // REMOVING YOURSELF MODAL CONFIGURATION
+            swalConfigChangeRole: {
+                type: 'warning',
+                title: 'You are about to remove yourself as an administrator',
+                html: 'If you proceed you will be logged out and will no longer have access to administrator priviledges.<br> Do you want to proceed?',
+                showConfirmButton: true,
+                showCancelButton: true,
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'No',
+                confirmButtonColor: '#dc3545',
+                position: 'center',
+                timer: false,
+                toast: false,
+                allowOutsideClick: false
             },
         }
     },
@@ -106,36 +150,83 @@ export default {
             })
             .catch(error => {});
         },
-        changeRole(user){
-            // USER WHO'S ROLE IS BEING CHANGED
-            let id = user.id;
+
+        controllerChangeRole(user){
+            // SET USER THAT IS BEING ALTERED
+            this.userSetAltered(user);
+
+            // USER IS CHANGING THEIR OWN ROLE
+            if(this.user.id === this.$auth.user().id){
+                // RUN MODAL
+                this.userChangeRoleModal();
+            }
+
+            // ANOTHER USER IS BEING ALTERED
+            else{
+                // CHANGE ROLE
+                this.userChangeRoleMethod();
+            }
+        },
+
+        userSetAltered(user){
+            this.user = {
+                id: user.id,
+                role: user.role,
+            }
+        },
+
+        userChangeRoleModal(){
+            // RUN WARNING MODAL
+            this.$swal(this.swalConfigChangeRole)
+            .then(response => {
+                // AFFIRMATIVE ANSWER
+                if(response.value){
+                    // CHANGE USER ROLE USER
+                    this.userChangeRoleMethod();
+                }
+            });
+        },
+
+        userChangeRoleMethod(){
             // NEW USER ROLE
-            let role = this.setNewRole(user.role);
+            this.user.role = this.setNewRole(this.user.role);
 
             this.$http.patch('users/role',{
                 user: {
-                    id: id,
-                    role: role,
+                    id: this.user.id,
+                    role: this.user.role,
                 }
             })
             .then(response =>{
-                // USER IS NO LONGER ADMINISTRATOR
+                // USER CHANGED THEIROWN ROLE AND IS NO LONGER AN ADMINISTRATOR
                 if(response.data.logout){
                     // LOGOUT
                     this.$auth.logout();
                 }
-                // RESET PAGINATION
-                this.resetPagination();
-                //RELOAD USERS
-                this.getUsers();
-
+                // USER CHANGED SOMEONE ELSE
+                else{
+                    // RELOAD USERS
+                    this.usersReload();
+                }
             })
             .catch(error => {});
         },
+
         setNewRole(role){
             // SWITCH BETWEEN 1 AND 2 FOR USER ROLE
             return role === 1 ? 2 : 1;
         },
+
+        usersReload(){
+            // RESET PAGINATION
+            this.resetPagination();
+            // RESET USER THAT IS BEING ALTERED
+            this.user = {};
+            //RELOAD USERS
+            this.getUsers();
+
+        },
+
         resetPagination(){
             this.pagination = {
                 page: 1,
@@ -143,30 +234,55 @@ export default {
                 last_page: null,
             }
         },
-        deleteUser(id){
+
+        controllerDelete(user){
+            // ADD USERNAME TO THE MODAL TEXT
+            this.swalConfigDelete.text += user.username+'"?';
+
+            // RUN DELETE MODAL
+            this.$swal(this.swalConfigDelete)
+            .then(response => {
+                // AFFIRMATIVE ANSWER
+                if(response.value){
+                    // SET USER FOR DELITION
+                    this.userSetAltered(user);
+                    // DELETE USER
+                    this.userDelete();
+                    // RESET USER THAT IS BEING ALTERED
+                    this.user = {};
+                }
+            });
+
+            // RESET MODAL TEXT
+            this.swalConfigDelete.text = 'Are you sure you want to delete "';
+        },
+
+        userDelete(){
             this.$http.delete('users',{
                 params:{
-                    id: id,
+                    id: this.user.id,
                 }
             })
             .then(response =>{
-                // USER IS NO LONGER ADMINISTRATOR
+                // USER DELETED THEMSELF AS ADMINISTRATOR
                 if(response.data.logout){
                     // LOGOUT
                     this.$auth.logout();
                 }
-                // RESET PAGINATION
-                this.resetPagination();
-                //RELOAD USERS
-                this.getUsers();
-
+                // USER DELETED SOMEONE ELSE
+                else{
+                    // RELOAD USERS
+                    this.usersReload();
+                }
             })
             .catch(error => {});
         },
+
         loadMore(){
             // GET USERS AND APPEND TO ARRAY
             this.getUsers(true);
         },
+
         goBack(){
             // GO BACK TO MENU
             this.$router.push('/menu');

@@ -19,16 +19,20 @@ class UsersTableSeeder extends Seeder
                 'password' => bcrypt('111111'),
                 'email' => 'admin@test.com',
                 'role' => 2,
+                'email_verified_at' => Carbon::now(),
                 'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now()
+                'updated_at' => Carbon::now(),
+                'remember_token' => Str::random(10),
             ],
         	[
                 'username' => 'JohnDoe',
                 'password' => bcrypt('111111'),
                 'email' => 'JohnDoe@test.com',
                 'role' => 1,
+                'email_verified_at' => Carbon::now(),
                 'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now()
+                'updated_at' => Carbon::now(),
+                'remember_token' => Str::random(10),
             ],
         ]);
 

@@ -81,7 +81,7 @@ class UserController extends Controller
         return response()->json([
             'title' => 'User',
             'message' => 'User has been deleted.',
-            'write ' => true,
+            'write' => true,
             'logout' => $logout,
         ]);
     }

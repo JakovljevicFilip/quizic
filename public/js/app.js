@@ -2179,9 +2179,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2323,6 +2320,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
+      // ALL USERS
       users: [],
       // DATA USED FOR FETCHING USERS
       pagination: {
@@ -2332,6 +2330,48 @@ __webpack_require__.r(__webpack_exports__);
         per_page: 15,
         // LAST PAGE FOR PAGIANTION
         last_page: null
+      },
+      // USER THAT IS BEING ALTERED
+      user: {},
+      // DELETE MODAL CONFIGURATION
+      swalConfigDelete: {
+        // ICON
+        type: 'error',
+        // TITLE
+        title: 'Delete',
+        // BODY
+        text: 'Are you sure you want to delete "',
+        // SHOW BUTTONS
+        showConfirmButton: true,
+        showCancelButton: true,
+        // BUTTON TEXT
+        confirmButtonText: 'Yes',
+        cancelButtonText: 'No',
+        // BUTTON COLOR - BOOTSTRAP RED
+        confirmButtonColor: '#dc3545',
+        // MESSAGE POSITION
+        position: 'center',
+        // MESSAGE TO DISSAPEAR IN
+        timer: false,
+        // COMPACT MESSAGE
+        toast: false,
+        // PREVENT MESSAGE DISMISAL FROM AN OUTSIDE CLICK
+        allowOutsideClick: false
+      },
+      // REMOVING YOURSELF MODAL CONFIGURATION
+      swalConfigChangeRole: {
+        type: 'warning',
+        title: 'You are about to remove yourself as an administrator',
+        html: 'If you proceed you will be logged out and will no longer have access to administrator priviledges.<br> Do you want to proceed?',
+        showConfirmButton: true,
+        showCancelButton: true,
+        confirmButtonText: 'Yes',
+        cancelButtonText: 'No',
+        confirmButtonColor: '#dc3545',
+        position: 'center',
+        timer: false,
+        toast: false,
+        allowOutsideClick: false
       }
     };
   },
@@ -2361,35 +2401,70 @@ __webpack_require__.r(__webpack_exports__);
         _this.pagination.page++;
       })["catch"](function (error) {});
     },
-    changeRole: function changeRole(user) {
+    controllerChangeRole: function controllerChangeRole(user) {
+      // SET USER THAT IS BEING ALTERED
+      this.userSetAltered(user); // USER IS CHANGING THEIR OWN ROLE
+
+      if (this.user.id === this.$auth.user().id) {
+        // RUN MODAL
+        this.userChangeRoleModal();
+      } // ANOTHER USER IS BEING ALTERED
+      else {
+          // CHANGE ROLE
+          this.userChangeRoleMethod();
+        }
+    },
+    userSetAltered: function userSetAltered(user) {
+      this.user = {
+        id: user.id,
+        role: user.role
+      };
+    },
+    userChangeRoleModal: function userChangeRoleModal() {
       var _this2 = this;
 
-      // USER WHO'S ROLE IS BEING CHANGED
-      var id = user.id; // NEW USER ROLE
+      // RUN WARNING MODAL
+      this.$swal(this.swalConfigChangeRole).then(function (response) {
+        // AFFIRMATIVE ANSWER
+        if (response.value) {
+          // CHANGE USER ROLE USER
+          _this2.userChangeRoleMethod();
+        }
+      });
+    },
+    userChangeRoleMethod: function userChangeRoleMethod() {
+      var _this3 = this;
 
-      var role = this.setNewRole(user.role);
+      // NEW USER ROLE
+      this.user.role = this.setNewRole(this.user.role);
       this.$http.patch('users/role', {
         user: {
-          id: id,
-          role: role
+          id: this.user.id,
+          role: this.user.role
         }
       }).then(function (response) {
-        // USER IS NO LONGER ADMINISTRATOR
+        // USER CHANGED THEIROWN ROLE AND IS NO LONGER AN ADMINISTRATOR
         if (response.data.logout) {
           // LOGOUT
-          _this2.$auth.logout();
-        } // RESET PAGINATION
-
-
-        _this2.resetPagination(); //RELOAD USERS
-
-
-        _this2.getUsers();
+          _this3.$auth.logout();
+        } // USER CHANGED SOMEONE ELSE
+        else {
+            // RELOAD USERS
+            _this3.usersReload();
+          }
       })["catch"](function (error) {});
     },
     setNewRole: function setNewRole(role) {
       // SWITCH BETWEEN 1 AND 2 FOR USER ROLE
       return role === 1 ? 2 : 1;
+    },
+    usersReload: function usersReload() {
+      // RESET PAGINATION
+      this.resetPagination(); // RESET USER THAT IS BEING ALTERED
+
+      this.user = {}; //RELOAD USERS
+
+      this.getUsers();
     },
     resetPagination: function resetPagination() {
       this.pagination = {
@@ -2398,25 +2473,45 @@ __webpack_require__.r(__webpack_exports__);
         last_page: null
       };
     },
-    deleteUser: function deleteUser(id) {
-      var _this3 = this;
+    controllerDelete: function controllerDelete(user) {
+      var _this4 = this;
+
+      // ADD USERNAME TO THE MODAL TEXT
+      this.swalConfigDelete.text += user.username + '"?'; // RUN DELETE MODAL
+
+      this.$swal(this.swalConfigDelete).then(function (response) {
+        // AFFIRMATIVE ANSWER
+        if (response.value) {
+          // SET USER FOR DELITION
+          _this4.userSetAltered(user); // DELETE USER
+
+
+          _this4.userDelete(); // RESET USER THAT IS BEING ALTERED
+
+
+          _this4.user = {};
+        }
+      }); // RESET MODAL TEXT
+
+      this.swalConfigDelete.text = 'Are you sure you want to delete "';
+    },
+    userDelete: function userDelete() {
+      var _this5 = this;
 
       this.$http["delete"]('users', {
         params: {
-          id: id
+          id: this.user.id
         }
       }).then(function (response) {
-        // USER IS NO LONGER ADMINISTRATOR
+        // USER DELETED THEMSELF AS ADMINISTRATOR
         if (response.data.logout) {
           // LOGOUT
-          _this3.$auth.logout();
-        } // RESET PAGINATION
-
-
-        _this3.resetPagination(); //RELOAD USERS
-
-
-        _this3.getUsers();
+          _this5.$auth.logout();
+        } // USER DELETED SOMEONE ELSE
+        else {
+            // RELOAD USERS
+            _this5.usersReload();
+          }
       })["catch"](function (error) {});
     },
     loadMore: function loadMore() {
@@ -51797,7 +51892,6 @@ var render = function() {
                 ],
                 staticClass: "lead px-1 form-control w-100",
                 attrs: {
-                  id: "questionText",
                   name: "passwordCurrent",
                   placeholder: "Enter current password",
                   type: "checkbox"
@@ -51854,7 +51948,6 @@ var render = function() {
                 ],
                 staticClass: "lead px-1 form-control w-100",
                 attrs: {
-                  id: "questionText",
                   name: "passwordCurrent",
                   placeholder: "Enter current password",
                   type: "radio"
@@ -51883,7 +51976,6 @@ var render = function() {
                 ],
                 staticClass: "lead px-1 form-control w-100",
                 attrs: {
-                  id: "questionText",
                   name: "passwordCurrent",
                   placeholder: "Enter current password",
                   type: _vm.passwordCurrent.type
@@ -51954,7 +52046,6 @@ var render = function() {
                 ref: "passwordNew",
                 staticClass: "lead px-1 form-control w-100",
                 attrs: {
-                  id: "questionText",
                   name: "passwordNew",
                   placeholder: "Enter new password",
                   type: "checkbox"
@@ -52008,7 +52099,6 @@ var render = function() {
                 ref: "passwordNew",
                 staticClass: "lead px-1 form-control w-100",
                 attrs: {
-                  id: "questionText",
                   name: "passwordNew",
                   placeholder: "Enter new password",
                   type: "radio"
@@ -52038,7 +52128,6 @@ var render = function() {
                 ref: "passwordNew",
                 staticClass: "lead px-1 form-control w-100",
                 attrs: {
-                  id: "questionText",
                   name: "passwordNew",
                   placeholder: "Enter new password",
                   type: _vm.passwordNew.type
@@ -52108,7 +52197,6 @@ var render = function() {
                 ],
                 staticClass: "lead px-1 form-control w-100",
                 attrs: {
-                  id: "questionText",
                   name: "passwordConfirm",
                   placeholder: "Repeat new password",
                   type: "checkbox"
@@ -52165,7 +52253,6 @@ var render = function() {
                 ],
                 staticClass: "lead px-1 form-control w-100",
                 attrs: {
-                  id: "questionText",
                   name: "passwordConfirm",
                   placeholder: "Repeat new password",
                   type: "radio"
@@ -52194,7 +52281,6 @@ var render = function() {
                 ],
                 staticClass: "lead px-1 form-control w-100",
                 attrs: {
-                  id: "questionText",
                   name: "passwordConfirm",
                   placeholder: "Repeat new password",
                   type: _vm.passwordConfirm.type
@@ -52340,7 +52426,7 @@ var render = function() {
                             },
                             on: {
                               click: function($event) {
-                                return _vm.changeRole(user)
+                                return _vm.controllerChangeRole(user)
                               }
                             }
                           },
@@ -52364,7 +52450,7 @@ var render = function() {
                             staticClass: "fas fa-times icon icon__times",
                             on: {
                               click: function($event) {
-                                return _vm.deleteUser(user.id)
+                                return _vm.controllerDelete(user)
                               }
                             }
                           })
