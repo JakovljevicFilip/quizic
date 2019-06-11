@@ -1,0 +1,101 @@
+<template>
+    <div class="d-flex user-grid__status">
+        <div class="m-auto icon__switch" :class="{
+            'icon__switch--inactive' : user.role === 1,
+            'icon__switch--active' : user.role === 2,
+        }" @click="controllerChangeRole(user)">
+            <div class="icon__slider" :class="{
+                'icon__slider--inactive' : user.role === 1,
+                'icon__slider--active' : user.role === 2
+            }"></div>
+        </div>
+    </div>
+</template>
+
+<script>
+export default {
+    props: ['user'],
+
+    computed: {
+        newRole: function(){
+            // SWITCH BETWEEN 1 AND 2 FOR USER ROLE
+            return this.user.role === 1 ? 2 : 1;
+        }
+    },
+
+    data(){
+        return {
+            // REMOVING YOURSELF MODAL CONFIGURATION
+            swalConfigChangeRole: {
+                type: 'warning',
+                title: 'You are about to remove yourself as an administrator',
+                html: 'If you proceed you will be logged out and will no longer have access to administrator priviledges.<br> Do you want to proceed?',
+                showConfirmButton: true,
+                showCancelButton: true,
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'No',
+                confirmButtonColor: '#dc3545',
+                position: 'center',
+                timer: false,
+                toast: false,
+                allowOutsideClick: false
+            },
+        }
+    },
+
+    methods:{
+        controllerChangeRole(user){
+            // USER IS CHANGING THEIR OWN ROLE
+            if(this.user.id === this.$auth.user().id){
+                // RUN MODAL
+                this.userChangingThemselfModal();
+            }
+
+            // ANOTHER USER IS BEING ALTERED
+            else{
+                // CHANGE ROLE
+                this.userChangeRoleMethod();
+            }
+        },
+
+        userChangingThemselfModal(){
+            // RUN WARNING MODAL
+            this.$swal(this.swalConfigChangeRole)
+            .then(response => {
+                // AFFIRMATIVE ANSWER
+                if(response.value){
+                    // CHANGE USER ROLE USER
+                    this.userChangeRoleMethod();
+                }
+            });
+        },
+
+        userChangeRoleMethod(){
+
+            this.$http.patch('users/role',{
+                user: {
+                    id: this.user.id,
+                    role: this.newRole,
+                }
+            })
+            .then(response =>{
+                // USER CHANGED THEIROWN ROLE AND IS NO LONGER AN ADMINISTRATOR
+                if(response.data.logout){
+                    // LOGOUT
+                    this.$auth.logout();
+                }
+                // USER CHANGED SOMEONE ELSE
+                else{
+                    // RELOAD USERS
+                    this.$emit('usersReload');
+                }
+            })
+            .catch(error => {});
+        },
+    },
+}
+</script>
+
+<style>
+
+</style>

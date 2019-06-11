@@ -2284,6 +2284,105 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Users/UsersChangeRole.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Users/UsersChangeRole.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['user'],
+  computed: {
+    newRole: function newRole() {
+      // SWITCH BETWEEN 1 AND 2 FOR USER ROLE
+      return this.user.role === 1 ? 2 : 1;
+    }
+  },
+  data: function data() {
+    return {
+      // REMOVING YOURSELF MODAL CONFIGURATION
+      swalConfigChangeRole: {
+        type: 'warning',
+        title: 'You are about to remove yourself as an administrator',
+        html: 'If you proceed you will be logged out and will no longer have access to administrator priviledges.<br> Do you want to proceed?',
+        showConfirmButton: true,
+        showCancelButton: true,
+        confirmButtonText: 'Yes',
+        cancelButtonText: 'No',
+        confirmButtonColor: '#dc3545',
+        position: 'center',
+        timer: false,
+        toast: false,
+        allowOutsideClick: false
+      }
+    };
+  },
+  methods: {
+    controllerChangeRole: function controllerChangeRole(user) {
+      // USER IS CHANGING THEIR OWN ROLE
+      if (this.user.id === this.$auth.user().id) {
+        // RUN MODAL
+        this.userChangingThemselfModal();
+      } // ANOTHER USER IS BEING ALTERED
+      else {
+          // CHANGE ROLE
+          this.userChangeRoleMethod();
+        }
+    },
+    userChangingThemselfModal: function userChangingThemselfModal() {
+      var _this = this;
+
+      // RUN WARNING MODAL
+      this.$swal(this.swalConfigChangeRole).then(function (response) {
+        // AFFIRMATIVE ANSWER
+        if (response.value) {
+          // CHANGE USER ROLE USER
+          _this.userChangeRoleMethod();
+        }
+      });
+    },
+    userChangeRoleMethod: function userChangeRoleMethod() {
+      var _this2 = this;
+
+      this.$http.patch('users/role', {
+        user: {
+          id: this.user.id,
+          role: this.newRole
+        }
+      }).then(function (response) {
+        // USER CHANGED THEIROWN ROLE AND IS NO LONGER AN ADMINISTRATOR
+        if (response.data.logout) {
+          // LOGOUT
+          _this2.$auth.logout();
+        } // USER CHANGED SOMEONE ELSE
+        else {
+            // RELOAD USERS
+            _this2.$emit('usersReload');
+          }
+      })["catch"](function (error) {});
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Users/UsersDelete.vue?vue&type=script&lang=js&":
 /*!***********************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Users/UsersDelete.vue?vue&type=script&lang=js& ***!
@@ -2377,29 +2476,8 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _UsersDelete__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./UsersDelete */ "./resources/js/views/Users/UsersDelete.vue");
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+/* harmony import */ var _UsersChangeRole__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./UsersChangeRole */ "./resources/js/views/Users/UsersChangeRole.vue");
+/* harmony import */ var _UsersNavigation__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./UsersNavigation */ "./resources/js/views/Users/UsersNavigation.vue");
 //
 //
 //
@@ -2431,9 +2509,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    UsersDelete: _UsersDelete__WEBPACK_IMPORTED_MODULE_0__["default"]
+    UsersDelete: _UsersDelete__WEBPACK_IMPORTED_MODULE_0__["default"],
+    UsersChangeRole: _UsersChangeRole__WEBPACK_IMPORTED_MODULE_1__["default"],
+    UsersNavigation: _UsersNavigation__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
   computed: {
     isNotOnLastPage: function isNotOnLastPage() {
@@ -2455,23 +2537,6 @@ __webpack_require__.r(__webpack_exports__);
         per_page: 15,
         // LAST PAGE FOR PAGIANTION
         last_page: null
-      },
-      // USER THAT IS BEING ALTERED
-      user: {},
-      // REMOVING YOURSELF MODAL CONFIGURATION
-      swalConfigChangeRole: {
-        type: 'warning',
-        title: 'You are about to remove yourself as an administrator',
-        html: 'If you proceed you will be logged out and will no longer have access to administrator priviledges.<br> Do you want to proceed?',
-        showConfirmButton: true,
-        showCancelButton: true,
-        confirmButtonText: 'Yes',
-        cancelButtonText: 'No',
-        confirmButtonColor: '#dc3545',
-        position: 'center',
-        timer: false,
-        toast: false,
-        allowOutsideClick: false
       }
     };
   },
@@ -2500,63 +2565,6 @@ __webpack_require__.r(__webpack_exports__);
 
         _this.pagination.page++;
       })["catch"](function (error) {});
-    },
-    controllerChangeRole: function controllerChangeRole(user) {
-      // SET USER THAT IS BEING ALTERED
-      this.userSetAltered(user); // USER IS CHANGING THEIR OWN ROLE
-
-      if (this.user.id === this.$auth.user().id) {
-        // RUN MODAL
-        this.userChangeRoleModal();
-      } // ANOTHER USER IS BEING ALTERED
-      else {
-          // CHANGE ROLE
-          this.userChangeRoleMethod();
-        }
-    },
-    userSetAltered: function userSetAltered(user) {
-      this.user = {
-        id: user.id,
-        role: user.role
-      };
-    },
-    userChangeRoleModal: function userChangeRoleModal() {
-      var _this2 = this;
-
-      // RUN WARNING MODAL
-      this.$swal(this.swalConfigChangeRole).then(function (response) {
-        // AFFIRMATIVE ANSWER
-        if (response.value) {
-          // CHANGE USER ROLE USER
-          _this2.userChangeRoleMethod();
-        }
-      });
-    },
-    userChangeRoleMethod: function userChangeRoleMethod() {
-      var _this3 = this;
-
-      // NEW USER ROLE
-      this.user.role = this.setNewRole(this.user.role);
-      this.$http.patch('users/role', {
-        user: {
-          id: this.user.id,
-          role: this.user.role
-        }
-      }).then(function (response) {
-        // USER CHANGED THEIROWN ROLE AND IS NO LONGER AN ADMINISTRATOR
-        if (response.data.logout) {
-          // LOGOUT
-          _this3.$auth.logout();
-        } // USER CHANGED SOMEONE ELSE
-        else {
-            // RELOAD USERS
-            _this3.usersReload();
-          }
-      })["catch"](function (error) {});
-    },
-    setNewRole: function setNewRole(role) {
-      // SWITCH BETWEEN 1 AND 2 FOR USER ROLE
-      return role === 1 ? 2 : 1;
     },
     usersReload: function usersReload() {
       // RESET PAGINATION
@@ -52454,6 +52462,55 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Users/UsersChangeRole.vue?vue&type=template&id=017afb38&":
+/*!*******************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Users/UsersChangeRole.vue?vue&type=template&id=017afb38& ***!
+  \*******************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "d-flex user-grid__status" }, [
+    _c(
+      "div",
+      {
+        staticClass: "m-auto icon__switch",
+        class: {
+          "icon__switch--inactive": _vm.user.role === 1,
+          "icon__switch--active": _vm.user.role === 2
+        },
+        on: {
+          click: function($event) {
+            return _vm.controllerChangeRole(_vm.user)
+          }
+        }
+      },
+      [
+        _c("div", {
+          staticClass: "icon__slider",
+          class: {
+            "icon__slider--inactive": _vm.user.role === 1,
+            "icon__slider--active": _vm.user.role === 2
+          }
+        })
+      ]
+    )
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Users/UsersDelete.vue?vue&type=template&id=095d59c6&":
 /*!***************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Users/UsersDelete.vue?vue&type=template&id=095d59c6& ***!
@@ -52516,9 +52573,7 @@ var render = function() {
                 "text-white lead flex-grow-1 container-index--outer container-index__scroll"
             },
             [
-              _vm._m(1),
-              _vm._v(" "),
-              _vm._m(2),
+              _c("UsersNavigation"),
               _vm._v(" "),
               _c("div", { staticClass: "flex-grow-1" }, [
                 _c(
@@ -52543,36 +52598,10 @@ var render = function() {
                             [_vm._v(_vm._s(user.username))]
                           ),
                           _vm._v(" "),
-                          _c(
-                            "div",
-                            { staticClass: "d-flex user-grid__status" },
-                            [
-                              _c(
-                                "div",
-                                {
-                                  staticClass: "m-auto icon__switch",
-                                  class: {
-                                    "icon__switch--inactive": user.role === 1,
-                                    "icon__switch--active": user.role === 2
-                                  },
-                                  on: {
-                                    click: function($event) {
-                                      return _vm.controllerChangeRole(user)
-                                    }
-                                  }
-                                },
-                                [
-                                  _c("div", {
-                                    staticClass: "icon__slider",
-                                    class: {
-                                      "icon__slider--inactive": user.role === 1,
-                                      "icon__slider--active": user.role === 2
-                                    }
-                                  })
-                                ]
-                              )
-                            ]
-                          ),
+                          _c("UsersChangeRole", {
+                            attrs: { user: user },
+                            on: { usersReload: _vm.usersReload }
+                          }),
                           _vm._v(" "),
                           _c("UsersDelete", {
                             attrs: { user: user },
@@ -52606,7 +52635,8 @@ var render = function() {
                   2
                 )
               ])
-            ]
+            ],
+            1
           )
         : _vm._e()
     ]
@@ -52623,41 +52653,64 @@ var staticRenderFns = [
         attrs: { src: "/img/logo.png", alt: "logo" }
       })
     ])
-  },
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Users/UsersNavigation.vue?vue&type=template&id=2c96be06&":
+/*!*******************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Users/UsersNavigation.vue?vue&type=template&id=2c96be06& ***!
+  \*******************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm._m(0)
+}
+var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "screen-sm-show" }, [
-      _c("div", { staticClass: "text-center" }, [_vm._v("Users")]),
-      _vm._v(" "),
-      _c("div", { staticClass: "d-flex" }, [
-        _c("div", { staticClass: "flex-grow-1 text-center" }, [
-          _vm._v("User/Administrator")
-        ]),
+    return _c("div", [
+      _c("div", { staticClass: "screen-sm-show" }, [
+        _c("div", { staticClass: "text-center" }, [_vm._v("Users")]),
         _vm._v(" "),
-        _c("div", { staticClass: "flex-grow-1 text-center" }, [
-          _vm._v("Delete")
+        _c("div", { staticClass: "d-flex" }, [
+          _c("div", { staticClass: "flex-grow-1 text-center" }, [
+            _vm._v("User/Administrator")
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "flex-grow-1 text-center" }, [
+            _vm._v("Delete")
+          ])
         ])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "screen-md-show" }, [
-      _c("div", { staticClass: "user-grid-nav" }, [
-        _c("div", { staticClass: "lead user-grid-username" }, [
-          _vm._v("Username")
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "lead text-center user-grid-role" }, [
-          _vm._v("User/Administrator")
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "lead text-center user-grid-delete" }, [
-          _vm._v("Delete")
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "screen-md-show" }, [
+        _c("div", { staticClass: "user-grid-nav" }, [
+          _c("div", { staticClass: "lead user-grid-username" }, [
+            _vm._v("Username")
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "lead text-center user-grid-role" }, [
+            _vm._v("User/Administrator")
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "lead text-center user-grid-delete" }, [
+            _vm._v("Delete")
+          ])
         ])
       ])
     ])
@@ -70420,6 +70473,75 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/views/Users/UsersChangeRole.vue":
+/*!******************************************************!*\
+  !*** ./resources/js/views/Users/UsersChangeRole.vue ***!
+  \******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _UsersChangeRole_vue_vue_type_template_id_017afb38___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./UsersChangeRole.vue?vue&type=template&id=017afb38& */ "./resources/js/views/Users/UsersChangeRole.vue?vue&type=template&id=017afb38&");
+/* harmony import */ var _UsersChangeRole_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./UsersChangeRole.vue?vue&type=script&lang=js& */ "./resources/js/views/Users/UsersChangeRole.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _UsersChangeRole_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _UsersChangeRole_vue_vue_type_template_id_017afb38___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _UsersChangeRole_vue_vue_type_template_id_017afb38___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/views/Users/UsersChangeRole.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/views/Users/UsersChangeRole.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************!*\
+  !*** ./resources/js/views/Users/UsersChangeRole.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_UsersChangeRole_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./UsersChangeRole.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Users/UsersChangeRole.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_UsersChangeRole_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/views/Users/UsersChangeRole.vue?vue&type=template&id=017afb38&":
+/*!*************************************************************************************!*\
+  !*** ./resources/js/views/Users/UsersChangeRole.vue?vue&type=template&id=017afb38& ***!
+  \*************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UsersChangeRole_vue_vue_type_template_id_017afb38___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./UsersChangeRole.vue?vue&type=template&id=017afb38& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Users/UsersChangeRole.vue?vue&type=template&id=017afb38&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UsersChangeRole_vue_vue_type_template_id_017afb38___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UsersChangeRole_vue_vue_type_template_id_017afb38___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/views/Users/UsersDelete.vue":
 /*!**************************************************!*\
   !*** ./resources/js/views/Users/UsersDelete.vue ***!
@@ -70553,6 +70675,59 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UsersIndex_vue_vue_type_template_id_14e67260___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UsersIndex_vue_vue_type_template_id_14e67260___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/views/Users/UsersNavigation.vue":
+/*!******************************************************!*\
+  !*** ./resources/js/views/Users/UsersNavigation.vue ***!
+  \******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _UsersNavigation_vue_vue_type_template_id_2c96be06___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./UsersNavigation.vue?vue&type=template&id=2c96be06& */ "./resources/js/views/Users/UsersNavigation.vue?vue&type=template&id=2c96be06&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+var script = {}
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__["default"])(
+  script,
+  _UsersNavigation_vue_vue_type_template_id_2c96be06___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _UsersNavigation_vue_vue_type_template_id_2c96be06___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/views/Users/UsersNavigation.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/views/Users/UsersNavigation.vue?vue&type=template&id=2c96be06&":
+/*!*************************************************************************************!*\
+  !*** ./resources/js/views/Users/UsersNavigation.vue?vue&type=template&id=2c96be06& ***!
+  \*************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UsersNavigation_vue_vue_type_template_id_2c96be06___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./UsersNavigation.vue?vue&type=template&id=2c96be06& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Users/UsersNavigation.vue?vue&type=template&id=2c96be06&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UsersNavigation_vue_vue_type_template_id_2c96be06___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UsersNavigation_vue_vue_type_template_id_2c96be06___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

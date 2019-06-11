@@ -7,38 +7,15 @@
 
         <!-- HIDE USERS CONTATINER IF THERE ARE NO USERS -->
         <div v-if="users.length !== 0" class="text-white lead flex-grow-1 container-index--outer container-index__scroll">
-            <div class="screen-sm-show">
-                <div class="text-center">Users</div>
-                <div class="d-flex">
-                    <div class="flex-grow-1 text-center">User/Administrator</div>
-                    <div class="flex-grow-1 text-center">Delete</div>
-                </div>
-            </div>
 
-            <div class="screen-md-show">
-                <div class="user-grid-nav">
-                    <div class="lead user-grid-username">Username</div>
-                    <div class="lead text-center user-grid-role">User/Administrator</div>
-                    <div class="lead text-center user-grid-delete">Delete</div>
-                </div>
-            </div>
+            <UsersNavigation></UsersNavigation>
 
             <div class="flex-grow-1">
                 <div class="p-3 container-index__users">
 
                     <div v-for="(user, index) in users" :key="index" class="animated slideInDown my-3 wrapper--md-and-down user-grid-show">
                         <p class="lead p-2 my-auto text-center-md user-grid__username wrapper--md-and-up">{{ user.username }}</p>
-                        <div class="d-flex user-grid__status">
-                            <div class="m-auto icon__switch" :class="{
-                                'icon__switch--inactive' : user.role === 1,
-                                'icon__switch--active' : user.role === 2,
-                            }" @click="controllerChangeRole(user)">
-                                <div class="icon__slider" :class="{
-                                    'icon__slider--inactive' : user.role === 1,
-                                    'icon__slider--active' : user.role === 2
-                                }"></div>
-                            </div>
-                        </div>
+                        <UsersChangeRole :user="user" @usersReload="usersReload"></UsersChangeRole>
                         <UsersDelete :user="user" @usersReload="usersReload"></UsersDelete>
                     </div>
 
@@ -53,10 +30,12 @@
 
 <script>
 import UsersDelete from './UsersDelete';
+import UsersChangeRole from './UsersChangeRole';
+import UsersNavigation from './UsersNavigation';
 
 export default {
     components: {
-        UsersDelete,
+        UsersDelete, UsersChangeRole, UsersNavigation,
     },
 
     computed: {
@@ -80,24 +59,6 @@ export default {
                 per_page: 15,
                 // LAST PAGE FOR PAGIANTION
                 last_page: null,
-            },
-            // USER THAT IS BEING ALTERED
-            user: {},
-
-            // REMOVING YOURSELF MODAL CONFIGURATION
-            swalConfigChangeRole: {
-                type: 'warning',
-                title: 'You are about to remove yourself as an administrator',
-                html: 'If you proceed you will be logged out and will no longer have access to administrator priviledges.<br> Do you want to proceed?',
-                showConfirmButton: true,
-                showCancelButton: true,
-                confirmButtonText: 'Yes',
-                cancelButtonText: 'No',
-                confirmButtonColor: '#dc3545',
-                position: 'center',
-                timer: false,
-                toast: false,
-                allowOutsideClick: false
             },
         }
     },
@@ -127,72 +88,6 @@ export default {
                 this.pagination.page++;
             })
             .catch(error => {});
-        },
-
-        controllerChangeRole(user){
-            // SET USER THAT IS BEING ALTERED
-            this.userSetAltered(user);
-
-            // USER IS CHANGING THEIR OWN ROLE
-            if(this.user.id === this.$auth.user().id){
-                // RUN MODAL
-                this.userChangeRoleModal();
-            }
-
-            // ANOTHER USER IS BEING ALTERED
-            else{
-                // CHANGE ROLE
-                this.userChangeRoleMethod();
-            }
-        },
-
-        userSetAltered(user){
-            this.user = {
-                id: user.id,
-                role: user.role,
-            }
-        },
-
-        userChangeRoleModal(){
-            // RUN WARNING MODAL
-            this.$swal(this.swalConfigChangeRole)
-            .then(response => {
-                // AFFIRMATIVE ANSWER
-                if(response.value){
-                    // CHANGE USER ROLE USER
-                    this.userChangeRoleMethod();
-                }
-            });
-        },
-
-        userChangeRoleMethod(){
-            // NEW USER ROLE
-            this.user.role = this.setNewRole(this.user.role);
-
-            this.$http.patch('users/role',{
-                user: {
-                    id: this.user.id,
-                    role: this.user.role,
-                }
-            })
-            .then(response =>{
-                // USER CHANGED THEIROWN ROLE AND IS NO LONGER AN ADMINISTRATOR
-                if(response.data.logout){
-                    // LOGOUT
-                    this.$auth.logout();
-                }
-                // USER CHANGED SOMEONE ELSE
-                else{
-                    // RELOAD USERS
-                    this.usersReload();
-                }
-            })
-            .catch(error => {});
-        },
-
-        setNewRole(role){
-            // SWITCH BETWEEN 1 AND 2 FOR USER ROLE
-            return role === 1 ? 2 : 1;
         },
 
         usersReload(){
