@@ -27,7 +27,9 @@
 
 
         <div class="text-center pb-3 question__buttons">
-            <i class="fas fa-check icon icon__confirm mr-3" @click="validate"></i>
+            <span @click="validateQuestion">
+                <QuestionsUpdate :question="questionClone"></QuestionsUpdate>
+            </span >
             <QuestionsDelete :question="question"></QuestionsDelete>
         </div>
     </div>
@@ -35,6 +37,8 @@
 
 <script>
 import QuestionsDelete from './QuestionsDelete';
+import QuestionsUpdate from './QuestionsUpdate';
+
 import {EventBus} from '../../app';
 
 export default {
@@ -42,6 +46,8 @@ export default {
     components: {
         // DELETE FUNCTIONALITY
         QuestionsDelete,
+        // UPDATE FUNCTIONALITY
+        QuestionsUpdate,
     },
     data(){
         return{
@@ -80,13 +86,13 @@ export default {
             }
         },
 
-        validate(){
+        validateQuestion(){
             this.$validator.validate()
             .then(valid => {
                 // VALIDATION PASSED
                 if (valid) {
                     // RUN AJAX REQUEST
-                    this.questionUpdate();
+                    EventBus.$emit('questionUpdate');
                 }
                 // VALIDATION DIDN'T PASS
                 else{
@@ -95,15 +101,6 @@ export default {
                     this.$swal('Question', message, 'error');
                 }
             });
-        },
-
-        questionUpdate(){
-            this.$http.put('questions', this.questionClone)
-            .then(response => {
-                // RELOAD QUESTIONS ARRAY ON PARENT COMPONENT
-                EventBus.$emit('reloadQuestions');
-            })
-            .catch(error => {});
         },
 
         closeEdit(){

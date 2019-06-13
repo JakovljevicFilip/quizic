@@ -1,5 +1,6 @@
 <template>
 <div class="h-100">
+    <!-- HIDE QUESTIONS CONTATINER IF THERE ARE NO QUESTIONS -->
     <div class="d-flex flex-column p-3 container-index__scroll"  v-if="questions.length !== 0 ">
         <div class="text-center my-3">
             <img src="/img/logo.png" alt="logo" class="logo--height">
@@ -13,22 +14,17 @@
 
         <div class="flex-grow-1">
             <div class="container-index__questions">
-                <!-- HIDE QUESTIONS CONTATINER IF THERE ARE NO QUESTIONS -->
-                <div>
-                    <div v-for="(question, index) in questions" :key="index" class="animated slideInDown text-white  my-3 wrapper">
-                        <div class="p-2 question-grid-show" v-if="questionEditId !== question.id">
-                            <p class="lead my-auto question__text">{{ question.text }}</p>
-                            <div class="icon question__collapse">
-                                <i class="fas fa-angle-down" @click="questionEditId = question.id"></i>
-                            </div>
-                        </div>
-                        <div v-else>
-                            <QuestionsEdit :question="question" :difficulties="difficulties"></QuestionsEdit>
+                <div v-for="(question, index) in questions" :key="index" class="animated slideInDown text-white  my-3 wrapper">
+                    <div class="p-2 question-grid-show" v-if="questionEditId !== question.id">
+                        <p class="lead my-auto question__text">{{ question.text }}</p>
+                        <div class="icon question__collapse">
+                            <i class="fas fa-angle-down" @click="questionEditId = question.id"></i>
                         </div>
                     </div>
-                    <div class="d-flex justify-content-center">
-                        <button class="btn text-center w-auto btn-main" @click="loadMore()" :disabled="!isNotOnLastPage">{{ loadButtonText }}</button>
-                    </div>
+                    <QuestionsEdit :question="question" :difficulties="difficulties" v-else></QuestionsEdit>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <button class="btn text-center w-auto btn-main" @click="loadMore()" :disabled="!isNotOnLastPage">{{ loadButtonText }}</button>
                 </div>
             </div>
         </div>
@@ -140,10 +136,10 @@ export default {
         reloadQuestions(){
             // RESET PAGINATION PAGE PROPERTY
             this.pagination.page = 1;
+            // CLOSE EDIT VIEW
+            this.closeEdit();
             // FETCH QUESTIONS AGAIN
             this.getQuestions();
-            // RESET EDIT VIEW
-            this.closeEdit();
         },
 
         closeEdit(){
@@ -156,10 +152,12 @@ export default {
         this.getDifficulties();
         // GET QUESTIONS
         this.getQuestions();
-        console.log(this.questions.length);
 
         EventBus.$on('reloadQuestions', this.reloadQuestions);
         EventBus.$on('closeEdit', this.closeEdit);
+    },
+    beforeDestroy () {
+        EventBus.$off('reloadQuestions', this.reloadQuestions)
     },
     components: {
         // COMPONENT FOR QUESTION EDITING
