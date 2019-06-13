@@ -11,7 +11,7 @@ export default {
             title: '',
             swalTimeIsUpConfig: {
                 // ICON
-                type: 'info',
+                type: 'warning',
                 // TITLE
                 title: '',
                 // BODY

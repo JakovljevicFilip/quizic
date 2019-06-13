@@ -1914,7 +1914,7 @@ __webpack_require__.r(__webpack_exports__);
       title: '',
       swalTimeIsUpConfig: {
         // ICON
-        type: 'info',
+        type: 'warning',
         // TITLE
         title: '',
         // BODY
@@ -2052,21 +2052,12 @@ __webpack_require__.r(__webpack_exports__);
         _this.time--;
       }, 1000);
     },
-    clearInterval: function (_clearInterval) {
-      function clearInterval() {
-        return _clearInterval.apply(this, arguments);
-      }
-
-      clearInterval.toString = function () {
-        return _clearInterval.toString();
-      };
-
-      return clearInterval;
-    }(function () {
+    stopTheTimer: function stopTheTimer() {
       clearInterval(this.interval);
-    }),
+      this.gameIsInProgress = false;
+    },
     timeIsUp: function timeIsUp() {
-      this.clearInterval();
+      this.stopTheTimer();
       this.gameIsInProgress = false;
       _app__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit('gameModal', {
         title: this.timeIsUpTitle
@@ -2078,11 +2069,11 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     _app__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$on('startTheTimer', this.startTheTimer);
-    _app__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$on('stopTheTimer', this.timeIsUp);
+    _app__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$on('stopTheTimer', this.stopTheTimer);
     _app__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$on('resetTheTimer', this.resetTheTimer);
   },
   beforeDestroy: function beforeDestroy() {
-    this.clearInterval();
+    this.stopTheTimer();
   }
 });
 

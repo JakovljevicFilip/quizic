@@ -42,12 +42,13 @@ export default {
             }, 1000);
         },
 
-        clearInterval(){
+        stopTheTimer(){
             clearInterval(this.interval);
+            this.gameIsInProgress = false;
         },
 
         timeIsUp(){
-            this.clearInterval();
+            this.stopTheTimer();
             this.gameIsInProgress = false;
             EventBus.$emit('gameModal',{
                 title: this.timeIsUpTitle,
@@ -63,13 +64,13 @@ export default {
     created(){
         EventBus.$on('startTheTimer',this.startTheTimer);
 
-        EventBus.$on('stopTheTimer', this.timeIsUp)
+        EventBus.$on('stopTheTimer', this.stopTheTimer);
 
         EventBus.$on('resetTheTimer', this.resetTheTimer);
     },
 
     beforeDestroy(){
-        this.clearInterval();
+        this.stopTheTimer();
     },
 }
 </script>
