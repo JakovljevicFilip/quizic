@@ -22,7 +22,7 @@
                 <span class="d-block text-danger">{{ errors.first('email') }}</span>
 
                 <div>
-                    <button class="mt-2 mx-auto btn btn__main" @click="registerController" :disabled="errors.any()">Register</button>
+                    <button class="mt-2 mx-auto btn btn-main" @click="registerController" :disabled="errors.any()">Register</button>
                 </div>
 
         </div>

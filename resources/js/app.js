@@ -40,6 +40,9 @@ Vue.use(VueSweetalert2, sweetAlert2);
 import App from './views/App';
 Vue.component('App', App);
 
+// EVENT BUS
+export const EventBus = new Vue();
+
 // SETS UP VUE
 const app = new Vue({
   el: '#app',

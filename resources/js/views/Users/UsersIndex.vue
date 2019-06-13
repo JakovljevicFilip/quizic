@@ -1,5 +1,6 @@
 <template>
-	<div class="container visible h-100 container-index--outer">
+<div class="h-100">
+    <div class="visible h-100 d-flex flex-column p-3" v-if="users.length !== 0">
 
         <div class="text-center my-3">
             <img src="/img/logo.png" alt="logo" class="logo--height">
@@ -11,7 +12,7 @@
             <UsersNavigation></UsersNavigation>
 
             <div class="flex-grow-1">
-                <div class="p-3 container-index__users">
+                <div class="container-index__users">
 
                     <div v-for="(user, index) in users" :key="index" class="animated slideInDown my-3 wrapper--md-and-down user-grid-show">
                         <p class="lead p-2 my-auto text-center-md user-grid__username wrapper--md-and-up">{{ user.username }}</p>
@@ -20,12 +21,16 @@
                     </div>
 
                     <div class="d-flex justify-content-center">
-                        <button class="btn text-center w-auto btn__main" @click="loadMore()" :disabled="!isNotOnLastPage">{{ loadButtonText }}</button>
+                        <button class="btn text-center w-auto btn-main" @click="loadMore()" :disabled="!isNotOnLastPage">{{ loadButtonText }}</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <Loading v-else></Loading>
+</div>
+
 </template>
 
 <script>
@@ -33,9 +38,11 @@ import UsersDelete from './UsersDelete';
 import UsersChangeRole from './UsersChangeRole';
 import UsersNavigation from './UsersNavigation';
 
+import Loading from '../Loading';
+
 export default {
     components: {
-        UsersDelete, UsersChangeRole, UsersNavigation,
+        UsersDelete, UsersChangeRole, UsersNavigation, Loading
     },
 
     computed: {

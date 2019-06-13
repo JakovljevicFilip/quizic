@@ -29,11 +29,6 @@
 
     &-index{
 
-        &--outer{
-            display: flex;
-            flex-direction: column;
-        }
-
         &__scroll{
             /* width */
             ::-webkit-scrollbar {
@@ -68,4 +63,13 @@
             overflow-x: hidden;
         }
     }
+
+    &-game--transparent{
+        -webkit-box-shadow: -5px 6px 24px 14px rgba(0,0,0,0.75);
+        -moz-box-shadow: -5px 6px 24px 14px rgba(0,0,0,0.75);
+        box-shadow: -5px 6px 24px 14px rgba(0,0,0,0.75);
+        padding: 40px 80px;
+        border-radius: 0 0 40px 40px;
+    }
+
 }

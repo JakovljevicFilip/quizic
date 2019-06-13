@@ -11,7 +11,7 @@
 		<span class="d-block text-danger">{{ errors.first('password') }}</span>
 
         <div>
-            <button class="mt-2 mx-auto btn btn__main" @click="loginController" :disabled="errors.any()">Login</button>
+            <button class="mt-2 mx-auto btn btn-main" @click="loginController" :disabled="errors.any()">Login</button>
         </div>
 	</div>
 </div>

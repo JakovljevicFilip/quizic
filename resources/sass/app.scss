@@ -16,6 +16,9 @@
 @import '~@fortawesome/fontawesome-free/scss/solid';
 @import '~@fortawesome/fontawesome-free/scss/fontawesome';
 
+// LOADER
+@import './loader.scss';
+
 // MY STLYES
 // MIXINS
 @import './application/mixins';
@@ -37,5 +40,6 @@
 // PAGES
 @import './application/app';
 @import './application/authentication';
+@import './application/game';
 @import './application/question';
 @import './application/user.scss';

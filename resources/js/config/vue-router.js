@@ -18,6 +18,9 @@ import QuestionsCreate from '../views/Questions/QuestionsCreate';
 import UsersChangePassword from '../views/Users/UsersChangePassword';
 import UsersIndex from '../views/Users/UsersIndex';
 
+// GAME
+import Game from '../views/Game/Game';
+
 // ERROR
 import ErrorPage from '../views/Error/ErrorPage';
 
@@ -115,6 +118,13 @@ const router = new VueRouter({
                     redirect: 'menu'
                 }
             }
+        },
+
+        // GAME
+        {
+            path: '/game',
+            name: 'game',
+            component: Game,
         },
 
         // ERROR

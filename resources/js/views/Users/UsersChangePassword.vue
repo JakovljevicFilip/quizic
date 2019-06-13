@@ -87,7 +87,7 @@
             </div>
 
             <!-- CONFIRM BUTTON -->
-            <button class="btn mx-auto btn__main" @click="validate">Confirm</button>
+            <button class="btn mx-auto btn-main" @click="validate">Confirm</button>
         </div>
     </div>
 </template>

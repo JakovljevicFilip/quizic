@@ -24,6 +24,7 @@ export default {
                 'questions.create': '/questions',
                 'users.password': '/menu',
                 'users.index': '/menu',
+                'game': '/menu',
             }
         }
     },

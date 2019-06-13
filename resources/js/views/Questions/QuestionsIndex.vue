@@ -1,19 +1,20 @@
 <template>
-    <div class="container visible container-index--outer container-index__scroll">
+<div class="h-100">
+    <div class="d-flex flex-column p-3 container-index__scroll"  v-if="questions.length !== 0 ">
         <div class="text-center my-3">
             <img src="/img/logo.png" alt="logo" class="logo--height">
         </div>
         <div class="d-flex justify-content-center my-3">
-            <button class="btn text-center btn__main" @click="goQuestionCreate()">New Question</button>
+            <button class="btn text-center btn-main" @click="goQuestionCreate()">New Question</button>
         </div>
         <div class="d-flex justify-content-center mb-3">
-            <div v-for="difficulty in difficulties" :key="difficulty.id" class="mx-3 text-center btn btn__main" :class="{'btn__main--active': difficulty.id === pagination.difficulty}" @click="changeDifficulty(difficulty.id)">{{ difficulty.text }}</div>
+            <div v-for="difficulty in difficulties" :key="difficulty.id" class="mx-3 text-center btn btn-main" :class="{'btn__main--active': difficulty.id === pagination.difficulty}" @click="changeDifficulty(difficulty.id)">{{ difficulty.text }}</div>
         </div>
 
-        <div class="p-3 flex-grow-1">
+        <div class="flex-grow-1">
             <div class="container-index__questions">
                 <!-- HIDE QUESTIONS CONTATINER IF THERE ARE NO QUESTIONS -->
-                <div v-if="questions.length !== 0 ">
+                <div>
                     <div v-for="(question, index) in questions" :key="index" class="animated slideInDown text-white  my-3 wrapper">
                         <div class="p-2 question-grid-show" v-if="questionEditId !== question.id">
                             <p class="lead my-auto question__text">{{ question.text }}</p>
@@ -26,17 +27,22 @@
                         </div>
                     </div>
                     <div class="d-flex justify-content-center">
-                        <button class="btn text-center w-auto btn__main" @click="loadMore()" :disabled="!isNotOnLastPage">{{ loadButtonText }}</button>
+                        <button class="btn text-center w-auto btn-main" @click="loadMore()" :disabled="!isNotOnLastPage">{{ loadButtonText }}</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <Loading v-else></Loading>
+</div>
+
 </template>
 
 <script>
 
 import QuestionsEdit from './QuestionsEdit';
+import Loading from '../Loading';
 
 export default {
     data(){
@@ -149,10 +155,13 @@ export default {
         this.getDifficulties();
         // GET QUESTIONS
         this.getQuestions();
+        console.log(this.questions.length);
     },
     components: {
         // COMPONENT FOR QUESTION EDITING
-        QuestionsEdit
+        QuestionsEdit,
+        // LOADING SCREEN
+        Loading,
     }
 }
 </script>
