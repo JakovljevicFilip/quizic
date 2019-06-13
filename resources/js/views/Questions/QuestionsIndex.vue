@@ -23,7 +23,7 @@
                             </div>
                         </div>
                         <div v-else>
-                            <QuestionsEdit :question="question" :difficulties="difficulties" @closeEdit="closeEdit" @reloadQuestions="reloadQuestions"></QuestionsEdit>
+                            <QuestionsEdit :question="question" :difficulties="difficulties"></QuestionsEdit>
                         </div>
                     </div>
                     <div class="d-flex justify-content-center">
@@ -43,6 +43,7 @@
 
 import QuestionsEdit from './QuestionsEdit';
 import Loading from '../Loading';
+import {EventBus} from '../../app';
 
 export default {
     data(){
@@ -156,6 +157,9 @@ export default {
         // GET QUESTIONS
         this.getQuestions();
         console.log(this.questions.length);
+
+        EventBus.$on('reloadQuestions', this.reloadQuestions);
+        EventBus.$on('closeEdit', this.closeEdit);
     },
     components: {
         // COMPONENT FOR QUESTION EDITING
