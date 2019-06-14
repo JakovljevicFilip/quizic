@@ -30,56 +30,32 @@ export default {
     data(){
         return {
             // REMOVING YOURSELF MODAL CONFIGURATION
-            swalConfigChangeRole: {
+            modalInformations: {
                 type: 'warning',
                 title: 'You are about to remove yourself as an administrator',
                 html: 'If you proceed you will be logged out and will no longer have access to administrator priviledges.<br> Do you want to proceed?',
-                showConfirmButton: true,
-                showCancelButton: true,
-                confirmButtonText: 'Yes',
-                cancelButtonText: 'No',
-                confirmButtonColor: '#dc3545',
-                position: 'center',
-                timer: false,
-                toast: false,
-                allowOutsideClick: false
+                origin: 'userChangingThemself',
             },
         }
     },
 
     methods:{
-        controllerChangeRole(user){
-            // USER IS CHANGING THEIR OWN ROLE
+        controllerChangeRole(){
+            // USER IS TRYING TO CHANGE THEIR OWN ROLE
             if(this.user.id === this.$auth.user().id){
-                // RUN MODAL
-                this.userChangingThemselfModal();
+                Vue.swal('Error','You can not change your own role.','error');
             }
-
             // ANOTHER USER IS BEING ALTERED
             else{
                 // CHANGE ROLE
-                this.userChangeRoleMethod();
+                this.userChangeRole();
             }
         },
 
-        userChangingThemselfModal(){
-            // RUN WARNING MODAL
-            this.$swal(this.swalConfigChangeRole)
-            .then(response => {
-                // AFFIRMATIVE ANSWER
-                if(response.value){
-                    // CHANGE USER ROLE USER
-                    this.userChangeRoleMethod();
-                }
-            });
-        },
-
-        userChangeRoleMethod(){
+        userChangeRole(){
             this.$http.patch('users/role',{
-                user: {
-                    id: this.user.id,
-                    role: this.newRole,
-                }
+                id: this.user.id,
+                role: this.newRole,
             })
             .then(response =>{
                 // USER CHANGED THEIROWN ROLE AND IS NO LONGER AN ADMINISTRATOR

@@ -165,6 +165,7 @@ export default {
         EventBus.$on('reloadQuestions', this.reloadQuestions);
         EventBus.$on('closeEdit', this.closeEdit);
     },
+
     beforeDestroy () {
         // NECESSARY SINCE COMPONENT IS BEING RELOADED ON CHANGE
         EventBus.$off('reloadQuestions', this.reloadQuestions)

@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Rules\ExistsOnUpdateWithRequestRule;
+use App\Rules\AlteringYourselfRule;
 use App\User;
 
 class UserChangeRoleRequest extends FormRequest
@@ -26,18 +26,16 @@ class UserChangeRoleRequest extends FormRequest
     public function rules()
     {
         return [
-            // ExistsOnUpdate - ENSURES THAT THERE STILL EXISTS A COLUMN WITH CERTAIN VALUE
-            'user' => [new ExistsOnUpdateWithRequestRule(new User, 'role', 2)],
-            'user.id' => 'required|exists:users,id',
-            'user.role' => 'required|in:1,2',
+            'id' => ['required', 'exists:users,id', new AlteringYourselfRule()],
+            'role' => 'required|in:1,2',
         ];
     }
 
     public function messages()
     {
         return [
-            'user.id.exists' => 'Request error: Invalid value.',
-            'user.role.in' => 'Request error: Invalid value.',
+            'id.exists' => 'Request error: Invalid value.',
+            'role.in' => 'Request error: Invalid value.',
         ];
     }
 }

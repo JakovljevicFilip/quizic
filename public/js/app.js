@@ -1273,6 +1273,8 @@ module.exports = (function (){
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Back__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Back */ "./resources/js/views/Back.vue");
+/* harmony import */ var _Modal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Modal */ "./resources/js/views/Modal.vue");
+//
 //
 //
 //
@@ -1288,9 +1290,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 // COMPONENTS
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    Back: _Back__WEBPACK_IMPORTED_MODULE_0__["default"]
+    Back: _Back__WEBPACK_IMPORTED_MODULE_0__["default"],
+    Modal: _Modal__WEBPACK_IMPORTED_MODULE_1__["default"]
   }
 });
 
@@ -1562,10 +1566,12 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../app */ "./resources/js/app.js");
 //
 //
 //
 //
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -1578,25 +1584,12 @@ __webpack_require__.r(__webpack_exports__);
         500: 'Internal server error.'
       },
       // DISPLAYING MESSAGE
-      swalConfig: {
-        // ICON
+      modalInformations: {
         type: 'error',
-        // TITLE
         title: 'Error - ',
-        // BODY
         text: 'Error message.',
-        // SHOW BUTTON
-        showConfirmButton: true,
-        // MESSAGE POSITION
-        position: 'center',
-        // MESSAGE TO DISSAPEAR IN
-        timer: false,
-        // COMPACT MESSAGE
-        toast: false,
-        // BUTTON TEXT
-        confirmButtonText: 'Go Back',
-        // PREVENT MESSAGE DISMISAL FROM AN OUTSIDE CLICK
-        allowOutsideClick: false
+        showCancelButton: false,
+        origin: 'error'
       }
     };
   },
@@ -1605,17 +1598,17 @@ __webpack_require__.r(__webpack_exports__);
       // GET ROUTE NAME, ie. 404
       var name = this.$route.name; // SET MESSAGE TITLE, ie. Error - 404
 
-      this.swalConfig.title += name; // SET MESSAGE BODY, ie. Resource not found.
+      this.modalInformations.title += name; // SET MESSAGE BODY, ie. Resource not found.
 
-      this.swalConfig.text = this.messages[name]; // MESSAGE DOESN'T EXIST
+      this.modalInformations.text = this.messages[name]; // MESSAGE DOESN'T EXIST
 
-      if (this.swalConfig.text === undefined) {
-        this.swalConfig.text = 'Unknown server error';
+      if (this.modalInformations.text === undefined) {
+        this.modalInformations.text = 'Unknown server error';
       }
     },
     writeMessage: function writeMessage() {
       // DISPLAY MESSAGE
-      Vue.swal(this.swalConfig).then(this.goBack);
+      _app__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit('showModal', this.modalInformations);
     },
     goBack: function goBack() {
       // ATTEMPT TO RETURN TO MENU
@@ -1627,6 +1620,7 @@ __webpack_require__.r(__webpack_exports__);
     this.setMessage(); // WRITE MESSAGE
 
     this.writeMessage();
+    _app__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$on('goBack', this.goBack);
   }
 });
 
@@ -1706,12 +1700,20 @@ __webpack_require__.r(__webpack_exports__);
       answer: {},
       // ANSWER IS CORRECT/INCORRECT
       answerStatus: null,
-      // MODAL TITLE
-      gameOverTitle: 'The answer is incorrect!',
       // PLAYING AS
       username: 'guest12312',
       // CORRECT QUESTIONS SO FAR
-      score: 0
+      score: 0,
+      modalInformations: {
+        // SET ON CALL
+        title: '',
+        type: 'error',
+        confirmButtonText: 'New Game',
+        cancelButtonText: 'Quit',
+        // SET ON CALL
+        html: '',
+        origin: 'showGameModal'
+      }
     };
   },
   methods: {
@@ -1771,11 +1773,8 @@ __webpack_require__.r(__webpack_exports__);
         this.setNewQuestion();
       } // ANSWER IS INCORRECT
       else {
-          // SHOW MODAL
-          _app__WEBPACK_IMPORTED_MODULE_7__["EventBus"].$emit('gameModal', {
-            // MODAL TITLE
-            title: this.gameOverTitle
-          });
+          // RUN showModal BUS METHOD ON Modal
+          _app__WEBPACK_IMPORTED_MODULE_7__["EventBus"].$emit('showModal', this.showGameModal('Your answer was incorrect!'));
         }
     },
     stopTheTimer: function stopTheTimer() {
@@ -1787,6 +1786,20 @@ __webpack_require__.r(__webpack_exports__);
       _app__WEBPACK_IMPORTED_MODULE_7__["EventBus"].$emit('colorTheAnswer', {
         status: status
       });
+    },
+    showGameModal: function showGameModal(title) {
+      // SET NEW MODAL TITLE
+      this.modalInformations.title = title; // SET MODAL html
+
+      this.modalInformations.html = 'Playing as: <strong>' + this.username + '</strong><br>Your score: <strong>' + this.score + '</strong>'; // RUN showModal BUS METHOD ON Modal
+
+      _app__WEBPACK_IMPORTED_MODULE_7__["EventBus"].$emit('showModal', this.modalInformations); // RESET MODAL TITLE
+
+      this.modalInformations.title = 'Your answer was incorrect!';
+    },
+    goBack: function goBack() {
+      // GO TO MENU
+      this.$router.push('/menu');
     }
   },
   created: function created() {
@@ -1798,11 +1811,16 @@ __webpack_require__.r(__webpack_exports__);
     }, 2000); // BUS METHODS
 
     _app__WEBPACK_IMPORTED_MODULE_7__["EventBus"].$on('startNewGame', this.startNewGame);
+    _app__WEBPACK_IMPORTED_MODULE_7__["EventBus"].$on('goBack', this.goBack);
     _app__WEBPACK_IMPORTED_MODULE_7__["EventBus"].$on('answered', function (answer) {
       // USER'S ANSWER
       _this.answer = answer; // HANDLE USER'S ANSWER
 
       _this.answered();
+    });
+    _app__WEBPACK_IMPORTED_MODULE_7__["EventBus"].$on('showGameModal', function (data) {
+      // ADD ADDITIONAL MODAL INFORMATIONS
+      _this.showGameModal(data.title);
     });
   }
 });
@@ -2098,6 +2116,7 @@ __webpack_require__.r(__webpack_exports__);
 // EVENT BUS
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['username', 'score'],
   watch: {
     // WATCH TIME VALUE
     time: function time(value) {
@@ -2116,8 +2135,6 @@ __webpack_require__.r(__webpack_exports__);
       time: 10,
       // TOGGLE TIMER ANIMATION
       gameIsInProgress: false,
-      // MODAL MESSAGE
-      timeIsUpTitle: 'Time\'s up!',
       // REFERENCE TO INTERVAL
       interval: {}
     };
@@ -2141,11 +2158,15 @@ __webpack_require__.r(__webpack_exports__);
     },
     timeIsUp: function timeIsUp() {
       // STOP TIMER
-      this.stopTheTimer(); // RUN gameModal BUS METHOD ON GameModal
+      this.stopTheTimer(); // SHOW MODAL
 
-      _app__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit('gameModal', {
-        // PASS MODAL TITLE
-        title: this.timeIsUpTitle
+      this.showModal();
+    },
+    showModal: function showModal() {
+      // RUN showGameModal BUS METHOD ON Game
+      _app__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit('showGameModal', {
+        // MODAL SETUP
+        title: 'Time\'s up!'
       });
     },
     resetTheTimer: function resetTheTimer() {
@@ -2208,6 +2229,113 @@ __webpack_require__.r(__webpack_exports__);
       // RUN VUE-AUTH LOGOUT METHOD
       this.$auth.logout();
     }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Modal.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Modal.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../app */ "./resources/js/app.js");
+//
+//
+//
+// EVENT BUS
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      // SweetAlert/MODAL CONFIGURATION
+      swalConfig: {
+        // ICON
+        type: 'info',
+        // TITLE
+        title: '',
+        // BODY
+        html: '',
+        text: '',
+        // SHOW BUTTONS
+        showConfirmButton: true,
+        showCancelButton: true,
+        // BUTTON TEXT
+        confirmButtonText: 'Confirm',
+        cancelButtonText: 'Cancel',
+        // MESSAGE POSITION
+        position: 'center',
+        // MESSAGE TO DISSAPEAR IN
+        timer: false,
+        // COMPACT MESSAGE
+        toast: false,
+        // PREVENT MESSAGE DISMISAL FROM AN OUTSIDE CLICK
+        allowOutsideClick: false
+      },
+      // USED WITH responses TO CALL CORRECT METHODS ON CONFIRM/CANCEL
+      origin: '',
+      reponses: {
+        showGameModal: {
+          "true": 'startNewGame',
+          "false": 'goBack'
+        },
+        error: {
+          "true": 'goBack'
+        },
+        questionDelete: {
+          "true": 'questionDelete',
+          "false": false
+        }
+      }
+    };
+  },
+  methods: {
+    setModalInfo: function setModalInfo(data) {
+      // LOOP THROUGH DATA
+      for (var information in data) {
+        // MODAL ORIGIN
+        if (information === 'origin') {
+          // SET MODAL ORIGIN
+          this.origin = data[information];
+        } // MODAL INFORMATION
+        else {
+            // SET MODAL INFROMATION
+            this.swalConfig[information] = data[information];
+          }
+      }
+    },
+    showModal: function showModal() {
+      var origin = this.reponses[this.origin]; // RUN MODAL
+
+      this.$swal(this.swalConfig).then(function (response) {
+        // NEW GAME
+        if (response.value) {
+          // RUN APPROPRIATE BUS METHOD
+          _app__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit(origin["true"]);
+        } else {
+          // SOMETHING IS SUPPOSSED TO HAPPEN ON CANCEL
+          if (origin["false"]) {
+            // GO BACK TO MENU
+            _app__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit(origin["false"]);
+          }
+        }
+      });
+    }
+  },
+  created: function created() {
+    var _this = this;
+
+    _app__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$on('showModal', function (data) {
+      // SET MODAL INFO
+      _this.setModalInfo(data); // SHOW MODAL
+
+
+      _this.showModal();
+    });
   }
 });
 
@@ -2385,44 +2513,20 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       // DELETE MODAL CONFIGURATION
-      swalDeleteConfig: {
-        // ICON
+      modalInformations: {
         type: 'error',
-        // TITLE
         title: 'Delete',
-        // BODY
         text: 'Are you sure you want to delete this question?',
-        // SHOW BUTTONS
-        showConfirmButton: true,
-        showCancelButton: true,
-        // BUTTON TEXT
-        confirmButtonText: 'Yes',
-        cancelButtonText: 'No',
         // BUTTON COLOR - BOOTSTRAP RED
         confirmButtonColor: '#dc3545',
-        // MESSAGE POSITION
-        position: 'center',
-        // MESSAGE TO DISSAPEAR IN
-        timer: false,
-        // COMPACT MESSAGE
-        toast: false,
-        // PREVENT MESSAGE DISMISAL FROM AN OUTSIDE CLICK
-        allowOutsideClick: false
+        origin: 'questionDelete'
       }
     };
   },
   methods: {
     deleteController: function deleteController() {
-      var _this = this;
-
       // RUN DELETE MODAL
-      this.$swal(this.swalDeleteConfig).then(function (response) {
-        // AFFIRMATIVE ANSWER
-        if (response.value) {
-          // DELETE QUESTION
-          _this.questionDelete();
-        }
-      });
+      _app__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit('showModal', this.modalInformations);
     },
     questionDelete: function questionDelete() {
       // RUN DELETE REQUEST
@@ -2431,6 +2535,14 @@ __webpack_require__.r(__webpack_exports__);
         _app__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit('reloadQuestions');
       })["catch"](function (error) {});
     }
+  },
+  created: function created() {
+    // EVENT BUS
+    _app__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$on('questionDelete', this.questionDelete);
+  },
+  beforeDestroy: function beforeDestroy() {
+    // NECESSARY SINCE COMPONENT IS BEING RELOADED ON CHANGE
+    _app__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$off('questionDelete');
   }
 });
 
@@ -2960,59 +3072,36 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       // REMOVING YOURSELF MODAL CONFIGURATION
-      swalConfigChangeRole: {
+      modalInformations: {
         type: 'warning',
         title: 'You are about to remove yourself as an administrator',
         html: 'If you proceed you will be logged out and will no longer have access to administrator priviledges.<br> Do you want to proceed?',
-        showConfirmButton: true,
-        showCancelButton: true,
-        confirmButtonText: 'Yes',
-        cancelButtonText: 'No',
-        confirmButtonColor: '#dc3545',
-        position: 'center',
-        timer: false,
-        toast: false,
-        allowOutsideClick: false
+        origin: 'userChangingThemself'
       }
     };
   },
   methods: {
-    controllerChangeRole: function controllerChangeRole(user) {
-      // USER IS CHANGING THEIR OWN ROLE
+    controllerChangeRole: function controllerChangeRole() {
+      // USER IS TRYING TO CHANGE THEIR OWN ROLE
       if (this.user.id === this.$auth.user().id) {
-        // RUN MODAL
-        this.userChangingThemselfModal();
+        Vue.swal('Error', 'You can not change your own role.', 'error');
       } // ANOTHER USER IS BEING ALTERED
       else {
           // CHANGE ROLE
-          this.userChangeRoleMethod();
+          this.userChangeRole();
         }
     },
-    userChangingThemselfModal: function userChangingThemselfModal() {
+    userChangeRole: function userChangeRole() {
       var _this = this;
 
-      // RUN WARNING MODAL
-      this.$swal(this.swalConfigChangeRole).then(function (response) {
-        // AFFIRMATIVE ANSWER
-        if (response.value) {
-          // CHANGE USER ROLE USER
-          _this.userChangeRoleMethod();
-        }
-      });
-    },
-    userChangeRoleMethod: function userChangeRoleMethod() {
-      var _this2 = this;
-
       this.$http.patch('users/role', {
-        user: {
-          id: this.user.id,
-          role: this.newRole
-        }
+        id: this.user.id,
+        role: this.newRole
       }).then(function (response) {
         // USER CHANGED THEIROWN ROLE AND IS NO LONGER AN ADMINISTRATOR
         if (response.data.logout) {
           // LOGOUT
-          _this2.$auth.logout();
+          _this.$auth.logout();
         } // USER CHANGED SOMEONE ELSE
         else {
             // RUN usersReload BUS EVENT ON UsersIndex
@@ -3078,14 +3167,20 @@ __webpack_require__.r(__webpack_exports__);
     controllerDelete: function controllerDelete() {
       var _this = this;
 
-      // RUN DELETE MODAL
-      this.$swal(this.swalConfigDelete).then(function (response) {
-        // AFFIRMATIVE ANSWER
-        if (response.value) {
-          // DELETE USER
-          _this.userDelete();
+      // USER IS TRYING TO DELETE THEMSELF
+      if (this.user.id === this.$auth.user().id) {
+        Vue.swal('Error', 'You can not delete yourself.', 'error');
+      } // USER IS TRYING TO DELETE SOMEONE ELSE
+      else {
+          // RUN DELETE MODAL
+          this.$swal(this.swalConfigDelete).then(function (response) {
+            // AFFIRMATIVE ANSWER
+            if (response.value) {
+              // DELETE USER
+              _this.userDelete();
+            }
+          });
         }
-      });
     },
     userDelete: function userDelete() {
       var _this2 = this;
@@ -3248,6 +3343,13 @@ __webpack_require__.r(__webpack_exports__);
     this.getUsers(); // EVENT BUS
 
     _app__WEBPACK_IMPORTED_MODULE_4__["EventBus"].$on('usersReload', this.usersReload);
+  },
+  beforeDestroy: function beforeDestroy() {
+    // NECESSARY SINCE COMPONENT IS BEING RELOADED ON CHANGE
+    _app__WEBPACK_IMPORTED_MODULE_4__["EventBus"].$off('usersReload');
+    console.log(2); // NECESSARY SINCE COMPONENT IS BEING RELOADED ON CHANGE
+
+    _app__WEBPACK_IMPORTED_MODULE_4__["EventBus"].$off('userChangeRole');
   }
 });
 
@@ -51431,6 +51533,8 @@ var render = function() {
         _vm._v(" "),
         _c("Back"),
         _vm._v(" "),
+        _c("Modal"),
+        _vm._v(" "),
         _vm._m(0)
       ],
       1
@@ -52432,6 +52536,30 @@ var staticRenderFns = [
     ])
   }
 ]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Modal.vue?vue&type=template&id=0a77fac4&":
+/*!***************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/Modal.vue?vue&type=template&id=0a77fac4& ***!
+  \***************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div")
+}
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -71668,6 +71796,75 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/views/Modal.vue":
+/*!**************************************!*\
+  !*** ./resources/js/views/Modal.vue ***!
+  \**************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Modal_vue_vue_type_template_id_0a77fac4___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Modal.vue?vue&type=template&id=0a77fac4& */ "./resources/js/views/Modal.vue?vue&type=template&id=0a77fac4&");
+/* harmony import */ var _Modal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Modal.vue?vue&type=script&lang=js& */ "./resources/js/views/Modal.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Modal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Modal_vue_vue_type_template_id_0a77fac4___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Modal_vue_vue_type_template_id_0a77fac4___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/views/Modal.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/views/Modal.vue?vue&type=script&lang=js&":
+/*!***************************************************************!*\
+  !*** ./resources/js/views/Modal.vue?vue&type=script&lang=js& ***!
+  \***************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Modal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./Modal.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Modal.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Modal_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/views/Modal.vue?vue&type=template&id=0a77fac4&":
+/*!*********************************************************************!*\
+  !*** ./resources/js/views/Modal.vue?vue&type=template&id=0a77fac4& ***!
+  \*********************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Modal_vue_vue_type_template_id_0a77fac4___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./Modal.vue?vue&type=template&id=0a77fac4& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/Modal.vue?vue&type=template&id=0a77fac4&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Modal_vue_vue_type_template_id_0a77fac4___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Modal_vue_vue_type_template_id_0a77fac4___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/views/Questions/QuestionsCreate.vue":
 /*!**********************************************************!*\
   !*** ./resources/js/views/Questions/QuestionsCreate.vue ***!
@@ -72017,15 +72214,14 @@ __webpack_require__.r(__webpack_exports__);
 /*!**********************************************************!*\
   !*** ./resources/js/views/Users/UsersChangePassword.vue ***!
   \**********************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _UsersChangePassword_vue_vue_type_template_id_4649f5dd___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./UsersChangePassword.vue?vue&type=template&id=4649f5dd& */ "./resources/js/views/Users/UsersChangePassword.vue?vue&type=template&id=4649f5dd&");
 /* harmony import */ var _UsersChangePassword_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./UsersChangePassword.vue?vue&type=script&lang=js& */ "./resources/js/views/Users/UsersChangePassword.vue?vue&type=script&lang=js&");
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _UsersChangePassword_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _UsersChangePassword_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -72055,7 +72251,7 @@ component.options.__file = "resources/js/views/Users/UsersChangePassword.vue"
 /*!***********************************************************************************!*\
   !*** ./resources/js/views/Users/UsersChangePassword.vue?vue&type=script&lang=js& ***!
   \***********************************************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

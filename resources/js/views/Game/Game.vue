@@ -60,12 +60,20 @@ export default {
             answer: {},
             // ANSWER IS CORRECT/INCORRECT
             answerStatus: null,
-            // MODAL TITLE
-            gameOverTitle: 'The answer is incorrect!',
             // PLAYING AS
             username: 'guest12312',
             // CORRECT QUESTIONS SO FAR
             score: 0,
+            modalInformations: {
+                // SET ON CALL
+                title: '',
+                type: 'error',
+                confirmButtonText: 'New Game',
+                cancelButtonText: 'Quit',
+                // SET ON CALL
+                html: '',
+                origin: 'showGameModal',
+            },
         }
     },
 
@@ -140,11 +148,8 @@ export default {
             }
             // ANSWER IS INCORRECT
             else{
-                // SHOW MODAL
-                EventBus.$emit('gameModal', {
-                    // MODAL TITLE
-                    title: this.gameOverTitle,
-                });
+                // RUN showModal BUS METHOD ON Modal
+                EventBus.$emit('showModal',this.showGameModal('Your answer was incorrect!'));
             }
         },
 
@@ -160,6 +165,25 @@ export default {
                 status,
             });
         },
+
+        showGameModal(title){
+            // SET NEW MODAL TITLE
+            this.modalInformations.title = title;
+
+            // SET MODAL html
+            this.modalInformations.html = 'Playing as: <strong>'+this.username+'</strong><br>Your score: <strong>'+this.score+'</strong>';
+
+            // RUN showModal BUS METHOD ON Modal
+            EventBus.$emit('showModal',this.modalInformations);
+
+            // RESET MODAL TITLE
+            this.modalInformations.title = 'Your answer was incorrect!';
+        },
+
+        goBack(){
+            // GO TO MENU
+            this.$router.push('/menu');
+        }
     },
 
     created(){
@@ -170,11 +194,16 @@ export default {
 
         // BUS METHODS
         EventBus.$on('startNewGame', this.startNewGame);
+        EventBus.$on('goBack', this.goBack);
         EventBus.$on('answered', answer => {
             // USER'S ANSWER
             this.answer = answer;
             // HANDLE USER'S ANSWER
             this.answered();
+        });
+        EventBus.$on('showGameModal',data => {
+            // ADD ADDITIONAL MODAL INFORMATIONS
+            this.showGameModal(data.title);
         });
     },
 

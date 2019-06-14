@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Rules\ExistsOnUpdateWithoutRequestRule;
+use App\Rules\AlteringYourselfRule;
 use App\User;
 
 class UserDestroyRequest extends FormRequest
@@ -26,7 +26,7 @@ class UserDestroyRequest extends FormRequest
     public function rules()
     {
         return [
-            'id' => ['required','exists:users,id', new ExistsOnUpdateWithoutRequestRule(new User, 'role', 2)]
+            'id' => ['required','exists:users,id', new AlteringYourselfRule()],
         ];
     }
 }

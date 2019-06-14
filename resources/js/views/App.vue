@@ -5,6 +5,7 @@
                 <router-view></router-view>
             </div>
             <Back></Back>
+            <Modal></Modal>
             <footer class="footer">
                 <p class="text-center text-white">© 2019 QUIZZIĆ</p>
             </footer>
@@ -14,10 +15,12 @@
 <script>
 // COMPONENTS
 import Back from './Back';
+import Modal from './Modal';
 
 export default {
     components: {
-        Back
+        Back,
+        Modal,
     },
 }
 </script>

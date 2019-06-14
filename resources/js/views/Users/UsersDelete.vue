@@ -41,15 +41,22 @@ export default {
     },
     methods: {
         controllerDelete(){
-            // RUN DELETE MODAL
-            this.$swal(this.swalConfigDelete)
-            .then(response => {
-                // AFFIRMATIVE ANSWER
-                if(response.value){
-                    // DELETE USER
-                    this.userDelete();
-                }
-            });
+            // USER IS TRYING TO DELETE THEMSELF
+            if(this.user.id === this.$auth.user().id){
+                Vue.swal('Error','You can not delete yourself.','error');
+            }
+            // USER IS TRYING TO DELETE SOMEONE ELSE
+            else{
+                // RUN DELETE MODAL
+                this.$swal(this.swalConfigDelete)
+                .then(response => {
+                    // AFFIRMATIVE ANSWER
+                    if(response.value){
+                        // DELETE USER
+                        this.userDelete();
+                    }
+                });
+            }
         },
 
         userDelete(){

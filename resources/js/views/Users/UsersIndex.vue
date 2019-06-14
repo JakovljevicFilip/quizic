@@ -123,13 +123,22 @@ export default {
             this.getUsers(true);
         },
     },
+
     created(){
         // GET USERS
         this.getUsers();
 
         // EVENT BUS
         EventBus.$on('usersReload', this.usersReload);
-    }
+    },
+
+    beforeDestroy(){
+        // NECESSARY SINCE COMPONENT IS BEING RELOADED ON CHANGE
+        EventBus.$off('usersReload');
+        console.log(2);
+        // NECESSARY SINCE COMPONENT IS BEING RELOADED ON CHANGE
+        EventBus.$off('userChangeRole');
+    },
 }
 </script>
 

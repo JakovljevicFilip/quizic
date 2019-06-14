@@ -12,43 +12,20 @@ export default {
     data(){
         return {
             // DELETE MODAL CONFIGURATION
-            swalDeleteConfig: {
-                // ICON
+            modalInformations: {
                 type: 'error',
-                // TITLE
                 title: 'Delete',
-                // BODY
                 text: 'Are you sure you want to delete this question?',
-                // SHOW BUTTONS
-                showConfirmButton: true,
-                showCancelButton: true,
-                // BUTTON TEXT
-                confirmButtonText: 'Yes',
-                cancelButtonText: 'No',
                 // BUTTON COLOR - BOOTSTRAP RED
                 confirmButtonColor: '#dc3545',
-                // MESSAGE POSITION
-                position: 'center',
-                // MESSAGE TO DISSAPEAR IN
-                timer: false,
-                // COMPACT MESSAGE
-                toast: false,
-                // PREVENT MESSAGE DISMISAL FROM AN OUTSIDE CLICK
-                allowOutsideClick: false
+                origin: 'questionDelete',
             },
         }
     },
     methods:{
         deleteController(){
             // RUN DELETE MODAL
-            this.$swal(this.swalDeleteConfig)
-            .then(response => {
-                // AFFIRMATIVE ANSWER
-                if(response.value){
-                    // DELETE QUESTION
-                    this.questionDelete();
-                }
-            });
+            EventBus.$emit('showModal',this.modalInformations);
         },
 
         questionDelete(){
@@ -61,9 +38,15 @@ export default {
             .catch(error => {});
         },
     },
+
+    created(){
+        // EVENT BUS
+        EventBus.$on('questionDelete', this.questionDelete);
+    },
+
+    beforeDestroy(){
+        // NECESSARY SINCE COMPONENT IS BEING RELOADED ON CHANGE
+        EventBus.$off('questionDelete');
+    },
 }
 </script>
-
-<style>
-
-</style>

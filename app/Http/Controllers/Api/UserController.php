@@ -28,11 +28,9 @@ class UserController extends Controller
 
     public function changeRole(UserChangeRoleRequest $request){
         // GET USER ID
-        $id = $request->user['id'];
+        $id = $request->id;
         // GET ROLE
-        $role = $request->user['role'];
-        // USER SHOULD BE LOGGED OUT IF THEY CHANGE THEIR OWN STATUS
-        $logout = Auth::user()->id === $id;
+        $role = $request->role;
 
         // GET USER INFORMATION
         $user = User::find($id);
@@ -46,7 +44,6 @@ class UserController extends Controller
     		'title' => 'User',
             'message' => 'User has been updated.',
             'write' => true,
-            'logout' => $logout,
         ], 200);
     }
 
@@ -71,10 +68,6 @@ class UserController extends Controller
     public function destroy(UserDestroyRequest $request){
         // GET USER
         $user = User::find($request->id);
-
-        // USER SHOULD BE LOGGED OUT IF THEY CHANGE THEIR OWN STATUS
-        $logout = Auth::user()->id === $user->id;
-
         // DELETE USER
         $user->delete();
 
@@ -82,7 +75,6 @@ class UserController extends Controller
             'title' => 'User',
             'message' => 'User has been deleted.',
             'write' => true,
-            'logout' => $logout,
         ]);
     }
 }

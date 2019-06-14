@@ -20,6 +20,7 @@
 import {EventBus} from '../../app';
 
 export default {
+    props: ['username', 'score'],
     watch:{
         // WATCH TIME VALUE
         time(value){
@@ -38,8 +39,6 @@ export default {
             time: 10,
             // TOGGLE TIMER ANIMATION
             gameIsInProgress: false,
-            // MODAL MESSAGE
-            timeIsUpTitle: 'Time\'s up!',
             // REFERENCE TO INTERVAL
             interval: {},
         }
@@ -64,10 +63,15 @@ export default {
         timeIsUp(){
             // STOP TIMER
             this.stopTheTimer();
-            // RUN gameModal BUS METHOD ON GameModal
-            EventBus.$emit('gameModal',{
-                // PASS MODAL TITLE
-                title: this.timeIsUpTitle,
+            // SHOW MODAL
+            this.showModal();
+        },
+
+        showModal(){
+            // RUN showGameModal BUS METHOD ON Game
+            EventBus.$emit('showGameModal',{
+                // MODAL SETUP
+                title: 'Time\'s up!',
             });
         },
 

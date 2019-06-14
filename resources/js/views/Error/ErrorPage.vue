@@ -3,6 +3,7 @@
 </template>
 
 <script>
+import {EventBus} from '../../app';
 export default {
     data(){
         return{
@@ -15,25 +16,12 @@ export default {
                 500: 'Internal server error.',
             },
             // DISPLAYING MESSAGE
-            swalConfig: {
-                // ICON
+            modalInformations: {
                 type: 'error',
-                // TITLE
                 title: 'Error - ',
-                // BODY
                 text: 'Error message.',
-                // SHOW BUTTON
-                showConfirmButton: true,
-                // MESSAGE POSITION
-                position: 'center',
-                // MESSAGE TO DISSAPEAR IN
-                timer: false,
-                // COMPACT MESSAGE
-                toast: false,
-                // BUTTON TEXT
-                confirmButtonText: 'Go Back',
-                // PREVENT MESSAGE DISMISAL FROM AN OUTSIDE CLICK
-                allowOutsideClick: false
+                showCancelButton: false,
+                origin: 'error',
             }
         }
     },
@@ -42,19 +30,18 @@ export default {
             // GET ROUTE NAME, ie. 404
             let name = this.$route.name;
             // SET MESSAGE TITLE, ie. Error - 404
-            this.swalConfig.title += name;
+            this.modalInformations.title += name;
             // SET MESSAGE BODY, ie. Resource not found.
-            this.swalConfig.text = this.messages[name];
+            this.modalInformations.text = this.messages[name];
             // MESSAGE DOESN'T EXIST
-            if(this.swalConfig.text === undefined){
-                this.swalConfig.text = 'Unknown server error';
+            if(this.modalInformations.text === undefined){
+                this.modalInformations.text = 'Unknown server error';
             }
         },
 
         writeMessage(){
             // DISPLAY MESSAGE
-            Vue.swal(this.swalConfig)
-            .then(this.goBack);
+            EventBus.$emit('showModal',this.modalInformations);
         },
 
         goBack(){
@@ -67,6 +54,8 @@ export default {
         this.setMessage();
         // WRITE MESSAGE
         this.writeMessage();
+
+        EventBus.$on('goBack', this.goBack);
     }
 }
 </script>
