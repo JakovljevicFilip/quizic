@@ -9,6 +9,7 @@ export default {
     props: ['question'],
     methods:{
         questionUpdate(){
+            // QUESTIONS UPDATE REQUEST
             this.$http.put('questions', this.question)
             .then(response => {
                 // RELOAD QUESTIONS ARRAY ON PARENT COMPONENT
@@ -18,10 +19,12 @@ export default {
         },
     },
     created(){
+        // RUN questionsUpdate BUS METHOD ON GameIndex
         EventBus.$on('questionUpdate', this.questionUpdate);
     },
 
     beforeDestroy () {
+        // NECESSARY SINCE COMPONENT IS BEING RELOADED ON CHANGE
         EventBus.$off('questionUpdate', this.questionUpdate)
     },
 }

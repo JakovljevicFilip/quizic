@@ -2,9 +2,11 @@
 
 </template>
 <script>
+// EVENT BUS
 import {EventBus} from '../../app';
 
 export default {
+    // PASSED FROM Game
     props: ['username', 'score'],
     data(){
         return{
@@ -22,8 +24,6 @@ export default {
                 // BUTTON TEXT
                 confirmButtonText: 'New game',
                 cancelButtonText: 'Quit',
-                // BUTTON COLOR - BOOTSTRAP RED
-                // confirmButtonColor: '#dc3545',
                 // MESSAGE POSITION
                 position: 'center',
                 // MESSAGE TO DISSAPEAR IN
@@ -38,7 +38,9 @@ export default {
 
     methods:{
         setModalInfo(title){
+            // SET MODAL TITLE
             this.swalTimeIsUpConfig.title  = title;
+            // SET MODAL BODY
             this.swalTimeIsUpConfig.html = 'You\'ve lost!<br>Playing as: <strong>'+this.username+'</strong><br>Score: <strong>'+this.score+'</strong>';
         },
 
@@ -48,9 +50,11 @@ export default {
             .then(response => {
                 // NEW GAME
                 if(response.value){
+                    // RUN startNewGame BUS METHOD ON Game
                     EventBus.$emit('startNewGame');
                 }
                 else{
+                    // GO BACK TO MENU
                     this.$router.push('/menu');
                 }
             });
@@ -59,7 +63,9 @@ export default {
 
     created(){
         EventBus.$on('gameModal', data => {
+            // SET MODAL INFO
             this.setModalInfo(data.title);
+            // SHOW MODAL
             this.showModal();
         });
     },

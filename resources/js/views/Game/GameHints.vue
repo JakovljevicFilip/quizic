@@ -1,14 +1,17 @@
 <template>
 <div class="d-flex justify-content-center animated slideInDown container-game--transparent game-hints">
     <div class="container-hint d-flex justify-content-center">
+        <!-- 50:50 -->
         <button class="btn-hint mr-5">
             <i class="fas fa-times"></i>
         </button>
 
+        <!-- SWITCH -->
         <button class="btn-hint mr-5">
             <i class="fas fa-exchange-alt"></i>
         </button>
 
+        <!-- SOLVE -->
         <button class="btn-hint">
             <i class="fas fa-check"></i>
         </button>
@@ -17,14 +20,8 @@
 </template>
 
 <script>
-import {EventBus} from '../../app';
-
 export default {
-    created(){
-        EventBus.$on('sent', (data) =>{
-            console.log(data.information1);
-        });
-    }
+
 }
 </script>
 

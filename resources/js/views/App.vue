@@ -12,6 +12,7 @@
     </div>
 </template>
 <script>
+// COMPONENTS
 import Back from './Back';
 
 export default {

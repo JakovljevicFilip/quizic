@@ -5,6 +5,9 @@
 </template>
 
 <script>
+// EVENT BUS
+import {EventBus} from '../../app';
+
 export default {
     props: ['user'],
     data(){
@@ -63,8 +66,8 @@ export default {
                 }
                 // USER DELETED SOMEONE ELSE
                 else{
-                    // RELOAD USERS
-                    this.$emit('usersReload');
+                    // RUN usersReload BUS EVENT ON UsersIndex
+                    EventBus.$emit('usersReload');
                 }
             })
             .catch(error => {});

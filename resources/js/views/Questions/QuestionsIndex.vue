@@ -36,12 +36,20 @@
 </template>
 
 <script>
-
+// COMPONENTS
 import QuestionsEdit from './QuestionsEdit';
 import Loading from '../Loading';
+
+// EVENT BUS
 import {EventBus} from '../../app';
 
 export default {
+    components: {
+        // COMPONENT FOR QUESTION EDITING
+        QuestionsEdit,
+        // LOADING SCREEN
+        Loading,
+    },
     data(){
         return {
             // DATA USED FOR FETCHING QUESTIONS
@@ -153,17 +161,13 @@ export default {
         // GET QUESTIONS
         this.getQuestions();
 
+        // BUS METHODS
         EventBus.$on('reloadQuestions', this.reloadQuestions);
         EventBus.$on('closeEdit', this.closeEdit);
     },
     beforeDestroy () {
+        // NECESSARY SINCE COMPONENT IS BEING RELOADED ON CHANGE
         EventBus.$off('reloadQuestions', this.reloadQuestions)
     },
-    components: {
-        // COMPONENT FOR QUESTION EDITING
-        QuestionsEdit,
-        // LOADING SCREEN
-        Loading,
-    }
 }
 </script>

@@ -3,9 +3,11 @@
 </template>
 
 <script>
+// EVENT BUS
 import {EventBus} from '../../app';
 
 export default {
+    // PASSED FROM QuestionIndex
     props: ['question'],
     data(){
         return {
@@ -50,9 +52,10 @@ export default {
         },
 
         questionDelete(){
+            // RUN DELETE REQUEST
             this.$http.delete('questions/'+this.question.id)
             .then(response => {
-                // RELOAD QUESTIONS ARRAY ON PARENT COMPONENT
+                // RUN reloadQuestions BUS METHOD ON QuestionsIndex
                 EventBus.$emit('reloadQuestions');
             })
             .catch(error => {});

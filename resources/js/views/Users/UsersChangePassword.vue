@@ -9,85 +9,42 @@
             <!-- HEADING -->
             <h3 class="text-center text-white mb-3 heading">Change Password</h3>
 
-            <!-- INPUT DIVS -->
-            <div class="my-3 position-relative">
-                <!-- INPUT FIELD -->
-                <input name="passwordCurrent"
-                    class="lead px-1 form-control w-100"
-                    placeholder="Enter current password"
-                    :type="passwordCurrent.type"
-                    v-model="passwordCurrent.text"
-                    v-validate="rules.passwordCurrent">
+            <form v-on:submit.prevent="validate"  autocomplete="off">
+                <!-- PASSWORD INPUTS -->
+                <div class="my-3 position-relative"
+                    v-for="(password, index) in passwords"
+                    :key="index">
+                    <!-- INPUT FIELD -->
+                    <input :name="index"
+                        class="lead px-1 form-control w-100"
+                        :placeholder="password.placeholder"
+                        :type="password.type"
+                        :ref="index"
+                        v-model="password.text"
+                        v-validate="rules[index]"
+                        autocomplete="off">
 
-                <!-- SHOW ICON -->
-                <div class="position-absolute d-flex icon__fixed-top-right" v-if="passwordCurrent.text !== ''">
-                    <!-- SHOW -->
-                    <i class="fas fa-eye m-auto icon icon__eye"
-                        alt="show"
-                        v-if="passwordCurrent.type !== 'text'"
-                        @click="passwordCurrent.type = 'text'">
-                    </i>
-                    <!-- HIDE -->
-                    <i class="fas fa-eye-slash m-auto icon icon__eye"
-                        alt="hide"
-                        v-if="passwordCurrent.type !== 'password'"
-                        @click="passwordCurrent.type = 'password'">
-                    </i>
+                    <!-- SHOW ICON -->
+                    <div class="position-absolute d-flex icon__fixed-top-right" v-if="password.text !== ''">
+                        <!-- SHOW -->
+                        <i class="fas fa-eye m-auto icon icon__eye"
+                            alt="show"
+                            v-if="password.type === 'password'"
+                            @click="password.type = 'text'">
+                        </i>
+                        <!-- HIDE -->
+                        <i class="fas fa-eye-slash m-auto icon icon__eye"
+                            alt="hide"
+                            v-if="password.type === 'text'"
+                            @click="password.type = 'password'">
+                        </i>
 
+                    </div>
                 </div>
-            </div>
 
-            <div class="my-3 position-relative">
-                <input name="passwordNew"
-                    class="lead px-1 form-control w-100"
-                    placeholder="Enter new password"
-                    ref="passwordNew"
-                    :type="passwordNew.type"
-                    v-model="passwordNew.text"
-                    v-validate="rules.passwordNew"
-                >
-
-                <div class="position-absolute d-flex icon__fixed-top-right" v-if="passwordNew.text !== ''">
-                    <i class="fas fa-eye m-auto icon icon__eye"
-                        alt="show"
-                        v-if="passwordNew.type !== 'text'"
-                        @click="passwordNew.type = 'text'">
-                    </i>
-
-                    <i class="fas fa-eye-slash m-auto icon icon__eye"
-                        alt="hide"
-                        v-if="passwordNew.type !== 'password'"
-                        @click="passwordNew.type = 'password'">
-                    </i>
-                </div>
-            </div>
-
-            <div class="my-3 position-relative">
-                <input name="passwordConfirm"
-                    class="lead px-1 form-control w-100"
-                    placeholder="Repeat new password"
-                    :type="passwordConfirm.type"
-                    v-model="passwordConfirm.text"
-                    v-validate="rules.passwordConfirm"
-                >
-
-                <div class="position-absolute d-flex icon__fixed-top-right" v-if="passwordConfirm.text !== ''">
-                    <i class="fas fa-eye m-auto icon icon__eye"
-                        alt="show"
-                        v-if="passwordConfirm.type !== 'text'"
-                        @click="passwordConfirm.type = 'text'">
-                    </i>
-
-                    <i class="fas fa-eye-slash m-auto icon icon__eye"
-                        alt="hide"
-                        v-if="passwordConfirm.type !== 'password'"
-                        @click="passwordConfirm.type = 'password'">
-                    </i>
-                </div>
-            </div>
-
-            <!-- CONFIRM BUTTON -->
-            <button class="btn mx-auto btn-main" @click="validate">Confirm</button>
+                <!-- CONFIRM BUTTON -->
+                <button class="btn mx-auto btn-main">Confirm</button>
+            </form>
         </div>
     </div>
 </template>
@@ -96,31 +53,39 @@
 export default {
     data(){
         return{
-            // INPUT FIELDS
-            passwordCurrent: {
-                text: '',
-                type: 'password',
-            },
-            passwordNew: {
-                text: '',
-                type: 'password',
-            },
-            passwordConfirm: {
-                text: '',
-                type: 'password',
-            },
-
+            passwords: {},
             // VEE VALIDATION, VALIDATION RULES
             rules:{
-                passwordCurrent:'required|alpha_num|min:6',
-                // target - CONFIRMED SHOULD LOOK AT THIS
-                passwordNew:'required|alpha_num|min:6',
-                // confirmed - SHOULD HAVE THE SAME VALUE AS
-                passwordConfirm:'required|confirmed:passwordNew',
+                current:'required|alpha_num|min:6',
+                new:'required|alpha_num|min:6',
+                // confirmed - PASSWORD SHOULD MATCH VALUE OF new
+                // WORKS THROUGH ref
+                confirm:'required|confirmed:new',
             }
         }
     },
     methods: {
+        setPasswordsObject(){
+            this.passwords = {
+                // INPUT FIELDS
+                current: {
+                    text: '',
+                    type: 'password',
+                    placeholder: 'Enter current password',
+                },
+                new: {
+                    text: '',
+                    type: 'password',
+                    placeholder: 'Enter new password',
+                },
+                confirm: {
+                    text: '',
+                    type: 'password',
+                    placeholder: 'Confirm new password',
+                },
+            };
+        },
+
         validate(){
             // RUNS VALIDATION
             this.$validator.validate().then(valid => {
@@ -140,13 +105,23 @@ export default {
         },
 
         changePassword(){
+            // SEND CHANGE PASSWORD REQUEST
             this.$http.patch('users/password',{
-                password_compare: this.passwordCurrent.text,
-                password: this.passwordNew.text,
-                password_confirmation: this.passwordConfirm.text,
+                password_compare: this.passwords.current.text,
+                password: this.passwords.new.text,
+                password_confirmation: this.passwords.confirm.text,
+            })
+            .then(response => {
+                // RESET PASSWORDS OBJECT
+                this.setPasswordsObject();
             })
             .catch(error => {})
         },
+    },
+
+    created(){
+        // INITIATE PASSWORDS OBJECT
+        this.setPasswordsObject();
     }
 }
 </script>

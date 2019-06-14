@@ -1286,6 +1286,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+// COMPONENTS
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -1319,15 +1320,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  data: function data() {
-    return {};
-  },
   created: function created() {
     // REMOVES AUTHENTICATION TOKEN ONCE USER GOES TO LOGIN OR REGISTER
     localStorage.removeItem('Authorization');
-    console.log('Token removed.');
-  },
-  methods: {}
+  }
 });
 
 /***/ }),
@@ -1525,10 +1521,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   computed: {
+    // CURRENT ROUTE
     name: function name() {
       return this.$route.name;
     },
+    // BACK IS SHOWN/HIDDEN
     show: function show() {
+      // CURRENT ROUTE EXISTS IN navigate OBJECT
       return this.navigate[this.name] !== undefined;
     }
   },
@@ -1546,6 +1545,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     goBack: function goBack() {
+      // PUSH FROM[TO]
       this.$router.push(this.navigate[this.name]);
     }
   }
@@ -1607,7 +1607,11 @@ __webpack_require__.r(__webpack_exports__);
 
       this.swalConfig.title += name; // SET MESSAGE BODY, ie. Resource not found.
 
-      this.swalConfig.text = this.messages[name];
+      this.swalConfig.text = this.messages[name]; // MESSAGE DOESN'T EXIST
+
+      if (this.swalConfig.text === undefined) {
+        this.swalConfig.text = 'Unknown server error';
+      }
     },
     writeMessage: function writeMessage() {
       // DISPLAY MESSAGE
@@ -1619,7 +1623,9 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   created: function created() {
-    this.setMessage();
+    // SET APPROPRIATE MESSAGE
+    this.setMessage(); // WRITE MESSAGE
+
     this.writeMessage();
   }
 });
@@ -1657,12 +1663,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+// COMPONENTS
 
 
 
 
 
 
+ // EVENT BUS
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -1672,26 +1683,40 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   components: {
+    // SOLVE, SWITCH, 50:50
     GameHints: _GameHints__WEBPACK_IMPORTED_MODULE_0__["default"],
+    // LOGO
     GameLogo: _GameLogo__WEBPACK_IMPORTED_MODULE_1__["default"],
+    // USERNAME AND SCORE
     GameInfo: _GameInfo__WEBPACK_IMPORTED_MODULE_2__["default"],
+    // QUESTION TIMER
     GameTime: _GameTime__WEBPACK_IMPORTED_MODULE_3__["default"],
+    // QUESTION
     GameQuestion: _GameQuestion__WEBPACK_IMPORTED_MODULE_4__["default"],
-    Loading: _Loading__WEBPACK_IMPORTED_MODULE_5__["default"],
-    GameModal: _GameModal__WEBPACK_IMPORTED_MODULE_6__["default"]
+    // POPUP MESSAGES
+    GameModal: _GameModal__WEBPACK_IMPORTED_MODULE_6__["default"],
+    // LOADING SCREEN
+    Loading: _Loading__WEBPACK_IMPORTED_MODULE_5__["default"]
   },
   data: function data() {
     return {
+      // QUESTION OBJECT
       question: {},
+      // USERS ANSWER TO A QUESTION
       answer: {},
+      // ANSWER IS CORRECT/INCORRECT
       answerStatus: null,
+      // MODAL TITLE
       gameOverTitle: 'The answer is incorrect!',
+      // PLAYING AS
       username: 'guest12312',
+      // CORRECT QUESTIONS SO FAR
       score: 0
     };
   },
   methods: {
     getQuestion: function getQuestion() {
+      // RUN GET QUESTION REQUEST
       this.question = {
         text: 'Sample text longer question really long question... And even longer, heck it\' really long.',
         answers: [{
@@ -1710,38 +1735,55 @@ __webpack_require__.r(__webpack_exports__);
       };
     },
     setNewQuestion: function setNewQuestion() {
-      this.question.text = Math.random();
+      // CHANGES QUESTION TEXT SO THAT ENTIRE QUESTION COMPONENT WOULD RE-RENDER
+      // USED FOR TESTING
+      this.question.text = Math.random(); // RUN resetTheTimer METHOD IN GameTime
+
       _app__WEBPACK_IMPORTED_MODULE_7__["EventBus"].$emit('resetTheTimer');
     },
     startNewGame: function startNewGame() {
+      // GET NEW QUESTION
       this.setNewQuestion();
-      _app__WEBPACK_IMPORTED_MODULE_7__["EventBus"].$emit('resetTheTimer');
     },
     answered: function answered() {
-      this.stopTheTimer();
+      // STOPS TIMER
+      this.stopTheTimer(); // SUBMITS ANSWER
+
       this.submitAnswer();
     },
     submitAnswer: function submitAnswer() {
-      this.answerStatus = this.answer.status;
+      // QUESTION IS CORRECT/INCORRECT
+      this.answerStatus = this.answer.status; // HANDLE RESPONSE
+
       this.handleAnswerResponse();
     },
     handleAnswerResponse: function handleAnswerResponse() {
-      this.colorTheAnswer(this.answerStatus);
+      // COLOR THE ANSWER APPROPRIATELLY
+      this.colorTheAnswer(this.answerStatus); // WAIT FOR 3 SECONDS
+      // FURTHER HANDLE ANSWER RESPONSE
+
       setTimeout(this.handleAnswerResponseFurther, 3000);
     },
     handleAnswerResponseFurther: function handleAnswerResponseFurther() {
+      // ANSWER IS CORRECT
       if (this.answerStatus) {
+        // GET NEW QUESTION
         this.setNewQuestion();
-      } else {
-        _app__WEBPACK_IMPORTED_MODULE_7__["EventBus"].$emit('gameModal', {
-          title: this.gameOverTitle
-        });
-      }
+      } // ANSWER IS INCORRECT
+      else {
+          // SHOW MODAL
+          _app__WEBPACK_IMPORTED_MODULE_7__["EventBus"].$emit('gameModal', {
+            // MODAL TITLE
+            title: this.gameOverTitle
+          });
+        }
     },
     stopTheTimer: function stopTheTimer() {
+      // CALL FOR stopTheTimer METHOD IN GameTime
       _app__WEBPACK_IMPORTED_MODULE_7__["EventBus"].$emit('stopTheTimer');
     },
     colorTheAnswer: function colorTheAnswer(status) {
+      // CALL FOR colorTheAnswer METHOD IN GameAnswers
       _app__WEBPACK_IMPORTED_MODULE_7__["EventBus"].$emit('colorTheAnswer', {
         status: status
       });
@@ -1750,12 +1792,15 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this = this;
 
+    // GET QUESTION
     setTimeout(function () {
       _this.getQuestion();
-    }, 2000);
+    }, 2000); // BUS METHODS
+
     _app__WEBPACK_IMPORTED_MODULE_7__["EventBus"].$on('startNewGame', this.startNewGame);
     _app__WEBPACK_IMPORTED_MODULE_7__["EventBus"].$on('answered', function (answer) {
-      _this.answer = answer;
+      // USER'S ANSWER
+      _this.answer = answer; // HANDLE USER'S ANSWER
 
       _this.answered();
     });
@@ -1786,38 +1831,52 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+// EVENT BUS
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  // PASSED FROM GameQuestion
   props: ['answers'],
   data: function data() {
     return {
+      // REFERENCE TO ANSWER HTML ELEMENT
       answeredElement: {},
+      // CLICKABLE
       disabled: true,
+      // USED FOR CLEARING TIMEOUT
       timeout: {}
     };
   },
   methods: {
     addAnimationClass: function addAnimationClass(index) {
+      // ADDS CLASS WITH A CALL TO A CSS ANIMATION
       return index + 2;
     },
     answerTheQuestion: function answerTheQuestion(answer, index) {
-      this.answeredElement = this.$refs.answers[index];
-      this.disabled = true;
-      this.submitAnswer(answer);
-    },
-    submitAnswer: function submitAnswer(answer) {
+      // SET REFERENCE TO THE HTML ELEMENT
+      this.answeredElement = this.$refs.answers[index]; // ANSWERS ARE NO LONGER CLICKABLE
+
+      this.disabled = true; // CALL FOR answered BUS METHOD ON Game
+      // PASS USER'S ANSWER ANSWER
+
       _app__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit('answered', answer);
     },
     colorTheAnswer: function colorTheAnswer(status) {
-      var classList = this.answeredElement.classList;
+      // REFERNCE THE HTML ELEMENT CLASS LIST
+      var classList = this.answeredElement.classList; // COLOR THE ANSWER APPROPRIATELY
+
       status ? classList.add('game-answer--correct') : classList.add('game-answer--incorrect');
     }
   },
   created: function created() {
     var _this = this;
 
+    // DELAY FOR 10 SECONDS
+    // TIME IT TAKES FOR ALL OF THE ANIMATIONS TO RUN
     this.timeout = setTimeout(function () {
-      _this.disabled = false;
+      // ANSWERS ARE CLIKCABLE
+      _this.disabled = false; // RUN startTheTimer BUS METHOD ON GameTime
+
       _app__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit('startTheTimer');
     }, 10000);
     _app__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$on('showAnswers', this.showAnswers);
@@ -1826,6 +1885,7 @@ __webpack_require__.r(__webpack_exports__);
     });
   },
   beforeDestroy: function beforeDestroy() {
+    // CLEAR TIMEOUT IF IT'S IN PROGRESS
     clearTimeout(this.timeout);
   }
 });
@@ -1841,7 +1901,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../app */ "./resources/js/app.js");
 //
 //
 //
@@ -1860,14 +1919,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-  created: function created() {
-    _app__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$on('sent', function (data) {
-      console.log(data.information1);
-    });
-  }
-});
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({});
 
 /***/ }),
 
@@ -1887,7 +1942,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
+  // PASSED FROM Game
   props: ['username', 'score']
 });
 
@@ -1906,8 +1963,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+// EVENT BUS
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  // PASSED FROM Game
   props: ['username', 'score'],
   data: function data() {
     return {
@@ -1925,8 +1984,6 @@ __webpack_require__.r(__webpack_exports__);
         // BUTTON TEXT
         confirmButtonText: 'New game',
         cancelButtonText: 'Quit',
-        // BUTTON COLOR - BOOTSTRAP RED
-        // confirmButtonColor: '#dc3545',
         // MESSAGE POSITION
         position: 'center',
         // MESSAGE TO DISSAPEAR IN
@@ -1940,7 +1997,9 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     setModalInfo: function setModalInfo(title) {
-      this.swalTimeIsUpConfig.title = title;
+      // SET MODAL TITLE
+      this.swalTimeIsUpConfig.title = title; // SET MODAL BODY
+
       this.swalTimeIsUpConfig.html = 'You\'ve lost!<br>Playing as: <strong>' + this.username + '</strong><br>Score: <strong>' + this.score + '</strong>';
     },
     showModal: function showModal() {
@@ -1950,8 +2009,10 @@ __webpack_require__.r(__webpack_exports__);
       this.$swal(this.swalTimeIsUpConfig).then(function (response) {
         // NEW GAME
         if (response.value) {
+          // RUN startNewGame BUS METHOD ON Game
           _app__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit('startNewGame');
         } else {
+          // GO BACK TO MENU
           _this.$router.push('/menu');
         }
       });
@@ -1961,7 +2022,9 @@ __webpack_require__.r(__webpack_exports__);
     var _this2 = this;
 
     _app__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$on('gameModal', function (data) {
-      _this2.setModalInfo(data.title);
+      // SET MODAL INFO
+      _this2.setModalInfo(data.title); // SHOW MODAL
+
 
       _this2.showModal();
     });
@@ -1988,10 +2051,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+// COMPONENTS
+ // EVENT BUS
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  // PASSED FROM Game
   props: ['question'],
+  // REGISTER COMPONENTS
   components: {
     GameAnswers: _GameAnswers__WEBPACK_IMPORTED_MODULE_0__["default"]
   }
@@ -2025,21 +2094,31 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+// EVENT BUS
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   watch: {
+    // WATCH TIME VALUE
     time: function time(value) {
+      // IF VALUE OF TIME IS 0
       if (value === 0) {
+        // TIME IS UP
         this.timeIsUp();
       }
     }
   },
   data: function data() {
     return {
-      originalTime: 10,
+      // TIME STARTS FROM
+      timeStart: 10,
+      // CURRENT TIME
       time: 10,
+      // TOGGLE TIMER ANIMATION
       gameIsInProgress: false,
+      // MODAL MESSAGE
       timeIsUpTitle: 'Time\'s up!',
+      // REFERENCE TO INTERVAL
       interval: {}
     };
   },
@@ -2047,32 +2126,41 @@ __webpack_require__.r(__webpack_exports__);
     startTheTimer: function startTheTimer() {
       var _this = this;
 
-      this.gameIsInProgress = true;
+      // SHOW TIMER ANIMATION
+      this.gameIsInProgress = true; // START TIMER
+
       this.interval = setInterval(function () {
         _this.time--;
       }, 1000);
     },
     stopTheTimer: function stopTheTimer() {
-      clearInterval(this.interval);
+      // STOP TIMER
+      clearInterval(this.interval); // HIDE TIMER ANIMATION
+
       this.gameIsInProgress = false;
     },
     timeIsUp: function timeIsUp() {
-      this.stopTheTimer();
-      this.gameIsInProgress = false;
+      // STOP TIMER
+      this.stopTheTimer(); // RUN gameModal BUS METHOD ON GameModal
+
       _app__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit('gameModal', {
+        // PASS MODAL TITLE
         title: this.timeIsUpTitle
       });
     },
     resetTheTimer: function resetTheTimer() {
-      this.time = this.originalTime;
+      // REVERT TIMER BACK TO ORIGINAL
+      this.time = this.timeStart;
     }
   },
   created: function created() {
+    // BUSS METHODS
     _app__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$on('startTheTimer', this.startTheTimer);
     _app__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$on('stopTheTimer', this.stopTheTimer);
     _app__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$on('resetTheTimer', this.resetTheTimer);
   },
   beforeDestroy: function beforeDestroy() {
+    // CLEAR INTERVAL IF IT'S RUNNING
     this.stopTheTimer();
   }
 });
@@ -2088,6 +2176,10 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
 //
 //
 //
@@ -2173,6 +2265,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+// COMPONENTS
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -2181,7 +2279,9 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
+      // QUESTION INFROMATIONS
       question: {},
+      // DIFFICULTIES
       difficulties: [],
       // VEE VALIDATION
       rules: {
@@ -2195,6 +2295,7 @@ __webpack_require__.r(__webpack_exports__);
     getDifficulties: function getDifficulties() {
       var _this = this;
 
+      // RUN REQUEST
       this.$http.get('difficulties').then(function (response) {
         // SET DIFFICULTIES
         _this.difficulties = response.body.difficulties; // SET DEFAULT VALUES FOR QUESTION FIELDS
@@ -2209,17 +2310,15 @@ __webpack_require__.r(__webpack_exports__);
     validate: function validate() {
       var _this2 = this;
 
+      // RUN VALIDATION
       this.$validator.validate().then(function (valid) {
         // VALIDATION PASSED
         if (valid) {
-          // RUN AJAX REQUEST
+          // STORE QUESTION
           _this2.questionStore();
         } // VALIDATION DIDN'T PASS
         else {
-            // SHOW ERROR MESSAGES BENEATH INPUT FIELDS
-            _this2.$validator.validateAll(); // SHOW ALERT
-
-
+            // SHOW ALERT
             var message = _this2.$validator.errors.all()[0];
 
             _this2.$swal('Question', message, 'error');
@@ -2229,12 +2328,11 @@ __webpack_require__.r(__webpack_exports__);
     questionStore: function questionStore() {
       var _this3 = this;
 
+      // RUN STORE QUESTION REQUEST
       this.$http.post('questions', this.question).then(function (repsonse) {
         // RESET QUESTION FIELDS
         _this3.setDefaultQuestionValues();
-      })["catch"](function (error) {
-        console.log(error);
-      });
+      })["catch"](function (error) {});
     },
     setDefaultQuestionValues: function setDefaultQuestionValues() {
       // DEFAULT QUESTION FIELDS
@@ -2279,8 +2377,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+// EVENT BUS
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  // PASSED FROM QuestionIndex
   props: ['question'],
   data: function data() {
     return {
@@ -2325,8 +2425,9 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     questionDelete: function questionDelete() {
+      // RUN DELETE REQUEST
       this.$http["delete"]('questions/' + this.question.id).then(function (response) {
-        // RELOAD QUESTIONS ARRAY ON PARENT COMPONENT
+        // RUN reloadQuestions BUS METHOD ON QuestionsIndex
         _app__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit('reloadQuestions');
       })["catch"](function (error) {});
     }
@@ -2384,10 +2485,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+// COMPONENTS
 
+ // EVENT BUS
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  // PASSED FROM QuestionsIndex
   props: ['question', 'difficulties'],
   components: {
     // DELETE FUNCTIONALITY
@@ -2398,6 +2509,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       // KEEP DATA SEPARATE FROM ORIGINAL OBJECT
+      // IF EDIT IS CANCELED ORIGINAL OBJECT IS PRESERVED
       questionClone: {},
       // VEE VALIDATE
       rules: {
@@ -2410,16 +2522,17 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     setQuestionClone: function setQuestionClone() {
       // KEEP ORIGINAL QUESTION DATA AND EDIT NEW OBJECT INSTEAD
+      // CONVERT TO STRING AND BACK TO OBJECT
       this.questionClone = JSON.parse(JSON.stringify(this.question));
     },
     answerStatusChange: function answerStatusChange(answer) {
       // SET NEW ANSWER STATUS
       answer.status = 1; // CLEAR ALL OTHER ANSWERS STATUSES
 
-      this.answerClearStatuses(answer.id);
+      this.answerSetToIncorrect(answer.id);
     },
-    answerClearStatuses: function answerClearStatuses(avoid) {
-      // CHANGED ANSWERS
+    answerSetToIncorrect: function answerSetToIncorrect(avoid) {
+      // ANSWERS
       var answers = this.questionClone.answers; // ITTERATE THROUGH ANSWERS
 
       for (var i = 0; i < answers.length; i++) {
@@ -2434,7 +2547,7 @@ __webpack_require__.r(__webpack_exports__);
       this.$validator.validate().then(function (valid) {
         // VALIDATION PASSED
         if (valid) {
-          // RUN AJAX REQUEST
+          // RUN questionsUpdate BUS METHOD ON QuestionsIndex
           _app__WEBPACK_IMPORTED_MODULE_2__["EventBus"].$emit('questionUpdate');
         } // VALIDATION DIDN'T PASS
         else {
@@ -2446,7 +2559,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     closeEdit: function closeEdit() {
-      // RESETS EDIT VIEW
+      // RUN closeEdit BUS METHOD ON QuestionsIndex
       _app__WEBPACK_IMPORTED_MODULE_2__["EventBus"].$emit('closeEdit');
     }
   },
@@ -2507,10 +2620,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+// COMPONENTS
 
+ // EVENT BUS
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    // COMPONENT FOR QUESTION EDITING
+    QuestionsEdit: _QuestionsEdit__WEBPACK_IMPORTED_MODULE_0__["default"],
+    // LOADING SCREEN
+    Loading: _Loading__WEBPACK_IMPORTED_MODULE_1__["default"]
+  },
   data: function data() {
     return {
       // DATA USED FOR FETCHING QUESTIONS
@@ -2613,18 +2734,14 @@ __webpack_require__.r(__webpack_exports__);
     // GET DIFFICULTIES
     this.getDifficulties(); // GET QUESTIONS
 
-    this.getQuestions();
+    this.getQuestions(); // BUS METHODS
+
     _app__WEBPACK_IMPORTED_MODULE_2__["EventBus"].$on('reloadQuestions', this.reloadQuestions);
     _app__WEBPACK_IMPORTED_MODULE_2__["EventBus"].$on('closeEdit', this.closeEdit);
   },
   beforeDestroy: function beforeDestroy() {
+    // NECESSARY SINCE COMPONENT IS BEING RELOADED ON CHANGE
     _app__WEBPACK_IMPORTED_MODULE_2__["EventBus"].$off('reloadQuestions', this.reloadQuestions);
-  },
-  components: {
-    // COMPONENT FOR QUESTION EDITING
-    QuestionsEdit: _QuestionsEdit__WEBPACK_IMPORTED_MODULE_0__["default"],
-    // LOADING SCREEN
-    Loading: _Loading__WEBPACK_IMPORTED_MODULE_1__["default"]
   }
 });
 
@@ -2649,6 +2766,7 @@ __webpack_require__.r(__webpack_exports__);
   props: ['question'],
   methods: {
     questionUpdate: function questionUpdate() {
+      // QUESTIONS UPDATE REQUEST
       this.$http.put('questions', this.question).then(function (response) {
         // RELOAD QUESTIONS ARRAY ON PARENT COMPONENT
         _app__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit('reloadQuestions');
@@ -2656,9 +2774,11 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   created: function created() {
+    // RUN questionsUpdate BUS METHOD ON GameIndex
     _app__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$on('questionUpdate', this.questionUpdate);
   },
   beforeDestroy: function beforeDestroy() {
+    // NECESSARY SINCE COMPONENT IS BEING RELOADED ON CHANGE
     _app__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$off('questionUpdate', this.questionUpdate);
   }
 });
@@ -2725,76 +2845,41 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      // INPUT FIELDS
-      passwordCurrent: {
-        text: '',
-        type: 'password'
-      },
-      passwordNew: {
-        text: '',
-        type: 'password'
-      },
-      passwordConfirm: {
-        text: '',
-        type: 'password'
-      },
+      passwords: {},
       // VEE VALIDATION, VALIDATION RULES
       rules: {
-        passwordCurrent: 'required|alpha_num|min:6',
-        // target - CONFIRMED SHOULD LOOK AT THIS
-        passwordNew: 'required|alpha_num|min:6',
-        // confirmed - SHOULD HAVE THE SAME VALUE AS
-        passwordConfirm: 'required|confirmed:passwordNew'
+        current: 'required|alpha_num|min:6',
+        "new": 'required|alpha_num|min:6',
+        // confirmed - PASSWORD SHOULD MATCH VALUE OF new
+        // WORKS THROUGH ref
+        confirm: 'required|confirmed:new'
       }
     };
   },
   methods: {
+    setPasswordsObject: function setPasswordsObject() {
+      this.passwords = {
+        // INPUT FIELDS
+        current: {
+          text: '',
+          type: 'password',
+          placeholder: 'Enter current password'
+        },
+        "new": {
+          text: '',
+          type: 'password',
+          placeholder: 'Enter new password'
+        },
+        confirm: {
+          text: '',
+          type: 'password',
+          placeholder: 'Confirm new password'
+        }
+      };
+    },
     validate: function validate() {
       var _this = this;
 
@@ -2816,12 +2901,22 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     changePassword: function changePassword() {
+      var _this2 = this;
+
+      // SEND CHANGE PASSWORD REQUEST
       this.$http.patch('users/password', {
-        password_compare: this.passwordCurrent.text,
-        password: this.passwordNew.text,
-        password_confirmation: this.passwordConfirm.text
+        password_compare: this.passwords.current.text,
+        password: this.passwords["new"].text,
+        password_confirmation: this.passwords.confirm.text
+      }).then(function (response) {
+        // RESET PASSWORDS OBJECT
+        _this2.setPasswordsObject();
       })["catch"](function (error) {});
     }
+  },
+  created: function created() {
+    // INITIATE PASSWORDS OBJECT
+    this.setPasswordsObject();
   }
 });
 
@@ -2836,6 +2931,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../app */ "./resources/js/app.js");
 //
 //
 //
@@ -2850,6 +2946,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+// EVENT BUS
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['user'],
   computed: {
@@ -2916,8 +3015,8 @@ __webpack_require__.r(__webpack_exports__);
           _this2.$auth.logout();
         } // USER CHANGED SOMEONE ELSE
         else {
-            // RELOAD USERS
-            _this2.$emit('usersReload');
+            // RUN usersReload BUS EVENT ON UsersIndex
+            _app__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit('usersReload');
           }
       })["catch"](function (error) {});
     }
@@ -2935,12 +3034,15 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../app */ "./resources/js/app.js");
 //
 //
 //
 //
 //
 //
+// EVENT BUS
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['user'],
   data: function data() {
@@ -2999,8 +3101,8 @@ __webpack_require__.r(__webpack_exports__);
           _this2.$auth.logout();
         } // USER DELETED SOMEONE ELSE
         else {
-            // RELOAD USERS
-            _this2.$emit('usersReload');
+            // RUN usersReload BUS EVENT ON UsersIndex
+            _app__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit('usersReload');
           }
       })["catch"](function (error) {});
     }
@@ -3022,6 +3124,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _UsersChangeRole__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./UsersChangeRole */ "./resources/js/views/Users/UsersChangeRole.vue");
 /* harmony import */ var _UsersNavigation__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./UsersNavigation */ "./resources/js/views/Users/UsersNavigation.vue");
 /* harmony import */ var _Loading__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Loading */ "./resources/js/views/Loading.vue");
+/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../app */ "./resources/js/app.js");
 //
 //
 //
@@ -3057,8 +3160,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+// COMPONENTS
 
 
+
+ // EVENT BUS
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3139,7 +3245,9 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     // GET USERS
-    this.getUsers();
+    this.getUsers(); // EVENT BUS
+
+    _app__WEBPACK_IMPORTED_MODULE_4__["EventBus"].$on('usersReload', this.usersReload);
   }
 });
 
@@ -52106,10 +52214,7 @@ var render = function() {
         [_vm._v(_vm._s(_vm.question.text))]
       ),
       _vm._v(" "),
-      _c("GameAnswers", {
-        ref: "GameAnswers",
-        attrs: { answers: _vm.question.answers }
-      })
+      _c("GameAnswers", { attrs: { answers: _vm.question.answers } })
     ],
     1
   )
@@ -52480,7 +52585,7 @@ var render = function() {
                     ])
                   ]),
                   _vm._v(" "),
-                  _c("p", { staticClass: "lead text-white ml-1 mb-0" }, [
+                  _c("div", { staticClass: "lead text-white ml-1 mb-0" }, [
                     _vm._v("Question answers:")
                   ]),
                   _vm._v(" "),
@@ -53020,454 +53125,189 @@ var render = function() {
         _vm._v("Change Password")
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "my-3 position-relative" }, [
-        _vm.passwordCurrent.type === "checkbox"
-          ? _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.passwordCurrent.text,
-                  expression: "passwordCurrent.text"
-                },
-                {
-                  name: "validate",
-                  rawName: "v-validate",
-                  value: _vm.rules.passwordCurrent,
-                  expression: "rules.passwordCurrent"
-                }
-              ],
-              staticClass: "lead px-1 form-control w-100",
-              attrs: {
-                name: "passwordCurrent",
-                placeholder: "Enter current password",
-                type: "checkbox"
-              },
-              domProps: {
-                checked: Array.isArray(_vm.passwordCurrent.text)
-                  ? _vm._i(_vm.passwordCurrent.text, null) > -1
-                  : _vm.passwordCurrent.text
-              },
-              on: {
-                change: function($event) {
-                  var $$a = _vm.passwordCurrent.text,
-                    $$el = $event.target,
-                    $$c = $$el.checked ? true : false
-                  if (Array.isArray($$a)) {
-                    var $$v = null,
-                      $$i = _vm._i($$a, $$v)
-                    if ($$el.checked) {
-                      $$i < 0 &&
-                        _vm.$set(_vm.passwordCurrent, "text", $$a.concat([$$v]))
-                    } else {
-                      $$i > -1 &&
-                        _vm.$set(
-                          _vm.passwordCurrent,
-                          "text",
-                          $$a.slice(0, $$i).concat($$a.slice($$i + 1))
-                        )
-                    }
-                  } else {
-                    _vm.$set(_vm.passwordCurrent, "text", $$c)
-                  }
-                }
-              }
-            })
-          : _vm.passwordCurrent.type === "radio"
-          ? _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.passwordCurrent.text,
-                  expression: "passwordCurrent.text"
-                },
-                {
-                  name: "validate",
-                  rawName: "v-validate",
-                  value: _vm.rules.passwordCurrent,
-                  expression: "rules.passwordCurrent"
-                }
-              ],
-              staticClass: "lead px-1 form-control w-100",
-              attrs: {
-                name: "passwordCurrent",
-                placeholder: "Enter current password",
-                type: "radio"
-              },
-              domProps: { checked: _vm._q(_vm.passwordCurrent.text, null) },
-              on: {
-                change: function($event) {
-                  return _vm.$set(_vm.passwordCurrent, "text", null)
-                }
-              }
-            })
-          : _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.passwordCurrent.text,
-                  expression: "passwordCurrent.text"
-                },
-                {
-                  name: "validate",
-                  rawName: "v-validate",
-                  value: _vm.rules.passwordCurrent,
-                  expression: "rules.passwordCurrent"
-                }
-              ],
-              staticClass: "lead px-1 form-control w-100",
-              attrs: {
-                name: "passwordCurrent",
-                placeholder: "Enter current password",
-                type: _vm.passwordCurrent.type
-              },
-              domProps: { value: _vm.passwordCurrent.text },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.passwordCurrent, "text", $event.target.value)
-                }
-              }
-            }),
-        _vm._v(" "),
-        _vm.passwordCurrent.text !== ""
-          ? _c(
-              "div",
-              { staticClass: "position-absolute d-flex icon__fixed-top-right" },
-              [
-                _vm.passwordCurrent.type !== "text"
-                  ? _c("i", {
-                      staticClass: "fas fa-eye m-auto icon icon__eye",
-                      attrs: { alt: "show" },
-                      on: {
-                        click: function($event) {
-                          _vm.passwordCurrent.type = "text"
-                        }
-                      }
-                    })
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.passwordCurrent.type !== "password"
-                  ? _c("i", {
-                      staticClass: "fas fa-eye-slash m-auto icon icon__eye",
-                      attrs: { alt: "hide" },
-                      on: {
-                        click: function($event) {
-                          _vm.passwordCurrent.type = "password"
-                        }
-                      }
-                    })
-                  : _vm._e()
-              ]
-            )
-          : _vm._e()
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "my-3 position-relative" }, [
-        _vm.passwordNew.type === "checkbox"
-          ? _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.passwordNew.text,
-                  expression: "passwordNew.text"
-                },
-                {
-                  name: "validate",
-                  rawName: "v-validate",
-                  value: _vm.rules.passwordNew,
-                  expression: "rules.passwordNew"
-                }
-              ],
-              ref: "passwordNew",
-              staticClass: "lead px-1 form-control w-100",
-              attrs: {
-                name: "passwordNew",
-                placeholder: "Enter new password",
-                type: "checkbox"
-              },
-              domProps: {
-                checked: Array.isArray(_vm.passwordNew.text)
-                  ? _vm._i(_vm.passwordNew.text, null) > -1
-                  : _vm.passwordNew.text
-              },
-              on: {
-                change: function($event) {
-                  var $$a = _vm.passwordNew.text,
-                    $$el = $event.target,
-                    $$c = $$el.checked ? true : false
-                  if (Array.isArray($$a)) {
-                    var $$v = null,
-                      $$i = _vm._i($$a, $$v)
-                    if ($$el.checked) {
-                      $$i < 0 &&
-                        _vm.$set(_vm.passwordNew, "text", $$a.concat([$$v]))
-                    } else {
-                      $$i > -1 &&
-                        _vm.$set(
-                          _vm.passwordNew,
-                          "text",
-                          $$a.slice(0, $$i).concat($$a.slice($$i + 1))
-                        )
-                    }
-                  } else {
-                    _vm.$set(_vm.passwordNew, "text", $$c)
-                  }
-                }
-              }
-            })
-          : _vm.passwordNew.type === "radio"
-          ? _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.passwordNew.text,
-                  expression: "passwordNew.text"
-                },
-                {
-                  name: "validate",
-                  rawName: "v-validate",
-                  value: _vm.rules.passwordNew,
-                  expression: "rules.passwordNew"
-                }
-              ],
-              ref: "passwordNew",
-              staticClass: "lead px-1 form-control w-100",
-              attrs: {
-                name: "passwordNew",
-                placeholder: "Enter new password",
-                type: "radio"
-              },
-              domProps: { checked: _vm._q(_vm.passwordNew.text, null) },
-              on: {
-                change: function($event) {
-                  return _vm.$set(_vm.passwordNew, "text", null)
-                }
-              }
-            })
-          : _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.passwordNew.text,
-                  expression: "passwordNew.text"
-                },
-                {
-                  name: "validate",
-                  rawName: "v-validate",
-                  value: _vm.rules.passwordNew,
-                  expression: "rules.passwordNew"
-                }
-              ],
-              ref: "passwordNew",
-              staticClass: "lead px-1 form-control w-100",
-              attrs: {
-                name: "passwordNew",
-                placeholder: "Enter new password",
-                type: _vm.passwordNew.type
-              },
-              domProps: { value: _vm.passwordNew.text },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.passwordNew, "text", $event.target.value)
-                }
-              }
-            }),
-        _vm._v(" "),
-        _vm.passwordNew.text !== ""
-          ? _c(
-              "div",
-              { staticClass: "position-absolute d-flex icon__fixed-top-right" },
-              [
-                _vm.passwordNew.type !== "text"
-                  ? _c("i", {
-                      staticClass: "fas fa-eye m-auto icon icon__eye",
-                      attrs: { alt: "show" },
-                      on: {
-                        click: function($event) {
-                          _vm.passwordNew.type = "text"
-                        }
-                      }
-                    })
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.passwordNew.type !== "password"
-                  ? _c("i", {
-                      staticClass: "fas fa-eye-slash m-auto icon icon__eye",
-                      attrs: { alt: "hide" },
-                      on: {
-                        click: function($event) {
-                          _vm.passwordNew.type = "password"
-                        }
-                      }
-                    })
-                  : _vm._e()
-              ]
-            )
-          : _vm._e()
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "my-3 position-relative" }, [
-        _vm.passwordConfirm.type === "checkbox"
-          ? _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.passwordConfirm.text,
-                  expression: "passwordConfirm.text"
-                },
-                {
-                  name: "validate",
-                  rawName: "v-validate",
-                  value: _vm.rules.passwordConfirm,
-                  expression: "rules.passwordConfirm"
-                }
-              ],
-              staticClass: "lead px-1 form-control w-100",
-              attrs: {
-                name: "passwordConfirm",
-                placeholder: "Repeat new password",
-                type: "checkbox"
-              },
-              domProps: {
-                checked: Array.isArray(_vm.passwordConfirm.text)
-                  ? _vm._i(_vm.passwordConfirm.text, null) > -1
-                  : _vm.passwordConfirm.text
-              },
-              on: {
-                change: function($event) {
-                  var $$a = _vm.passwordConfirm.text,
-                    $$el = $event.target,
-                    $$c = $$el.checked ? true : false
-                  if (Array.isArray($$a)) {
-                    var $$v = null,
-                      $$i = _vm._i($$a, $$v)
-                    if ($$el.checked) {
-                      $$i < 0 &&
-                        _vm.$set(_vm.passwordConfirm, "text", $$a.concat([$$v]))
-                    } else {
-                      $$i > -1 &&
-                        _vm.$set(
-                          _vm.passwordConfirm,
-                          "text",
-                          $$a.slice(0, $$i).concat($$a.slice($$i + 1))
-                        )
-                    }
-                  } else {
-                    _vm.$set(_vm.passwordConfirm, "text", $$c)
-                  }
-                }
-              }
-            })
-          : _vm.passwordConfirm.type === "radio"
-          ? _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.passwordConfirm.text,
-                  expression: "passwordConfirm.text"
-                },
-                {
-                  name: "validate",
-                  rawName: "v-validate",
-                  value: _vm.rules.passwordConfirm,
-                  expression: "rules.passwordConfirm"
-                }
-              ],
-              staticClass: "lead px-1 form-control w-100",
-              attrs: {
-                name: "passwordConfirm",
-                placeholder: "Repeat new password",
-                type: "radio"
-              },
-              domProps: { checked: _vm._q(_vm.passwordConfirm.text, null) },
-              on: {
-                change: function($event) {
-                  return _vm.$set(_vm.passwordConfirm, "text", null)
-                }
-              }
-            })
-          : _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.passwordConfirm.text,
-                  expression: "passwordConfirm.text"
-                },
-                {
-                  name: "validate",
-                  rawName: "v-validate",
-                  value: _vm.rules.passwordConfirm,
-                  expression: "rules.passwordConfirm"
-                }
-              ],
-              staticClass: "lead px-1 form-control w-100",
-              attrs: {
-                name: "passwordConfirm",
-                placeholder: "Repeat new password",
-                type: _vm.passwordConfirm.type
-              },
-              domProps: { value: _vm.passwordConfirm.text },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.passwordConfirm, "text", $event.target.value)
-                }
-              }
-            }),
-        _vm._v(" "),
-        _vm.passwordConfirm.text !== ""
-          ? _c(
-              "div",
-              { staticClass: "position-absolute d-flex icon__fixed-top-right" },
-              [
-                _vm.passwordConfirm.type !== "text"
-                  ? _c("i", {
-                      staticClass: "fas fa-eye m-auto icon icon__eye",
-                      attrs: { alt: "show" },
-                      on: {
-                        click: function($event) {
-                          _vm.passwordConfirm.type = "text"
-                        }
-                      }
-                    })
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.passwordConfirm.type !== "password"
-                  ? _c("i", {
-                      staticClass: "fas fa-eye-slash m-auto icon icon__eye",
-                      attrs: { alt: "hide" },
-                      on: {
-                        click: function($event) {
-                          _vm.passwordConfirm.type = "password"
-                        }
-                      }
-                    })
-                  : _vm._e()
-              ]
-            )
-          : _vm._e()
-      ]),
-      _vm._v(" "),
       _c(
-        "button",
-        { staticClass: "btn mx-auto btn-main", on: { click: _vm.validate } },
-        [_vm._v("Confirm")]
+        "form",
+        {
+          attrs: { autocomplete: "off" },
+          on: {
+            submit: function($event) {
+              $event.preventDefault()
+              return _vm.validate($event)
+            }
+          }
+        },
+        [
+          _vm._l(_vm.passwords, function(password, index) {
+            return _c(
+              "div",
+              { key: index, staticClass: "my-3 position-relative" },
+              [
+                password.type === "checkbox"
+                  ? _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: password.text,
+                          expression: "password.text"
+                        },
+                        {
+                          name: "validate",
+                          rawName: "v-validate",
+                          value: _vm.rules[index],
+                          expression: "rules[index]"
+                        }
+                      ],
+                      ref: index,
+                      refInFor: true,
+                      staticClass: "lead px-1 form-control w-100",
+                      attrs: {
+                        name: index,
+                        placeholder: password.placeholder,
+                        autocomplete: "off",
+                        type: "checkbox"
+                      },
+                      domProps: {
+                        checked: Array.isArray(password.text)
+                          ? _vm._i(password.text, null) > -1
+                          : password.text
+                      },
+                      on: {
+                        change: function($event) {
+                          var $$a = password.text,
+                            $$el = $event.target,
+                            $$c = $$el.checked ? true : false
+                          if (Array.isArray($$a)) {
+                            var $$v = null,
+                              $$i = _vm._i($$a, $$v)
+                            if ($$el.checked) {
+                              $$i < 0 &&
+                                _vm.$set(password, "text", $$a.concat([$$v]))
+                            } else {
+                              $$i > -1 &&
+                                _vm.$set(
+                                  password,
+                                  "text",
+                                  $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                                )
+                            }
+                          } else {
+                            _vm.$set(password, "text", $$c)
+                          }
+                        }
+                      }
+                    })
+                  : password.type === "radio"
+                  ? _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: password.text,
+                          expression: "password.text"
+                        },
+                        {
+                          name: "validate",
+                          rawName: "v-validate",
+                          value: _vm.rules[index],
+                          expression: "rules[index]"
+                        }
+                      ],
+                      ref: index,
+                      refInFor: true,
+                      staticClass: "lead px-1 form-control w-100",
+                      attrs: {
+                        name: index,
+                        placeholder: password.placeholder,
+                        autocomplete: "off",
+                        type: "radio"
+                      },
+                      domProps: { checked: _vm._q(password.text, null) },
+                      on: {
+                        change: function($event) {
+                          return _vm.$set(password, "text", null)
+                        }
+                      }
+                    })
+                  : _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: password.text,
+                          expression: "password.text"
+                        },
+                        {
+                          name: "validate",
+                          rawName: "v-validate",
+                          value: _vm.rules[index],
+                          expression: "rules[index]"
+                        }
+                      ],
+                      ref: index,
+                      refInFor: true,
+                      staticClass: "lead px-1 form-control w-100",
+                      attrs: {
+                        name: index,
+                        placeholder: password.placeholder,
+                        autocomplete: "off",
+                        type: password.type
+                      },
+                      domProps: { value: password.text },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(password, "text", $event.target.value)
+                        }
+                      }
+                    }),
+                _vm._v(" "),
+                password.text !== ""
+                  ? _c(
+                      "div",
+                      {
+                        staticClass:
+                          "position-absolute d-flex icon__fixed-top-right"
+                      },
+                      [
+                        password.type === "password"
+                          ? _c("i", {
+                              staticClass: "fas fa-eye m-auto icon icon__eye",
+                              attrs: { alt: "show" },
+                              on: {
+                                click: function($event) {
+                                  password.type = "text"
+                                }
+                              }
+                            })
+                          : _vm._e(),
+                        _vm._v(" "),
+                        password.type === "text"
+                          ? _c("i", {
+                              staticClass:
+                                "fas fa-eye-slash m-auto icon icon__eye",
+                              attrs: { alt: "hide" },
+                              on: {
+                                click: function($event) {
+                                  password.type = "password"
+                                }
+                              }
+                            })
+                          : _vm._e()
+                      ]
+                    )
+                  : _vm._e()
+              ]
+            )
+          }),
+          _vm._v(" "),
+          _c("button", { staticClass: "btn mx-auto btn-main" }, [
+            _vm._v("Confirm")
+          ])
+        ],
+        2
       )
     ])
   ])
@@ -53630,14 +53470,10 @@ var render = function() {
                                 ),
                                 _vm._v(" "),
                                 _c("UsersChangeRole", {
-                                  attrs: { user: user },
-                                  on: { usersReload: _vm.usersReload }
+                                  attrs: { user: user }
                                 }),
                                 _vm._v(" "),
-                                _c("UsersDelete", {
-                                  attrs: { user: user },
-                                  on: { usersReload: _vm.usersReload }
-                                })
+                                _c("UsersDelete", { attrs: { user: user } })
                               ],
                               1
                             )
@@ -72181,14 +72017,15 @@ __webpack_require__.r(__webpack_exports__);
 /*!**********************************************************!*\
   !*** ./resources/js/views/Users/UsersChangePassword.vue ***!
   \**********************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _UsersChangePassword_vue_vue_type_template_id_4649f5dd___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./UsersChangePassword.vue?vue&type=template&id=4649f5dd& */ "./resources/js/views/Users/UsersChangePassword.vue?vue&type=template&id=4649f5dd&");
 /* harmony import */ var _UsersChangePassword_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./UsersChangePassword.vue?vue&type=script&lang=js& */ "./resources/js/views/Users/UsersChangePassword.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _UsersChangePassword_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _UsersChangePassword_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -72218,7 +72055,7 @@ component.options.__file = "resources/js/views/Users/UsersChangePassword.vue"
 /*!***********************************************************************************!*\
   !*** ./resources/js/views/Users/UsersChangePassword.vue?vue&type=script&lang=js& ***!
   \***********************************************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

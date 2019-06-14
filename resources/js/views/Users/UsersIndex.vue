@@ -16,8 +16,8 @@
 
                     <div v-for="(user, index) in users" :key="index" class="animated slideInDown my-3 wrapper--md-and-down user-grid-show">
                         <p class="lead p-2 my-auto text-center-md user-grid__username wrapper--md-and-up">{{ user.username }}</p>
-                        <UsersChangeRole :user="user" @usersReload="usersReload"></UsersChangeRole>
-                        <UsersDelete :user="user" @usersReload="usersReload"></UsersDelete>
+                        <UsersChangeRole :user="user"></UsersChangeRole>
+                        <UsersDelete :user="user"></UsersDelete>
                     </div>
 
                     <div class="d-flex justify-content-center">
@@ -34,11 +34,14 @@
 </template>
 
 <script>
+// COMPONENTS
 import UsersDelete from './UsersDelete';
 import UsersChangeRole from './UsersChangeRole';
 import UsersNavigation from './UsersNavigation';
-
 import Loading from '../Loading';
+
+// EVENT BUS
+import {EventBus} from '../../app';
 
 export default {
     components: {
@@ -123,6 +126,9 @@ export default {
     created(){
         // GET USERS
         this.getUsers();
+
+        // EVENT BUS
+        EventBus.$on('usersReload', this.usersReload);
     }
 }
 </script>

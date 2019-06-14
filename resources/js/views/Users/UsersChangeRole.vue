@@ -1,10 +1,11 @@
 <template>
+    <!-- CHANGE ROLE ICON -->
     <div class="d-flex user-grid__status">
         <div class="m-auto icon__switch" :class="{
             'icon__switch--inactive' : user.role === 1,
             'icon__switch--active' : user.role === 2,
         }" @click="controllerChangeRole(user)">
-            <div class="icon__slider" :class="{
+        <div class="icon__slider" :class="{
                 'icon__slider--inactive' : user.role === 1,
                 'icon__slider--active' : user.role === 2
             }"></div>
@@ -13,6 +14,9 @@
 </template>
 
 <script>
+// EVENT BUS
+import {EventBus} from '../../app';
+
 export default {
     props: ['user'],
 
@@ -71,7 +75,6 @@ export default {
         },
 
         userChangeRoleMethod(){
-
             this.$http.patch('users/role',{
                 user: {
                     id: this.user.id,
@@ -86,8 +89,8 @@ export default {
                 }
                 // USER CHANGED SOMEONE ELSE
                 else{
-                    // RELOAD USERS
-                    this.$emit('usersReload');
+                    // RUN usersReload BUS EVENT ON UsersIndex
+                    EventBus.$emit('usersReload');
                 }
             })
             .catch(error => {});

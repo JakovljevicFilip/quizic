@@ -9,10 +9,13 @@
 <script>
 export default {
     computed: {
+        // CURRENT ROUTE
         name: function(){
             return this.$route.name;
         },
+        // BACK IS SHOWN/HIDDEN
         show: function(){
+            // CURRENT ROUTE EXISTS IN navigate OBJECT
             return this.navigate[this.name] !== undefined;
         }
     },
@@ -30,6 +33,7 @@ export default {
     },
     methods: {
         goBack(){
+            // PUSH FROM[TO]
             this.$router.push(this.navigate[this.name]);
         }
     },

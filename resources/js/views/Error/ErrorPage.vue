@@ -45,19 +45,27 @@ export default {
             this.swalConfig.title += name;
             // SET MESSAGE BODY, ie. Resource not found.
             this.swalConfig.text = this.messages[name];
+            // MESSAGE DOESN'T EXIST
+            if(this.swalConfig.text === undefined){
+                this.swalConfig.text = 'Unknown server error';
+            }
         },
+
         writeMessage(){
             // DISPLAY MESSAGE
             Vue.swal(this.swalConfig)
             .then(this.goBack);
         },
+
         goBack(){
             // ATTEMPT TO RETURN TO MENU
             this.$router.push('/menu');
         }
     },
     created(){
+        // SET APPROPRIATE MESSAGE
         this.setMessage();
+        // WRITE MESSAGE
         this.writeMessage();
     }
 }
