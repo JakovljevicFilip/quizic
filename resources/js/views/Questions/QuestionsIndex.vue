@@ -9,7 +9,7 @@
             <button class="btn text-center btn-main" @click="goQuestionCreate()">New Question</button>
         </div>
         <div class="d-flex justify-content-center mb-3">
-            <div v-for="difficulty in difficulties" :key="difficulty.id" class="mx-3 text-center btn btn-main" :class="{'btn__main--active': difficulty.id === pagination.difficulty}" @click="changeDifficulty(difficulty.id)">{{ difficulty.text }}</div>
+            <div v-for="difficulty in difficulties" :key="difficulty.id" class="mx-3 text-center btn btn-main" :class="{'btn-main--active': difficulty.id === pagination.difficulty}" @click="changeDifficulty(difficulty.id)">{{ difficulty.text }}</div>
         </div>
 
         <div class="flex-grow-1">

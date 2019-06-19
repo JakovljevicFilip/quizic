@@ -1323,6 +1323,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   created: function created() {
     // REMOVES AUTHENTICATION TOKEN ONCE USER GOES TO LOGIN OR REGISTER
@@ -1677,7 +1678,7 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   components: {
-    // SOLVE, SWITCH, 50:50
+    // SOLVE, SWITCH, HALF
     GameHints: _GameHints__WEBPACK_IMPORTED_MODULE_0__["default"],
     // LOGO
     GameLogo: _GameLogo__WEBPACK_IMPORTED_MODULE_1__["default"],
@@ -1694,6 +1695,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
+      // GAME ID USED WITH SESSION
+      game_id: '',
       // QUESTION OBJECT
       question: {},
       // USERS ANSWER TO A QUESTION
@@ -1704,6 +1707,11 @@ __webpack_require__.r(__webpack_exports__);
       username: 'guest12312',
       // CORRECT QUESTIONS SO FAR
       score: 0,
+      // QUESTION THAT IS YET TO BE SHOWN
+      newQuestion: {},
+      // CORRECT ANSWER
+      correctAnswer: null,
+      // MODAL
       modalInformations: {
         // SET ON CALL
         title: '',
@@ -1717,35 +1725,36 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    startGame: function startGame() {
+      var _this = this;
+
+      // RUN START GAME REQUEST
+      this.$http.get('game/startGame').then(function (response) {
+        var game = response.body.game;
+        _this.game_id = game.game_id;
+        _this.username = game.username;
+        _this.score = game.score;
+        _this.question = game.question;
+      })["catch"](function (error) {});
+    },
     getQuestion: function getQuestion() {
       // RUN GET QUESTION REQUEST
-      this.question = {
-        text: 'Sample text longer question really long question... And even longer, heck it\' really long.',
-        answers: [{
-          text: 'Correct answer',
-          status: true
-        }, {
-          text: 'Incorrect answer',
-          status: false
-        }, {
-          text: 'Incorrect answer',
-          status: false
-        }, {
-          text: 'Incorrect answer',
-          status: false
-        }]
-      };
-    },
-    setNewQuestion: function setNewQuestion() {
-      // CHANGES QUESTION TEXT SO THAT ENTIRE QUESTION COMPONENT WOULD RE-RENDER
-      // USED FOR TESTING
-      this.question.text = Math.random(); // RUN resetTheTimer METHOD IN GameTime
-
-      _app__WEBPACK_IMPORTED_MODULE_7__["EventBus"].$emit('resetTheTimer');
+      this.$http.get('game/getQuestion').then(function (response) {
+        console.log(response);
+      })["catch"](function (error) {});
     },
     startNewGame: function startNewGame() {
-      // GET NEW QUESTION
-      this.setNewQuestion();
+      // RESET INFORMATIONS
+      this.game_id = '';
+      this.question = {};
+      this.answer = {};
+      this.answerStatus = null;
+      this.username = '';
+      this.score = 0;
+      this.newQuestion = {};
+      this.correctAnswer = null; // RESTART THE GAME
+
+      this.startGame();
     },
     answered: function answered() {
       // STOPS TIMER
@@ -1754,14 +1763,34 @@ __webpack_require__.r(__webpack_exports__);
       this.submitAnswer();
     },
     submitAnswer: function submitAnswer() {
-      // QUESTION IS CORRECT/INCORRECT
-      this.answerStatus = this.answer.status; // HANDLE RESPONSE
+      var _this2 = this;
 
-      this.handleAnswerResponse();
+      this.$http.get('game/answer', {
+        params: {
+          answer: {
+            game_id: this.game_id,
+            id: this.answer.id
+          }
+        }
+      }).then(function (response) {
+        response = response.body.game;
+        var message = response.message;
+
+        if (message === 'Answer is incorrect.') {
+          _this2.answerStatus = false;
+          _this2.correctAnswer = response.correct_answer;
+        } else {
+          _this2.answerStatus = true;
+          _this2.newQuestion = response.question;
+          _this2.score = response.score;
+        }
+
+        _this2.handleAnswerResponse();
+      })["catch"](function (error) {});
     },
     handleAnswerResponse: function handleAnswerResponse() {
       // COLOR THE ANSWER APPROPRIATELLY
-      this.colorTheAnswer(this.answerStatus); // WAIT FOR 3 SECONDS
+      this.colorTheAnswer(this.answerStatus, this.correctAnswer); // WAIT FOR 3 SECONDS
       // FURTHER HANDLE ANSWER RESPONSE
 
       setTimeout(this.handleAnswerResponseFurther, 3000);
@@ -1769,8 +1798,10 @@ __webpack_require__.r(__webpack_exports__);
     handleAnswerResponseFurther: function handleAnswerResponseFurther() {
       // ANSWER IS CORRECT
       if (this.answerStatus) {
-        // GET NEW QUESTION
-        this.setNewQuestion();
+        // SET NEW QUESTION
+        this.question = this.newQuestion; // RUN resetTheTimer BUS METHOD ON Timer
+
+        _app__WEBPACK_IMPORTED_MODULE_7__["EventBus"].$emit('resetTheTimer', this.resetTheTimer);
       } // ANSWER IS INCORRECT
       else {
           // RUN showModal BUS METHOD ON Modal
@@ -1781,10 +1812,11 @@ __webpack_require__.r(__webpack_exports__);
       // CALL FOR stopTheTimer METHOD IN GameTime
       _app__WEBPACK_IMPORTED_MODULE_7__["EventBus"].$emit('stopTheTimer');
     },
-    colorTheAnswer: function colorTheAnswer(status) {
+    colorTheAnswer: function colorTheAnswer(status, correctAnswer) {
       // CALL FOR colorTheAnswer METHOD IN GameAnswers
       _app__WEBPACK_IMPORTED_MODULE_7__["EventBus"].$emit('colorTheAnswer', {
-        status: status
+        status: status,
+        correctAnswer: correctAnswer
       });
     },
     showGameModal: function showGameModal(title) {
@@ -1803,25 +1835,26 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   created: function created() {
-    var _this = this;
+    var _this3 = this;
 
-    // GET QUESTION
-    setTimeout(function () {
-      _this.getQuestion();
-    }, 2000); // BUS METHODS
+    // START GAME
+    this.startGame(); // BUS METHODS
 
     _app__WEBPACK_IMPORTED_MODULE_7__["EventBus"].$on('startNewGame', this.startNewGame);
     _app__WEBPACK_IMPORTED_MODULE_7__["EventBus"].$on('goBack', this.goBack);
     _app__WEBPACK_IMPORTED_MODULE_7__["EventBus"].$on('answered', function (answer) {
       // USER'S ANSWER
-      _this.answer = answer; // HANDLE USER'S ANSWER
+      _this3.answer = answer; // HANDLE USER'S ANSWER
 
-      _this.answered();
+      _this3.answered();
     });
     _app__WEBPACK_IMPORTED_MODULE_7__["EventBus"].$on('showGameModal', function (data) {
       // ADD ADDITIONAL MODAL INFORMATIONS
-      _this.showGameModal(data.title);
+      _this3.showGameModal(data.title);
     });
+  },
+  beforeDestroy: function beforeDestroy() {
+    _app__WEBPACK_IMPORTED_MODULE_7__["EventBus"].$off('answered');
   }
 });
 
@@ -1862,7 +1895,9 @@ __webpack_require__.r(__webpack_exports__);
       // CLICKABLE
       disabled: true,
       // USED FOR CLEARING TIMEOUT
-      timeout: {}
+      timeout: {},
+      // USED TO COLOR CORRECT ANSWER IN CASE ANSWER IS INCORRECT
+      correctAnswer: null
     };
   },
   methods: {
@@ -1875,15 +1910,32 @@ __webpack_require__.r(__webpack_exports__);
       this.answeredElement = this.$refs.answers[index]; // ANSWERS ARE NO LONGER CLICKABLE
 
       this.disabled = true; // CALL FOR answered BUS METHOD ON Game
-      // PASS USER'S ANSWER ANSWER
+      // PASS USER'S ANSWER
 
       _app__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit('answered', answer);
     },
-    colorTheAnswer: function colorTheAnswer(status) {
+    colorTheAnswer: function colorTheAnswer(status, correctAnswer) {
       // REFERNCE THE HTML ELEMENT CLASS LIST
-      var classList = this.answeredElement.classList; // COLOR THE ANSWER APPROPRIATELY
+      var classList = this.answeredElement.classList; // ANSWER IS CORRECT
 
-      status ? classList.add('game-answer--correct') : classList.add('game-answer--incorrect');
+      if (status) {
+        // COLOR THE CORRECT ANSWER
+        classList.add('game-answer--correct');
+      } else {
+        // FIND THE CORRECT ANSWER
+        this.colorTheCorrectAnswer(correctAnswer); // COLOR THE INCORRECT ANSWER
+
+        classList.add('game-answer--incorrect');
+      }
+    },
+    colorTheCorrectAnswer: function colorTheCorrectAnswer(correctAnswer) {
+      for (var i = 0; i < this.answers.length; i++) {
+        if (this.answers[i].id == correctAnswer) {
+          console.log(1);
+          this.$refs.answers[i].classList.add('game-answer--correct');
+          break;
+        }
+      }
     }
   },
   created: function created() {
@@ -1899,7 +1951,7 @@ __webpack_require__.r(__webpack_exports__);
     }, 10000);
     _app__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$on('showAnswers', this.showAnswers);
     _app__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$on('colorTheAnswer', function (data) {
-      _this.colorTheAnswer(data.status);
+      _this.colorTheAnswer(data.status, data.correctAnswer);
     });
   },
   beforeDestroy: function beforeDestroy() {
@@ -51612,7 +51664,16 @@ var render = function() {
           1
         ),
         _vm._v(" "),
-        _c("router-view")
+        _c("router-view"),
+        _vm._v(" "),
+        _c(
+          "router-link",
+          {
+            staticClass: "text-center d-block text-white mt-1 wrapper",
+            attrs: { to: { name: "game" } }
+          },
+          [_vm._v("... or try Quizić without logging in.")]
+        )
       ],
       1
     )
@@ -51627,7 +51688,7 @@ var staticRenderFns = [
       "div",
       {
         staticClass:
-          "text-center pb-5 animated fadeInDownBig logo--animation-delay"
+          "text-center pb-4 animated fadeInDownBig logo--animation-delay"
       },
       [
         _c("img", {
@@ -53088,7 +53149,7 @@ var render = function() {
                       key: difficulty.id,
                       staticClass: "mx-3 text-center btn btn-main",
                       class: {
-                        "btn__main--active":
+                        "btn-main--active":
                           difficulty.id === _vm.pagination.difficulty
                       },
                       on: {

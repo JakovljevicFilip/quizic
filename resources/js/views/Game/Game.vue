@@ -36,7 +36,7 @@ export default {
     },
 
     components: {
-        // SOLVE, SWITCH, 50:50
+        // SOLVE, SWITCH, HALF
         GameHints,
         // LOGO
         GameLogo,
@@ -54,6 +54,8 @@ export default {
 
     data(){
         return{
+            // GAME ID USED WITH SESSION
+            game_id: '',
             // QUESTION OBJECT
             question: {},
             // USERS ANSWER TO A QUESTION
@@ -64,6 +66,11 @@ export default {
             username: 'guest12312',
             // CORRECT QUESTIONS SO FAR
             score: 0,
+            // QUESTION THAT IS YET TO BE SHOWN
+            newQuestion: {},
+            // CORRECT ANSWER
+            correctAnswer: null,
+            // MODAL
             modalInformations: {
                 // SET ON CALL
                 title: '',
@@ -78,43 +85,41 @@ export default {
     },
 
     methods:{
-        getQuestion(){
-            // RUN GET QUESTION REQUEST
-            this.question = {
-                text: 'Sample text longer question really long question... And even longer, heck it\' really long.',
-                answers: [
-                    {
-                        text: 'Correct answer',
-                        status: true,
-                    },
-                    {
-                        text: 'Incorrect answer',
-                        status: false,
-                    },
-                    {
-                        text: 'Incorrect answer',
-                        status: false,
-                    },
-                    {
-                        text: 'Incorrect answer',
-                        status: false,
-                    },
-
-                ]
-            };
+        startGame(){
+            // RUN START GAME REQUEST
+            this.$http.get('game/startGame')
+            .then(response => {
+                let game = response.body.game;
+                this.game_id = game.game_id;
+                this.username = game.username;
+                this.score = game.score;
+                this.question = game.question;
+            })
+            .catch(error => {});
         },
 
-        setNewQuestion(){
-            // CHANGES QUESTION TEXT SO THAT ENTIRE QUESTION COMPONENT WOULD RE-RENDER
-            // USED FOR TESTING
-            this.question.text = Math.random();
-            // RUN resetTheTimer METHOD IN GameTime
-            EventBus.$emit('resetTheTimer');
+        getQuestion(){
+            // RUN GET QUESTION REQUEST
+            this.$http.get('game/getQuestion')
+            .then(response => {
+                console.log(response);
+            })
+            .catch(error => {});
         },
 
         startNewGame(){
-            // GET NEW QUESTION
-            this.setNewQuestion();
+            // RESET INFORMATIONS
+            this.game_id = '';
+            this.question = {};
+            this.answer = {};
+            this.answerStatus = null;
+            this.username = '';
+            this.score = 0;
+            this.newQuestion = {};
+            this.correctAnswer = null;
+
+            // RESTART THE GAME
+            this.startGame();
         },
 
         answered(){
@@ -125,15 +130,37 @@ export default {
         },
 
         submitAnswer(){
-            // QUESTION IS CORRECT/INCORRECT
-            this.answerStatus = this.answer.status;
-            // HANDLE RESPONSE
-            this.handleAnswerResponse();
+            this.$http.get('game/answer',{
+                params: {
+                    answer: {
+                        game_id: this.game_id,
+                        id: this.answer.id,
+                    }
+                }
+            })
+            .then(response => {
+                response = response.body.game;
+                let message = response.message;
+
+                if(message === 'Answer is incorrect.'){
+                    this.answerStatus = false;
+                    this.correctAnswer = response.correct_answer;
+                }
+                else{
+                    this.answerStatus = true;
+                    this.newQuestion = response.question;
+                    this.score = response.score;
+                }
+                this.handleAnswerResponse();
+            })
+            .catch(error => {
+
+            });
         },
 
         handleAnswerResponse(){
             // COLOR THE ANSWER APPROPRIATELLY
-            this.colorTheAnswer(this.answerStatus);
+            this.colorTheAnswer(this.answerStatus, this.correctAnswer);
             // WAIT FOR 3 SECONDS
             // FURTHER HANDLE ANSWER RESPONSE
             setTimeout(this.handleAnswerResponseFurther,3000);
@@ -143,8 +170,10 @@ export default {
         handleAnswerResponseFurther(){
             // ANSWER IS CORRECT
             if(this.answerStatus){
-                // GET NEW QUESTION
-                this.setNewQuestion();
+                // SET NEW QUESTION
+                this.question = this.newQuestion;
+                // RUN resetTheTimer BUS METHOD ON Timer
+                EventBus.$emit('resetTheTimer',this.resetTheTimer);
             }
             // ANSWER IS INCORRECT
             else{
@@ -159,10 +188,11 @@ export default {
             EventBus.$emit('stopTheTimer');
         },
 
-        colorTheAnswer(status){
+        colorTheAnswer(status, correctAnswer){
             // CALL FOR colorTheAnswer METHOD IN GameAnswers
             EventBus.$emit('colorTheAnswer', {
                 status,
+                correctAnswer,
             });
         },
 
@@ -187,10 +217,8 @@ export default {
     },
 
     created(){
-        // GET QUESTION
-        setTimeout(()=>{
-            this.getQuestion();
-        }, 2000);
+        // START GAME
+        this.startGame();
 
         // BUS METHODS
         EventBus.$on('startNewGame', this.startNewGame);
@@ -207,7 +235,9 @@ export default {
         });
     },
 
-
+    beforeDestroy(){
+        EventBus.$off('answered');
+    },
 }
 </script>
 

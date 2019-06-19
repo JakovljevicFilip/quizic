@@ -20259,7 +20259,7 @@ readers do not read off random characters that represent icons */
 }
 
 .btn-main--active {
-  border: solid blue 1px;
+  border: solid blue 3px;
 }
 
 .btn-hint {

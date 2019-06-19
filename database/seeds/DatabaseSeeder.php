@@ -15,8 +15,9 @@ class DatabaseSeeder extends Seeder
             UsersTableSeeder::class,
         	DifficultiesTableSeeder::class,
         	QuestionsTableSeeder::class,
-        	AnswersTableSeeder::class,
-        	HighscoresTableSeeder::class
+            AnswersTableSeeder::class,
+            HintsTableSeeder::class,
+        	HighscoresTableSeeder::class,
         ]);
     }
 }

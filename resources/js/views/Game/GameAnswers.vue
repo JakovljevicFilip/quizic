@@ -26,6 +26,8 @@ export default {
             disabled: true,
             // USED FOR CLEARING TIMEOUT
             timeout: {},
+            // USED TO COLOR CORRECT ANSWER IN CASE ANSWER IS INCORRECT
+            correctAnswer: null,
         }
     },
     methods:{
@@ -40,15 +42,35 @@ export default {
             // ANSWERS ARE NO LONGER CLICKABLE
             this.disabled = true;
             // CALL FOR answered BUS METHOD ON Game
-            // PASS USER'S ANSWER ANSWER
+            // PASS USER'S ANSWER
             EventBus.$emit('answered', answer);
         },
 
-        colorTheAnswer(status){
+        colorTheAnswer(status, correctAnswer){
             // REFERNCE THE HTML ELEMENT CLASS LIST
             let classList = this.answeredElement.classList;
-            // COLOR THE ANSWER APPROPRIATELY
-            status ? classList.add('game-answer--correct') : classList.add('game-answer--incorrect');
+            // ANSWER IS CORRECT
+            if(status){
+                // COLOR THE CORRECT ANSWER
+                classList.add('game-answer--correct');
+            }
+            else{
+                // FIND THE CORRECT ANSWER
+                this.colorTheCorrectAnswer(correctAnswer);
+                // COLOR THE INCORRECT ANSWER
+                classList.add('game-answer--incorrect');
+            }
+
+        },
+
+        colorTheCorrectAnswer(correctAnswer){
+            for(let i=0; i < this.answers.length; i++){
+                if(this.answers[i].id == correctAnswer){
+                    console.log(1);
+                    this.$refs.answers[i].classList.add('game-answer--correct');
+                    break;
+                }
+            }
         },
     },
 
@@ -65,7 +87,7 @@ export default {
 
         EventBus.$on('showAnswers', this.showAnswers);
         EventBus.$on('colorTheAnswer', data => {
-            this.colorTheAnswer(data.status);
+            this.colorTheAnswer(data.status, data.correctAnswer);
         });
     },
 

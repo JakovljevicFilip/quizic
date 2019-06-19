@@ -37,4 +37,5 @@ class Question extends Model
     public function fetchByDifficulty($difficulty){
         return $this->where('difficulty_id',$difficulty)->with('answers');
     }
+
 }

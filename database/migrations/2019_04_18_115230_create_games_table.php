@@ -15,10 +15,16 @@ class CreateGamesTable extends Migration
     {
         Schema::create('games', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('hash');
-            $table->unsignedInteger('counter');
+            // GAME IDENTIFICATION
+            $table->string('hash')->unique();
+            // GAME INFORMATIONS
+            $table->unsignedInteger('score');
             $table->string('username');
+            // CURRENT QUESTION
             $table->unsignedBigInteger('question_id');
+            // PAST QUESTIONS
+            $table->string('questions_passed');
+            // UPDATED AT IS MORE IMPORTANT SINCE IT'S USED WITH QUESTION TIME
             $table->timestamps();
 
             $table->foreign('question_id')->references('id')->on('questions');

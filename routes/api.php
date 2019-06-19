@@ -17,6 +17,7 @@ Route::namespace('Api')->group(function(){
 
     // AUTHENTFICATION
     Route::prefix('auth')->group(function(){
+
         Route::post('register','AuthController@register');
         Route::post('login','AuthController@login');
         Route::get('refresh','AuthController@refresh');
@@ -25,6 +26,12 @@ Route::namespace('Api')->group(function(){
             Route::get('user','AuthController@user');
             Route::post('logout','AuthController@logout');
         });
+    });
+
+    // GAME
+    Route::prefix('game')->group(function(){
+        Route::get('startGame', 'GameController@startGame');
+        Route::get('answer', 'GameController@answer');
     });
 
     // USER
