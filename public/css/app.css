@@ -20278,6 +20278,13 @@ readers do not read off random characters that represent icons */
   cursor: pointer;
 }
 
+.btn-hint:disabled {
+  color: gray;
+  -webkit-transform: none;
+          transform: none;
+  cursor: auto;
+}
+
 .container-app {
   width: 80%;
   height: 100vh;
@@ -20294,9 +20301,16 @@ readers do not read off random characters that represent icons */
 }
 
 .container-menu {
+  padding: 2rem;
   width: 350px;
   box-shadow: -5px 6px 24px 14px rgba(0, 0, 0, 0.75);
   transition: all 0.1s ease-in-out;
+}
+
+@media (min-width: 400px) {
+  .container-menu {
+    padding: 3rem;
+  }
 }
 
 .container-index__scroll {

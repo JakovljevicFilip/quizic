@@ -1773,16 +1773,16 @@ __webpack_require__.r(__webpack_exports__);
           }
         }
       }).then(function (response) {
-        response = response.body.game;
-        var message = response.message;
+        var message = response.body.message;
+        var game = response.body.game;
 
         if (message === 'Answer is incorrect.') {
           _this2.answerStatus = false;
-          _this2.correctAnswer = response.correct_answer;
+          _this2.correctAnswer = game.correct_answer;
         } else {
           _this2.answerStatus = true;
-          _this2.newQuestion = response.question;
-          _this2.score = response.score;
+          _this2.newQuestion = game.question;
+          _this2.score = game.score;
         }
 
         _this2.handleAnswerResponse();
@@ -1832,7 +1832,29 @@ __webpack_require__.r(__webpack_exports__);
     goBack: function goBack() {
       // GO TO MENU
       this.$router.push('/menu');
-    }
+    },
+    endGame: function endGame() {
+      // RUN END GAME REQUEST
+      this.$http["delete"]('game/destroy', {
+        params: {
+          game_id: this.game_id
+        }
+      })["catch"](function (error) {});
+    },
+    half: function half() {
+      this.$http.get('game/half', {
+        params: {
+          game_id: this.game_id
+        }
+      }).then(function (response) {
+        var incorrectAnswers = response.body.incorrectAnswers;
+        _app__WEBPACK_IMPORTED_MODULE_7__["EventBus"].$emit('hideIncorrectAnswers', {
+          incorrectAnswers: incorrectAnswers
+        });
+      })["catch"](function (error) {});
+    },
+    "switch": function _switch() {},
+    solve: function solve() {}
   },
   created: function created() {
     var _this3 = this;
@@ -1852,9 +1874,17 @@ __webpack_require__.r(__webpack_exports__);
       // ADD ADDITIONAL MODAL INFORMATIONS
       _this3.showGameModal(data.title);
     });
+    _app__WEBPACK_IMPORTED_MODULE_7__["EventBus"].$on('half', this.half);
+    _app__WEBPACK_IMPORTED_MODULE_7__["EventBus"].$on('switch', this["switch"]);
+    _app__WEBPACK_IMPORTED_MODULE_7__["EventBus"].$on('solve', this.solve);
   },
   beforeDestroy: function beforeDestroy() {
     _app__WEBPACK_IMPORTED_MODULE_7__["EventBus"].$off('answered');
+    _app__WEBPACK_IMPORTED_MODULE_7__["EventBus"].$off('half', this.half);
+    _app__WEBPACK_IMPORTED_MODULE_7__["EventBus"].$off('switch', this["switch"]);
+    _app__WEBPACK_IMPORTED_MODULE_7__["EventBus"].$off('solve', this.solve); // REMOVE GAME FROM DB
+
+    this.endGame();
   }
 });
 
@@ -1931,9 +1961,17 @@ __webpack_require__.r(__webpack_exports__);
     colorTheCorrectAnswer: function colorTheCorrectAnswer(correctAnswer) {
       for (var i = 0; i < this.answers.length; i++) {
         if (this.answers[i].id == correctAnswer) {
-          console.log(1);
           this.$refs.answers[i].classList.add('game-answer--correct');
           break;
+        }
+      }
+    },
+    hideIncorrectAnswers: function hideIncorrectAnswers(incorrectAnswers) {
+      for (var i = 0; i < this.answers.length; i++) {
+        for (var y in incorrectAnswers) {
+          if (this.answers[i].id == incorrectAnswers[y].id) {
+            this.$refs.answers[i].classList.add('d-none');
+          }
         }
       }
     }
@@ -1953,6 +1991,9 @@ __webpack_require__.r(__webpack_exports__);
     _app__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$on('colorTheAnswer', function (data) {
       _this.colorTheAnswer(data.status, data.correctAnswer);
     });
+    _app__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$on('hideIncorrectAnswers', function (data) {
+      _this.hideIncorrectAnswers(data.incorrectAnswers);
+    });
   },
   beforeDestroy: function beforeDestroy() {
     // CLEAR TIMEOUT IF IT'S IN PROGRESS
@@ -1971,6 +2012,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../app */ "./resources/js/app.js");
 //
 //
 //
@@ -1992,7 +2034,30 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ __webpack_exports__["default"] = ({});
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      disabled: {
+        half: false,
+        change: false,
+        solve: false
+      }
+    };
+  },
+  methods: {
+    half: function half() {
+      this.disabled.half = true;
+      _app__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit('half');
+    },
+    change: function change() {
+      this.disabled.change = true;
+    },
+    solve: function solve() {
+      this.disabled.solve = true;
+    }
+  }
+});
 
 /***/ }),
 
@@ -51629,7 +51694,7 @@ var render = function() {
   return _c("div", { staticClass: "d-flex h-100" }, [
     _c(
       "div",
-      { staticClass: "m-auto p-5 container-menu" },
+      { staticClass: "m-auto container-menu" },
       [
         _vm._m(0),
         _vm._v(" "),
@@ -52208,41 +52273,52 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c(
+    "div",
+    {
+      staticClass:
+        "d-flex justify-content-center animated slideInDown container-game--transparent game-hints"
+    },
+    [
+      _c(
+        "div",
+        { staticClass: "container-hint d-flex justify-content-center" },
+        [
+          _c(
+            "button",
+            {
+              staticClass: "btn-hint mr-5",
+              attrs: { disabled: _vm.disabled.half },
+              on: { click: _vm.half }
+            },
+            [_c("i", { staticClass: "fas fa-times" })]
+          ),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn-hint mr-5",
+              attrs: { disabled: _vm.disabled.change },
+              on: { click: _vm.change }
+            },
+            [_c("i", { staticClass: "fas fa-exchange-alt" })]
+          ),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn-hint",
+              attrs: { disabled: _vm.disabled.solve },
+              on: { click: _vm.solve }
+            },
+            [_c("i", { staticClass: "fas fa-check" })]
+          )
+        ]
+      )
+    ]
+  )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass:
-          "d-flex justify-content-center animated slideInDown container-game--transparent game-hints"
-      },
-      [
-        _c(
-          "div",
-          { staticClass: "container-hint d-flex justify-content-center" },
-          [
-            _c("button", { staticClass: "btn-hint mr-5" }, [
-              _c("i", { staticClass: "fas fa-times" })
-            ]),
-            _vm._v(" "),
-            _c("button", { staticClass: "btn-hint mr-5" }, [
-              _c("i", { staticClass: "fas fa-exchange-alt" })
-            ]),
-            _vm._v(" "),
-            _c("button", { staticClass: "btn-hint" }, [
-              _c("i", { staticClass: "fas fa-check" })
-            ])
-          ]
-        )
-      ]
-    )
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -52514,7 +52590,7 @@ var render = function() {
   return _c("div", { staticClass: "d-flex h-100" }, [
     _c(
       "div",
-      { staticClass: "m-auto p-5 container-menu" },
+      { staticClass: "m-auto container-menu" },
       [
         _vm._m(0),
         _vm._v(" "),
@@ -53307,7 +53383,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "h-100 d-flex" }, [
-    _c("div", { staticClass: "m-auto p-5 container-menu" }, [
+    _c("div", { staticClass: "m-auto container-menu" }, [
       _vm._m(0),
       _vm._v(" "),
       _c("h3", { staticClass: "text-center text-white mb-3 heading" }, [

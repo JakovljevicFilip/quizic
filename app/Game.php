@@ -10,9 +10,17 @@ use Session;
 
 use App\Question;
 use App\Answer;
+use App\Hint;
 
 class Game extends Model
 {
+
+    public function hints()
+    {
+        return $this->belongsToMany('App\Hint');
+    }
+
+
     // STORES GAME INFORMATIONS
     private $game_id;
     // GAME INFORMATIONS
@@ -23,6 +31,8 @@ class Game extends Model
     private $questionFront;
     // USED WHEN ANSWER IS INCORRECT
     private $correctAnswerId;
+    // API RESPONSE MESSAGE
+    private $message;
 
 
     public function startGame(){
@@ -33,15 +43,21 @@ class Game extends Model
     }
 
     private function setGameInfo(){
+        // MAKE GAME ID
         $this->game_id = Str::random();
-        $game = new Game();
+        // MAKE NEW GAME OBJECT
+        $this->game = new Game();
 
-        $game->hash = $this->game_id;
-        $game->score = -1;
-        $game->username = $this->startAs();
-        $game->questions_passed = serialize([]);
-
-        $this->game = $game;
+        // SET HASH
+        $this->game->hash = $this->game_id;
+        // SET SCORE
+        $this->game->score = -1;
+        // SET USERNAME
+        $this->game->username = $this->startAs();
+        // MAKE PAST QUESTIONS ARRAY
+        $this->game->questions_passed = serialize([]);
+        // SET MESSAGE
+        $this->message = 'Game started.';
     }
 
     private function continueGame(){
@@ -159,10 +175,14 @@ class Game extends Model
     private function outputStart(){
         // OUTPUT FOR FRONT-END
         return [
-            'game_id' => $this->game_id,
-            'username' => $this->game['username'],
-            'score' => $this->game['score'],
-            'question' => $this->questionFront,
+            'message' => $this->message,
+            'write' => false,
+            'game' => [
+                'game_id' => $this->game_id,
+                'username' => $this->game['username'],
+                'score' => $this->game['score'],
+                'question' => $this->questionFront,
+            ],
         ];
     }
 
@@ -175,12 +195,15 @@ class Game extends Model
             return [
                 'message' => 'Answer is incorrect.',
                 'write' => false,
-                'correct_answer' => $this->correctAnswerId,
+                'game' => [
+                    'correct_answer' => $this->correctAnswerId,
+                ],
             ];
         }
         else{
             $this->game = $this;
             $this->game->game_id = $this->hash;
+            $this->message = 'Answer is correct.';
         }
         // CONTINUE GAME
         return $this->continueGame();
@@ -199,5 +222,40 @@ class Game extends Model
 
     private function endGame(){
         $this->delete();
+    }
+
+    public function half(){
+        // SET HINT AS USED
+        $this->setHintAsUsed(2);
+        // GET TWO INCORRECT ANSWERS
+        return $this->getTwoIncorrectAnswers();
+    }
+
+    private function setHintAsUsed($hint_id){
+        // FIND HINT
+        $hint = Hint::find($hint_id);
+        // SET HINT AS USED
+        $this->hints()->save($hint);
+    }
+
+    private function getTwoIncorrectAnswers(){
+        // GET IDS
+        return Answer::select('id')
+            // FOR CURRENT QUESTION
+            ->where('question_id', $this->question_id)
+            // THAT ARE INCORRECT
+            ->where('status', 0)
+            // SHUFFLE RESULTS
+            ->inRandomOrder()
+            // LIMIT NUMBER OF RESULTS TO 2
+            ->limit(2)
+            // GET
+            ->get()
+            // CONVERT RESULTS TO ARRAY
+            ->toArray();
+    }
+
+    public function solve(){
+        dd(1);
     }
 }

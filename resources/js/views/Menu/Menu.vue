@@ -1,6 +1,6 @@
 <template>
 <div class="d-flex h-100">
-    <div class="m-auto p-5 container-menu">
+    <div class="m-auto container-menu">
         <!-- LOGO -->
         <div class="text-center pb-5">
             <img src="/img/logo.png" alt="logo" class="logo--height">

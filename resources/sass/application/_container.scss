@@ -16,6 +16,7 @@
     }
 
     &-menu{
+        padding: 2rem;
         width: 350px;
         -webkit-box-shadow: -5px 6px 24px 14px rgba(0,0,0,0.75);
         -moz-box-shadow: -5px 6px 24px 14px rgba(0,0,0,0.75);
@@ -25,6 +26,10 @@
         -ms-transition:     all 0.1s ease-in-out;
         -o-transition:      all 0.1s ease-in-out;
         transition:         all 0.1s ease-in-out;
+
+        @include atSmall{
+            padding: 3rem;
+        }
     }
 
     &-index{

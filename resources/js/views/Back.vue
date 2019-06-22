@@ -28,7 +28,7 @@ export default {
                 'users.password': '/menu',
                 'users.index': '/menu',
                 'game': '/menu',
-            }
+            },
         }
     },
     methods: {

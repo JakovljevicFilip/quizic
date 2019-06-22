@@ -7,36 +7,54 @@ use App\Http\Controllers\Controller;
 
 use App\Game;
 use App\Http\Requests\GameAnswerRequest;
+use App\Http\Requests\GameHintRequest;
+
 
 class GameController extends Controller
 {
     public function startGame(){
         $game = new Game();
-        $game = $game->startGame();
+        $response = $game->startGame();
 
-        return response()->json([
-            'message'=>'Game started.',
-            'write'=>false,
-            'game'=>$game,
-        ],200);
+        return response()->json($response,200);
     }
 
     public function answer(GameAnswerRequest $request){
         // GET GAME
         $game = Game::where('hash', $request->answer['game_id'])->first();
         // VALIDATE GAME ANSWER
-        $game = $game->validateAnswer($request->answer['id']);
-
-        // ANSWER IS INCORRECT
-        if(array_key_exists('message', $game)){
-            return response()->json($game,200);
-        }
+        $response = $game->validateAnswer($request->answer['id']);
 
         // ANSWER IS CORRECT
+        return response()->json($response,200);
+    }
+
+    public function destroy(Request $request){
+        $game = Game::where('hash', $request->game_id)->first();
+
+        // GAME EXISTS
+        if($game !== null){
+            // DELETE
+            $game->delete();
+        }
+
+        // GAME IS DELETED
         return response()->json([
-            'message' => 'Answer is correct.',
+            'message' => 'Game has ended.',
             'write' => false,
-            'game' => $game,
+        ],200);
+    }
+
+    public function half(GameHintRequest $request){
+        $game = Game::where('hash', $request->game_id)->first();
+
+        $response = $game->half();
+
+        // GAME IS DELETED
+        return response()->json([
+            'message' => 'Hint half has been used.',
+            'write' => false,
+            'incorrectAnswers' => $response,
         ],200);
     }
 }

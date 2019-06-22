@@ -1,6 +1,6 @@
 <template>
 <div class="d-flex h-100">
-	<div class="m-auto p-5 container-menu">
+	<div class="m-auto container-menu">
 			<div class="text-center pb-4 animated fadeInDownBig logo--animation-delay">
 				<img src="/img/logo.png" alt="logo" class="logo--height">
 			</div>

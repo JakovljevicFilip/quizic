@@ -32,6 +32,9 @@ Route::namespace('Api')->group(function(){
     Route::prefix('game')->group(function(){
         Route::get('startGame', 'GameController@startGame');
         Route::get('answer', 'GameController@answer');
+        Route::delete('destroy', 'GameController@destroy');
+
+        Route::get('half', 'GameController@half');
     });
 
     // USER

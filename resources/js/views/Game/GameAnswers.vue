@@ -66,9 +66,18 @@ export default {
         colorTheCorrectAnswer(correctAnswer){
             for(let i=0; i < this.answers.length; i++){
                 if(this.answers[i].id == correctAnswer){
-                    console.log(1);
                     this.$refs.answers[i].classList.add('game-answer--correct');
                     break;
+                }
+            }
+        },
+
+        hideIncorrectAnswers(incorrectAnswers){
+            for(let i=0; i < this.answers.length; i++){
+                for(let y in incorrectAnswers){
+                    if(this.answers[i].id == incorrectAnswers[y].id){
+                        this.$refs.answers[i].classList.add('d-none');
+                    }
                 }
             }
         },
@@ -88,6 +97,9 @@ export default {
         EventBus.$on('showAnswers', this.showAnswers);
         EventBus.$on('colorTheAnswer', data => {
             this.colorTheAnswer(data.status, data.correctAnswer);
+        });
+        EventBus.$on('hideIncorrectAnswers', data => {
+            this.hideIncorrectAnswers(data.incorrectAnswers);
         });
     },
 

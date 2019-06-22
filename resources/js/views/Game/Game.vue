@@ -90,6 +90,7 @@ export default {
             this.$http.get('game/startGame')
             .then(response => {
                 let game = response.body.game;
+
                 this.game_id = game.game_id;
                 this.username = game.username;
                 this.score = game.score;
@@ -139,17 +140,17 @@ export default {
                 }
             })
             .then(response => {
-                response = response.body.game;
-                let message = response.message;
+                let message = response.body.message;
+                let game = response.body.game;
 
                 if(message === 'Answer is incorrect.'){
                     this.answerStatus = false;
-                    this.correctAnswer = response.correct_answer;
+                    this.correctAnswer = game.correct_answer;
                 }
                 else{
                     this.answerStatus = true;
-                    this.newQuestion = response.question;
-                    this.score = response.score;
+                    this.newQuestion = game.question;
+                    this.score = game.score;
                 }
                 this.handleAnswerResponse();
             })
@@ -213,7 +214,38 @@ export default {
         goBack(){
             // GO TO MENU
             this.$router.push('/menu');
-        }
+        },
+
+        endGame(){
+            // RUN END GAME REQUEST
+            this.$http.delete('game/destroy', {
+                params: {
+                    game_id: this.game_id,
+                }
+            })
+            .catch(error => {});
+        },
+
+        half(){
+            this.$http.get('game/half',{
+                params: {
+                    game_id: this.game_id,
+                }
+            })
+            .then(response =>{
+                let incorrectAnswers = response.body.incorrectAnswers;
+
+                EventBus.$emit('hideIncorrectAnswers', {
+                    incorrectAnswers: incorrectAnswers,
+                });
+
+            })
+            .catch(error => {});
+        },
+
+        switch(){},
+
+        solve(){},
     },
 
     created(){
@@ -233,10 +265,18 @@ export default {
             // ADD ADDITIONAL MODAL INFORMATIONS
             this.showGameModal(data.title);
         });
+        EventBus.$on('half',this.half);
+        EventBus.$on('switch',this.switch);
+        EventBus.$on('solve',this.solve);
     },
 
     beforeDestroy(){
         EventBus.$off('answered');
+        EventBus.$off('half',this.half);
+        EventBus.$off('switch',this.switch);
+        EventBus.$off('solve',this.solve);
+        // REMOVE GAME FROM DB
+        this.endGame();
     },
 }
 </script>

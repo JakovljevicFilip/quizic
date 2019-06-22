@@ -34,5 +34,11 @@
             transform: rotate(360deg);
             cursor: pointer;
         }
+
+        &:disabled{
+            color: gray;
+            transform: none;
+            cursor: auto;
+        }
     }
 }
