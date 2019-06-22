@@ -226,7 +226,7 @@ export default {
             .catch(error => {});
         },
 
-        half(){
+        hintHalf(){
             this.$http.get('game/half',{
                 params: {
                     game_id: this.game_id,
@@ -265,14 +265,14 @@ export default {
             // ADD ADDITIONAL MODAL INFORMATIONS
             this.showGameModal(data.title);
         });
-        EventBus.$on('half',this.half);
+        EventBus.$on('hintHalf',this.hintHalf);
         EventBus.$on('switch',this.switch);
         EventBus.$on('solve',this.solve);
     },
 
     beforeDestroy(){
         EventBus.$off('answered');
-        EventBus.$off('half',this.half);
+        EventBus.$off('hintHalf',this.hintHalf);
         EventBus.$off('switch',this.switch);
         EventBus.$off('solve',this.solve);
         // REMOVE GAME FROM DB

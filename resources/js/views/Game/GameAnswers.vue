@@ -41,9 +41,13 @@ export default {
             this.answeredElement = this.$refs.answers[index];
             // ANSWERS ARE NO LONGER CLICKABLE
             this.disabled = true;
+
             // CALL FOR answered BUS METHOD ON Game
             // PASS USER'S ANSWER
             EventBus.$emit('answered', answer);
+
+            // RUN disableHints BUS METHOD ON GameHints
+            EventBus.$emit('disableHints');
         },
 
         colorTheAnswer(status, correctAnswer){
@@ -91,6 +95,8 @@ export default {
             this.disabled = false;
             // RUN startTheTimer BUS METHOD ON GameTime
             EventBus.$emit('startTheTimer');
+            // RUN enableHints BUS METHOD ON GameHints
+            EventBus.$emit('enableHints');
         }, 10000);
 
 

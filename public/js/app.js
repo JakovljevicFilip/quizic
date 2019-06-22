@@ -1841,7 +1841,7 @@ __webpack_require__.r(__webpack_exports__);
         }
       })["catch"](function (error) {});
     },
-    half: function half() {
+    hintHalf: function hintHalf() {
       this.$http.get('game/half', {
         params: {
           game_id: this.game_id
@@ -1874,13 +1874,13 @@ __webpack_require__.r(__webpack_exports__);
       // ADD ADDITIONAL MODAL INFORMATIONS
       _this3.showGameModal(data.title);
     });
-    _app__WEBPACK_IMPORTED_MODULE_7__["EventBus"].$on('half', this.half);
+    _app__WEBPACK_IMPORTED_MODULE_7__["EventBus"].$on('hintHalf', this.hintHalf);
     _app__WEBPACK_IMPORTED_MODULE_7__["EventBus"].$on('switch', this["switch"]);
     _app__WEBPACK_IMPORTED_MODULE_7__["EventBus"].$on('solve', this.solve);
   },
   beforeDestroy: function beforeDestroy() {
     _app__WEBPACK_IMPORTED_MODULE_7__["EventBus"].$off('answered');
-    _app__WEBPACK_IMPORTED_MODULE_7__["EventBus"].$off('half', this.half);
+    _app__WEBPACK_IMPORTED_MODULE_7__["EventBus"].$off('hintHalf', this.hintHalf);
     _app__WEBPACK_IMPORTED_MODULE_7__["EventBus"].$off('switch', this["switch"]);
     _app__WEBPACK_IMPORTED_MODULE_7__["EventBus"].$off('solve', this.solve); // REMOVE GAME FROM DB
 
@@ -1942,7 +1942,9 @@ __webpack_require__.r(__webpack_exports__);
       this.disabled = true; // CALL FOR answered BUS METHOD ON Game
       // PASS USER'S ANSWER
 
-      _app__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit('answered', answer);
+      _app__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit('answered', answer); // RUN disableHints BUS METHOD ON GameHints
+
+      _app__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit('disableHints');
     },
     colorTheAnswer: function colorTheAnswer(status, correctAnswer) {
       // REFERNCE THE HTML ELEMENT CLASS LIST
@@ -1985,7 +1987,9 @@ __webpack_require__.r(__webpack_exports__);
       // ANSWERS ARE CLIKCABLE
       _this.disabled = false; // RUN startTheTimer BUS METHOD ON GameTime
 
-      _app__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit('startTheTimer');
+      _app__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit('startTheTimer'); // RUN enableHints BUS METHOD ON GameHints
+
+      _app__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit('enableHints');
     }, 10000);
     _app__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$on('showAnswers', this.showAnswers);
     _app__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$on('colorTheAnswer', function (data) {
@@ -2039,6 +2043,11 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       disabled: {
+        half: true,
+        change: true,
+        solve: true
+      },
+      used: {
         half: false,
         change: false,
         solve: false
@@ -2046,16 +2055,43 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    hintController: function hintController(hint) {
+      // DISABLE HINTS
+      this.disableHints(); // HALF
+
+      if (hint === 1) {
+        this.half();
+      } // CHANGE
+      else if (hint === 2) {
+          this.change();
+        } // SOLVE
+        else {
+            this.solve();
+          }
+    },
     half: function half() {
+      // HINT HALF IS USED
+      this.used.half = true; // RUN hintHalf BUS METHOD ON Game
+
+      _app__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit('hintHalf');
+    },
+    change: function change() {},
+    solve: function solve() {},
+    enableHints: function enableHints() {
+      this.disabled.half = false;
+      this.disabled.change = false;
+      this.disabled.solve = false;
+    },
+    disableHints: function disableHints() {
       this.disabled.half = true;
-      _app__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit('half');
-    },
-    change: function change() {
       this.disabled.change = true;
-    },
-    solve: function solve() {
       this.disabled.solve = true;
     }
+  },
+  created: function created() {
+    // EventBus METHODS
+    _app__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$on('enableHints', this.enableHints);
+    _app__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$on('disableHints', this.disableHints);
   }
 });
 
@@ -52288,8 +52324,12 @@ var render = function() {
             "button",
             {
               staticClass: "btn-hint mr-5",
-              attrs: { disabled: _vm.disabled.half },
-              on: { click: _vm.half }
+              attrs: { disabled: _vm.disabled.half || _vm.used.half },
+              on: {
+                click: function($event) {
+                  return _vm.hintController(1)
+                }
+              }
             },
             [_c("i", { staticClass: "fas fa-times" })]
           ),
@@ -52298,8 +52338,12 @@ var render = function() {
             "button",
             {
               staticClass: "btn-hint mr-5",
-              attrs: { disabled: _vm.disabled.change },
-              on: { click: _vm.change }
+              attrs: { disabled: _vm.disabled.change || _vm.used.change },
+              on: {
+                click: function($event) {
+                  return _vm.hintController(2)
+                }
+              }
             },
             [_c("i", { staticClass: "fas fa-exchange-alt" })]
           ),
@@ -52308,8 +52352,12 @@ var render = function() {
             "button",
             {
               staticClass: "btn-hint",
-              attrs: { disabled: _vm.disabled.solve },
-              on: { click: _vm.solve }
+              attrs: { disabled: _vm.disabled.solve || _vm.used.solve },
+              on: {
+                click: function($event) {
+                  return _vm.hintController(3)
+                }
+              }
             },
             [_c("i", { staticClass: "fas fa-check" })]
           )
