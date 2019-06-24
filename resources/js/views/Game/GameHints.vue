@@ -42,9 +42,9 @@ export default {
     methods: {
         hintController(hint){
             // DISABLE HINTS
-            // this.disableHints();
+            this.disableHints();
             // SET HINT AS USED
-            // this.used[hint] = true;
+            this.used[hint] = true;
             // CALL HINT METHOD
             this.useHint(hint);
         },
@@ -67,14 +67,6 @@ export default {
 
             })
             .catch(error => {});
-        },
-
-        change(){
-
-        },
-
-        solve(){
-
         },
 
         enableHints(){

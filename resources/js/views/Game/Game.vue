@@ -225,27 +225,6 @@ export default {
             })
             .catch(error => {});
         },
-
-        hintHalf(){
-            // this.$http.get('game/hint',{
-            //     params: {
-            //         game_id: this.game_id,
-            //     }
-            // })
-            // .then(response =>{
-            //     let incorrectAnswers = response.body.incorrectAnswers;
-
-            //     EventBus.$emit('hideIncorrectAnswers', {
-            //         incorrectAnswers: incorrectAnswers,
-            //     });
-
-            // })
-            // .catch(error => {});
-        },
-
-        switch(){},
-
-        solve(){},
     },
 
     created(){
@@ -265,16 +244,10 @@ export default {
             // ADD ADDITIONAL MODAL INFORMATIONS
             this.showGameModal(data.title);
         });
-        EventBus.$on('hintHalf',this.hintHalf);
-        EventBus.$on('switch',this.switch);
-        EventBus.$on('solve',this.solve);
     },
 
     beforeDestroy(){
         EventBus.$off('answered');
-        EventBus.$off('hintHalf',this.hintHalf);
-        EventBus.$off('switch',this.switch);
-        EventBus.$off('solve',this.solve);
         // REMOVE GAME FROM DB
         this.endGame();
     },
