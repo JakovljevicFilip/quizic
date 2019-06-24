@@ -35,7 +35,5 @@ class UsersTableSeeder extends Seeder
                 'remember_token' => Str::random(10),
             ],
         ]);
-
-        factory(App\User::class, 20)->create();
     }
 }
