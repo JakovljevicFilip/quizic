@@ -135,7 +135,6 @@ export default {
     beforeDestroy(){
         // NECESSARY SINCE COMPONENT IS BEING RELOADED ON CHANGE
         EventBus.$off('usersReload');
-        console.log(2);
         // NECESSARY SINCE COMPONENT IS BEING RELOADED ON CHANGE
         EventBus.$off('userChangeRole');
     },

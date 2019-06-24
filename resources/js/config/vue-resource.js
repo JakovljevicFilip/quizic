@@ -51,10 +51,8 @@ let interceptorHandler = {
                 // DETERMINE MESSAGES FORMAT
                 interceptorHandler.checkType(message);
             }
-            // THEY ARE NOT SUPPOSED TO BE SHOWN
-            else{
-                console.log(response.body.message);
-            }
+            // LOG MESSAGE
+            console.log(message);
         }
         // ISN'T SUPPOSED TO HAPPEN
         else {
@@ -121,15 +119,11 @@ let interceptorHandler = {
 
     handleOther: () => {
         console.log('Error: Message has not been recognized.');
-        // END OF FUNCTION
-        return;
     },
 
     // WRITE MESSAGE
     writeMessage: message => {
         // WRITES MESSAGE VIA sweetAlert
         Vue.swal(interceptorHandler.messageTitle, message, interceptorHandler.messageType);
-        // END OF FUNCTION
-        return;
     }
 }
