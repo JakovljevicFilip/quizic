@@ -37,11 +37,8 @@ export default {
         },
 
         answerTheQuestion(answer, index){
-            // SET REFERENCE TO THE HTML ELEMENT
-            this.answeredElement = this.$refs.answers[index];
-            // ANSWERS ARE NO LONGER CLICKABLE
-            this.disabled = true;
-
+            // DISABLE ANSWERS
+            this.disableAnswers();
             // CALL FOR answered BUS METHOD ON Game
             // PASS USER'S ANSWER
             EventBus.$emit('answered', answer);
@@ -50,13 +47,16 @@ export default {
             EventBus.$emit('disableHints');
         },
 
+        disableAnswers(){
+            // ANSWERS ARE NO LONGER CLICKABLE
+            this.disabled = true;
+        },
+
         colorTheAnswer(status, correctAnswer){
-            // REFERNCE THE HTML ELEMENT CLASS LIST
-            let classList = this.answeredElement.classList;
             // ANSWER IS CORRECT
             if(status){
-                // COLOR THE CORRECT ANSWER
-                classList.add('game-answer--correct');
+                // FIND THE CORRECT ANSWER
+                this.colorTheCorrectAnswer(correctAnswer);
             }
             else{
                 // FIND THE CORRECT ANSWER
@@ -104,9 +104,10 @@ export default {
         EventBus.$on('colorTheAnswer', data => {
             this.colorTheAnswer(data.status, data.correctAnswer);
         });
-        EventBus.$on('hideIncorrectAnswers', data => {
+        EventBus.$on('hintHalf', data => {
             this.hideIncorrectAnswers(data.incorrectAnswers);
         });
+        EventBus.$on('disableAnswers', this.disableAnswers);
     },
 
     beforeDestroy(){

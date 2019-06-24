@@ -229,8 +229,16 @@ class Game extends Model
     public function half(){
         // SET HINT AS USED
         $this->setHintAsUsed(2);
+
         // GET TWO INCORRECT ANSWERS
-        return $this->getTwoIncorrectAnswers();
+        $incorrectAnswers = $this->getTwoIncorrectAnswers();
+
+        // HINT RESPONSE
+        return [
+            'message' => 'Hint half has been used.',
+            'write' => false,
+            'incorrectAnswers' => $incorrectAnswers,
+        ];
     }
 
     private function setHintAsUsed($hint_id){
@@ -258,6 +266,17 @@ class Game extends Model
     }
 
     public function solve(){
-        dd(1);
+        $correctAnswer = $this->getTheCorrectAnswer();
+
+        // HINT RESPONSE
+        return [
+            'message' => 'Hint solve has been used.',
+            'write' => false,
+            'answer' => $correctAnswer,
+        ];
+    }
+
+    private function getTheCorrectAnswer(){
+        return Answer::where('question_id', $this->question_id)->where('status', 1)->first();
     }
 }

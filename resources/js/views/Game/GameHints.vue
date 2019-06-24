@@ -59,14 +59,26 @@ export default {
                 }
             })
             .then(response =>{
-                let incorrectAnswers = response.body.incorrectAnswers;
-
-                EventBus.$emit('hideIncorrectAnswers', {
-                    incorrectAnswers: incorrectAnswers,
-                });
-
+                if(hint === 'half'){
+                    let incorrectAnswers = response.body.incorrectAnswers;
+                    this.handlehalf(response.body.incorrectAnswers);
+                }
+                else if(hint === 'solve'){
+                    this.handleSolve(response.body.answer);
+                }
             })
             .catch(error => {});
+        },
+
+        handlehalf(incorrectAnswers){
+            EventBus.$emit('hintHalf', {
+                incorrectAnswers: incorrectAnswers,
+            });
+        },
+
+        handleSolve(answer){
+            EventBus.$emit('disableAnswers');
+            EventBus.$emit('answered', answer);
         },
 
         enableHints(){

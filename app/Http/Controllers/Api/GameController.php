@@ -14,24 +14,18 @@ class GameController extends Controller
 {
     public function startGame(){
         $game = new Game();
-        $response = $game->startGame();
-
-        return response()->json($response,200);
+        return response()->json($game->startGame(),200);
     }
 
     public function answer(GameAnswerRequest $request){
         // GET GAME
         $game = Game::where('hash', $request->answer['game_id'])->first();
-        // VALIDATE GAME ANSWER
-        $response = $game->validateAnswer($request->answer['id']);
-
         // ANSWER IS CORRECT
-        return response()->json($response,200);
+        return response()->json($game->validateAnswer($request->answer['id']),200);
     }
 
     public function destroy(Request $request){
         $game = Game::where('hash', $request->game_id)->first();
-
         // GAME EXISTS
         if($game !== null){
             // DELETE
@@ -49,13 +43,7 @@ class GameController extends Controller
         $game = Game::where('hash', $request->hint['game_id'])->first();
         $hint = $request->hint['text'];
 
-        $response = $game->$hint();
-
         // GAME IS DELETED
-        return response()->json([
-            'message' => 'Hint half has been used.',
-            'write' => false,
-            'incorrectAnswers' => $response,
-        ],200);
+        return response()->json($game->$hint(),200);
     }
 }

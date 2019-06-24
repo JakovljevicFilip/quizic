@@ -90,13 +90,16 @@ export default {
             this.$http.get('game/startGame')
             .then(response => {
                 let game = response.body.game;
-
-                this.game_id = game.game_id;
-                this.username = game.username;
-                this.score = game.score;
-                this.question = game.question;
+                this.handleNewQuestion(game);
             })
             .catch(error => {});
+        },
+
+        handleNewQuestion(game){
+            this.game_id = game.game_id;
+            this.username = game.username;
+            this.score = game.score;
+            this.question = game.question;
         },
 
         getQuestion(){
@@ -151,12 +154,11 @@ export default {
                     this.answerStatus = true;
                     this.newQuestion = game.question;
                     this.score = game.score;
+                    this.correctAnswer = this.answer.id;
                 }
                 this.handleAnswerResponse();
             })
-            .catch(error => {
-
-            });
+            .catch(error => {});
         },
 
         handleAnswerResponse(){
@@ -174,7 +176,7 @@ export default {
                 // SET NEW QUESTION
                 this.question = this.newQuestion;
                 // RUN resetTheTimer BUS METHOD ON Timer
-                EventBus.$emit('resetTheTimer',this.resetTheTimer);
+                this.resetTheTimer();
             }
             // ANSWER IS INCORRECT
             else{
@@ -187,6 +189,11 @@ export default {
         stopTheTimer(){
             // CALL FOR stopTheTimer METHOD IN GameTime
             EventBus.$emit('stopTheTimer');
+        },
+
+        resetTheTimer(){
+            // RUN resetTheTimer BUS METHOD ON Timer
+            EventBus.$emit('resetTheTimer',this.resetTheTimer);
         },
 
         colorTheAnswer(status, correctAnswer){
