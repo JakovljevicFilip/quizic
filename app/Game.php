@@ -200,11 +200,13 @@ class Game extends Model
                 ],
             ];
         }
+
         else{
             $this->game = $this;
             $this->game->game_id = $this->hash;
             $this->message = 'Answer is correct.';
         }
+
         // CONTINUE GAME
         return $this->continueGame();
     }

@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Rules\ValidateGameHashRule;
+use App\Rules\HintRule;
 
 class GameHintRequest extends FormRequest
 {
@@ -25,7 +25,7 @@ class GameHintRequest extends FormRequest
     public function rules()
     {
         return [
-            'game_id' => [new ValidateGameHashRule],
+            'hint' => [new HintRule],
         ];
     }
 }

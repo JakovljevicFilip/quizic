@@ -45,7 +45,8 @@ class GameController extends Controller
         ],200);
     }
 
-    public function half(GameHintRequest $request){
+    public function hint(GameHintRequest $request){
+        // dd($request);
         $game = Game::where('hash', $request->game_id)->first();
 
         $response = $game->half();

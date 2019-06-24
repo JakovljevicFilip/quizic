@@ -23,6 +23,7 @@
 import {EventBus} from '../../app';
 
 export default {
+    props: ['game_id'],
     data(){
         return {
             disabled: {
@@ -41,16 +42,31 @@ export default {
     methods: {
         hintController(hint){
             // DISABLE HINTS
-            this.disableHints();
+            // this.disableHints();
             // SET HINT AS USED
-            this.used[hint] = true;
+            // this.used[hint] = true;
             // CALL HINT METHOD
-            this[hint]();
+            this.useHint(hint);
         },
 
-        half(){
-            // RUN hintHalf BUS METHOD ON Game
-            EventBus.$emit('hintHalf');
+        useHint(hint){
+            this.$http.get('game/hint',{
+                params: {
+                    hint: {
+                        text: hint,
+                        game_id: this.game_id,
+                    }
+                }
+            })
+            .then(response =>{
+                let incorrectAnswers = response.body.incorrectAnswers;
+
+                EventBus.$emit('hideIncorrectAnswers', {
+                    incorrectAnswers: incorrectAnswers,
+                });
+
+            })
+            .catch(error => {});
         },
 
         change(){

@@ -3,7 +3,7 @@
         <!-- GAME SCREEN -->
         <template v-if="questionRecieved">
             <GameLogo></GameLogo>
-            <GameHints></GameHints>
+            <GameHints :game_id="game_id"></GameHints>
             <GameInfo :username="username" :score="score"></GameInfo>
             <GameTime></GameTime>
             <GameQuestion v-if="questionRecieved" :question="question" :key="question.text"></GameQuestion>
@@ -227,20 +227,20 @@ export default {
         },
 
         hintHalf(){
-            this.$http.get('game/half',{
-                params: {
-                    game_id: this.game_id,
-                }
-            })
-            .then(response =>{
-                let incorrectAnswers = response.body.incorrectAnswers;
+            // this.$http.get('game/hint',{
+            //     params: {
+            //         game_id: this.game_id,
+            //     }
+            // })
+            // .then(response =>{
+            //     let incorrectAnswers = response.body.incorrectAnswers;
 
-                EventBus.$emit('hideIncorrectAnswers', {
-                    incorrectAnswers: incorrectAnswers,
-                });
+            //     EventBus.$emit('hideIncorrectAnswers', {
+            //         incorrectAnswers: incorrectAnswers,
+            //     });
 
-            })
-            .catch(error => {});
+            // })
+            // .catch(error => {});
         },
 
         switch(){},

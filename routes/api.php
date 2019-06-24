@@ -33,8 +33,7 @@ Route::namespace('Api')->group(function(){
         Route::get('startGame', 'GameController@startGame');
         Route::get('answer', 'GameController@answer');
         Route::delete('destroy', 'GameController@destroy');
-
-        Route::get('half', 'GameController@half');
+        Route::get('hint', 'GameController@hint');
     });
 
     // USER
