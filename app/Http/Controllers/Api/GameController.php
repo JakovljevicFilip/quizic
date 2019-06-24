@@ -46,10 +46,10 @@ class GameController extends Controller
     }
 
     public function hint(GameHintRequest $request){
-        // dd($request);
-        $game = Game::where('hash', $request->game_id)->first();
+        $game = Game::where('hash', $request->hint['game_id'])->first();
+        $hint = $request->hint['text'];
 
-        $response = $game->half();
+        $response = $game->$hint();
 
         // GAME IS DELETED
         return response()->json([
