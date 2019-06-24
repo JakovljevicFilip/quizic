@@ -2,17 +2,29 @@
 <div class="overflow-hidden">
     <div class="animated slideInDown">
 		<h3 class="text-center text-white pt-3 heading">Login</h3>
-		<label for="username" class="text-white authentication__label" >Enter username:</label>
-		<input type="text" name="username" class="form-control" v-model="username" v-validate="rules.username">
-		<span class="d-block text-danger">{{ errors.first('username') }}</span>
+        <form v-on:submit.prevent="loginController"  autocomplete="off">
+            <label for="username" class="text-white authentication__label" >Enter username:</label>
+            <input type="text"
+                name="username"
+                class="form-control"
+                v-model="username"
+                v-validate="rules.username"
+                autocomplete="off">
+            <span class="d-block text-danger">{{ errors.first('username') }}</span>
 
-		<label for="password" class="text-white authentication__label">Enter password:</label>
-		<input type="password" name="password" class="form-control" v-model="password" v-validate="rules.password">
-		<span class="d-block text-danger">{{ errors.first('password') }}</span>
+            <label for="password" class="text-white authentication__label">Enter password:</label>
+            <input type="password"
+                name="password"
+                class="form-control"
+                v-model="password"
+                v-validate="rules.password"
+                autocomplete="off">
+            <span class="d-block text-danger">{{ errors.first('password') }}</span>
 
-        <div>
-            <button class="mt-2 mx-auto btn btn-main" @click="loginController" :disabled="errors.any()">Login</button>
-        </div>
+            <div>
+                <button class="mt-2 mx-auto btn btn-main" :disabled="errors.any()">Login</button>
+            </div>
+        </form>
 	</div>
 </div>
 </template>

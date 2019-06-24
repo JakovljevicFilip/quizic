@@ -1360,6 +1360,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -1419,6 +1431,29 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2057,22 +2092,14 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     hintController: function hintController(hint) {
       // DISABLE HINTS
-      this.disableHints(); // HALF
+      this.disableHints(); // SET HINT AS USED
 
-      if (hint === 1) {
-        this.half();
-      } // CHANGE
-      else if (hint === 2) {
-          this.change();
-        } // SOLVE
-        else {
-            this.solve();
-          }
+      this.used[hint] = true; // CALL HINT METHOD
+
+      this[hint]();
     },
     half: function half() {
-      // HINT HALF IS USED
-      this.used.half = true; // RUN hintHalf BUS METHOD ON Game
-
+      // RUN hintHalf BUS METHOD ON Game
       _app__WEBPACK_IMPORTED_MODULE_0__["EventBus"].$emit('hintHalf');
     },
     change: function change() {},
@@ -51828,98 +51855,111 @@ var render = function() {
       ]),
       _vm._v(" "),
       _c(
-        "label",
+        "form",
         {
-          staticClass: "text-white authentication__label",
-          attrs: { for: "username" }
-        },
-        [_vm._v("Enter username:")]
-      ),
-      _vm._v(" "),
-      _c("input", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.username,
-            expression: "username"
-          },
-          {
-            name: "validate",
-            rawName: "v-validate",
-            value: _vm.rules.username,
-            expression: "rules.username"
-          }
-        ],
-        staticClass: "form-control",
-        attrs: { type: "text", name: "username" },
-        domProps: { value: _vm.username },
-        on: {
-          input: function($event) {
-            if ($event.target.composing) {
-              return
+          attrs: { autocomplete: "off" },
+          on: {
+            submit: function($event) {
+              $event.preventDefault()
+              return _vm.loginController($event)
             }
-            _vm.username = $event.target.value
           }
-        }
-      }),
-      _vm._v(" "),
-      _c("span", { staticClass: "d-block text-danger" }, [
-        _vm._v(_vm._s(_vm.errors.first("username")))
-      ]),
-      _vm._v(" "),
-      _c(
-        "label",
-        {
-          staticClass: "text-white authentication__label",
-          attrs: { for: "password" }
         },
-        [_vm._v("Enter password:")]
-      ),
-      _vm._v(" "),
-      _c("input", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.password,
-            expression: "password"
-          },
-          {
-            name: "validate",
-            rawName: "v-validate",
-            value: _vm.rules.password,
-            expression: "rules.password"
-          }
-        ],
-        staticClass: "form-control",
-        attrs: { type: "password", name: "password" },
-        domProps: { value: _vm.password },
-        on: {
-          input: function($event) {
-            if ($event.target.composing) {
-              return
+        [
+          _c(
+            "label",
+            {
+              staticClass: "text-white authentication__label",
+              attrs: { for: "username" }
+            },
+            [_vm._v("Enter username:")]
+          ),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.username,
+                expression: "username"
+              },
+              {
+                name: "validate",
+                rawName: "v-validate",
+                value: _vm.rules.username,
+                expression: "rules.username"
+              }
+            ],
+            staticClass: "form-control",
+            attrs: { type: "text", name: "username", autocomplete: "off" },
+            domProps: { value: _vm.username },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.username = $event.target.value
+              }
             }
-            _vm.password = $event.target.value
-          }
-        }
-      }),
-      _vm._v(" "),
-      _c("span", { staticClass: "d-block text-danger" }, [
-        _vm._v(_vm._s(_vm.errors.first("password")))
-      ]),
-      _vm._v(" "),
-      _c("div", [
-        _c(
-          "button",
-          {
-            staticClass: "mt-2 mx-auto btn btn-main",
-            attrs: { disabled: _vm.errors.any() },
-            on: { click: _vm.loginController }
-          },
-          [_vm._v("Login")]
-        )
-      ])
+          }),
+          _vm._v(" "),
+          _c("span", { staticClass: "d-block text-danger" }, [
+            _vm._v(_vm._s(_vm.errors.first("username")))
+          ]),
+          _vm._v(" "),
+          _c(
+            "label",
+            {
+              staticClass: "text-white authentication__label",
+              attrs: { for: "password" }
+            },
+            [_vm._v("Enter password:")]
+          ),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.password,
+                expression: "password"
+              },
+              {
+                name: "validate",
+                rawName: "v-validate",
+                value: _vm.rules.password,
+                expression: "rules.password"
+              }
+            ],
+            staticClass: "form-control",
+            attrs: { type: "password", name: "password", autocomplete: "off" },
+            domProps: { value: _vm.password },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.password = $event.target.value
+              }
+            }
+          }),
+          _vm._v(" "),
+          _c("span", { staticClass: "d-block text-danger" }, [
+            _vm._v(_vm._s(_vm.errors.first("password")))
+          ]),
+          _vm._v(" "),
+          _c("div", [
+            _c(
+              "button",
+              {
+                staticClass: "mt-2 mx-auto btn btn-main",
+                attrs: { disabled: _vm.errors.any() }
+              },
+              [_vm._v("Login")]
+            )
+          ])
+        ]
+      )
     ])
   ])
 }
@@ -51952,181 +51992,198 @@ var render = function() {
       ]),
       _vm._v(" "),
       _c(
-        "label",
+        "form",
         {
-          staticClass: "text-white authentication__label",
-          attrs: { for: "username" }
-        },
-        [_vm._v("Enter username:")]
-      ),
-      _vm._v(" "),
-      _c("input", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.username,
-            expression: "username"
-          },
-          {
-            name: "validate",
-            rawName: "v-validate",
-            value: _vm.rules.username,
-            expression: "rules.username"
-          }
-        ],
-        staticClass: "form-control",
-        attrs: { type: "text", name: "username" },
-        domProps: { value: _vm.username },
-        on: {
-          input: function($event) {
-            if ($event.target.composing) {
-              return
+          attrs: { autocomplete: "off" },
+          on: {
+            submit: function($event) {
+              $event.preventDefault()
+              return _vm.registerController($event)
             }
-            _vm.username = $event.target.value
           }
-        }
-      }),
-      _vm._v(" "),
-      _c("span", { staticClass: "d-block text-danger" }, [
-        _vm._v(_vm._s(_vm.errors.first("username")))
-      ]),
-      _vm._v(" "),
-      _c(
-        "label",
-        {
-          staticClass: "text-white authentication__label",
-          attrs: { for: "password" }
         },
-        [_vm._v("Enter password:")]
-      ),
-      _vm._v(" "),
-      _c("input", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.password,
-            expression: "password"
-          },
-          {
-            name: "validate",
-            rawName: "v-validate",
-            value: _vm.rules.password,
-            expression: "rules.password"
-          }
-        ],
-        ref: "password",
-        staticClass: "form-control",
-        attrs: { type: "password", name: "password" },
-        domProps: { value: _vm.password },
-        on: {
-          input: function($event) {
-            if ($event.target.composing) {
-              return
+        [
+          _c(
+            "label",
+            {
+              staticClass: "text-white authentication__label",
+              attrs: { for: "username" }
+            },
+            [_vm._v("Enter username:")]
+          ),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.username,
+                expression: "username"
+              },
+              {
+                name: "validate",
+                rawName: "v-validate",
+                value: _vm.rules.username,
+                expression: "rules.username"
+              }
+            ],
+            staticClass: "form-control",
+            attrs: { type: "text", name: "username", autocomplete: "off" },
+            domProps: { value: _vm.username },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.username = $event.target.value
+              }
             }
-            _vm.password = $event.target.value
-          }
-        }
-      }),
-      _vm._v(" "),
-      _c("span", { staticClass: "d-block text-danger" }, [
-        _vm._v(_vm._s(_vm.errors.first("password")))
-      ]),
-      _vm._v(" "),
-      _c(
-        "label",
-        {
-          staticClass: "text-white authentication__label",
-          attrs: { for: "passwordConfirm" }
-        },
-        [_vm._v("Confirm password:")]
-      ),
-      _vm._v(" "),
-      _c("input", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.passwordConfirm,
-            expression: "passwordConfirm"
-          },
-          {
-            name: "validate",
-            rawName: "v-validate",
-            value: _vm.rules.passwordConfirm,
-            expression: "rules.passwordConfirm"
-          }
-        ],
-        staticClass: "form-control",
-        attrs: { type: "password", name: "passwordConfirm" },
-        domProps: { value: _vm.passwordConfirm },
-        on: {
-          input: function($event) {
-            if ($event.target.composing) {
-              return
+          }),
+          _vm._v(" "),
+          _c("span", { staticClass: "d-block text-danger" }, [
+            _vm._v(_vm._s(_vm.errors.first("username")))
+          ]),
+          _vm._v(" "),
+          _c(
+            "label",
+            {
+              staticClass: "text-white authentication__label",
+              attrs: { for: "password" }
+            },
+            [_vm._v("Enter password:")]
+          ),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.password,
+                expression: "password"
+              },
+              {
+                name: "validate",
+                rawName: "v-validate",
+                value: _vm.rules.password,
+                expression: "rules.password"
+              }
+            ],
+            ref: "password",
+            staticClass: "form-control",
+            attrs: { type: "password", name: "password", autocomplete: "off" },
+            domProps: { value: _vm.password },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.password = $event.target.value
+              }
             }
-            _vm.passwordConfirm = $event.target.value
-          }
-        }
-      }),
-      _vm._v(" "),
-      _c("span", { staticClass: "d-block text-danger" }, [
-        _vm._v(_vm._s(_vm.errors.first("passwordConfirm")))
-      ]),
-      _vm._v(" "),
-      _c(
-        "label",
-        {
-          staticClass: "text-white authentication__label",
-          attrs: { for: "email" }
-        },
-        [_vm._v("Enter email:")]
-      ),
-      _vm._v(" "),
-      _c("input", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.email,
-            expression: "email"
-          },
-          {
-            name: "validate",
-            rawName: "v-validate",
-            value: _vm.rules.email,
-            expression: "rules.email"
-          }
-        ],
-        staticClass: "form-control",
-        attrs: { type: "email", name: "email" },
-        domProps: { value: _vm.email },
-        on: {
-          input: function($event) {
-            if ($event.target.composing) {
-              return
+          }),
+          _vm._v(" "),
+          _c("span", { staticClass: "d-block text-danger" }, [
+            _vm._v(_vm._s(_vm.errors.first("password")))
+          ]),
+          _vm._v(" "),
+          _c(
+            "label",
+            {
+              staticClass: "text-white authentication__label",
+              attrs: { for: "passwordConfirm" }
+            },
+            [_vm._v("Confirm password:")]
+          ),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.passwordConfirm,
+                expression: "passwordConfirm"
+              },
+              {
+                name: "validate",
+                rawName: "v-validate",
+                value: _vm.rules.passwordConfirm,
+                expression: "rules.passwordConfirm"
+              }
+            ],
+            staticClass: "form-control",
+            attrs: {
+              type: "password",
+              name: "passwordConfirm",
+              autocomplete: "off"
+            },
+            domProps: { value: _vm.passwordConfirm },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.passwordConfirm = $event.target.value
+              }
             }
-            _vm.email = $event.target.value
-          }
-        }
-      }),
-      _vm._v(" "),
-      _c("span", { staticClass: "d-block text-danger" }, [
-        _vm._v(_vm._s(_vm.errors.first("email")))
-      ]),
-      _vm._v(" "),
-      _c("div", [
-        _c(
-          "button",
-          {
-            staticClass: "mt-2 mx-auto btn btn-main",
-            attrs: { disabled: _vm.errors.any() },
-            on: { click: _vm.registerController }
-          },
-          [_vm._v("Register")]
-        )
-      ])
+          }),
+          _vm._v(" "),
+          _c("span", { staticClass: "d-block text-danger" }, [
+            _vm._v(_vm._s(_vm.errors.first("passwordConfirm")))
+          ]),
+          _vm._v(" "),
+          _c(
+            "label",
+            {
+              staticClass: "text-white authentication__label",
+              attrs: { for: "email" }
+            },
+            [_vm._v("Enter email:")]
+          ),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.email,
+                expression: "email"
+              },
+              {
+                name: "validate",
+                rawName: "v-validate",
+                value: _vm.rules.email,
+                expression: "rules.email"
+              }
+            ],
+            staticClass: "form-control",
+            attrs: { type: "email", name: "email", autocomplete: "off" },
+            domProps: { value: _vm.email },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.email = $event.target.value
+              }
+            }
+          }),
+          _vm._v(" "),
+          _c("span", { staticClass: "d-block text-danger" }, [
+            _vm._v(_vm._s(_vm.errors.first("email")))
+          ]),
+          _vm._v(" "),
+          _c("div", [
+            _c(
+              "button",
+              {
+                staticClass: "mt-2 mx-auto btn btn-main",
+                attrs: { disabled: _vm.errors.any() }
+              },
+              [_vm._v("Register")]
+            )
+          ])
+        ]
+      )
     ])
   ])
 }
@@ -52327,7 +52384,7 @@ var render = function() {
               attrs: { disabled: _vm.disabled.half || _vm.used.half },
               on: {
                 click: function($event) {
-                  return _vm.hintController(1)
+                  return _vm.hintController("half")
                 }
               }
             },
@@ -52341,7 +52398,7 @@ var render = function() {
               attrs: { disabled: _vm.disabled.change || _vm.used.change },
               on: {
                 click: function($event) {
-                  return _vm.hintController(2)
+                  return _vm.hintController("change")
                 }
               }
             },
@@ -52355,7 +52412,7 @@ var render = function() {
               attrs: { disabled: _vm.disabled.solve || _vm.used.solve },
               on: {
                 click: function($event) {
-                  return _vm.hintController(3)
+                  return _vm.hintController("solve")
                 }
               }
             },

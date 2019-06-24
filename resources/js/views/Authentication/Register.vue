@@ -3,27 +3,50 @@
     <div class="overflow-hidden">
         <div class="animated slideInUp">
                 <h3 class="text-center text-white pt-3 heading">Register</h3>
-                <label for="username" class="text-white authentication__label" >Enter username:</label>
-                <input type="text" name="username" class="form-control" v-model="username" v-validate="rules.username">
-                <span class="d-block text-danger">{{ errors.first('username') }}</span>
+                <form v-on:submit.prevent="registerController"  autocomplete="off">
+                    <label for="username" class="text-white authentication__label" >Enter username:</label>
+                    <input type="text"
+                        name="username"
+                        class="form-control"
+                        v-model="username"
+                        v-validate="rules.username"
+                        autocomplete="off">
+                    <span class="d-block text-danger">{{ errors.first('username') }}</span>
 
-                <label for="password" class="text-white authentication__label">Enter password:</label>
-                <!-- ref IS NEEDED FOR PASSWORD CONFIRM FUNCTIONALITY -->
-                <input type="password" name="password" class="form-control" ref="password" v-model="password" v-validate="rules.password">
-                <span class="d-block text-danger">{{ errors.first('password') }}</span>
+                    <label for="password" class="text-white authentication__label">Enter password:</label>
+                    <!-- ref IS NEEDED FOR PASSWORD CONFIRM FUNCTIONALITY -->
+                    <input type="password"
+                        name="password"
+                        class="form-control"
+                        ref="password"
+                        v-model="password"
+                        v-validate="rules.password"
+                        autocomplete="off">
+                    <span class="d-block text-danger">{{ errors.first('password') }}</span>
 
-                <label for="passwordConfirm" class="text-white authentication__label">Confirm password:</label>
-                <input type="password" name="passwordConfirm" class="form-control" v-model="passwordConfirm" v-validate="rules.passwordConfirm">
-                <span class="d-block text-danger">{{ errors.first('passwordConfirm') }}</span>
+                    <label for="passwordConfirm" class="text-white authentication__label">Confirm password:</label>
+                    <input type="password"
+                        name="passwordConfirm"
+                        class="form-control"
+                        v-model="passwordConfirm"
+                        v-validate="rules.passwordConfirm"
+                        autocomplete="off">
+                    <span class="d-block text-danger">{{ errors.first('passwordConfirm') }}</span>
 
 
-                <label for="email" class="text-white authentication__label">Enter email:</label>
-                <input type="email" name="email" class="form-control" v-model="email" v-validate="rules.email">
-                <span class="d-block text-danger">{{ errors.first('email') }}</span>
+                    <label for="email" class="text-white authentication__label">Enter email:</label>
+                    <input type="email"
+                        name="email"
+                        class="form-control"
+                        v-model="email"
+                        v-validate="rules.email"
+                        autocomplete="off">
+                    <span class="d-block text-danger">{{ errors.first('email') }}</span>
 
-                <div>
-                    <button class="mt-2 mx-auto btn btn-main" @click="registerController" :disabled="errors.any()">Register</button>
-                </div>
+                    <div>
+                        <button class="mt-2 mx-auto btn btn-main" :disabled="errors.any()">Register</button>
+                    </div>
+                </form>
 
         </div>
     </div>
