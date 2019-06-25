@@ -102,15 +102,6 @@ export default {
             this.question = game.question;
         },
 
-        getQuestion(){
-            // RUN GET QUESTION REQUEST
-            this.$http.get('game/getQuestion')
-            .then(response => {
-                console.log(response);
-            })
-            .catch(error => {});
-        },
-
         startNewGame(){
             // RESET INFORMATIONS
             this.game_id = '';
@@ -143,19 +134,22 @@ export default {
                 }
             })
             .then(response => {
-                let message = response.body.message;
+                // SET REFERENCE TO THE API MESSAGE
+                this.answerStatus = response.body.status;
+                // SET REFRENCE TO GAME
                 let game = response.body.game;
-
-                if(message === 'Answer is incorrect.'){
-                    this.answerStatus = false;
-                    this.correctAnswer = game.correct_answer;
-                }
-                else{
-                    this.answerStatus = true;
+                // ANSWER IS CORRECT
+                if(this.answerStatus){
                     this.newQuestion = game.question;
                     this.score = game.score;
                     this.correctAnswer = this.answer.id;
                 }
+                // ANSWER IS INCORRECT
+                else{
+                    // SET REFERENCE TO THE CORRECT ANSWER
+                    this.correctAnswer = game.correct_answer;
+                }
+                // HANDLE RESPONSE
                 this.handleAnswerResponse();
             })
             .catch(error => {});
@@ -164,10 +158,9 @@ export default {
         handleAnswerResponse(){
             // COLOR THE ANSWER APPROPRIATELLY
             this.colorTheAnswer(this.answerStatus, this.correctAnswer);
-            // WAIT FOR 3 SECONDS
+            // WAIT FOR 3 SECONDS, FOR THE ANIMATIONS TO RUN
             // FURTHER HANDLE ANSWER RESPONSE
             setTimeout(this.handleAnswerResponseFurther,3000);
-
         },
 
         handleAnswerResponseFurther(){
@@ -251,6 +244,16 @@ export default {
             // ADD ADDITIONAL MODAL INFORMATIONS
             this.showGameModal(data.title);
         });
+        EventBus.$on('hintSwitch', data => {
+            // STOP THE TIMER
+            this.stopTheTimer();
+            // HANDLE AS CORRECT ANSWER
+            this.answerStatus = true;
+            // SET NEW QUESTION REFERENCE
+            this.newQuestion = data.question;
+            // CONTINUE GAME
+            this.handleAnswerResponseFurther();
+        })
     },
 
     beforeDestroy(){

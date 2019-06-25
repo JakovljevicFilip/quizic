@@ -34,9 +34,9 @@ export default {
     data(){
         return {
             // TIME STARTS FROM
-            timeStart: 10000,
+            timeStart: 10,
             // CURRENT TIME
-            time: 10000,
+            time: 10,
             // TOGGLE TIMER ANIMATION
             gameIsInProgress: false,
             // REFERENCE TO INTERVAL

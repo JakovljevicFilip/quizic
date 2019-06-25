@@ -37,6 +37,8 @@ export default {
         },
 
         answerTheQuestion(answer, index){
+            // SET ANSWERED QUESTION
+            this.answeredElement = this.$refs.answers[index];
             // DISABLE ANSWERS
             this.disableAnswers();
             // CALL FOR answered BUS METHOD ON Game
@@ -62,24 +64,32 @@ export default {
                 // FIND THE CORRECT ANSWER
                 this.colorTheCorrectAnswer(correctAnswer);
                 // COLOR THE INCORRECT ANSWER
-                classList.add('game-answer--incorrect');
+                this.answeredElement.classList.add('game-answer--incorrect');
             }
 
         },
 
         colorTheCorrectAnswer(correctAnswer){
+            // ITTERATE THROUGH ANSWERS
             for(let i=0; i < this.answers.length; i++){
+                // FIND THE CORRECT ANSWER
                 if(this.answers[i].id == correctAnswer){
+                    // COLOR THE CORRECT ANSWER
                     this.$refs.answers[i].classList.add('game-answer--correct');
+                    // STOP THE LOOP
                     break;
                 }
             }
         },
 
         hideIncorrectAnswers(incorrectAnswers){
+            // ITTERATE THROUGH ANSWERS
             for(let i=0; i < this.answers.length; i++){
+                // ITTERATE THROUGH THE PROVIDED INCORRECT ANSWERS
                 for(let y in incorrectAnswers){
+                    // ANSWER IS CONFIRMED AS INCORRECT
                     if(this.answers[i].id == incorrectAnswers[y].id){
+                        // HIDE THE ANSWER
                         this.$refs.answers[i].classList.add('d-none');
                     }
                 }

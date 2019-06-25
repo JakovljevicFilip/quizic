@@ -7,7 +7,7 @@
         </button>
 
         <!-- CHANGE -->
-        <button class="btn-hint mr-5" @click="hintController('change')" :disabled="disabled.change || used.change">
+        <button class="btn-hint mr-5" @click="hintController('switch')" :disabled="disabled.switch || used.switch">
             <i class="fas fa-exchange-alt"></i>
         </button>
 
@@ -28,13 +28,13 @@ export default {
         return {
             disabled: {
                 half: true,
-                change: true,
+                switch: true,
                 solve: true,
             },
 
             used: {
                 half: false,
-                change: false,
+                switch: false,
                 solve: false,
             },
         }
@@ -47,6 +47,18 @@ export default {
             this.used[hint] = true;
             // CALL HINT METHOD
             this.useHint(hint);
+        },
+
+        enableHints(){
+            this.disabled.half = false;
+            this.disabled.switch = false;
+            this.disabled.solve = false;
+        },
+
+        disableHints(){
+            this.disabled.half = true;
+            this.disabled.switch = true;
+            this.disabled.solve = true;
         },
 
         useHint(hint){
@@ -66,6 +78,9 @@ export default {
                 else if(hint === 'solve'){
                     this.handleSolve(response.body.answer);
                 }
+                else if(hint === 'switch'){
+                    this.handleSwitch(response.body.game.question);
+                }
             })
             .catch(error => {});
         },
@@ -81,17 +96,11 @@ export default {
             EventBus.$emit('answered', answer);
         },
 
-        enableHints(){
-            this.disabled.half = false;
-            this.disabled.change = false;
-            this.disabled.solve = false;
-        },
-
-        disableHints(){
-            this.disabled.half = true;
-            this.disabled.change = true;
-            this.disabled.solve = true;
-        },
+        handleSwitch(question){
+            EventBus.$emit('hintSwitch', {
+                question: question
+            });
+        }
     },
 
     created(){

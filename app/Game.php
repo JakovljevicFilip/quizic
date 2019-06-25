@@ -33,11 +33,15 @@ class Game extends Model
     private $correctAnswerId;
     // API RESPONSE MESSAGE
     private $message;
+    // GAME SHOULD CONTINUE/END
+    private $status;
 
 
     public function startGame(){
         // SET GAME INFO
         $this->setGameInfo();
+        // INCREMENT SCORE
+        $this->incrementScore();
         // CONTINUE GAME SETUP
         return $this->continueGame();
     }
@@ -61,8 +65,8 @@ class Game extends Model
     }
 
     private function continueGame(){
-        // INCREMENT SCORE
-        $this->incrementScore();
+        // GAME CONTINUES
+        $this->setStatus(true);
         // GET QUESTION
         $this->getQuestion();
         // SET QUESTION VALUES IN GAME ARRAY
@@ -73,6 +77,11 @@ class Game extends Model
         $this->saveGame();
         // FRONT-END OUTPUT
         return $this->outputStart();
+    }
+
+    private function setStatus($status){
+        // SET STATUS
+        $this->status = $status;
     }
 
     private function incrementScore(){
@@ -177,6 +186,7 @@ class Game extends Model
         return [
             'message' => $this->message,
             'write' => false,
+            'status' => $this->status,
             'game' => [
                 'game_id' => $this->game_id,
                 'username' => $this->game['username'],
@@ -191,22 +201,26 @@ class Game extends Model
         if(! $this->checkIfAnswerIsCorrect($answer_id)){
             // GAME ENDS
             $this->endGame();
+            // GAME SHOULD END
+            $this->setStatus(false);
             // RESPONSE
             return [
                 'message' => 'Answer is incorrect.',
                 'write' => false,
+                'status' => $this->status,
                 'game' => [
                     'correct_answer' => $this->correctAnswerId,
                 ],
             ];
         }
-
-        else{
-            $this->game = $this;
-            $this->game->game_id = $this->hash;
-            $this->message = 'Answer is correct.';
-        }
-
+        // SET REFERENCE TO THE GAME OBJECT
+        $this->game = $this;
+        // SET GAME ID
+        $this->game->game_id = $this->hash;
+        // SET FRONT-END MESSAGE
+        $this->message = 'Answer is correct.';
+        // INCREMENT SCORE
+        $this->incrementScore();
         // CONTINUE GAME
         return $this->continueGame();
     }
@@ -228,7 +242,7 @@ class Game extends Model
 
     public function half(){
         // SET HINT AS USED
-        $this->setHintAsUsed(2);
+        $this->setHintAsUsed(1);
 
         // GET TWO INCORRECT ANSWERS
         $incorrectAnswers = $this->getTwoIncorrectAnswers();
@@ -267,6 +281,8 @@ class Game extends Model
 
     public function solve(){
         $correctAnswer = $this->getTheCorrectAnswer();
+        // SET HINT AS USED
+        $this->setHintAsUsed(3);
 
         // HINT RESPONSE
         return [
@@ -277,6 +293,20 @@ class Game extends Model
     }
 
     private function getTheCorrectAnswer(){
+        // FIND THE CORRECT ANSWER FOR THE QUESTION
         return Answer::where('question_id', $this->question_id)->where('status', 1)->first();
+    }
+
+    public function switch(){
+        // SET HINT AS USED
+        $this->setHintAsUsed(2);
+        // SET GAME REFERENCE
+        $this->game = $this;
+        // SET GAME ID
+        $this->game->game_id = $this->hash;
+        // SET MESSAGE
+        $this->message = 'Hint switch has been used.';
+        // CONTINUE GAME
+        return $this->continueGame();
     }
 }
