@@ -253,7 +253,7 @@ export default {
             this.newQuestion = data.question;
             // CONTINUE GAME
             this.handleAnswerResponseFurther();
-        })
+        });
     },
 
     beforeDestroy(){

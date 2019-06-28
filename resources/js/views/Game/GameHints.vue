@@ -37,6 +37,8 @@ export default {
                 switch: false,
                 solve: false,
             },
+
+            hint: {},
         }
     },
     methods: {
@@ -71,34 +73,35 @@ export default {
                 }
             })
             .then(response =>{
+                this.hint = response.body.hint;
+
                 if(hint === 'half'){
-                    let incorrectAnswers = response.body.incorrectAnswers;
-                    this.handlehalf(response.body.incorrectAnswers);
+                    this.handlehalf();
                 }
                 else if(hint === 'solve'){
-                    this.handleSolve(response.body.answer);
+                    this.handleSolve();
                 }
                 else if(hint === 'switch'){
-                    this.handleSwitch(response.body.game.question);
+                    this.handleSwitch();
                 }
             })
             .catch(error => {});
         },
 
-        handlehalf(incorrectAnswers){
+        handlehalf(){
             EventBus.$emit('hintHalf', {
-                incorrectAnswers: incorrectAnswers,
+                incorrectAnswers: this.hint,
             });
         },
 
-        handleSolve(answer){
+        handleSolve(){
             EventBus.$emit('disableAnswers');
-            EventBus.$emit('answered', answer);
+            EventBus.$emit('answered', this.hint);
         },
 
-        handleSwitch(question){
+        handleSwitch(){
             EventBus.$emit('hintSwitch', {
-                question: question
+                question: this.hint
             });
         }
     },

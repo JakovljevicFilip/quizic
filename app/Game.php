@@ -240,73 +240,18 @@ class Game extends Model
         $this->delete();
     }
 
-    public function half(){
-        // SET HINT AS USED
-        $this->setHintAsUsed(1);
-
-        // GET TWO INCORRECT ANSWERS
-        $incorrectAnswers = $this->getTwoIncorrectAnswers();
-
-        // HINT RESPONSE
-        return [
-            'message' => 'Hint half has been used.',
-            'write' => false,
-            'incorrectAnswers' => $incorrectAnswers,
-        ];
-    }
-
-    private function setHintAsUsed($hint_id){
-        // FIND HINT
-        $hint = Hint::find($hint_id);
-        // SET HINT AS USED
-        $this->hints()->save($hint);
-    }
-
-    private function getTwoIncorrectAnswers(){
-        // GET IDS
-        return Answer::select('id')
-            // FOR CURRENT QUESTION
-            ->where('question_id', $this->question_id)
-            // THAT ARE INCORRECT
-            ->where('status', 0)
-            // SHUFFLE RESULTS
-            ->inRandomOrder()
-            // LIMIT NUMBER OF RESULTS TO 2
-            ->limit(2)
-            // GET
-            ->get()
-            // CONVERT RESULTS TO ARRAY
-            ->toArray();
-    }
-
-    public function solve(){
-        $correctAnswer = $this->getTheCorrectAnswer();
-        // SET HINT AS USED
-        $this->setHintAsUsed(3);
-
-        // HINT RESPONSE
-        return [
-            'message' => 'Hint solve has been used.',
-            'write' => false,
-            'answer' => $correctAnswer,
-        ];
-    }
-
-    private function getTheCorrectAnswer(){
-        // FIND THE CORRECT ANSWER FOR THE QUESTION
-        return Answer::where('question_id', $this->question_id)->where('status', 1)->first();
-    }
-
     public function switch(){
-        // SET HINT AS USED
-        $this->setHintAsUsed(2);
         // SET GAME REFERENCE
         $this->game = $this;
-        // SET GAME ID
-        $this->game->game_id = $this->hash;
-        // SET MESSAGE
-        $this->message = 'Hint switch has been used.';
-        // CONTINUE GAME
-        return $this->continueGame();
+        // GET QUESTION
+        $this->getQuestion();
+        // SET QUESTION VALUES IN GAME ARRAY
+        $this->prepareQuestionOutput();
+        // CHANGE ORDER OF ANSWERS
+        $this->shuffleAnswers();
+        // STORE INTO SESSION
+        $this->saveGame();
+        // RETURN QUESTION
+        return $this->questionFront;
     }
 }
