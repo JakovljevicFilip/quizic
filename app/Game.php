@@ -20,14 +20,17 @@ class Game extends Model
         return $this->belongsToMany('App\Hint');
     }
 
+    protected $fillable = [
+        'hash',
+        'username',
+        'score',
+        'question_id',
+        'questions_passed'
+    ];
 
-    // STORES GAME INFORMATIONS
-    private $game_id;
-    // GAME INFORMATIONS
-    private $game;
     // TEMPORARILY STORES QUESTION
     private $question;
-    // QUESTION FOR FRONT-END
+    // QUESTION FOR THE FRONT-END
     private $questionFront;
     // USED WHEN ANSWER IS INCORRECT
     private $correctAnswerId;
@@ -48,18 +51,13 @@ class Game extends Model
 
     private function setGameInfo(){
         // MAKE GAME ID
-        $this->game_id = Str::random();
-        // MAKE NEW GAME OBJECT
-        $this->game = new Game();
-
-        // SET HASH
-        $this->game->hash = $this->game_id;
+        $this->attributes['hash'] = Str::random();
         // SET SCORE
-        $this->game->score = -1;
+        $this->attributes['score'] = -1;
         // SET USERNAME
-        $this->game->username = $this->startAs();
+        $this->attributes['username'] = $this->startAs();
         // MAKE PAST QUESTIONS ARRAY
-        $this->game->questions_passed = serialize([]);
+        $this->attributes['questions_passed'] = serialize([]);
         // SET MESSAGE
         $this->message = 'Game started.';
     }
@@ -86,39 +84,37 @@ class Game extends Model
 
     private function incrementScore(){
         // INCREMENT SCORE
-        $this->game->score++;
+        $this->attributes['score']++;
     }
 
     private function getQuestion(){
         // QUESTION DIFFICULTY
         $difficulty_id = $this->getDifficulty();
         // QUESTIONS THAT HAVE ALREADY BEEN ANSWERED
-        $questions_passed = unserialize($this->game->questions_passed);
+        $questions_passed = unserialize($this->attributes['questions_passed']);
 
         // GET QUESTION OF CERTAIN DIFFICULTY
-        $question = Question::where('difficulty_id', $difficulty_id)
-        // THAT WASN'T ALREADY ANSWERED
-        ->whereNotIn('id', $questions_passed)
-        // WITH ANSWERS
-        ->with('answers')
-        // RANDOMISE ORDER OF QUESTIONS
-        ->inRandomOrder()
-        // GET FIRST OUT OF ARRAY OF QUESTIONS
-        ->first();
+        $this->question = Question::where('difficulty_id', $difficulty_id)
+            // THAT WASN'T ALREADY ANSWERED
+            ->whereNotIn('id', $questions_passed)
+            // WITH ANSWERS
+            ->with('answers')
+            // RANDOMISE ORDER OF QUESTIONS
+            ->inRandomOrder()
+            // GET FIRST OUT OF ARRAY OF QUESTIONS
+            ->first();
 
-        // TEMPORARILY STORE QUESTION
-        $this->question = $question;
         // SET CURRENT QUESTION
-        $this->game->question_id = $question->id;
+        $this->attributes['question_id'] = $this->question->id;
         // ADD QUESTION TO THE PAST QUESTIONS ARRAY
         $questions_passed[] = $this->question->id;
         // CONVERT ARRAY TO STRING AND SET PASSED QUESTIONS
-        $this->game->questions_passed = serialize($questions_passed);
+        $this->attributes['questions_passed'] = serialize($questions_passed);
     }
 
     private function getDifficulty(){
         // CURRENT GAME SCORE
-        $score = $this->game->score;
+        $score = $this->score;
 
         if($score >= 0 && $score < 5){
             // EASY
@@ -178,20 +174,25 @@ class Game extends Model
     }
 
     private function saveGame(){
-        $this->game->save();
+        $this->save();
     }
 
     private function outputStart(){
         // OUTPUT FOR FRONT-END
         return [
+            // FRONT-END MESSAGE
             'message' => $this->message,
+            // MESSAGES SHOULDN'T BE WRITTEN
             'write' => false,
+            // GAME SHOULD CONTINUE
             'status' => $this->status,
+            // GAME INFORMATIONS
             'game' => [
-                'game_id' => $this->game_id,
-                'username' => $this->game['username'],
-                'score' => $this->game['score'],
+                'game_id' => $this->attributes['hash'],
+                'username' => $this->attributes['username'],
+                'score' => $this->attributes['score'],
                 'question' => $this->questionFront,
+                'correct_answer' => $this->correctAnswerId,
             ],
         ];
     }
@@ -203,20 +204,11 @@ class Game extends Model
             $this->endGame();
             // GAME SHOULD END
             $this->setStatus(false);
+            // SET MESSAGE
+            $this->message = 'Answer is incorrect.';
             // RESPONSE
-            return [
-                'message' => 'Answer is incorrect.',
-                'write' => false,
-                'status' => $this->status,
-                'game' => [
-                    'correct_answer' => $this->correctAnswerId,
-                ],
-            ];
+            return $this->outputStart();
         }
-        // SET REFERENCE TO THE GAME OBJECT
-        $this->game = $this;
-        // SET GAME ID
-        $this->game->game_id = $this->hash;
         // SET FRONT-END MESSAGE
         $this->message = 'Answer is correct.';
         // INCREMENT SCORE
@@ -237,12 +229,11 @@ class Game extends Model
     }
 
     private function endGame(){
+        // DELETE GAME FROM DB
         $this->delete();
     }
 
     public function switch(){
-        // SET GAME REFERENCE
-        $this->game = $this;
         // GET QUESTION
         $this->getQuestion();
         // SET QUESTION VALUES IN GAME ARRAY

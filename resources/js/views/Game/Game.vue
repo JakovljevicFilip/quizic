@@ -104,6 +104,13 @@ export default {
 
         startNewGame(){
             // RESET INFORMATIONS
+            this.resetGameInformations();
+            // RESTART THE GAME
+            this.startGame();
+        },
+
+        resetGameInformations(){
+            // SET DEFAULT VALUES
             this.game_id = '';
             this.question = {};
             this.answer = {};
@@ -112,9 +119,6 @@ export default {
             this.score = 0;
             this.newQuestion = {};
             this.correctAnswer = null;
-
-            // RESTART THE GAME
-            this.startGame();
         },
 
         answered(){
@@ -140,8 +144,11 @@ export default {
                 let game = response.body.game;
                 // ANSWER IS CORRECT
                 if(this.answerStatus){
+                    // CHANGE QUESTION
                     this.newQuestion = game.question;
+                    // CHANGE SCORE
                     this.score = game.score;
+                    // SET REFERENCE TO THE CORRECT ANSWER
                     this.correctAnswer = this.answer.id;
                 }
                 // ANSWER IS INCORRECT
