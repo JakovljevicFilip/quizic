@@ -32,7 +32,7 @@ class ValidateGameAnswerRule implements Rule
     public function passes($attribute, $value)
     {
         // GAME SESSION IS INVALID
-        if(! $this->validateSession($value['game_id'])){
+        if(! $this->validateSession($value['hash'])){
             $this->message = 'Game session is invalid. Please restart the game.';
         }
         else if(! $this->validateAnswer($value['id'])){
@@ -46,8 +46,8 @@ class ValidateGameAnswerRule implements Rule
         return false;
     }
 
-    private function validateSession($game_id){
-        $result = Game::where('hash', $game_id)->first();
+    private function validateSession($hash){
+        $result = Game::where('hash', $hash)->first();
 
         // THERE IS NO ROW IN DB WITH CERTAIN HASH VALUE
         if($result === null){

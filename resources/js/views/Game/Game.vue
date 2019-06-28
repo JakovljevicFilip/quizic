@@ -3,7 +3,7 @@
         <!-- GAME SCREEN -->
         <template v-if="questionRecieved">
             <GameLogo></GameLogo>
-            <GameHints :game_id="game_id"></GameHints>
+            <GameHints :hash="hash"></GameHints>
             <GameInfo :username="username" :score="score"></GameInfo>
             <GameTime></GameTime>
             <GameQuestion v-if="questionRecieved" :question="question" :key="question.text"></GameQuestion>
@@ -54,8 +54,8 @@ export default {
 
     data(){
         return{
-            // GAME ID USED WITH SESSION
-            game_id: '',
+            // GAME IDENTIFIER
+            hash: '',
             // QUESTION OBJECT
             question: {},
             // USERS ANSWER TO A QUESTION
@@ -63,7 +63,7 @@ export default {
             // ANSWER IS CORRECT/INCORRECT
             answerStatus: null,
             // PLAYING AS
-            username: 'guest12312',
+            username: '',
             // CORRECT QUESTIONS SO FAR
             score: 0,
             // QUESTION THAT IS YET TO BE SHOWN
@@ -96,7 +96,7 @@ export default {
         },
 
         handleNewQuestion(game){
-            this.game_id = game.game_id;
+            this.hash = game.hash;
             this.username = game.username;
             this.score = game.score;
             this.question = game.question;
@@ -111,7 +111,7 @@ export default {
 
         resetGameInformations(){
             // SET DEFAULT VALUES
-            this.game_id = '';
+            this.hash = '';
             this.question = {};
             this.answer = {};
             this.answerStatus = null;
@@ -132,7 +132,7 @@ export default {
             this.$http.get('game/answer',{
                 params: {
                     answer: {
-                        game_id: this.game_id,
+                        hash: this.hash,
                         id: this.answer.id,
                     }
                 }
@@ -227,7 +227,7 @@ export default {
             // RUN END GAME REQUEST
             this.$http.delete('game/destroy', {
                 params: {
-                    game_id: this.game_id,
+                    hash: this.hash,
                 }
             })
             .catch(error => {});

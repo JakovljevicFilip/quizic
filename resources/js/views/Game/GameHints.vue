@@ -23,7 +23,7 @@
 import {EventBus} from '../../app';
 
 export default {
-    props: ['game_id'],
+    props: ['hash'],
     data(){
         return {
             disabled: {
@@ -68,7 +68,7 @@ export default {
                 params: {
                     hint: {
                         text: hint,
-                        game_id: this.game_id,
+                        hash: this.hash,
                     }
                 }
             })

@@ -23,7 +23,7 @@ class GameController extends Controller
 
     public function answer(GameAnswerRequest $request){
         // FIND GAME
-        $game = $this->findGame($request->answer['game_id']);
+        $game = $this->findGame($request->answer['hash']);
 
         // RETURN RESPONSE
         return response()->json(
@@ -34,7 +34,7 @@ class GameController extends Controller
 
     public function destroy(Request $request){
         // FIND GAME
-        $game = Game::where('hash', $request->game_id)->first();
+        $game = Game::where('hash', $request->hash)->first();
 
         // GAME EXISTS
         if($game !== null){
@@ -51,12 +51,12 @@ class GameController extends Controller
 
     public function hint(GameHintRequest $request){
         // GET THE GAME ID
-        $game_id = $request->hint['game_id'];
+        $hash = $request->hint['hash'];
         // GET THE HINT TEXT
         $hintText = $request->hint['text'];
 
         // FIND GAME
-        $game = $this->findGame($game_id);
+        $game = $this->findGame($hash);
         // FIND HINT
         $hint = Hint::where('text', $hintText)->first();
 
@@ -68,7 +68,7 @@ class GameController extends Controller
 
     }
 
-    private function findGame($game_id){
-        return Game::where('hash', $game_id)->first();
+    private function findGame($hash){
+        return Game::where('hash', $hash)->first();
     }
 }

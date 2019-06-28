@@ -188,7 +188,7 @@ class Game extends Model
             'status' => $this->status,
             // GAME INFORMATIONS
             'game' => [
-                'game_id' => $this->attributes['hash'],
+                'hash' => $this->attributes['hash'],
                 'username' => $this->attributes['username'],
                 'score' => $this->attributes['score'],
                 'question' => $this->questionFront,

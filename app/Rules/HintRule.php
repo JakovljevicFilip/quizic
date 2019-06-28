@@ -35,7 +35,7 @@ class HintRule implements Rule
     {
         // ATTEMPT TO GET GAME
         // HASH IS INVALID
-        if(! $this->game = $this->getGame($value['game_id'])){
+        if(! $this->game = $this->getGame($value['hash'])){
             // SET ERROR MESSAGE
             $this->message = 'Inavlid game hash, please restart the game.';
             // VALDIATION FAILS
@@ -60,9 +60,9 @@ class HintRule implements Rule
         return true;
     }
 
-    private function getGame($game_id){
+    private function getGame($hash){
         // DOES GAME WITH THIS HASH EXISTS
-        return Game::where('hash', $game_id)->first();
+        return Game::where('hash', $hash)->first();
     }
 
     private function getHint($text){
