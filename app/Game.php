@@ -64,7 +64,7 @@ class Game extends Model
 
     private function continueGame(){
         // GAME CONTINUES
-        $this->setStatus(true);
+        $this->status = true;
         // GET QUESTION
         $this->getQuestion();
         // SET QUESTION VALUES IN GAME ARRAY
@@ -74,12 +74,7 @@ class Game extends Model
         // STORE INTO SESSION
         $this->saveGame();
         // FRONT-END OUTPUT
-        return $this->outputStart();
-    }
-
-    private function setStatus($status){
-        // SET STATUS
-        $this->status = $status;
+        return $this->outputResponse();
     }
 
     private function incrementScore(){
@@ -177,7 +172,7 @@ class Game extends Model
         $this->save();
     }
 
-    private function outputStart(){
+    private function outputResponse(){
         // OUTPUT FOR FRONT-END
         return [
             // FRONT-END MESSAGE
@@ -198,23 +193,44 @@ class Game extends Model
     }
 
     public function validateAnswer($answer_id){
-        // ANSWER IS INCORRECT
-        if(! $this->checkIfAnswerIsCorrect($answer_id)){
-            // GAME ENDS
-            $this->endGame();
-            // GAME SHOULD END
-            $this->setStatus(false);
-            // SET MESSAGE
-            $this->message = 'Answer is incorrect.';
-            // RESPONSE
-            return $this->outputStart();
+        // TIME'S ALRIGHT
+        if(! $this->timeIsUp()){
+            // ANSWER IS INCORRECT
+            if(! $this->checkIfAnswerIsCorrect($answer_id)){
+                // PREPARE INCORRECT ANSWER OUTPUT
+                return $this->handleIncorrectAnswer();
+            }
+            // ANSWER IS CORRECT
+            // SET FRONT-END MESSAGE
+            $this->message = 'Answer is correct.';
+            // INCREMENT SCORE
+            $this->incrementScore();
+            // CONTINUE GAME
+            return $this->continueGame();
         }
-        // SET FRONT-END MESSAGE
-        $this->message = 'Answer is correct.';
-        // INCREMENT SCORE
-        $this->incrementScore();
-        // CONTINUE GAME
-        return $this->continueGame();
+        // TIME'S UP
+        return outputResponse();
+    }
+
+    private function timeIsUp(){
+        // TIME GAME WAS LAST UPDATED
+        $timeStart = Carbon::parse($this->updated_at);
+        // CURRENT TIME
+        $now = Carbon::now();
+        // DIFFERENCE BETWEEN TWO TIMES
+        $difference = $timeStart->diffInSeconds($now);
+
+        // TIME'S UP
+        if($difference > 20){
+            // SET MESSAGE
+            $this->message = 'Time\'s up!';
+            // GAME SHOULD END
+            $this->status = false;
+            // TIME'S UP
+            return true;
+        }
+        // TIME'S ALRIGHT
+        return false;
     }
 
     private function checkIfAnswerIsCorrect($answer_id){
@@ -226,6 +242,17 @@ class Game extends Model
         }
         // ANSWER IS INCORRECT
         return false;
+    }
+
+    private function handleIncorrectAnswer(){
+        // GAME ENDS
+        $this->endGame();
+        // GAME SHOULD END
+        $this->status = false;
+        // SET MESSAGE
+        $this->message = 'Answer is incorrect.';
+        // RESPONSE
+        return $this->outputResponse();
     }
 
     private function endGame(){

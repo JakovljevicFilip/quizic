@@ -265,6 +265,7 @@ export default {
 
     beforeDestroy(){
         EventBus.$off('answered');
+        EventBus.$off('startNewGame');
         // REMOVE GAME FROM DB
         this.endGame();
     },
