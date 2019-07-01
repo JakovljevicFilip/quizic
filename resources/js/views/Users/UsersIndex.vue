@@ -1,13 +1,13 @@
 <template>
 <div class="h-100">
+    <!-- HIDE USERS CONTATINER IF THERE ARE NO USERS -->
     <div class="visible h-100 d-flex flex-column p-3" v-if="users.length !== 0">
 
         <div class="text-center my-3">
             <img src="/img/logo.png" alt="logo" class="logo--height">
         </div>
 
-        <!-- HIDE USERS CONTATINER IF THERE ARE NO USERS -->
-        <div v-if="users.length !== 0" class="text-white lead flex-grow-1 container-index--outer container-index__scroll">
+        <div class="text-white lead flex-grow-1 container-index--outer container-index__scroll">
 
             <UsersNavigation></UsersNavigation>
 

@@ -20350,6 +20350,12 @@ readers do not read off random characters that represent icons */
   overflow-x: hidden;
 }
 
+.container-index__highscores {
+  height: 65vh;
+  overflow: auto;
+  overflow-x: hidden;
+}
+
 .container-game--transparent {
   box-shadow: -5px 6px 24px 14px rgba(0, 0, 0, 0.75);
   padding: 40px 80px;

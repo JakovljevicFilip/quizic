@@ -67,6 +67,12 @@
             overflow: auto;
             overflow-x: hidden;
         }
+
+        &__highscores{
+            height: 65vh;
+            overflow: auto;
+            overflow-x: hidden;
+        }
     }
 
     &-game--transparent{

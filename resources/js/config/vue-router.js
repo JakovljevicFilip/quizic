@@ -21,6 +21,9 @@ import UsersIndex from '../views/Users/UsersIndex';
 // GAME
 import Game from '../views/Game/Game';
 
+// HIGHSCORES
+import HighscoresIndex from '../views/Highscores/HighscoresIndex';
+
 // ERROR
 import ErrorPage from '../views/Error/ErrorPage';
 
@@ -125,6 +128,16 @@ const router = new VueRouter({
             path: '/game',
             name: 'game',
             component: Game,
+        },
+
+        // HIGHSCORES
+        {
+            path: '/highscores',
+            name: 'highscores',
+            component: HighscoresIndex,
+            meta:{
+                auth: true
+            }
         },
 
         // ERROR
