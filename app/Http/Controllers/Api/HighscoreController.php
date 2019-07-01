@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -16,72 +16,14 @@ class HighscoreController extends Controller
      */
     public function index()
     {
-        //
-    }
+        // GET HIGHSCORES
+        $highscores = Highscore::orderBy('score', 'desc')->orderBy('id', 'asc')->get();
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Highscore  $highscore
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Highscore $highscore)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Highscore  $highscore
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Highscore $highscore)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Highscore  $highscore
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Highscore $highscore)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Highscore  $highscore
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Highscore $highscore)
-    {
-        //
+        // RETURN RESPONSE
+        return response()->json([
+            'message' => 'Highscores fetched.',
+            'write' => false,
+            'highscores' => $highscores,
+        ],200);
     }
 }

@@ -14,6 +14,8 @@ use Illuminate\Http\Request;
 */
 
 Route::namespace('Api')->group(function(){
+    // HIGHSCORES
+    Route::get('highscores', 'HighscoreController@index');
 
     // AUTHENTFICATION
     Route::prefix('auth')->group(function(){
@@ -40,6 +42,8 @@ Route::namespace('Api')->group(function(){
     Route::group(['middleware'=>'isAdminOrSelf'],function(){
         // USERS
         Route::patch('users/password','UserController@changePassword');
+        // // HIGHSCORES
+        // Route::get('highscores', 'HighscoreController@index');
     });
 
     // ADMIN
