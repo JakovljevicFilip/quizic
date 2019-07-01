@@ -81,6 +81,8 @@ export default {
                 html: '',
                 origin: 'showGameModal',
             },
+            // API MESSAGE
+            apiMessage: '',
         }
     },
 
@@ -140,6 +142,9 @@ export default {
             .then(response => {
                 // SET REFERENCE TO THE API MESSAGE
                 this.answerStatus = response.body.status;
+                // GET API MESSAGE
+                this.apiMessage = response.body.message;
+
                 // SET REFRENCE TO GAME
                 let game = response.body.game;
                 // ANSWER IS CORRECT
@@ -181,7 +186,7 @@ export default {
             // ANSWER IS INCORRECT
             else{
                 // RUN showModal BUS METHOD ON Modal
-                EventBus.$emit('showModal',this.showGameModal('Your answer was incorrect!'));
+                EventBus.$emit('showModal',this.showGameModal());
             }
         },
 
@@ -206,7 +211,7 @@ export default {
 
         showGameModal(title){
             // SET NEW MODAL TITLE
-            this.modalInformations.title = title;
+            this.modalInformations.title = this.apiMessage;
 
             // SET MODAL html
             this.modalInformations.html = 'Playing as: <strong>'+this.username+'</strong><br>Your score: <strong>'+this.score+'</strong>';
@@ -215,7 +220,7 @@ export default {
             EventBus.$emit('showModal',this.modalInformations);
 
             // RESET MODAL TITLE
-            this.modalInformations.title = 'Your answer was incorrect!';
+            this.modalInformations.title = '';
         },
 
         goBack(){

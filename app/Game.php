@@ -11,6 +11,7 @@ use Session;
 use App\Question;
 use App\Answer;
 use App\Hint;
+use App\Highscore;
 
 class Game extends Model
 {
@@ -193,23 +194,23 @@ class Game extends Model
     }
 
     public function validateAnswer($answer_id){
-        // TIME'S ALRIGHT
-        if(! $this->timeIsUp()){
-            // ANSWER IS INCORRECT
-            if(! $this->checkIfAnswerIsCorrect($answer_id)){
-                // PREPARE INCORRECT ANSWER OUTPUT
-                return $this->handleIncorrectAnswer();
-            }
-            // ANSWER IS CORRECT
-            // SET FRONT-END MESSAGE
-            $this->message = 'Answer is correct.';
-            // INCREMENT SCORE
-            $this->incrementScore();
-            // CONTINUE GAME
-            return $this->continueGame();
-        }
         // TIME'S UP
-        return outputResponse();
+        // OR ANSWER IS INCORRECT
+        if($this->timeIsUp() || (! $this->checkIfAnswerIsCorrect($answer_id))){
+            // CHECK IF USER MADE A HIGHSCORE
+            $this->checkHighscore();
+            // GAME ENDS
+            $this->endGame();
+            // FRONT-END RESPONSE
+            return $this->outputResponse();
+        }
+        // ANSWER IS CORRECT
+        // SET FRONT-END MESSAGE
+        $this->message = 'Answer is correct.';
+        // INCREMENT SCORE
+        $this->incrementScore();
+        // CONTINUE GAME
+        return $this->continueGame();
     }
 
     private function timeIsUp(){
@@ -240,19 +241,25 @@ class Game extends Model
         if($this->correctAnswerId == intval($answer_id)){
             return true;
         }
-        // ANSWER IS INCORRECT
-        return false;
-    }
-
-    private function handleIncorrectAnswer(){
-        // GAME ENDS
-        $this->endGame();
         // GAME SHOULD END
         $this->status = false;
         // SET MESSAGE
         $this->message = 'Answer is incorrect.';
-        // RESPONSE
-        return $this->outputResponse();
+        // ANSWER IS INCORRECT
+        return false;
+    }
+
+    private function checkHighscore(){
+        $score = $this->attributes['score'];
+        $scoreToBeat = Highscore::min('score');
+
+        if($score > $scoreToBeat){
+            $username = $this->attributes['username'];
+
+            $highscore = new Highscore();
+            $highscore->setNewHighscore($score, $username, $scoreToBeat);
+            $this->message .= '<br>You\'ve made a highscore!';
+        }
     }
 
     private function endGame(){
