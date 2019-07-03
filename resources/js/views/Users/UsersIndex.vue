@@ -2,15 +2,8 @@
 <div class="h-100">
     <!-- HIDE USERS CONTATINER IF THERE ARE NO USERS -->
     <div class="visible h-100 d-flex flex-column p-3" v-if="users.length !== 0">
-
-        <div class="text-center my-3">
-            <img src="/img/logo.png" alt="logo" class="logo--height">
-        </div>
-
         <div class="text-white lead flex-grow-1 container-index--outer container-index__scroll">
-
             <UsersNavigation></UsersNavigation>
-
             <div class="flex-grow-1">
                 <div class="container-index__users">
 
@@ -27,7 +20,6 @@
             </div>
         </div>
     </div>
-
     <Loading v-else></Loading>
 </div>
 

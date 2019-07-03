@@ -2,9 +2,6 @@
 <div class="h-100">
     <!-- HIDE QUESTIONS CONTATINER IF THERE ARE NO QUESTIONS -->
     <div class="d-flex flex-column p-3 container-index__scroll"  v-if="questions.length !== 0 ">
-        <div class="text-center my-3">
-            <img src="/img/logo.png" alt="logo" class="logo--height">
-        </div>
         <div class="d-flex justify-content-center my-3">
             <button class="btn text-center btn-main" @click="goQuestionCreate()">New Question</button>
         </div>

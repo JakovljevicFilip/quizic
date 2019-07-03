@@ -2,10 +2,6 @@
 <div class="h-100">
     <!-- CREATE QUESTION WINDOW -->
      <div class="h-100 p-3 d-flex flex-column" v-if="this.question.text !== undefined">
-        <!-- LOGO -->
-        <div class="text-center my-3">
-            <img src="/img/logo.png" alt="logo" class="logo--height">
-        </div>
         <!-- CREATE QUESTION -->
         <div class="animated slideInDown fast flex-grow-1 container h-100 d-flex justify-content-center align-items-center p-1">
             <div class="wrapper wrapper--lg">
