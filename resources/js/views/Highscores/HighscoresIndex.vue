@@ -1,10 +1,10 @@
 <template>
 <div class="h-100">
     <!-- HIDE HIGHSCORES CONTATINER IF THERE ARE NO HIGHSCORES -->
-    <div class="visible h-100 d-flex flex-column" v-if="highscores.length !== 0">
+    <div class="d-flex flex-column" v-if="highscores.length !== 0">
         <!-- HIGHSCORES -->
-        <div class="text-white lead flex-grow-1 p-3 container-index--outer container-index__scroll">
-            <div class="container-index__highscores">
+        <div class="text-white lead flex-grow-1 container-index--outer container-index__scroll">
+            <div class="pr-3 container-index__highscores">
                 <div v-for="(highscore, index) in highscores" :key="index" class="animated slideInDown">
                     <div class="lead p-2 mb-3 row wrapper">
                         <div class="col-1">{{ index+1 }}.</div>

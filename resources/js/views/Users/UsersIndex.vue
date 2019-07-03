@@ -1,12 +1,11 @@
 <template>
 <div class="h-100">
     <!-- HIDE USERS CONTATINER IF THERE ARE NO USERS -->
-    <div class="visible h-100 d-flex flex-column p-3" v-if="users.length !== 0">
+    <div class="h-100 d-flex flex-column" v-if="users.length !== 0">
         <div class="text-white lead flex-grow-1 container-index--outer container-index__scroll">
             <UsersNavigation></UsersNavigation>
             <div class="flex-grow-1">
-                <div class="container-index__users">
-
+                <div class="pr-3 container-index__users">
                     <div v-for="(user, index) in users" :key="index" class="animated slideInDown my-3 wrapper--md-and-down user-grid-show">
                         <p class="lead p-2 my-auto text-center-md user-grid__username wrapper--md-and-up">{{ user.username }}</p>
                         <UsersChangeRole :user="user"></UsersChangeRole>

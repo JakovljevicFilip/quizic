@@ -1,7 +1,7 @@
 <template>
 <div class="h-100">
     <!-- HIDE QUESTIONS CONTATINER IF THERE ARE NO QUESTIONS -->
-    <div class="d-flex flex-column p-3 container-index__scroll"  v-if="questions.length !== 0 ">
+    <div class="d-flex flex-column container-index__scroll"  v-if="questions.length !== 0 ">
         <div class="d-flex justify-content-center my-3">
             <button class="btn text-center btn-main" @click="goQuestionCreate()">New Question</button>
         </div>
@@ -10,7 +10,7 @@
         </div>
 
         <div class="flex-grow-1">
-            <div class="container-index__questions">
+            <div class="pr-3 container-index__questions">
                 <div v-for="(question, index) in questions" :key="index" class="animated slideInDown text-white  my-3 wrapper">
                     <div class="p-2 question-grid-show" v-if="questionEditId !== question.id">
                         <p class="lead my-auto question__text">{{ question.text }}</p>
