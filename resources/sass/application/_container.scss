@@ -5,14 +5,14 @@
         margin: auto;
         display: flex;
         flex-direction: column;
-        min-width: 500px;
+        min-width: 350px;
         overflow: visible;
 
     }
 
     &-main{
         flex-grow: 1;
-        min-width: 500px;
+        min-width: 350px;
     }
 
     &-menu{

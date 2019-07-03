@@ -20291,13 +20291,13 @@ readers do not read off random characters that represent icons */
   margin: auto;
   display: flex;
   flex-direction: column;
-  min-width: 500px;
+  min-width: 350px;
   overflow: visible;
 }
 
 .container-main {
   flex-grow: 1;
-  min-width: 500px;
+  min-width: 350px;
 }
 
 .container-menu {
@@ -20307,7 +20307,7 @@ readers do not read off random characters that represent icons */
   transition: all 0.1s ease-in-out;
 }
 
-@media (min-width: 400px) {
+@media (min-width: 300px) {
   .container-menu {
     padding: 3rem;
   }
@@ -20472,7 +20472,7 @@ readers do not read off random characters that represent icons */
   display: none;
 }
 
-@media (min-width: 400px) {
+@media (min-width: 300px) {
   .screen-sm-show {
     display: none;
   }
@@ -20565,7 +20565,7 @@ readers do not read off random characters that represent icons */
   background-repeat: no-repeat;
   background-position: center;
   overflow-x: hidden;
-  min-width: 500px;
+  min-width: 350px;
 }
 
 .authentication__label {
@@ -20834,5 +20834,14 @@ readers do not read off random characters that represent icons */
     grid-template-columns: auto 150px 150px;
     grid-template-areas: "username status delete";
   }
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0px;
+  padding: 0px;
+  overflow-x: hidden;
 }
 
