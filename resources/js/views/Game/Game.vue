@@ -5,7 +5,7 @@
             <GameLogo></GameLogo>
             <GameHints :hash="hash"></GameHints>
             <GameInfo :username="username" :score="score"></GameInfo>
-            <GameTime></GameTime>
+            <GameTime :score="score"></GameTime>
             <GameQuestion v-if="questionRecieved" :question="question" :key="question.text"></GameQuestion>
         </template>
         <!-- LOADING SCREEN -->

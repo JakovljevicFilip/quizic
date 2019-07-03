@@ -1,10 +1,8 @@
 .screen{
     &-sm-show{
-        @include atSmall{
-            display: block;
-        }
+        display: none;
 
-        @include atMedium{
+        @include atSmall{
             display: none;
         }
     }
@@ -24,6 +22,14 @@
 
         @include atLarge{
             display: block;
+        }
+    }
+
+    &-lg-hide{
+        display: block;
+
+        @include atLarge{
+            display: none;
         }
     }
 }

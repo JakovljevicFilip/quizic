@@ -20468,13 +20468,11 @@ readers do not read off random characters that represent icons */
           animation-delay: 0.2s;
 }
 
-@media (min-width: 400px) {
-  .screen-sm-show {
-    display: block;
-  }
+.screen-sm-show {
+  display: none;
 }
 
-@media (min-width: 600px) {
+@media (min-width: 400px) {
   .screen-sm-show {
     display: none;
   }
@@ -20497,6 +20495,16 @@ readers do not read off random characters that represent icons */
 @media (min-width: 800px) {
   .screen-lg-show {
     display: block;
+  }
+}
+
+.screen-lg-hide {
+  display: block;
+}
+
+@media (min-width: 800px) {
+  .screen-lg-hide {
+    display: none;
   }
 }
 

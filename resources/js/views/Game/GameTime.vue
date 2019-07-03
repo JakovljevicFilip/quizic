@@ -12,6 +12,10 @@
             <div class="bounce3"></div>
         </div>
     </div>
+    <!-- SCORE -->
+    <div class="screen-lg-hide lead text-white">
+        Score: {{score}}
+    </div>
 </div>
 </template>
 
