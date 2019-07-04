@@ -20351,7 +20351,7 @@ readers do not read off random characters that represent icons */
 }
 
 .container-index__highscores {
-  height: 70vh;
+  height: 60vh;
   overflow: auto;
   overflow-x: hidden;
 }
