@@ -12,9 +12,12 @@
             <div class="bounce3"></div>
         </div>
     </div>
-    <!-- SCORE -->
+    <!-- INFORMATIONS -->
     <div class="screen-lg-hide lead text-white">
-        Score: {{score}}
+        <!-- SCORE -->
+        <div>Score: {{score}}</div>
+        <!-- USERNAME -->
+        <div>Playing as: {{username}}</div>
     </div>
 </div>
 </template>

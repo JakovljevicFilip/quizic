@@ -5,7 +5,7 @@
             <GameLogo></GameLogo>
             <GameHints :hash="hash"></GameHints>
             <GameInfo :username="username" :score="score"></GameInfo>
-            <GameTime :score="score"></GameTime>
+            <GameTime :score="score" :username="username"></GameTime>
             <GameQuestion v-if="questionRecieved" :question="question" :key="question.text"></GameQuestion>
         </template>
         <!-- LOADING SCREEN -->
@@ -185,8 +185,8 @@ export default {
             }
             // ANSWER IS INCORRECT
             else{
-                // RUN showModal BUS METHOD ON Modal
-                EventBus.$emit('showModal',this.showGameModal());
+                // sHOW MODAL
+                this.showGameModal();
             }
         },
 
@@ -209,7 +209,7 @@ export default {
             });
         },
 
-        showGameModal(title){
+        showGameModal(){
             // SET NEW MODAL TITLE
             this.modalInformations.title = this.apiMessage;
 
@@ -253,8 +253,10 @@ export default {
             this.answered();
         });
         EventBus.$on('showGameModal',data => {
+            // SET API MESSAGE
+            this.apiMessage = data.title;
             // ADD ADDITIONAL MODAL INFORMATIONS
-            this.showGameModal(data.title);
+            this.showGameModal();
         });
         EventBus.$on('hintSwitch', data => {
             // STOP THE TIMER

@@ -45,6 +45,7 @@ export default {
         },
 
         showModal(){
+            console.log(this.swalTimeIsUpConfig);
             // RUN MODAL
             this.$swal(this.swalTimeIsUpConfig)
             .then(response => {
@@ -63,6 +64,7 @@ export default {
 
     created(){
         EventBus.$on('gameModal', data => {
+            console.log(data);
             // SET MODAL INFO
             this.setModalInfo(data.title);
             // SHOW MODAL
