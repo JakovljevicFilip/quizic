@@ -23,6 +23,6 @@ class Highscore extends Model
 
     private function deleteLowestScore($scoreToBeat){
         $lowestScore = Highscore::where('score', $scoreToBeat)->orderBy('id', 'desc')->first();
-        //$lowestScore->delete();
+        $lowestScore->delete();
     }
 }
