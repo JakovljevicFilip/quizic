@@ -72,19 +72,40 @@ class AuthController extends Controller
     // VERIFIES TOKEN ON PAGE REFRESH
     // EXTENDS EXSISTING TOKEN
 	public function refresh(){
-        // REFRESH TOKEN
-        $newToken = auth()->refresh();
-        // SEND NEW TOKEN
+        if($this->checkIfTokenExipred()){
+            // REFRESH TOKEN
+            $newToken = auth()->refresh();
+            // SEND NEW TOKEN
+            return response()->json([
+                'title' => 'Token',
+                'message' => 'Token extended.',
+                'write' => false,
+            ],200)->header('Authorization',$newToken);
+        }
+        // TOKEN HAS EXPIRED
         return response()->json([
             'title' => 'Token',
-            'message' => 'Token extended.',
+            'message' => 'Token expired.',
             'write' => false,
-        ],200)->header('Authorization',$newToken);
+        ],401);
 	}
 
 	// SHORTHAND
 	private function guard(){
 		return Auth::guard();
-	}
+    }
 
+    private function checkIfTokenExipred(){
+        // TOKEN EXPIRY
+        $tokenExpiry = auth()->getPayload()->get('exp');
+        $tokenExpiry = Carbon::createFromTimestamp($tokenExpiry);
+        // CURRENT TIME
+        $now = Carbon::now();
+
+        // DIFFERENCE BETWEEN TWO TIMES
+        $difference = $tokenExpiry->diffInSeconds($now);
+
+        // TOKEN HAS NOT YET EXPIRED
+        return $difference > 0;
+    }
 }
