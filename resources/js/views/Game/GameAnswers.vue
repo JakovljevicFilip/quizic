@@ -72,6 +72,7 @@ export default {
         colorTheCorrectAnswer(correctAnswer){
             // ITTERATE THROUGH ANSWERS
             for(let i=0; i < this.answers.length; i++){
+                // console.log(this.$refs.answers, this.$refs.answers[i], i ,correctAnswer);
                 // FIND THE CORRECT ANSWER
                 if(this.answers[i].id == correctAnswer){
                     // COLOR THE CORRECT ANSWER
@@ -109,8 +110,6 @@ export default {
             EventBus.$emit('enableHints');
         }, 10000);
 
-
-        EventBus.$on('showAnswers', this.showAnswers);
         EventBus.$on('colorTheAnswer', data => {
             this.colorTheAnswer(data.status, data.correctAnswer);
         });
