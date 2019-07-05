@@ -222,7 +222,7 @@ class Game extends Model
         $difference = $timeStart->diffInSeconds($now);
 
         // TIME'S UP
-        if($difference > 20){
+        if($difference > 25){
             // SET MESSAGE
             $this->message = 'Time\'s up!';
             // GAME SHOULD END
