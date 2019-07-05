@@ -11,6 +11,7 @@ use App\Answer;
 use App\Difficulty;
 use App\Http\Requests\QuestionStoreRequest;
 use App\Http\Requests\QuestionUpdateRequest;
+use App\Http\Requests\QuestionDestroyRequest;
 
 class QuestionController extends Controller
 {
@@ -77,8 +78,9 @@ class QuestionController extends Controller
      * @param  \App\Question  $question
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request)
+    public function destroy(QuestionDestroyRequest $request)
     {
+        dd(1);
         $question = Question::findOrFail($request->id);
         $question->delete();
         return response()->json([

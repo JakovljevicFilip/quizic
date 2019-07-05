@@ -30,7 +30,11 @@ export default {
 
         questionDelete(){
             // RUN DELETE REQUEST
-            this.$http.delete('questions/'+this.question.id)
+            this.$http.delete('questions',{
+                params:{
+                    'id': this.question.id
+                }
+            })
             .then(response => {
                 // RUN reloadQuestions BUS METHOD ON QuestionsIndex
                 EventBus.$emit('reloadQuestions');

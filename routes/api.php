@@ -52,7 +52,7 @@ Route::namespace('Api')->group(function(){
         Route::get('questions','QuestionController@index');
         Route::post('questions','QuestionController@store');
         Route::put('questions','QuestionController@update');
-        Route::delete('questions/{id}','QuestionController@destroy');
+        Route::delete('questions','QuestionController@destroy');
 
         // USERS
         Route::get('users','UserController@index');
