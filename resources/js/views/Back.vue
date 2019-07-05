@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="text-white text-center" v-if="show">
-            <i class="fas fa-long-arrow-alt-left icon icon__back" @click="goBack" alt="back"></i>
+            <i class="fas fa-long-arrow-alt-left icon icon__back" @click="goBack" v-tooltip.top="'Go back'"></i>
         </div>
     </div>
 </template>

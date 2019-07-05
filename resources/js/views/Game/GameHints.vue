@@ -2,17 +2,17 @@
 <div class="d-flex justify-content-center animated slideInDown container-game--transparent game-hints">
     <div class="container-hint d-flex justify-content-center">
         <!-- HALF -->
-        <button class="btn-hint mr-5" @click="hintController('half')" :disabled="disabled.half || used.half">
+        <button class="btn-hint mr-5" @click="hintController('half')" :disabled="disabled.half || used.half" v-tooltip.bottom="'Remove two incorrect answers'">
             <i class="fas fa-times"></i>
         </button>
 
         <!-- CHANGE -->
-        <button class="btn-hint mr-5" @click="hintController('switch')" :disabled="disabled.switch || used.switch">
+        <button class="btn-hint mr-5" @click="hintController('switch')" :disabled="disabled.switch || used.switch" v-tooltip.bottom="'Switch question for another one'">
             <i class="fas fa-exchange-alt"></i>
         </button>
 
         <!-- SOLVE -->
-        <button class="btn-hint" @click="hintController('solve')" :disabled="disabled.solve || used.solve">
+        <button class="btn-hint" @click="hintController('solve')" :disabled="disabled.solve || used.solve" v-tooltip.bottom="'Solve question'">
             <i class="fas fa-check"></i>
         </button>
     </div>

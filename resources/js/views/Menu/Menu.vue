@@ -18,7 +18,7 @@
         </template>
         <!-- LOGOUT -->
         <div class="text-center mt-4">
-            <i class="fas fa-power-off icon icon__logout" @click="logout"></i>
+            <i class="fas fa-power-off icon icon__logout" @click="logout" v-tooltip.bottom="'Logout'"></i>
         </div>
     </div>
 </div>

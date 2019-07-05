@@ -11,6 +11,7 @@ import VueRouter from 'vue-router';
 import VeeValidate from 'vee-validate';
 import { Validator } from 'vee-validate';
 import VueSweetalert2 from 'vue-sweetalert2';
+import VTooltip from 'v-tooltip';
 
 
 // CONFIGURATIONS
@@ -35,6 +36,8 @@ Vue.use(VeeValidate);
 Validator.localize('en', validate);
 // SweetAlert
 Vue.use(VueSweetalert2, sweetAlert2);
+// v-tooltip
+Vue.use(VTooltip);
 
 // MAIN APPLICATION PAGE
 import App from './views/App';
@@ -49,3 +52,4 @@ const app = new Vue({
   components: { App },
   router,
 });
+

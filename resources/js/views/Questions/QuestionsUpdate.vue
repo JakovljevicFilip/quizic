@@ -1,5 +1,5 @@
 <template>
-    <i class="fas fa-check icon icon__confirm mr-3"></i>
+    <i class="fas fa-check icon icon__confirm mr-3" v-tooltip.bottom="'Save changes'"></i>
 </template>
 
 <script>

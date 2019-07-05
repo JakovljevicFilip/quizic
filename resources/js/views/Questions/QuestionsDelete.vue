@@ -1,5 +1,5 @@
 <template>
-    <i class="fas fa-times icon icon__times ml-3" @click="deleteController"></i>
+    <i class="fas fa-times icon icon__times ml-3" @click="deleteController" v-tooltip.bottom="'Delete question'"></i>
 </template>
 
 <script>

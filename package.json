@@ -32,6 +32,7 @@
     "dependencies": {
         "@websanova/vue-auth": "^2.21.14-beta",
         "es6-promise": "^4.2.6",
+        "v-tooltip": "^2.0.2",
         "vee-validate": "^2.2.7"
     }
 }

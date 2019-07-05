@@ -6,7 +6,7 @@
             <button class="btn text-center btn-main" @click="goQuestionCreate()">New Question</button>
         </div>
         <div class="d-flex justify-content-center mb-3">
-            <div v-for="difficulty in difficulties" :key="difficulty.id" class="mx-3 text-center btn btn-main" :class="{'btn-main--active': difficulty.id === pagination.difficulty}" @click="changeDifficulty(difficulty.id)">{{ difficulty.text }}</div>
+            <div v-for="difficulty in difficulties" :key="difficulty.id" class="mx-3 text-center btn btn-main" :class="{'btn-main--active': difficulty.id === pagination.difficulty}" @click="changeDifficulty(difficulty.id)" v-tooltip.bottom="'Show '+difficulty.text+' questions'">{{ difficulty.text }}</div>
         </div>
 
         <div class="flex-grow-1">
@@ -15,7 +15,7 @@
                     <div class="p-2 question-grid-show" v-if="questionEditId !== question.id">
                         <p class="lead my-auto question__text">{{ question.text }}</p>
                         <div class="icon question__collapse">
-                            <i class="fas fa-angle-down" @click="questionEditId = question.id"></i>
+                            <i class="fas fa-angle-down" @click="questionEditId = question.id" v-tooltip.bottom="'Edit question'"></i>
                         </div>
                     </div>
                     <QuestionsEdit :question="question" :difficulties="difficulties" v-else></QuestionsEdit>

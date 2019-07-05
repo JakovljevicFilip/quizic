@@ -23,14 +23,14 @@
                 <!-- QUESTION ANSWERS -->
                 <div class="lead text-white ml-1 mb-0">Question answers:</div>
                 <div class="answer-grid">
-                    <div v-for="answer in question.answers" :key="answer.id" class="text-center answer" :class="{'answer--correct' : answer.status, 'answer--incorrect': !answer.status}">
+                    <div v-for="answer in question.answers" :key="answer.id" class="text-center answer" :class="{'answer--correct' : answer.status, 'answer--incorrect': !answer.status}" v-tooltip.bottom="answer.status ? 'Correct answer' : 'Incorrect answer'">
                         <input type="text" v-validate="rules.answer" name="answer" v-model="answer.text" class="text-center text-white answer__input">
                     </div>
                 </div>
 
                 <!-- SAVE QUESTION -->
                 <div class="text-center my-3">
-                    <i class="fas fa-check question-icon icon icon__confirm" @click="validate"></i>
+                    <i class="fas fa-check question-icon icon icon__confirm" @click="validate" v-tooltip.bottom="'Save question'"></i>
                 </div>
             </div>
         </div>

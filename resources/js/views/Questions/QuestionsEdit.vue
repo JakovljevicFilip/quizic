@@ -16,14 +16,14 @@
 
         <!-- EDIT VIEW TOGGLE -->
         <div class="icon question__collapse">
-            <i class="fas fa-angle-up" @click="closeEdit()"></i>
+            <i class="fas fa-angle-up" @click="closeEdit()" v-tooltip.bottom="'Close edit view'"></i>
         </div>
         <!-- QUESTION ANSWERS -->
         <div class="question__answers">
             <p class="lead text-white ml-1 mb-0">Question answers:</p>
             <!-- QUESTION ANSWER -->
             <div class="answer-grid mb-3 p-3">
-                <div v-for="answer in questionClone.answers" :key="answer.id" class="text-center answer" :class="{'answer--correct' : answer.status, 'answer--incorrect': !answer.status}" @click.self="answerStatusChange(answer)">
+                <div v-for="answer in questionClone.answers" :key="answer.id" class="text-center answer" :class="{'answer--correct' : answer.status, 'answer--incorrect': !answer.status}" @click.self="answerStatusChange(answer)" v-tooltip.bottom="answer.status ? 'Correct answer' : 'Incorrect answer'">
                     <input type="text" v-validate="rules.answer" name="answer" v-model="answer.text" class="text-center text-white answer__input">
                 </div>
             </div>
