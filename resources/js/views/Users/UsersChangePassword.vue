@@ -28,13 +28,13 @@
                     <div class="position-absolute d-flex icon__fixed-top-right" v-if="password.text !== ''">
                         <!-- SHOW -->
                         <i class="fas fa-eye m-auto icon icon__eye"
-                            alt="show"
+                            v-tooltip.bottom="'Show text'"
                             v-if="password.type === 'password'"
                             @click="password.type = 'text'">
                         </i>
                         <!-- HIDE -->
                         <i class="fas fa-eye-slash m-auto icon icon__eye"
-                            alt="hide"
+                            v-tooltip.bottom="'Hide text'"
                             v-if="password.type === 'text'"
                             @click="password.type = 'password'">
                         </i>
