@@ -15,7 +15,7 @@
 
                     <label for="password" class="text-white authentication__label">Enter password:</label>
                     <!-- ref IS NEEDED FOR PASSWORD CONFIRM FUNCTIONALITY -->
-                    <input type="password"
+                    <input type="text"
                         name="password"
                         class="form-control"
                         ref="password"
@@ -25,7 +25,7 @@
                     <span class="d-block text-danger">{{ errors.first('password') }}</span>
 
                     <label for="passwordConfirm" class="text-white authentication__label">Confirm password:</label>
-                    <input type="password"
+                    <input type="text"
                         name="passwordConfirm"
                         class="form-control"
                         v-model="passwordConfirm"
@@ -62,9 +62,9 @@
 				email:'',
 				// VEE VALIDATION, VALIDATION RULES
 				rules:{
-					username:'required|alpha_num|min:6',
+					username:'required|regex:^([A-Za-z0-9_])+$|min:8|max:20',
 					// target - CONFIRMED SHOULD LOOK AT THIS
-					password:'required|alpha_num|min:6',
+					password:'required|regex:^([A-Za-z0-9_])+$|min:8|max:20',
 					// confirmed - SHOULD HAVE THE SAME VALUE AS REF
 					passwordConfirm:'required|confirmed:password',
 					email:'required|email',

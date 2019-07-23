@@ -56,8 +56,8 @@ export default {
             passwords: {},
             // VEE VALIDATION, VALIDATION RULES
             rules:{
-                current:'required|alpha_num|min:6',
-                new:'required|alpha_num|min:6',
+                current:'required|regex:^([A-Za-z0-9_])+$|min:8|max:20',
+                new:'required|regex:^([A-Za-z0-9_])+$|min:8|max:20',
                 // confirmed - PASSWORD SHOULD MATCH VALUE OF new
                 // WORKS THROUGH ref
                 confirm:'required|confirmed:new',

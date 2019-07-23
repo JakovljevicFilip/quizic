@@ -55,6 +55,6 @@ class VerifyHashRule implements Rule
      */
     public function message()
     {
-        return 'Password is incorrect.';
+        return 'Current password is incorrect.';
     }
 }

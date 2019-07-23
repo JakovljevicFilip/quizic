@@ -34,12 +34,12 @@
 			return {
 				// FIELDS
 				username:'Administrator',
-				password:'111111',
+				password:'Quizic123',
 				// VEE VALIDATION
 				rules:{
-					username:'required|alpha_num|min:6',
+					username:'required|regex:^([A-Za-z0-9_])+$|min:8|max:20',
 					// target - CONFIRMED SHOULD LOOK AT THIS
-					password:'required|alpha_num|min:6',
+					password:'required|regex:^([A-Za-z0-9_])+$|min:8|max:20',
 				}
 			}
 		},
