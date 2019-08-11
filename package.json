@@ -10,29 +10,29 @@
         "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
     },
     "devDependencies": {
-        "@fortawesome/fontawesome-free": "^5.8.1",
-        "animate.css": "^3.7.0",
+        "@fortawesome/fontawesome-free": "^5.10.1",
+        "animate.css": "^3.7.2",
         "bootstrap": "^4.0.0",
         "browser-sync": "^2.26.7",
-        "browser-sync-webpack-plugin": "^2.0.1",
+        "browser-sync-webpack-plugin": "^2.2.2",
         "cross-env": "^5.1",
-        "jquery": "^3.2",
-        "laravel-mix": "^4.0.7",
-        "lodash": "^4.17.5",
+        "jquery": "^3.4.1",
+        "laravel-mix": "^4.1.2",
+        "lodash": "^4.17.15",
         "popper.js": "^1.12",
         "resolve-url-loader": "^2.3.1",
-        "sass": "^1.15.2",
-        "sass-loader": "^7.1.0",
+        "sass": "^1.22.9",
+        "sass-loader": "^7.2.0",
         "vue": "^2.5.17",
         "vue-resource": "^1.5.1",
-        "vue-router": "^3.0.6",
+        "vue-router": "^3.1.2",
         "vue-sweetalert2": "^1.6.4",
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
         "@websanova/vue-auth": "^2.21.14-beta",
-        "es6-promise": "^4.2.6",
+        "es6-promise": "^4.2.8",
         "v-tooltip": "^2.0.2",
-        "vee-validate": "^2.2.7"
+        "vee-validate": "^2.2.14"
     }
 }
