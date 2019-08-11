@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace Quizic;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,7 +10,7 @@ class Hint extends Model
 
     public function games()
     {
-        return $this->belongsToMany('App\Game');
+        return $this->belongsToMany('Quizic\Game');
     }
 
     // REFERENCE TO THE GAME

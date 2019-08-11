@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Rules;
+namespace Quizic\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 use Session;
-use App\Game;
-use App\Answer;
+use Quizic\Game;
+use Quizic\Answer;
 
 class ValidateGameAnswerRule implements Rule
 {

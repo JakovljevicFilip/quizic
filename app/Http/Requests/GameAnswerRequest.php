@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Requests;
+namespace Quizic\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Rules\ValidateGameAnswerRule;
+use Quizic\Rules\ValidateGameAnswerRule;
 
 class GameAnswerRequest extends FormRequest
 {

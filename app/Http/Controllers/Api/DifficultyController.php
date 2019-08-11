@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace Quizic\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use Quizic\Http\Controllers\Controller;
 
 use Validator;
-use App\Http\Requests\DifficultyStoreRequest;
-use App\Difficulty;
+use Quizic\Http\Requests\DifficultyStoreRequest;
+use Quizic\Difficulty;
 
 class DifficultyController extends Controller
 {
@@ -46,7 +46,7 @@ class DifficultyController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Difficulty  $difficulty
+     * @param  \Quizic\Difficulty  $difficulty
      * @return \Illuminate\Http\Response
      */
     public function show(Difficulty $difficulty)
@@ -63,7 +63,7 @@ class DifficultyController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Difficulty  $difficulty
+     * @param  \Quizic\Difficulty  $difficulty
      * @return \Illuminate\Http\Response
      */
     public function update(DifficultyStoreRequest $request, Difficulty $difficulty)
@@ -79,7 +79,7 @@ class DifficultyController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Difficulty  $difficulty
+     * @param  \Quizic\Difficulty  $difficulty
      * @return \Illuminate\Http\Response
      */
     public function destroy(Difficulty $difficulty)

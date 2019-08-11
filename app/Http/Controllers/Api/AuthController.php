@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace Quizic\Http\Controllers\Api;
 
 // MODELS
-use App\User;
+use Quizic\User;
 
 // CLASSES
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use Quizic\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
 // REQUEST
-use App\Http\Requests\UserRegistrationRequest;
+use Quizic\Http\Requests\UserRegistrationRequest;
 
 class AuthController extends Controller
 {

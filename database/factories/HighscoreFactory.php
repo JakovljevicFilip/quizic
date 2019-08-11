@@ -2,7 +2,7 @@
 
 /* @var $factory \Illuminate\Database\Eloquent\Factory */
 
-use App\Highscore;
+use Quizic\Highscore;
 use Faker\Generator as Faker;
 
 $factory->define(Highscore::class, function (Faker $faker) {

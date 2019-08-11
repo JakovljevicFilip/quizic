@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace Quizic\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use Quizic\Http\Controllers\Controller;
 
-use App\Game;
-use App\Hint;
-use App\Http\Requests\GameAnswerRequest;
-use App\Http\Requests\GameHintRequest;
+use Quizic\Game;
+use Quizic\Hint;
+use Quizic\Http\Requests\GameAnswerRequest;
+use Quizic\Http\Requests\GameHintRequest;
 
 
 class GameController extends Controller

@@ -1,10 +1,10 @@
 <?php
 
-namespace App;
+namespace Quizic;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Difficulty;
-use App\Answer;
+use Quizic\Difficulty;
+use Quizic\Answer;
 
 
 class Question extends Model

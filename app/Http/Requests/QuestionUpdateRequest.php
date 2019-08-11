@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Requests;
+namespace Quizic\Http\Requests;
 
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Http\FormRequest;
 
 // A CUSTOM RULE I'VE MADE TO CHECK FOR CERTAIN NUMBER OF CERTAIN VALUES
-use App\Rules\NumberOfValuesRule;
+use Quizic\Rules\NumberOfValuesRule;
 
 class QuestionUpdateRequest extends FormRequest
 {

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Rules;
+namespace Quizic\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
-use App\Game;
-use App\Hint;
+use Quizic\Game;
+use Quizic\Hint;
 
 class HintRule implements Rule
 {

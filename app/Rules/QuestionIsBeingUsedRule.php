@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Rules;
+namespace Quizic\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
-use App\Game;
+use Quizic\Game;
 
 class QuestionIsBeingUsedRule implements Rule
 {

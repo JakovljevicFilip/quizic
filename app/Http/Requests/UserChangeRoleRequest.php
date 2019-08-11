@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace Quizic\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Rules\AlteringYourselfRule;
-use App\User;
+use Quizic\Rules\AlteringYourselfRule;
+use Quizic\User;
 
 class UserChangeRoleRequest extends FormRequest
 {

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Rules;
+namespace Quizic\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
-use App\User;
+use Quizic\User;
 
 class VerifyHashRule implements Rule
 {

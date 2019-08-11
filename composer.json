@@ -34,7 +34,7 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "app/"
+            "Quizic\\": "app/"
         },
         "classmap": [
             "database/seeds",

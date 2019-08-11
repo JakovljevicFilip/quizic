@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace Quizic;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
@@ -8,17 +8,17 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Session;
 
-use App\Question;
-use App\Answer;
-use App\Hint;
-use App\Highscore;
+use Quizic\Question;
+use Quizic\Answer;
+use Quizic\Hint;
+use Quizic\Highscore;
 
 class Game extends Model
 {
 
     public function hints()
     {
-        return $this->belongsToMany('App\Hint');
+        return $this->belongsToMany('Quizic\Hint');
     }
 
     protected $fillable = [

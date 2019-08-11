@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace Quizic\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use Quizic\Http\Controllers\Controller;
 
-use App\Highscore;
+use Quizic\Highscore;
 
 class HighscoreController extends Controller
 {

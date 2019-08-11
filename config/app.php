@@ -169,11 +169,11 @@ return [
         /*
          * Application Service Providers...
          */
-        App\Providers\AppServiceProvider::class,
-        App\Providers\AuthServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class,
-        App\Providers\EventServiceProvider::class,
-        App\Providers\RouteServiceProvider::class,
+        Quizic\Providers\AppServiceProvider::class,
+        Quizic\Providers\AuthServiceProvider::class,
+        // Quizic\Providers\BroadcastServiceProvider::class,
+        Quizic\Providers\EventServiceProvider::class,
+        Quizic\Providers\RouteServiceProvider::class,
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
 
 

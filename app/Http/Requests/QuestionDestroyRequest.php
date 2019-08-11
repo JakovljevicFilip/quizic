@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Requests;
+namespace Quizic\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Rules\QuestionIsBeingUsedRule;
+use Quizic\Rules\QuestionIsBeingUsedRule;
 
 class QuestionDestroyRequest extends FormRequest
 {

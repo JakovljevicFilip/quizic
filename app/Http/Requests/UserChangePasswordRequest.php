@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Requests;
+namespace Quizic\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Rules\VerifyHashRule;
+use Quizic\Rules\VerifyHashRule;
 
 class UserChangePasswordRequest extends FormRequest
 {

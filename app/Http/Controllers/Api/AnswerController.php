@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace Quizic\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use Quizic\Http\Controllers\Controller;
 
-use App\Answer;
+use Quizic\Answer;
 
 class AnswerController extends Controller
 {
@@ -43,7 +43,7 @@ class AnswerController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Answer  $answer
+     * @param  \Quizic\Answer  $answer
      * @return \Illuminate\Http\Response
      */
     public function show(Answer $answer)
@@ -54,7 +54,7 @@ class AnswerController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Answer  $answer
+     * @param  \Quizic\Answer  $answer
      * @return \Illuminate\Http\Response
      */
     public function edit(Answer $answer)
@@ -66,7 +66,7 @@ class AnswerController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Answer  $answer
+     * @param  \Quizic\Answer  $answer
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Answer $answer)
@@ -77,7 +77,7 @@ class AnswerController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Answer  $answer
+     * @param  \Quizic\Answer  $answer
      * @return \Illuminate\Http\Response
      */
     public function destroy(Answer $answer)

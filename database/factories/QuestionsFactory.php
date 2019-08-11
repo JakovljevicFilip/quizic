@@ -2,8 +2,8 @@
 
 /* @var $factory \Illuminate\Database\Eloquent\Factory */
 
-use App\Question;
-use App\Difficulty;
+use Quizic\Question;
+use Quizic\Difficulty;
 use Faker\Generator as Faker;
 
 $factory->define(Question::class, function (Faker $faker) {

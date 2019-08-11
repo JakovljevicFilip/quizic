@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace Quizic\Http\Controllers\Api;
 
-use App\User;
+use Quizic\User;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use Quizic\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\UserChangeRoleRequest;
-use App\Http\Requests\UserChangePasswordRequest;
-use App\Http\Requests\UserDestroyRequest;
+use Quizic\Http\Requests\UserChangeRoleRequest;
+use Quizic\Http\Requests\UserChangePasswordRequest;
+use Quizic\Http\Requests\UserDestroyRequest;
 
 
 class UserController extends Controller

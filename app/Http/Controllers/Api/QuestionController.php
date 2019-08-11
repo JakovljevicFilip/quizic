@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace Quizic\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use Quizic\Http\Controllers\Controller;
 
 use Validator;
-use App\Question;
-use App\Answer;
-use App\Difficulty;
-use App\Http\Requests\QuestionStoreRequest;
-use App\Http\Requests\QuestionUpdateRequest;
-use App\Http\Requests\QuestionDestroyRequest;
+use Quizic\Question;
+use Quizic\Answer;
+use Quizic\Difficulty;
+use Quizic\Http\Requests\QuestionStoreRequest;
+use Quizic\Http\Requests\QuestionUpdateRequest;
+use Quizic\Http\Requests\QuestionDestroyRequest;
 
 class QuestionController extends Controller
 {
@@ -55,7 +55,7 @@ class QuestionController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Question  $question
+     * @param  \Quizic\Question  $question
      * @return \Illuminate\Http\Response
      */
     public function update(QuestionUpdateRequest $request)
@@ -75,7 +75,7 @@ class QuestionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Question  $question
+     * @param  \Quizic\Question  $question
      * @return \Illuminate\Http\Response
      */
     public function destroy(QuestionDestroyRequest $request)

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Requests;
+namespace Quizic\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Rules\HintRule;
+use Quizic\Rules\HintRule;
 
 class GameHintRequest extends FormRequest
 {

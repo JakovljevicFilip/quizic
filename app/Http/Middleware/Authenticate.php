@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Middleware;
+namespace Quizic\Http\Middleware;
 
 use Closure;
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
