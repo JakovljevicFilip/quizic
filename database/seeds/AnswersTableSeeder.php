@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use App\Question;
+use Quizic\Question;
 
 class AnswersTableSeeder extends Seeder
 {
