@@ -8,7 +8,7 @@ Quizić is an online quiz application built with Laravel and Vue.js. Project inc
 ```
 composer install
 php artisan key:generate
-php artisan jwt:generate
+php artisan jwt:secret
 php artisan migrate --seed
 php artisan serve
 ```
