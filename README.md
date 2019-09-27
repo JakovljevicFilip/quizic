@@ -10,6 +10,7 @@ composer install
 php artisan key:generate
 php artisan jwt:secret
 php artisan migrate --seed
+php artisan config:cache
 php artisan serve
 ```
 4. Load the homepage through the following link: [localhost:8000](localhost:8000).
