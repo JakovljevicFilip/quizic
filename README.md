@@ -3,8 +3,10 @@ Quizić is an online quiz application built with Laravel and Vue.js. Project inc
 ## How to use
 ### Setup
 1. Clone the repository with **git clone**.
-2. Copy **.env.example** file to **.env** and edit database credentials there.
-3. Run the following commands:
+2. Copy **.env.example** file to **.env**.
+3. Edit database credentials in **.env**.
+4. Create a database in **phpmyadmin** or similar. 
+5. Run the following commands:
 ```
 composer install
 php artisan key:generate
