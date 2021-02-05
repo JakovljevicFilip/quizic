@@ -56,7 +56,10 @@ export default {
                 }
                 else{
                     // GO BACK TO MENU
-                    this.$router.push('/menu').catch(error => {});
+                    this.$router.push('/menu')
+                    // HANDLE ERRORS
+                    // MEANT TO HANDLE guard navigation ERROR
+                    .catch(error => {});
                 }
             });
         }
