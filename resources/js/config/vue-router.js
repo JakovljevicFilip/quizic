@@ -65,8 +65,9 @@ const router = new VueRouter({
             path: '/menu',
             name: 'menu',
             component: Menu,
-            meta:{
-                auth: true
+            meta: {
+                // ONLY ACCESSABLE IF LOGGED IN
+                auth: true,
             }
         },
 

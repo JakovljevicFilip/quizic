@@ -227,8 +227,12 @@ export default {
         },
 
         goBack(){
+            
             // GO TO MENU
-            this.$router.push('/menu');
+            this.$router.push('/menu')
+            // MEANT TO HANDLE guard navigation ERROR
+            .catch(error => {});
+
         },
 
         endGame(){
@@ -239,6 +243,9 @@ export default {
                 }
             })
             .catch(error => {});
+
+            // TURNS OFF EVENT BUS TO PREVENT MULTIPLE REQUESTS
+            EventBus.$off('colorTheAnswer');
         },
     },
 

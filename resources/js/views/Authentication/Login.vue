@@ -102,12 +102,12 @@
 				});
 			},
 
-			// LOLGIN USER
+			// LOGIN USER
 			login(){
 				this.$auth.login({
                     params:{
-						username:this.username,
-						password:this.password.text,
+						username: this.username,
+						password: this.password.text,
 					}
                 });
             }
