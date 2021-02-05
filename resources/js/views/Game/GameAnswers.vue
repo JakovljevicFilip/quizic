@@ -37,6 +37,9 @@ export default {
         },
 
         answerTheQuestion(answer, index){
+
+            // console.log(answer, index);
+            
             // SET ANSWERED QUESTION
             this.answeredElement = this.$refs.answers[index];
             // DISABLE ANSWERS
@@ -55,18 +58,28 @@ export default {
         },
 
         colorTheAnswer(status, correctAnswer){
+            
             // ANSWER IS CORRECT
             if(status){
                 // FIND THE CORRECT ANSWER
                 this.colorTheCorrectAnswer(correctAnswer);
             }
             else{
+                // console.log(status, correctAnswer, this.answeredElement, this.answeredElement.classList);
+
                 // FIND THE CORRECT ANSWER
                 this.colorTheCorrectAnswer(correctAnswer);
                 // COLOR THE INCORRECT ANSWER
                 this.answeredElement.classList.add('game-answer--incorrect');
             }
 
+            // TURN OFF EVENT BUS
+            this.disableColorTheAnswerEventBus();
+
+        },
+
+        disableColorTheAnswerEventBus(){
+            EventBus.$off('colorTheAnswer');
         },
 
         colorTheCorrectAnswer(correctAnswer){
@@ -84,6 +97,7 @@ export default {
         },
 
         hideIncorrectAnswers(incorrectAnswers){
+
             // ITTERATE THROUGH ANSWERS
             for(let i=0; i < this.answers.length; i++){
                 // ITTERATE THROUGH THE PROVIDED INCORRECT ANSWERS
@@ -111,6 +125,7 @@ export default {
         }, 10000);
 
         EventBus.$on('colorTheAnswer', data => {
+            console.log(1);
             this.colorTheAnswer(data.status, data.correctAnswer);
         });
         EventBus.$on('hintHalf', data => {

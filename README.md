@@ -11,8 +11,8 @@ Quizić is an online quiz application built with Laravel and Vue.js. Project inc
 composer install
 php artisan key:generate
 php artisan jwt:secret
-php artisan migrate --seed
 php artisan config:cache
+php artisan migrate --seed
 php artisan serve
 ```
 4. Load the homepage through the following link: [localhost:8000](localhost:8000).
