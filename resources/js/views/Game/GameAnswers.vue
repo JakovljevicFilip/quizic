@@ -37,6 +37,8 @@ export default {
         },
 
         answerTheQuestion(answer, index){
+
+            // console.log(answer, index);
             
             // SET ANSWERED QUESTION
             this.answeredElement = this.$refs.answers[index];
@@ -116,6 +118,7 @@ export default {
         }, 10000);
 
         EventBus.$on('colorTheAnswer', data => {
+            console.log(1);
             this.colorTheAnswer(data.status, data.correctAnswer);
         });
         EventBus.$on('hintHalf', data => {

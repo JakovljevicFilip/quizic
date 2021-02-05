@@ -35,10 +35,7 @@ export default {
     methods: {
         goBack(){
             // PUSH FROM[TO]
-            this.$router.push(this.navigate[this.name])
-            // HANDLE ERRORS
-            // MEANT TO HANDLE guard navigation ERROR
-            .catch(error => {});
+            this.$router.push(this.navigate[this.name]);
         }
     },
 }

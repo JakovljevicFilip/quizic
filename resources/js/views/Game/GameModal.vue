@@ -45,7 +45,7 @@ export default {
         },
 
         showModal(){
-            
+            console.log(this.swalTimeIsUpConfig);
             // RUN MODAL
             this.$swal(this.swalTimeIsUpConfig)
             .then(response => {
@@ -56,7 +56,7 @@ export default {
                 }
                 else{
                     // GO BACK TO MENU
-                    this.$router.push('/menu').catch(error => {console.log(error)});
+                    this.$router.push('/menu');
                 }
             });
         }
