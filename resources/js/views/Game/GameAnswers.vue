@@ -73,13 +73,6 @@ export default {
                 this.answeredElement.classList.add('game-answer--incorrect');
             }
 
-            // TURN OFF EVENT BUS
-            this.disableColorTheAnswerEventBus();
-
-        },
-
-        disableColorTheAnswerEventBus(){
-            EventBus.$off('colorTheAnswer');
         },
 
         colorTheCorrectAnswer(correctAnswer){

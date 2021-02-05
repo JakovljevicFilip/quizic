@@ -185,9 +185,12 @@ export default {
             }
             // ANSWER IS INCORRECT
             else{
-                // sHOW MODAL
+                // SHOW MODAL
                 this.showGameModal();
             }
+            
+            // TURNS OFF EVENT BUS TO PREVENT MULTIPLE REQUESTS
+            EventBus.$off('colorTheAnswer');
         },
 
 
