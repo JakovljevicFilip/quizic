@@ -10,6 +10,7 @@
             <h3 class="text-center text-white mb-3 heading">Change Password</h3>
 
             <form v-on:submit.prevent="validate"  autocomplete="off">
+
                 <!-- PASSWORD INPUTS -->
                 <div class="my-3 position-relative"
                     v-for="(password, index) in passwords"
@@ -44,6 +45,7 @@
 
                 <!-- CONFIRM BUTTON -->
                 <button class="btn mx-auto btn-main">Confirm</button>
+
             </form>
         </div>
     </div>
@@ -91,7 +93,14 @@ export default {
             this.$validator.validate().then(valid => {
                 // VALIDATION PASSED
                 if (valid) {
-                    this.changePassword();
+                    // CURRENT AND NEW PASSWORD ARE DIFFERENT
+                    if( this.passwords.current.text != this.passwords.new.text){
+                        this.changePassword();
+                    }
+                    else{
+                        let message = 'Current and new password are the same.';
+                        this.$swal('Change Password', message, 'error');
+                    }
                 }
                 // VALIDATION DIDN'T PASS
                 else{

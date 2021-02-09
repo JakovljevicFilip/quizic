@@ -26,7 +26,7 @@ class UserChangePasswordRequest extends FormRequest
     {
         return [
             'password_compare' => ['required', 'min:6', new VerifyHashRule('id', 'password')],
-            'password' => 'required|min:6|confirmed',
+            'password' => 'required|min:6|confirmed|different:password_compare',
         ];
     }
 
