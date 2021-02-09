@@ -18,7 +18,7 @@ php artisan serve
 4. Load the homepage through the following link: [localhost:8000](localhost:8000).
 ### Usage
 * To log in as administrator: **Administrator** / **Quizic123**.
-* To log in as guest: **JohnDoe** / **Quizic123**.
+* To log in as guest: **JohnDoe123** / **Quizic123**.
 * Or try Quizić without logging in by clicking on the designated button.
 ## Built with
 - **[Laravel](https://laravel.com/)** - Back-End framework.

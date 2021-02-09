@@ -25,7 +25,7 @@ class UsersTableSeeder extends Seeder
                 'remember_token' => Str::random(10),
             ],
         	[
-                'username' => 'JohnDoe',
+                'username' => 'JohnDoe123',
                 'password' => bcrypt('Quizic123'),
                 'email' => 'JohnDoe@test.com',
                 'role' => 1,

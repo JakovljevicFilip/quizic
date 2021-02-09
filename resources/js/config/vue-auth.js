@@ -22,7 +22,7 @@ const config = {
     tokenStore: ['localStorage'],
     rolesVar: 'role',
     registerData: {url: 'auth/register', method: 'POST', error: error =>{}, redirect: 'login'},
-    loginData: {url: 'auth/login', method: 'POST', error: error =>{}, redirect: 'menu', fetchUser: true},
+    loginData: {url: 'auth/login', method: 'POST', error: error =>{}, fetchUser: true},
     logoutData: {url: 'auth/logout', method: 'POST', error: error =>{}, redirect: 'login', makeRequest: true},
     fetchData: {url: 'auth/user', method: 'GET', error: error =>{}, enabled: true},
     refreshData: {url: 'auth/refresh', method: 'GET', error: error =>{}, enabled: true, interval: refreshTime},

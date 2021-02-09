@@ -50,7 +50,7 @@ const router = new VueRouter({
                 {
                     path:'/login',
                     name:'login',
-                    component: Login,
+                    component: Login
                 },
                 {
                     path:'/register',
@@ -67,7 +67,7 @@ const router = new VueRouter({
             component: Menu,
             meta: {
                 // ONLY ACCESSABLE IF LOGGED IN
-                auth: true,
+                auth: true
             }
         },
 
