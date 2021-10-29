@@ -80,7 +80,7 @@ class QuestionController extends Controller
      */
     public function destroy(QuestionDestroyRequest $request)
     {
-        dd(1);
+        
         $question = Question::findOrFail($request->id);
         $question->delete();
         return response()->json([
