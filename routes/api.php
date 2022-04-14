@@ -13,6 +13,10 @@ use Illuminate\Http\Request;
 |
 */
 
+if (App::environment('production')) {
+    URL::forceScheme('https');
+}
+
 Route::namespace('Api')->group(function(){
     // AUTHENTFICATION
     Route::prefix('auth')->group(function(){

@@ -11,4 +11,8 @@
 |
 */
 
+if (App::environment('production')) {
+    URL::forceScheme('https');
+}
+
 Route::get('/{any}', 'SpaController@index')->where('any', '.*');
