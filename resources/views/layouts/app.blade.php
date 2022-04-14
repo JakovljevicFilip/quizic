@@ -10,7 +10,7 @@
     <title>{{ config('app.name', 'Quizić') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <!-- <script src="{{ asset('js/app.js') }}" defer></script> -->
     <script src="https://thequizic.herokuapp.com/js/app.js" defer></script>
 
     <!-- Fonts -->
