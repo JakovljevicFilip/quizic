@@ -20,6 +20,8 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
+    <!-- Used to override the "Layout was forced before the page was fully loaded." warning. -->
+    <script>0</script>
     @yield('content')
 </body>
 </html>
