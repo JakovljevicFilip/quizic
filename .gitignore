@@ -8,11 +8,22 @@
 /vendor
 /.env
 /.env.*.php # fallback edge-case
+/storage/*
+!/storage/.gitignore
+!/storage/app/
+!/storage/app/.gitignore
+!/storage/framework/
+!/storage/framework/.gitignore
+!/storage/logs/
+!/storage/logs/.gitignore
 /storage/*.key
 /storage/app/public
+/public/js/*
+/public/css/*
 /public/storage
 /public/hot
-/bootstrap/cache
+/bootstrap/cache/*
+!/bootstrap/cache/.gitignore
 .phpunit.result.cache
 
 # Laravel Sail & Docker
