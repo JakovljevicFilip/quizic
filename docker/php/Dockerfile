@@ -6,10 +6,13 @@ RUN apt-get update && apt-get install -y \
     acl \
     && docker-php-ext-install pdo_mysql mbstring zip exif pcntl gd
 
+# Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
+# Set working directory
 WORKDIR /var/www
 
+# Install Node 14 + npm 6
 RUN curl -fsSL https://deb.nodesource.com/setup_14.x | bash - \
     && apt-get install -y nodejs \
     && npm install -g npm@6

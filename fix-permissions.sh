@@ -1,22 +1,16 @@
-ACTUAL_USER=${USER:-$(whoami)}
-echo "👤 Applying ACLs for user: $ACTUAL_USER"
+#!/bin/bash
+set -e
 
-mkdir -p storage/logs bootstrap/cache storage/framework/sessions storage/framework/views
+# Use UID from docker-compose (host user)
+ACTUAL_UID=${HOST_UID:-1000}
+APP_PATH="/var/www"
 
-dirs=(
-  "storage"
-  "storage/logs"
-  "storage/framework/sessions"
-  "storage/framework/views"
-  "bootstrap/cache"
-)
+echo "✅ Running fix-permissions.sh as $(whoami)"
+echo "👤 Granting access to host UID: $ACTUAL_UID"
+echo "📁 App path: $APP_PATH"
 
-for dir in "${dirs[@]}"; do
-  if [ -d "$dir" ]; then
-    echo "🛠️  Fixing permissions for $dir"
-    chown -R 33:33 "$dir"
-    setfacl -Rm u:$ACTUAL_USER:rwx,d:u:$ACTUAL_USER:rwx "$dir"
-  else
-    echo "⚠️  Skipping $dir (still does not exist)"
-  fi
-done
+# Ownership inside container
+chown -R www-data:www-data "$APP_PATH"
+
+# Grant ACL to host user so they can edit files
+setfacl -Rm u:${ACTUAL_UID}:rwx,d:u:${ACTUAL_UID}:rwx "$APP_PATH"
