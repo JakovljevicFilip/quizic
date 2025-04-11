@@ -44,11 +44,13 @@ Quizić is an online quiz application built with **Laravel** 🐘 and **Vue.js**
 ### 🛠️ Regular Setup
 
 #### Requirements:
-- PHP >= 7.4
-- Composer
-- MySQL Database
-- phpMyAdmin (or similar)
-- npm (Node.js)
+
+![PHP](https://img.shields.io/badge/PHP-%3E=7.4-blue?logo=php&logoColor=white)
+![Composer](https://img.shields.io/badge/Composer-%3E=2.x-blue?logo=composer&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-%3E=5.7-blue?logo=mysql&logoColor=white)
+![Node.js](https://img.shields.io/badge/Node.js-12.x%20to%2014.x-brightgreen?logo=node.js&logoColor=white)
+![npm](https://img.shields.io/badge/npm-%E2%9C%94-red?logo=npm&logoColor=white)
+![phpMyAdmin](https://img.shields.io/badge/phpMyAdmin-Optional-orange)
 
 1. Clone the repository:
    ```bash
@@ -108,4 +110,3 @@ Quizić is an online quiz application built with **Laravel** 🐘 and **Vue.js**
 - **Filip Jakovljević** - Back-End and Vue.js.
 - **Nemanja Stojković** - Design and Front-End.
 - **Lazar Stanojević** - Design and Front-End.
-
