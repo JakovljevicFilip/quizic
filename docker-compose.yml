@@ -9,6 +9,8 @@ services:
     entrypoint: ["/var/www/docker/php/entrypoint.sh"]
     depends_on:
       - db
+    environment:
+      HOST_UID: ${UID:-1000}
 
   db:
     image: mysql:5.7
