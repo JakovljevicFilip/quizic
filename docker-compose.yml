@@ -3,7 +3,7 @@ services:
     build:
       context: .
       dockerfile: docker/php/Dockerfile
-    container_name: app
+    container_name: quizic_app
     volumes:
       - .:/var/www
     entrypoint: ["/var/www/docker/php/entrypoint.sh"]
@@ -12,12 +12,10 @@ services:
 
   db:
     image: mysql:5.7
-    container_name: laravel_db
+    container_name: quizic_db
     restart: unless-stopped
     environment:
-      MYSQL_DATABASE: homestead
-      MYSQL_USER: homestead
-      MYSQL_PASSWORD: secret
+      MYSQL_DATABASE: quizic
       MYSQL_ROOT_PASSWORD: secret
     ports:
       - "33060:3306"
@@ -26,7 +24,7 @@ services:
 
   nginx:
     image: nginx:stable
-    container_name: laravel_nginx
+    container_name: quizic_nginx
     ports:
       - "8000:80"
     volumes:
