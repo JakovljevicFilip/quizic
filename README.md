@@ -107,6 +107,47 @@ Or if you're using Docker:
    docker compose exec app php artisan db:seed --class=FakeQuestionsAndAnswersSeeder
    ```
 
+### 🔁 Restoring Original Questions
+To remove test data and restore the original set of trivia questions and answers, follow these steps:
+
+1. Cleaning the test data:
+Access Artisan tinker through regular setup:
+
+   ```php
+   php artisan tinker
+   ```
+
+Or through Docker:
+
+   ```bash
+   docker compose exec app php artisan tinker
+   ```
+
+Then run:
+
+   ```php
+    DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+    DB::table('answers')->truncate();
+    DB::table('questions')->truncate();
+    DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+    exit
+   ```
+
+2. Seeding original questions:
+
+Through regular setup:
+   ```php
+   php artisan db:seed --class=QuestionsAndAnswersSeeder
+   ```
+
+Through Docker:
+   ```bash
+   docker compose exec app php artisan db:seed --class=QuestionsAndAnswersSeeder
+   ```
+
+> [!TIP]
+> ✅ This will repopulate the database with the original curated trivia questions, grouped by difficulty.
+
 ---
 
 ## 🛠 Built With
