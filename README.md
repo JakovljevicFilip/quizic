@@ -68,7 +68,7 @@ Quizić is an online quiz application built with **Laravel** 🐘 and **Vue.js**
 4. Create a database using phpMyAdmin or a similar database management tool.
 
 5. Run the following commands:
-   ```bash
+   ```php
    composer install
    php artisan key:generate
    php artisan jwt:secret
@@ -89,6 +89,64 @@ Quizić is an online quiz application built with **Laravel** 🐘 and **Vue.js**
 - 🔐 To log in as administrator: **Administrator** / **Quizic123**.
 - 👤 To log in as guest: **JohnDoe123** / **Quizic123**.
 - 🚪 Or try Quizić without logging in by clicking the designated button.
+
+---
+
+## 🧪 Seeding with Fake Questions
+
+> [!CAUTION]
+> This seeder replaces the existing questions and answers table data. Intended for local development or testing environments only.
+
+
+To seed the database with fake questions and answers (10 easy, 20 moderate, 40 hard), run the following command:
+   ```bash
+  php artisan db:seed --class=FakeQuestionsAndAnswersSeeder
+   ```
+Or if you're using Docker:
+   ```bash
+   docker compose exec app php artisan db:seed --class=FakeQuestionsAndAnswersSeeder
+   ```
+
+### 🔁 Restoring Original Questions
+To remove test data and restore the original set of trivia questions and answers, follow these steps:
+
+1. Cleaning the test data:
+Access Artisan tinker through regular setup:
+
+   ```php
+   php artisan tinker
+   ```
+
+Or through Docker:
+
+   ```bash
+   docker compose exec app php artisan tinker
+   ```
+
+Then run:
+
+   ```php
+    DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+    DB::table('answers')->truncate();
+    DB::table('questions')->truncate();
+    DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+    exit
+   ```
+
+2. Seeding original questions:
+
+Through regular setup:
+   ```php
+   php artisan db:seed --class=QuestionsAndAnswersSeeder
+   ```
+
+Through Docker:
+   ```bash
+   docker compose exec app php artisan db:seed --class=QuestionsAndAnswersSeeder
+   ```
+
+> [!NOTE]
+> This will repopulate the database with the original curated trivia questions, grouped by difficulty.
 
 ---
 
