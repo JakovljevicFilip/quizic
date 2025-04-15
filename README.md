@@ -108,6 +108,10 @@ Or if you're using Docker:
    ```
 
 ### 🔁 Restoring Original Questions
+
+> [!NOTE]
+> This will repopulate the database with the original curated trivia questions, grouped by difficulty.
+
 To remove test data and restore the original set of trivia questions and answers, follow these steps:
 
 1. Cleaning the test data:
@@ -144,9 +148,6 @@ Through Docker:
    ```bash
    docker compose exec app php artisan db:seed --class=QuestionsAndAnswersSeeder
    ```
-
-> [!NOTE]
-> This will repopulate the database with the original curated trivia questions, grouped by difficulty.
 
 ---
 
