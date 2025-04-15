@@ -8,6 +8,7 @@ class FakeQuestionsAndAnswersSeeder extends Seeder
 {
     public function run()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         DB::table('answers')->truncate();
         DB::table('questions')->truncate();
 
@@ -19,9 +20,11 @@ class FakeQuestionsAndAnswersSeeder extends Seeder
             3 => 40,
         ];
 
+        $faker = \Faker\Factory::create();
+
         foreach ($counts as $difficulty => $count) {
             for ($i = 0; $i < $count; $i++) {
-                $questionText = Str::ucfirst(fake()->sentence(rand(4, 8)));
+                $questionText = Str::ucfirst($faker->sentence(rand(4, 8)));
 
                 $questionId = DB::table('questions')->insertGetId([
                     'text' => $questionText,
@@ -40,13 +43,12 @@ class FakeQuestionsAndAnswersSeeder extends Seeder
                         'question_id' => $questionId,
                         'text' => $answer['text'],
                         'status' => $answer['status'],
-                        'created_at' => $now,
-                        'updated_at' => $now,
                     ];
                 })->toArray();
 
                 DB::table('answers')->insert($answers);
             }
         }
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 }

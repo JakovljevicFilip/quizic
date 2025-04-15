@@ -68,7 +68,7 @@ Quizić is an online quiz application built with **Laravel** 🐘 and **Vue.js**
 4. Create a database using phpMyAdmin or a similar database management tool.
 
 5. Run the following commands:
-   ```bash
+   ```php
    composer install
    php artisan key:generate
    php artisan jwt:secret
@@ -89,6 +89,21 @@ Quizić is an online quiz application built with **Laravel** 🐘 and **Vue.js**
 - 🔐 To log in as administrator: **Administrator** / **Quizic123**.
 - 👤 To log in as guest: **JohnDoe123** / **Quizic123**.
 - 🚪 Or try Quizić without logging in by clicking the designated button.
+
+---
+
+## 🧪 Seeding with Fake Questions
+To seed the database with fake questions and answers (10 easy, 20 moderate, 40 hard), run the following command:
+   ```bash
+  php artisan db:seed --class=FakeQuestionsAndAnswersSeeder
+   ```
+Or if you're using Docker:
+   ```bash
+   docker compose exec app php artisan db:seed --class=FakeQuestionsAndAnswersSeeder
+   ```
+
+> [!CAUTION]
+> This seeder replaces the existing questions and answers table data. Intended for local development or testing environments only.
 
 ---
 
