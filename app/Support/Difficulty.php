@@ -10,35 +10,47 @@ class Difficulty
 
     public static function label(int $value): string
     {
-        return match ($value) {
-            self::EASY => 'Easy',
-            self::MODERATE => 'Moderate',
-            self::HARD => 'Hard',
-            default => 'Unknown',
-        };
+        switch ($value) {
+            case self::EASY:
+                return 'Easy';
+            case self::MODERATE:
+                return 'Moderate';
+            case self::HARD:
+                return 'Hard';
+            default:
+                return 'Unknown';
+        }
     }
 
     public static function all(): array
     {
         return [
-            self::EASY => 'Easy',
-            self::MODERATE => 'Moderate',
-            self::HARD => 'Hard',
+            ['id' => self::EASY, 'label' => 'Easy'],
+            ['id' => self::MODERATE, 'label' => 'Moderate'],
+            ['id' => self::HARD, 'label' => 'Hard'],
         ];
     }
 
     public static function fromLabel(string $label): ?int
     {
-        return match (strtolower($label)) {
-            'easy' => self::EASY,
-            'moderate' => self::MODERATE,
-            'hard' => self::HARD,
-            default => null,
-        };
+        switch (strtolower($label)) {
+            case 'easy':
+                return self::EASY;
+            case 'moderate':
+                return self::MODERATE;
+            case 'hard':
+                return self::HARD;
+            default:
+                return null;
+        }
     }
+
 
     public static function getRandomDifficulty(): int
     {
-        return self::all()[array_rand(self::all())];
+        $all = self::all();
+        $random = $all[array_rand($all)];
+
+        return $random['id'];
     }
 }
