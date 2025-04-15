@@ -93,6 +93,11 @@ Quizić is an online quiz application built with **Laravel** 🐘 and **Vue.js**
 ---
 
 ## 🧪 Seeding with Fake Questions
+
+> [!CAUTION]
+> This seeder replaces the existing questions and answers table data. Intended for local development or testing environments only.
+
+
 To seed the database with fake questions and answers (10 easy, 20 moderate, 40 hard), run the following command:
    ```bash
   php artisan db:seed --class=FakeQuestionsAndAnswersSeeder
@@ -101,9 +106,6 @@ Or if you're using Docker:
    ```bash
    docker compose exec app php artisan db:seed --class=FakeQuestionsAndAnswersSeeder
    ```
-
-> [!CAUTION]
-> This seeder replaces the existing questions and answers table data. Intended for local development or testing environments only.
 
 ---
 
