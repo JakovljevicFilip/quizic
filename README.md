@@ -146,7 +146,7 @@ Through Docker:
    ```
 
 > [!NOTE]
-> ✅ This will repopulate the database with the original curated trivia questions, grouped by difficulty.
+> This will repopulate the database with the original curated trivia questions, grouped by difficulty.
 
 ---
 
