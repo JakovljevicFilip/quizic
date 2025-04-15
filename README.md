@@ -21,6 +21,7 @@ Quizić is an online quiz application built with **Laravel** 🐘 and **Vue.js**
 1. Clone the repository:
    ```bash
    git clone https://github.com/JakovljevicFilip/quizic
+   cd quizic
    ```
 
 2. Make Docker scripts executable:
@@ -36,7 +37,7 @@ Quizić is an online quiz application built with **Laravel** 🐘 and **Vue.js**
 
 4. Access the homepage:
    ```
-   http://localhost
+   http://localhost:8000
    ```
 
 ---
