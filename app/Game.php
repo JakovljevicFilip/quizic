@@ -109,18 +109,14 @@ class Game extends Model
     }
 
     private function getDifficulty(){
-        // CURRENT GAME SCORE
         $score = $this->score;
 
-        if($score >= 0 && $score < 5){
-            // EASY
+        if($score <= config('quizic.number_of_easy_questions')){
             return 1;
         }
-        else if($score >=5 && $score <= 10){
-            // MODERATE
+        else if($score <= config('quizic.number_of_moderate_questions')){
             return 2;
         }
-        // HARD
         return 3;
     }
 
