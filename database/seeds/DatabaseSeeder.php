@@ -14,8 +14,10 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UsersTableSeeder::class,
         	DifficultiesTableSeeder::class,
-        	QuestionsTableSeeder::class,
-            AnswersTableSeeder::class,
+            // Real questions and answers pairs.
+            QuestionsAndAnswersSeeder::class,
+            // Correct answers are labeled - useful for testing.
+            //FakeQuestionsAndAnswersSeeder::class,
             HintsTableSeeder::class,
         	HighscoresTableSeeder::class,
         ]);
