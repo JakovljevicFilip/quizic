@@ -145,7 +145,7 @@ Through Docker:
    docker compose exec app php artisan db:seed --class=QuestionsAndAnswersSeeder
    ```
 
-> [!TIP]
+> [!NOTE]
 > ✅ This will repopulate the database with the original curated trivia questions, grouped by difficulty.
 
 ---
