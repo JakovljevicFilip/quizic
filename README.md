@@ -115,39 +115,40 @@ Or if you're using Docker:
 To remove test data and restore the original set of trivia questions and answers, follow these steps:
 
 1. Cleaning the test data:
-Access Artisan tinker through regular setup:
 
-   ```php
-   php artisan tinker
-   ```
+    Access Artisan tinker through regular setup:
 
-Or through Docker:
+    ```php
+    php artisan tinker
+    ```
 
-   ```bash
-   docker compose exec app php artisan tinker
-   ```
+    Or through Docker:
+    
+    ```bash
+    docker compose exec app php artisan tinker
+    ```
 
-Then run:
+    Then run:
 
-   ```php
+    ```php
     DB::statement('SET FOREIGN_KEY_CHECKS=0;');
     DB::table('answers')->truncate();
     DB::table('questions')->truncate();
     DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     exit
-   ```
+    ```
 
 2. Seeding original questions:
 
-Through regular setup:
-   ```php
-   php artisan db:seed --class=QuestionsAndAnswersSeeder
-   ```
+    Through regular setup:
+    ```php
+    php artisan db:seed --class=QuestionsAndAnswersSeeder
+    ```
 
-Through Docker:
-   ```bash
-   docker compose exec app php artisan db:seed --class=QuestionsAndAnswersSeeder
-   ```
+    Through Docker:
+    ```bash
+    docker compose exec app php artisan db:seed --class=QuestionsAndAnswersSeeder
+    ```
 
 ---
 
