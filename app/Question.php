@@ -3,17 +3,12 @@
 namespace Quizic;
 
 use Illuminate\Database\Eloquent\Model;
-use Quizic\Difficulty;
-use Quizic\Answer;
+use Quizic\Support\Difficulty;
 
 
 class Question extends Model
 {
     protected $guarded=[];
-
-    public function difficulty(){
-    	return $this->belongsTo(Difficulty::class);
-    }
 
     public function answers(){
     	return $this->hasMany(Answer::class);
