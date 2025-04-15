@@ -4,14 +4,10 @@ namespace Quizic\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use Quizic\Http\Controllers\Controller;
-
-use Validator;
-use Quizic\Question;
-use Quizic\Answer;
-use Quizic\Difficulty;
+use Quizic\Http\Requests\QuestionDestroyRequest;
 use Quizic\Http\Requests\QuestionStoreRequest;
 use Quizic\Http\Requests\QuestionUpdateRequest;
-use Quizic\Http\Requests\QuestionDestroyRequest;
+use Quizic\Question;
 
 class QuestionController extends Controller
 {
@@ -80,7 +76,7 @@ class QuestionController extends Controller
      */
     public function destroy(QuestionDestroyRequest $request)
     {
-        
+
         $question = Question::findOrFail($request->id);
         $question->delete();
         return response()->json([

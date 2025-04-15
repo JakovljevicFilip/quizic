@@ -6,12 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
-use Session;
-
-use Quizic\Question;
-use Quizic\Answer;
-use Quizic\Hint;
-use Quizic\Highscore;
+use Quizic\Support\Difficulty;
 
 class Game extends Model
 {
@@ -112,12 +107,12 @@ class Game extends Model
         $score = $this->score;
 
         if($score <= config('quizic.number_of_easy_questions')){
-            return 1;
+            return Difficulty::EASY;
         }
         else if($score <= config('quizic.number_of_moderate_questions')){
-            return 2;
+            return Difficulty::MODERATE;
         }
-        return 3;
+        return Difficulty::HARD;
     }
 
     private function startAs(){
