@@ -18,16 +18,21 @@ ensure_env() {
     exit 1
   fi
 
-  local app_url asset_url
+  local app_url
   app_url="$(grep -E '^APP_URL=' .env | head -n1 | cut -d= -f2- || true)"
-  asset_url="$(grep -E '^ASSET_URL=' .env | head -n1 | cut -d= -f2- || true)"
+  local db_pass
 
-  if [ -n "${app_url}" ] && [ -z "${asset_url}" ]; then
-    if grep -q '^ASSET_URL=' .env; then
-      sed -i "s|^ASSET_URL=.*|ASSET_URL=${app_url}|" .env
+  db_pass="$(grep -E '^DB_PASSWORD=' .env | head -n1 | cut -d= -f2- || true)"
+  if [ -z "${db_pass}" ]; then
+    set +o pipefail
+    db_pass="$(LC_ALL=C tr -dc 'A-Za-z0-9' </dev/urandom | head -c 10)"
+    set -o pipefail
+    if grep -q '^DB_PASSWORD=' .env; then
+      sed -i "s/^DB_PASSWORD=.*/DB_PASSWORD=${db_pass}/" .env
     else
-      printf "ASSET_URL=%s\n" "${app_url}" >> .env
+      printf "\nDB_PASSWORD=%s\n" "${db_pass}" >> .env
     fi
+    say ".env updated with randomized DB_PASSWORD."
   fi
 }
 spinner() {
