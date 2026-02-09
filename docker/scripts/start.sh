@@ -7,6 +7,18 @@ say() {
   printf "%s\n" "$*"
 }
 
+ensure_env() {
+  if [ ! -f ".env" ]; then
+    if [ -f ".env.example" ]; then
+      say ".env not found. Creating from .env.example."
+      cp .env.example .env
+    else
+      say "ERROR: .env not found and .env.example is missing."
+      exit 1
+    fi
+  fi
+}
+
 spinner() {
   local pid="$1"
   local msg="$2"
@@ -20,6 +32,7 @@ spinner() {
 }
 
 say "Starting containers (build if needed)..."
+ensure_env
 docker compose up --build -d >"$LOG_FILE" 2>&1 &
 spinner $! "Bringing up services"
 
