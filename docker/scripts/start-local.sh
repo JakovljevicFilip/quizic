@@ -11,7 +11,7 @@ LOG_FILE=".docker-up.log"
 say "Starting containers (build if needed)..."
 ensure_env_from_example ".env.example"
 ensure_env_writable
-compose_up "" -f docker-compose.local.yml
+compose_up "${LOG_FILE}" -f docker-compose.local.yml
 
 ensure_app_dependencies "docker-compose.local.yml" "${LOG_FILE}"
 wait_for_app_dependencies "docker-compose.local.yml" "${LOG_FILE}"
@@ -22,13 +22,9 @@ ensure_jwt_secret "docker-compose.local.yml"
 run_post_install_tasks "docker-compose.local.yml"
 
 say "Waiting for database..."
-db_host="$(grep -E '^DB_HOST=' .env | head -n1 | cut -d= -f2- || true)"
 db_port="$(grep -E '^DB_PORT=' .env | head -n1 | cut -d= -f2- || true)"
 db_user="$(grep -E '^DB_USERNAME=' .env | head -n1 | cut -d= -f2- || true)"
 db_pass="$(grep -E '^DB_PASSWORD=' .env | head -n1 | cut -d= -f2- || true)"
-if [ -z "${db_host}" ]; then
-  db_host="db"
-fi
 if [ -z "${db_port}" ]; then
   db_port="3306"
 fi
@@ -41,7 +37,7 @@ else
   db_pass_arg=""
 fi
 for i in $(seq 1 60); do
-  if docker compose exec -T db mysqladmin ping -h"${db_host}" -P"${db_port}" -u"${db_user}" ${db_pass_arg} --silent >/dev/null 2>&1; then
+  if docker compose exec -T db mysqladmin ping -h"127.0.0.1" -P"${db_port}" -u"${db_user}" ${db_pass_arg} --silent >>"${LOG_FILE}" 2>&1; then
     say "Database ready ✓"
     break
   fi
