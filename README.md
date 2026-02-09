@@ -41,6 +41,11 @@ Quizić is an online quiz application built with **Laravel** 🐘 and **Vue.js**
    http://localhost:8000
    ```
 
+> For production deployments, create a `.env` file manually and use:
+> ```bash
+> docker/scripts/start-prod.sh
+> ```
+
 ---
 
 ### 🛠️ Regular Setup

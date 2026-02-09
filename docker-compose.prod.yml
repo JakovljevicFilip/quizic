@@ -1,0 +1,68 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile.prod
+    container_name: quizic_app
+    volumes:
+      - ./.env:/var/www/.env
+      - ./storage:/var/www/storage
+      - ./bootstrap/cache:/var/www/bootstrap/cache
+    entrypoint: ["/var/www/docker/php/entrypoint.prod.sh"]
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - quizic
+
+  nginx:
+    build:
+      context: .
+      dockerfile: docker/nginx/Dockerfile.prod
+    container_name: quizic_nginx
+    depends_on:
+      - app
+    networks:
+      - quizic
+      - traefik_proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.quizic.rule=Host(`quizic.thoughtless.app`)"
+      - "traefik.http.routers.quizic.entrypoints=websecure"
+      - "traefik.http.routers.quizic.tls.certresolver=le"
+      - "traefik.http.routers.quizic-http.rule=Host(`quizic.thoughtless.app`)"
+      - "traefik.http.routers.quizic-http.entrypoints=web"
+      - "traefik.http.routers.quizic-http.middlewares=redirect-https"
+      - "traefik.http.middlewares.redirect-https.redirectscheme.scheme=https"
+      - "traefik.http.services.quizic-svc.loadbalancer.server.port=80"
+      - "traefik.http.routers.quizic.service=quizic-svc"
+
+  db:
+    image: mysql:5.7
+    container_name: quizic_db
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - dbdata:/var/lib/mysql
+    networks:
+      - quizic
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+networks:
+  quizic:
+    external: true
+  traefik_proxy:
+    external: true
+
+volumes:
+  dbdata:
