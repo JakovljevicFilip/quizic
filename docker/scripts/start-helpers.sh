@@ -10,6 +10,14 @@ say() {
   printf "%s\n" "$*"
 }
 
+ensure_repo_root() {
+  local script_dir
+  script_dir="$(cd "$(dirname "${BASH_SOURCE[1]}")" && pwd)"
+  local root_dir
+  root_dir="$(cd "${script_dir}/../.." && pwd)"
+  cd "${root_dir}"
+}
+
 spinner() {
   local pid="$1"
   local msg="$2"
@@ -63,6 +71,61 @@ ensure_jwt_secret() {
     say "Generating JWT_SECRET..."
     artisan_with_retry "${compose_file}" "jwt:secret --force"
   fi
+}
+
+ensure_app_dependencies() {
+  local compose_file="$1"
+  local log_file="$2"
+
+  say "Ensuring app dependencies..."
+  if ! docker compose -f "${compose_file}" exec -T app test -f /var/www/vendor/autoload.php >/dev/null 2>&1; then
+    say "Running composer install (this can take a few minutes)..."
+    local attempts=0
+    local max_attempts=5
+    while true; do
+      attempts=$((attempts + 1))
+      if docker compose -f "${compose_file}" exec -T app composer install --no-scripts >>"${log_file}" 2>&1; then
+        break
+      fi
+      if [ "${attempts}" -ge "${max_attempts}" ]; then
+        say "Composer install failed after ${max_attempts} attempts. See ${log_file} for details."
+        exit 1
+      fi
+      say "Composer install failed. Retrying..."
+      sleep 5
+    done
+  fi
+}
+
+wait_for_app_dependencies() {
+  local compose_file="$1"
+  local log_file="$2"
+
+  say "Waiting for app dependencies..."
+  for i in $(seq 1 60); do
+    if docker compose -f "${compose_file}" exec -T app test -f /var/www/vendor/autoload.php >/dev/null 2>&1; then
+      say "App dependencies ready ✓"
+      break
+    fi
+    if [ "$i" -eq 60 ]; then
+      say "App dependencies did not become ready. See ${log_file} for details."
+      exit 1
+    fi
+    sleep 2
+  done
+}
+
+run_post_install_tasks() {
+  local compose_file="$1"
+
+  say "Running post-install tasks..."
+  artisan_with_retry "${compose_file}" "package:discover --ansi"
+  artisan_with_retry "${compose_file}" "clear-compiled"
+  artisan_with_retry "${compose_file}" "optimize"
+  docker_exec_with_retry "${compose_file}" "chmod -R 777 public/"
+  artisan_with_retry "${compose_file}" "clear-compiled"
+  artisan_with_retry "${compose_file}" "config:clear"
+  artisan_with_retry "${compose_file}" "cache:clear"
 }
 
 artisan_with_retry() {
