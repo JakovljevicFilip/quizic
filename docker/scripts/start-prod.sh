@@ -24,7 +24,10 @@ ensure_env() {
   db_user="$(grep -E '^DB_USERNAME=' .env | head -n1 | cut -d= -f2- || true)"
   db_pass="$(grep -E '^DB_PASSWORD=' .env | head -n1 | cut -d= -f2- || true)"
 
+  # Avoid pipefail on head/tr pipeline (SIGPIPE when head exits)
+  set +o pipefail
   generated_pass="$(LC_ALL=C tr -dc 'A-Za-z0-9' </dev/urandom | head -c 10)"
+  set -o pipefail
   db_pass="${generated_pass}"
   if grep -q '^DB_PASSWORD=' .env; then
     sed -i "s/^DB_PASSWORD=.*/DB_PASSWORD=${db_pass}/" .env
