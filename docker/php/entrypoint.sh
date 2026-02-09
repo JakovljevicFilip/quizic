@@ -32,6 +32,18 @@ if [ ! -f ".env" ]; then
   cp .env.example .env
   php artisan key:generate
   php artisan jwt:secret
+  echo "⏳ Waiting for Database to accept connections..."
+  for i in $(seq 1 30); do
+    if (echo > /dev/tcp/db/3306) >/dev/null 2>&1; then
+      echo "✅ Database is up."
+      break
+    fi
+    if [ "$i" -eq 30 ]; then
+      echo "❌ Database did not become ready in time."
+      exit 1
+    fi
+    sleep 2
+  done
   php artisan migrate --force --seed
 fi
 
