@@ -7,20 +7,22 @@ source "${SCRIPT_DIR}/start-helpers.sh"
 ensure_repo_root
 
 LOG_FILE=".docker-up.log"
+compose_file="docker-compose.local.yml"
 
 say "Starting containers (build if needed)..."
 ensure_env_from_example ".env.example"
 ensure_env_writable
-compose_up "${LOG_FILE}" -f docker-compose.local.yml
+compose_up "${LOG_FILE}" -f "${compose_file}"
 
-ensure_app_dependencies "docker-compose.local.yml" "${LOG_FILE}"
-wait_for_app_dependencies "docker-compose.local.yml" "${LOG_FILE}"
+ensure_app_dependencies "${compose_file}" "${LOG_FILE}"
+wait_for_app_dependencies "${compose_file}" "${LOG_FILE}"
 
-ensure_app_key "docker-compose.local.yml"
-ensure_jwt_secret "docker-compose.local.yml"
+ensure_app_key "${compose_file}"
+ensure_jwt_secret "${compose_file}"
 
-run_post_install_tasks "docker-compose.local.yml"
+run_post_install_tasks "${compose_file}"
 
+# reuse compose_file below
 say "Waiting for database..."
 db_port="$(grep -E '^DB_PORT=' .env | head -n1 | cut -d= -f2- || true)"
 db_user="$(grep -E '^DB_USERNAME=' .env | head -n1 | cut -d= -f2- || true)"
@@ -37,7 +39,7 @@ else
   db_pass_arg=""
 fi
 for i in $(seq 1 60); do
-  if docker compose exec -T db mysqladmin ping -h"127.0.0.1" -P"${db_port}" -u"${db_user}" ${db_pass_arg} --silent >>"${LOG_FILE}" 2>&1; then
+  if docker compose -f "${compose_file}" exec -T db mysqladmin ping -h"127.0.0.1" -P"${db_port}" -u"${db_user}" ${db_pass_arg} --silent >>"${LOG_FILE}" 2>&1; then
     say "Database ready ✓"
     break
   fi
@@ -49,7 +51,7 @@ for i in $(seq 1 60); do
 done
 
 say "Running migrations..."
-artisan_with_retry "docker-compose.local.yml" "migrate --force --seed"
+artisan_with_retry ""${compose_file}"" "migrate --force --seed"
 
 say "Waiting for frontend assets..."
 for i in $(seq 1 120); do
