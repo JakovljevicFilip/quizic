@@ -53,7 +53,7 @@ ensure_app_key() {
   local compose_file="$1"
   if ! grep -q '^APP_KEY=' .env || grep -q '^APP_KEY=$' .env; then
     say "Generating APP_KEY..."
-    docker compose -f "${compose_file}" exec -T app php artisan key:generate --force
+    artisan_with_retry "${compose_file}" "key:generate --force"
   fi
 }
 
@@ -61,6 +61,25 @@ ensure_jwt_secret() {
   local compose_file="$1"
   if ! grep -q '^JWT_SECRET=' .env || grep -q '^JWT_SECRET=$' .env; then
     say "Generating JWT_SECRET..."
-    docker compose -f "${compose_file}" exec -T app php artisan jwt:secret --force
+    artisan_with_retry "${compose_file}" "jwt:secret --force"
   fi
+}
+
+artisan_with_retry() {
+  local compose_file="$1"
+  local artisan_args="$2"
+  local max_attempts=30
+  local attempt=1
+
+  while true; do
+    if docker compose -f "${compose_file}" exec -T app php artisan ${artisan_args} >/dev/null 2>&1; then
+      return 0
+    fi
+    if [ "${attempt}" -ge "${max_attempts}" ]; then
+      say "ERROR: php artisan ${artisan_args} failed after ${max_attempts} attempts."
+      return 1
+    fi
+    attempt=$((attempt + 1))
+    sleep 2
+  done
 }

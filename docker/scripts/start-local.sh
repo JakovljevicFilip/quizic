@@ -12,6 +12,25 @@ ensure_env_from_example ".env.example"
 ensure_env_writable
 compose_up "${LOG_FILE}"
 
+say "Ensuring app dependencies..."
+if ! docker compose exec -T app test -f /var/www/vendor/autoload.php >/dev/null 2>&1; then
+  say "Running composer install..."
+  docker compose exec -T app composer install
+fi
+
+say "Waiting for app dependencies..."
+for i in $(seq 1 60); do
+  if docker compose exec -T app test -f /var/www/vendor/autoload.php >/dev/null 2>&1; then
+    say "App dependencies ready ✓"
+    break
+  fi
+  if [ "$i" -eq 60 ]; then
+    say "App dependencies did not become ready. See ${LOG_FILE} for details."
+    exit 1
+  fi
+  sleep 2
+done
+
 ensure_app_key "docker-compose.yml"
 ensure_jwt_secret "docker-compose.yml"
 
