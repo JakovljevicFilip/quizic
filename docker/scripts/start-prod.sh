@@ -14,7 +14,29 @@ say() {
 
 ensure_env() {
   if [ ! -f ".env" ]; then
-    say "ERROR: .env is missing. Create it manually before running start-prod.sh."
+    if [ -f ".env.prod.example" ]; then
+      say ".env not found. Creating from .env.prod.example."
+      cp .env.prod.example .env
+    else
+      say ".env not found. Creating from .env.example with production defaults."
+      cp .env.example .env
+      # Sensible prod defaults; review .env after this runs.
+      if grep -q '^APP_ENV=' .env; then
+        sed -i "s/^APP_ENV=.*/APP_ENV=production/" .env
+      else
+        printf "\nAPP_ENV=production\n" >> .env
+      fi
+      if grep -q '^APP_DEBUG=' .env; then
+        sed -i "s/^APP_DEBUG=.*/APP_DEBUG=false/" .env
+      else
+        printf "APP_DEBUG=false\n" >> .env
+      fi
+    fi
+    say "Created .env with defaults. Review and update values as needed."
+    say "Note: Mailer settings are blank and must be configured separately."
+  fi
+  if [ ! -w ".env" ]; then
+    say "ERROR: .env is not writable. Fix permissions before running start-prod.sh."
     exit 1
   fi
 
