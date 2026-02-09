@@ -11,15 +11,15 @@ LOG_FILE=".docker-up.log"
 say "Starting containers (build if needed)..."
 ensure_env_from_example ".env.example"
 ensure_env_writable
-compose_up "${LOG_FILE}"
+compose_up "" -f docker-compose.local.yml
 
-ensure_app_dependencies "docker-compose.yml" "${LOG_FILE}"
-wait_for_app_dependencies "docker-compose.yml" "${LOG_FILE}"
+ensure_app_dependencies "docker-compose.local.yml" "${LOG_FILE}"
+wait_for_app_dependencies "docker-compose.local.yml" "${LOG_FILE}"
 
-ensure_app_key "docker-compose.yml"
-ensure_jwt_secret "docker-compose.yml"
+ensure_app_key "docker-compose.local.yml"
+ensure_jwt_secret "docker-compose.local.yml"
 
-run_post_install_tasks "docker-compose.yml"
+run_post_install_tasks "docker-compose.local.yml"
 
 say "Waiting for database..."
 db_host="$(grep -E '^DB_HOST=' .env | head -n1 | cut -d= -f2- || true)"
@@ -53,7 +53,7 @@ for i in $(seq 1 60); do
 done
 
 say "Running migrations..."
-artisan_with_retry "docker-compose.yml" "migrate --force --seed"
+artisan_with_retry "docker-compose.local.yml" "migrate --force --seed"
 
 say "Waiting for frontend assets..."
 for i in $(seq 1 120); do
