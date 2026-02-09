@@ -1,22 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-LOG_FILE=".docker-up.log"
+if [ "${BASH_SOURCE[0]}" = "$0" ]; then
+  echo "This script is a helper. Use docker/scripts/start-local.sh or docker/scripts/start-prod.sh."
+  exit 1
+fi
 
 say() {
   printf "%s\n" "$*"
-}
-
-ensure_env() {
-  if [ ! -f ".env" ]; then
-    if [ -f ".env.example" ]; then
-      say ".env not found. Creating from .env.example."
-      cp .env.example .env
-    else
-      say "ERROR: .env not found and .env.example is missing."
-      exit 1
-    fi
-  fi
 }
 
 spinner() {
@@ -31,38 +22,45 @@ spinner() {
   printf "\r%s ✓\n" "$msg"
 }
 
-say "Starting containers (build if needed)..."
-ensure_env
-docker compose up --build -d >"$LOG_FILE" 2>&1 &
-spinner $! "Bringing up services"
-
-say "Waiting for database..."
-for i in $(seq 1 60); do
-  if docker compose exec -T db mysqladmin ping -uroot -psecret --silent >/dev/null 2>&1; then
-    say "Database ready ✓"
-    break
+ensure_env_from_example() {
+  local example_file="$1"
+  if [ ! -f ".env" ]; then
+    if [ -f "${example_file}" ]; then
+      say ".env not found. Creating from ${example_file}."
+      cp "${example_file}" .env
+    else
+      say "ERROR: .env not found and ${example_file} is missing."
+      exit 1
+    fi
   fi
-  if [ "$i" -eq 60 ]; then
-    say "Database did not become ready. See $LOG_FILE for details."
+}
+
+ensure_env_writable() {
+  if [ ! -w ".env" ]; then
+    say "ERROR: .env is not writable. Fix permissions before continuing."
     exit 1
   fi
-  sleep 2
-done
+}
 
-say "Waiting for frontend assets..."
-for i in $(seq 1 120); do
-  if [ -s "public/js/app.js" ] && [ -s "public/css/app.css" ]; then
-    say "Assets ready ✓"
-    break
-  fi
-  if [ "$i" -eq 5 ]; then
-    say "Almost there..."
-  fi
-  if [ "$i" -eq 120 ]; then
-    say "Assets did not become ready. See $LOG_FILE for details."
-    exit 1
-  fi
-  sleep 1
-done
+compose_up() {
+  local log_file="$1"
+  shift
+  docker compose "$@" up --build -d >"${log_file}" 2>&1 &
+  spinner $! "Bringing up services"
+}
 
-say "Setup complete. Open http://localhost:8000"
+ensure_app_key() {
+  local compose_file="$1"
+  if ! grep -q '^APP_KEY=' .env || grep -q '^APP_KEY=$' .env; then
+    say "Generating APP_KEY..."
+    docker compose -f "${compose_file}" exec -T app php artisan key:generate --force
+  fi
+}
+
+ensure_jwt_secret() {
+  local compose_file="$1"
+  if ! grep -q '^JWT_SECRET=' .env || grep -q '^JWT_SECRET=$' .env; then
+    say "Generating JWT_SECRET..."
+    docker compose -f "${compose_file}" exec -T app php artisan jwt:secret --force
+  fi
+}
