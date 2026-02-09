@@ -3,17 +3,39 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck source=/dev/null
-source "${SCRIPT_DIR}/start.sh"
+source "${SCRIPT_DIR}/start-helpers.sh"
 
 LOG_FILE=".docker-up.log"
 
 say "Starting containers (build if needed)..."
 ensure_env_from_example ".env.example"
+ensure_env_writable
 compose_up "${LOG_FILE}"
 
+ensure_app_key "docker-compose.yml"
+ensure_jwt_secret "docker-compose.yml"
+
 say "Waiting for database..."
+db_host="$(grep -E '^DB_HOST=' .env | head -n1 | cut -d= -f2- || true)"
+db_port="$(grep -E '^DB_PORT=' .env | head -n1 | cut -d= -f2- || true)"
+db_user="$(grep -E '^DB_USERNAME=' .env | head -n1 | cut -d= -f2- || true)"
+db_pass="$(grep -E '^DB_PASSWORD=' .env | head -n1 | cut -d= -f2- || true)"
+if [ -z "${db_host}" ]; then
+  db_host="db"
+fi
+if [ -z "${db_port}" ]; then
+  db_port="3306"
+fi
+if [ -z "${db_user}" ]; then
+  db_user="root"
+fi
+if [ -n "${db_pass}" ]; then
+  db_pass_arg="-p${db_pass}"
+else
+  db_pass_arg=""
+fi
 for i in $(seq 1 60); do
-  if docker compose exec -T db mysqladmin ping -uroot -psecret --silent >/dev/null 2>&1; then
+  if docker compose exec -T db mysqladmin ping -h"${db_host}" -P"${db_port}" -u"${db_user}" ${db_pass_arg} --silent >/dev/null 2>&1; then
     say "Database ready ✓"
     break
   fi

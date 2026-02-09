@@ -3,11 +3,11 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck source=/dev/null
-source "${SCRIPT_DIR}/start.sh"
+source "${SCRIPT_DIR}/start-helpers.sh"
 
 LOG_FILE=".docker-up.prod.log"
 
-# Differences vs docker/scripts/start.sh:
+# Differences vs docker/scripts/start-helpers.sh:
 # - Uses docker-compose.prod.yml
 # - Does not wait for DB or frontend assets
 # - No local dev URL output
