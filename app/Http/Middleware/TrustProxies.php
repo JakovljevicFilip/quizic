@@ -8,11 +8,17 @@ use Fideloper\Proxy\TrustProxies as Middleware;
 class TrustProxies extends Middleware
 {
     /**
-     * The trusted proxies for this application.
+     * Trust only the reverse proxy network by default.
      *
-     * @var array
+     * @var array|string|null
      */
     protected $proxies;
+
+    public function __construct()
+    {
+        $trusted = env('TRUSTED_PROXIES');
+        $this->proxies = $trusted ? array_map('trim', explode(',', $trusted)) : null;
+    }
 
     /**
      * The headers that should be used to detect proxies.

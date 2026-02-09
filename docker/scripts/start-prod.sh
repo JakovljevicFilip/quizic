@@ -88,6 +88,16 @@ if ! grep -q '^JWT_SECRET=' .env || grep -q '^JWT_SECRET=$' .env; then
   docker compose -f docker-compose.prod.yml exec -T app php artisan jwt:secret --force
 fi
 
+if ! grep -q '^TRUSTED_PROXIES=' .env; then
+  proxy_cidr="$(docker network inspect traefik_proxy --format '{{(index .IPAM.Config 0).Subnet}}' 2>/dev/null || true)"
+  if [ -n "${proxy_cidr}" ]; then
+    printf "\nTRUSTED_PROXIES=%s\n" "${proxy_cidr}" >> .env
+    say "Set TRUSTED_PROXIES=${proxy_cidr}"
+  else
+    say "WARNING: Could not detect traefik_proxy subnet. Set TRUSTED_PROXIES manually."
+  fi
+fi
+
 say "Refreshing config cache..."
 docker compose -f docker-compose.prod.yml exec -T app php artisan config:cache
 
