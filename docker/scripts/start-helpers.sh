@@ -72,11 +72,43 @@ artisan_with_retry() {
   local attempt=1
 
   while true; do
-    if docker compose -f "${compose_file}" exec -T app php artisan ${artisan_args} >/dev/null 2>&1; then
-      return 0
+    if [ -n "${LOG_FILE:-}" ]; then
+      if docker compose -f "${compose_file}" exec -T app php artisan ${artisan_args} >>"${LOG_FILE}" 2>&1; then
+        return 0
+      fi
+    else
+      if docker compose -f "${compose_file}" exec -T app php artisan ${artisan_args} >/dev/null 2>&1; then
+        return 0
+      fi
     fi
     if [ "${attempt}" -ge "${max_attempts}" ]; then
       say "ERROR: php artisan ${artisan_args} failed after ${max_attempts} attempts."
+      return 1
+    fi
+    attempt=$((attempt + 1))
+    sleep 2
+  done
+}
+
+
+docker_exec_with_retry() {
+  local compose_file="$1"
+  local cmd="$2"
+  local max_attempts=30
+  local attempt=1
+
+  while true; do
+    if [ -n "${LOG_FILE:-}" ]; then
+      if docker compose -f "${compose_file}" exec -T app ${cmd} >>"${LOG_FILE}" 2>&1; then
+        return 0
+      fi
+    else
+      if docker compose -f "${compose_file}" exec -T app ${cmd} >/dev/null 2>&1; then
+        return 0
+      fi
+    fi
+    if [ "${attempt}" -ge "${max_attempts}" ]; then
+      say "ERROR: ${cmd} failed after ${max_attempts} attempts."
       return 1
     fi
     attempt=$((attempt + 1))

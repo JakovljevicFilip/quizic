@@ -14,8 +14,21 @@ compose_up "${LOG_FILE}"
 
 say "Ensuring app dependencies..."
 if ! docker compose exec -T app test -f /var/www/vendor/autoload.php >/dev/null 2>&1; then
-  say "Running composer install..."
-  docker compose exec -T app composer install
+  say "Running composer install (this can take a few minutes)..."
+  attempts=0
+  max_attempts=5
+  while true; do
+    attempts=$((attempts + 1))
+    if docker compose exec -T app composer install --no-scripts >>"${LOG_FILE}" 2>&1; then
+      break
+    fi
+    if [ "${attempts}" -ge "${max_attempts}" ]; then
+      say "Composer install failed after ${max_attempts} attempts. See ${LOG_FILE} for details."
+      exit 1
+    fi
+    say "Composer install failed. Retrying..."
+    sleep 5
+  done
 fi
 
 say "Waiting for app dependencies..."
@@ -33,6 +46,15 @@ done
 
 ensure_app_key "docker-compose.yml"
 ensure_jwt_secret "docker-compose.yml"
+
+say "Running post-install tasks..."
+artisan_with_retry "docker-compose.yml" "package:discover --ansi"
+artisan_with_retry "docker-compose.yml" "clear-compiled"
+artisan_with_retry "docker-compose.yml" "optimize"
+docker_exec_with_retry "docker-compose.yml" "chmod -R 777 public/"
+artisan_with_retry "docker-compose.yml" "clear-compiled"
+artisan_with_retry "docker-compose.yml" "config:clear"
+artisan_with_retry "docker-compose.yml" "cache:clear"
 
 say "Waiting for database..."
 db_host="$(grep -E '^DB_HOST=' .env | head -n1 | cut -d= -f2- || true)"

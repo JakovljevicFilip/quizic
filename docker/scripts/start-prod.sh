@@ -65,8 +65,49 @@ if ! docker network ls --format '{{.Name}}' | grep -Fxq "quizic"; then
 fi
 compose_up "$LOG_FILE" -f docker-compose.prod.yml
 
+say "Ensuring app dependencies..."
+if ! docker compose -f docker-compose.prod.yml exec -T app test -f /var/www/vendor/autoload.php >/dev/null 2>&1; then
+  say "Running composer install (this can take a few minutes)..."
+  attempts=0
+  max_attempts=5
+  while true; do
+    attempts=$((attempts + 1))
+    if docker compose -f docker-compose.prod.yml exec -T app composer install --no-scripts >>"${LOG_FILE}" 2>&1; then
+      break
+    fi
+    if [ "${attempts}" -ge "${max_attempts}" ]; then
+      say "Composer install failed after ${max_attempts} attempts. See ${LOG_FILE} for details."
+      exit 1
+    fi
+    say "Composer install failed. Retrying..."
+    sleep 5
+  done
+fi
+
+say "Waiting for app dependencies..."
+for i in $(seq 1 60); do
+  if docker compose -f docker-compose.prod.yml exec -T app test -f /var/www/vendor/autoload.php >/dev/null 2>&1; then
+    say "App dependencies ready ✓"
+    break
+  fi
+  if [ "$i" -eq 60 ]; then
+    say "App dependencies did not become ready. See ${LOG_FILE} for details."
+    exit 1
+  fi
+  sleep 2
+done
+
 ensure_app_key "docker-compose.prod.yml"
 ensure_jwt_secret "docker-compose.prod.yml"
+
+say "Running post-install tasks..."
+artisan_with_retry "docker-compose.prod.yml" "package:discover --ansi"
+artisan_with_retry "docker-compose.prod.yml" "clear-compiled"
+artisan_with_retry "docker-compose.prod.yml" "optimize"
+docker_exec_with_retry "docker-compose.prod.yml" "chmod -R 777 public/"
+artisan_with_retry "docker-compose.prod.yml" "clear-compiled"
+artisan_with_retry "docker-compose.prod.yml" "config:clear"
+artisan_with_retry "docker-compose.prod.yml" "cache:clear"
 
 if ! grep -q '^TRUSTED_PROXIES=' .env; then
   proxy_cidr="$(docker network inspect traefik_proxy --format '{{(index .IPAM.Config 0).Subnet}}' 2>/dev/null || true)"
