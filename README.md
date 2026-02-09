@@ -26,13 +26,14 @@ Quizić is an online quiz application built with **Laravel** 🐘 and **Vue.js**
 
 2. Make Docker scripts executable:
    ```bash
-   sudo chmod +x fix-permissions.sh
+   sudo chmod +x docker/scripts/fix-permissions.sh
+   sudo chmod +x docker/scripts/start.sh
    sudo chmod +x docker/php/entrypoint.sh
    ```
 
 3. Start Docker containers:
    ```bash
-   docker compose up --build
+   docker/scripts/start.sh
    ```
 
 4. Access the homepage:

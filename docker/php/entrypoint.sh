@@ -14,9 +14,9 @@ chown -R www-data:www-data storage bootstrap/cache
 chmod -R ug+rwx storage bootstrap/cache
 
 # Run Laravel's fix-permissions.sh if present
-if [ -f "./fix-permissions.sh" ]; then
+if [ -f "./docker/scripts/fix-permissions.sh" ]; then
   echo "🔧 Running fix-permissions.sh..."
-  bash ./fix-permissions.sh
+  bash ./docker/scripts/fix-permissions.sh
 fi
 
 # Composer install only if vendor/ doesn't exist
