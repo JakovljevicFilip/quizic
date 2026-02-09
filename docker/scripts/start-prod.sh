@@ -14,27 +14,21 @@ say() {
 
 ensure_env() {
   if [ ! -f ".env" ]; then
-    say ".env not found. Copying .env.example -> .env"
-    cp .env.example .env
+    say "ERROR: .env is missing. Create it manually before running start-prod.sh."
+    exit 1
   fi
 
-  # Use .env values; auto-generate password if missing
-  local db_name db_user db_pass generated_pass
-  db_name="$(grep -E '^DB_DATABASE=' .env | head -n1 | cut -d= -f2- || true)"
-  db_user="$(grep -E '^DB_USERNAME=' .env | head -n1 | cut -d= -f2- || true)"
-  db_pass="$(grep -E '^DB_PASSWORD=' .env | head -n1 | cut -d= -f2- || true)"
+  local app_url asset_url
+  app_url="$(grep -E '^APP_URL=' .env | head -n1 | cut -d= -f2- || true)"
+  asset_url="$(grep -E '^ASSET_URL=' .env | head -n1 | cut -d= -f2- || true)"
 
-  # Avoid pipefail on head/tr pipeline (SIGPIPE when head exits)
-  set +o pipefail
-  generated_pass="$(LC_ALL=C tr -dc 'A-Za-z0-9' </dev/urandom | head -c 10)"
-  set -o pipefail
-  db_pass="${generated_pass}"
-  if grep -q '^DB_PASSWORD=' .env; then
-    sed -i "s/^DB_PASSWORD=.*/DB_PASSWORD=${db_pass}/" .env
-  else
-    printf "\nDB_PASSWORD=%s\n" "${db_pass}" >> .env
+  if [ -n "${app_url}" ] && [ -z "${asset_url}" ]; then
+    if grep -q '^ASSET_URL=' .env; then
+      sed -i "s|^ASSET_URL=.*|ASSET_URL=${app_url}|" .env
+    else
+      printf "ASSET_URL=%s\n" "${app_url}" >> .env
+    fi
   fi
-  say ".env created/updated with randomized DB_PASSWORD."
 }
 spinner() {
   local pid="$1"
@@ -66,5 +60,8 @@ if ! grep -q '^JWT_SECRET=' .env || grep -q '^JWT_SECRET=$' .env; then
   say "Generating JWT_SECRET..."
   docker compose -f docker-compose.prod.yml exec -T app php artisan jwt:secret --force
 fi
+
+say "Refreshing config cache..."
+docker compose -f docker-compose.prod.yml exec -T app php artisan config:cache
 
 say "Prod stack is up."
