@@ -50,6 +50,10 @@ spinner() {
 
 say "Starting prod containers (build if needed)..."
 ensure_env
+if ! docker network ls --format '{{.Name}}' | grep -Fxq "quizic"; then
+  say "Creating docker network: quizic"
+  docker network create quizic
+fi
 docker compose -f docker-compose.prod.yml up --build -d >"$LOG_FILE" 2>&1 &
 spinner $! "Bringing up services"
 
