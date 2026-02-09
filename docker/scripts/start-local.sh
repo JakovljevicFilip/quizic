@@ -52,6 +52,9 @@ for i in $(seq 1 60); do
   sleep 2
 done
 
+say "Running migrations..."
+artisan_with_retry "docker-compose.yml" "migrate --force --seed"
+
 say "Waiting for frontend assets..."
 for i in $(seq 1 120); do
   if [ -s "public/js/app.js" ] && [ -s "public/css/app.css" ]; then
