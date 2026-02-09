@@ -26,13 +26,6 @@ if [ ! -d "vendor" ]; then
   composer install
 fi
 
-# NPM install + dev build if node_modules/ doesn't exist
-if [ ! -d "node_modules" ]; then
-  echo "📦 Running npm install and npm run dev..."
-  npm install
-  npm run dev
-fi
-
 # Copy .env and setup Laravel if .env doesn't exist
 if [ ! -f ".env" ]; then
   echo "⚙️ Setting up Laravel .env..."

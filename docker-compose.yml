@@ -12,6 +12,16 @@ services:
     environment:
       HOST_UID: ${UID:-1000}
 
+  node:
+    image: node:14-bullseye-slim
+    container_name: quizic_node
+    working_dir: /var/www
+    volumes:
+      - .:/var/www
+    command: sh -lc "npm i -g npm@6 && if [ ! -d node_modules ]; then npm install; fi && npm run dev"
+    depends_on:
+      - app
+
   db:
     image: mysql:5.7
     container_name: quizic_db
