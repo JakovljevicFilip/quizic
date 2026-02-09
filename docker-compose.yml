@@ -18,7 +18,7 @@ services:
     working_dir: /var/www
     volumes:
       - .:/var/www
-    command: sh -lc "npm i -g npm@6 && if [ ! -d node_modules ]; then npm install; fi && npm run dev"
+    command: sh -lc "if [ ! -d node_modules ]; then npm ci --no-audit --no-fund; fi && npm run dev"
     depends_on:
       - app
 
