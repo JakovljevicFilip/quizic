@@ -57,4 +57,14 @@ fi
 docker compose -f docker-compose.prod.yml up --build -d >"$LOG_FILE" 2>&1 &
 spinner $! "Bringing up services"
 
+if ! grep -q '^APP_KEY=' .env || grep -q '^APP_KEY=$' .env; then
+  say "Generating APP_KEY..."
+  docker compose -f docker-compose.prod.yml exec -T app php artisan key:generate --force
+fi
+
+if ! grep -q '^JWT_SECRET=' .env || grep -q '^JWT_SECRET=$' .env; then
+  say "Generating JWT_SECRET..."
+  docker compose -f docker-compose.prod.yml exec -T app php artisan jwt:secret --force
+fi
+
 say "Prod stack is up."
