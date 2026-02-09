@@ -24,16 +24,14 @@ ensure_env() {
   db_user="$(grep -E '^DB_USERNAME=' .env | head -n1 | cut -d= -f2- || true)"
   db_pass="$(grep -E '^DB_PASSWORD=' .env | head -n1 | cut -d= -f2- || true)"
 
-  if [ -z "${db_pass}" ]; then
-    generated_pass="$(LC_ALL=C tr -dc 'A-Za-z0-9' </dev/urandom | head -c 10)"
-    db_pass="${generated_pass}"
-    if grep -q '^DB_PASSWORD=' .env; then
-      sed -i "s/^DB_PASSWORD=.*/DB_PASSWORD=${db_pass}/" .env
-    else
-      printf "\nDB_PASSWORD=%s\n" "${db_pass}" >> .env
-    fi
-    say ".env created/updated with randomized DB_PASSWORD."
+  generated_pass="$(LC_ALL=C tr -dc 'A-Za-z0-9' </dev/urandom | head -c 10)"
+  db_pass="${generated_pass}"
+  if grep -q '^DB_PASSWORD=' .env; then
+    sed -i "s/^DB_PASSWORD=.*/DB_PASSWORD=${db_pass}/" .env
+  else
+    printf "\nDB_PASSWORD=%s\n" "${db_pass}" >> .env
   fi
+  say ".env created/updated with randomized DB_PASSWORD."
 }
 spinner() {
   local pid="$1"
