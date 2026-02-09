@@ -42,6 +42,9 @@ for i in $(seq 1 120); do
     say "Assets ready ✓"
     break
   fi
+  if [ "$i" -eq 5 ]; then
+    say "Almost there..."
+  fi
   if [ "$i" -eq 120 ]; then
     say "Assets did not become ready. See $LOG_FILE for details."
     exit 1
