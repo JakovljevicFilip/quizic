@@ -29,6 +29,8 @@ class Kernel extends ConsoleKernel
         $schedule->call(function () {
             DB::table('games')->where('updated_at', '<', Carbon::now()->subMinutes(1))->delete();
         })->hourly();
+
+        $schedule->command('demo:reseed')->everyTwoHours();
     }
 
     /**
