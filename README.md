@@ -27,13 +27,14 @@ Quizić is an online quiz application built with **Laravel** 🐘 and **Vue.js**
 2. Make Docker scripts executable:
    ```bash
    sudo chmod +x docker/scripts/fix-permissions.sh
-   sudo chmod +x docker/scripts/start.sh
+   sudo chmod +x docker/scripts/start-local.sh
+   sudo chmod +x docker/scripts/start-prod.sh
    sudo chmod +x docker/php/entrypoint.sh
    ```
 
 3. Start Docker containers:
    ```bash
-   docker/scripts/start.sh
+   docker/scripts/start-local.sh
    ```
 
 4. Access the homepage:
@@ -117,63 +118,3 @@ Or if you're using Docker:
 
 > [!NOTE]
 > This will repopulate the database with the original curated trivia questions, grouped by difficulty.
-
-To remove test data and restore the original set of trivia questions and answers, follow these steps:
-
-1. Cleaning the test data:
-
-    Access Artisan tinker through regular setup:
-
-    ```php
-    php artisan tinker
-    ```
-
-    Or through Docker:
-    
-    ```bash
-    docker compose exec app php artisan tinker
-    ```
-
-    Then run:
-
-    ```php
-    DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-    DB::table('answers')->truncate();
-    DB::table('questions')->truncate();
-    DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-    exit
-    ```
-
-2. Seeding original questions:
-
-    Through regular setup:
-    ```php
-    php artisan db:seed --class=QuestionsAndAnswersSeeder
-    ```
-
-    Through Docker:
-    ```bash
-    docker compose exec app php artisan db:seed --class=QuestionsAndAnswersSeeder
-    ```
-
----
-
-## 🛠 Built With
-
-- **[Laravel](https://laravel.com/)** - Back-End framework.
-- **[Vue.js](https://vuejs.org/)** - Front-End framework.
-- **[jwt-auth](https://github.com/tymondesigns/jwt-auth)** - JSON Web Token Authentication for Laravel.
-- **[SweetAlert2](https://sweetalert2.github.io)** - Beautiful and responsive popup boxes.
-- **[VeeValidate](https://github.com/baianat/vee-validate)** - Template-based validation for Vue.js.
-- **[vue-auth](https://github.com/websanova/vue-auth)** - JWT authentication for Vue.js.
-- **[vue-resource](https://github.com/pagekit/vue-resource)** - HTTP client for Vue.js.
-- **[vue-router](https://github.com/vuejs/vue-router)** - Official router for Vue.js.
-- **[v-tooltip](https://github.com/Akryum/v-tooltip)** - Tooltips, popovers, and dropdowns for Vue.
-
----
-
-## 🧑‍💻 Authors
-
-- **Filip Jakovljević** - Back-End and Vue.js.
-- **Nemanja Stojković** - Design and Front-End.
-- **Lazar Stanojević** - Design and Front-End.

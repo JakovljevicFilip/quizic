@@ -26,9 +26,13 @@ services:
     image: mysql:5.7
     container_name: quizic_db
     restart: unless-stopped
+    env_file:
+      - .env
     environment:
-      MYSQL_DATABASE: quizic
-      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
     ports:
       - "33060:3306"
     volumes:
