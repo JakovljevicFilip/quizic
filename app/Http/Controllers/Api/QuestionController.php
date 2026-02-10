@@ -58,7 +58,7 @@ class QuestionController extends Controller
     {
         $question = Question::find($request->id);
         // UPDATE QUESTION TEXT AND DIFFICULTY
-        $question->update($request->only('difficulty_id', 'text'));
+        $question->update($request->only('difficulty_id', 'label'));
         // UPDATE QUESTION ANSWERS
         $question->updateAnswers($request->answers);
         return response()->json([
