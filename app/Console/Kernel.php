@@ -30,7 +30,15 @@ class Kernel extends ConsoleKernel
             DB::table('games')->where('updated_at', '<', Carbon::now()->subMinutes(1))->delete();
         })->hourly();
 
-        $schedule->command('demo:reseed')->everyMinute();
+        $schedule->command('demo:reseed')
+            ->everyMinute()
+            ->onSuccess(function () {
+                \Log::info('demo:reseed completed');
+            })
+            ->onFailure(function () {
+                \Log::error('demo:reseed failed');
+            })
+            ->appendOutputTo(storage_path('logs/cron.log'));
     }
 
     /**
