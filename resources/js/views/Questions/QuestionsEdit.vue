@@ -10,7 +10,7 @@
         <div class="question__difficulties">
             <label for="difficulty" class="lead text-white">Question difficulty:</label>
             <select id="difficulty" name="difficulty" class="form-control input" v-model="questionClone.difficulty_id" v-validate="rules.difficulty">
-                <option v-for="difficulty in difficulties" :key="difficulty.id" :value="difficulty.id" :selected="questionClone.difficulty_id === difficulty.id">{{ difficulty.text }}</option>
+                <option v-for="difficulty in difficulties" :key="difficulty.id" :value="difficulty.id" :selected="questionClone.difficulty_id === difficulty.id">{{ difficulty.label }}</option>
             </select>
         </div>
 

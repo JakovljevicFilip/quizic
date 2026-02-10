@@ -3,8 +3,10 @@
 namespace Quizic\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 // A CUSTOM RULE I'VE MADE TO CHECK FOR CERTAIN NUMBER OF CERTAIN VALUES
 use Quizic\Rules\NumberOfValuesRule;
+use Quizic\Support\Difficulty;
 
 class QuestionStoreRequest extends FormRequest
 {
@@ -27,7 +29,11 @@ class QuestionStoreRequest extends FormRequest
     {
         return [
             'text'=>'required|unique:questions',
-            'difficulty_id'=>'required|exists:difficulties,id',
+            'difficulty_id' => [
+                'required',
+                'integer',
+                Rule::in(array_column(Difficulty::all(), 'id')),
+            ],
             'answers'=>['required','array',new NumberOfValuesRule('status',[
                     // EXPECTING 3 ANSWERS WITH STATUS 0
                     '0'=>3,
