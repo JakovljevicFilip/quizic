@@ -26,9 +26,8 @@ Quizić is an online quiz application built with **Laravel** 🐘 and **Vue.js**
 
 2. Make Docker scripts executable:
    ```bash
-   sudo chmod +x docker/scripts/fix-permissions.sh
    sudo chmod +x docker/scripts/start-local.sh
-   sudo chmod +x docker/scripts/start-prod.sh
+   sudo chmod +x docker/scripts/fix-permissions.sh
    sudo chmod +x docker/php/entrypoint.sh
    ```
 
@@ -42,10 +41,16 @@ Quizić is an online quiz application built with **Laravel** 🐘 and **Vue.js**
    http://localhost:8000
    ```
 
-> For production deployments, create a `.env` file manually and use:
-> ```bash
-> docker/scripts/start-prod.sh
-> ```
+* For production deployments (prod-only setup):
+    ```bash
+    sudo chmod +x docker/scripts/start-prod.sh
+    sudo chmod +x docker/scripts/fix-permissions.sh
+    sudo chmod +x docker/php/entrypoint.sh
+    docker/scripts/start-prod.sh
+
+    # Optional: start the demo reseed job (runs daily)
+    docker compose -f docker-compose.prod.yml --profile cron up -d cron
+    ```
 
 ---
 
