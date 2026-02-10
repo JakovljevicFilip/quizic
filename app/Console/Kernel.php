@@ -31,7 +31,7 @@ class Kernel extends ConsoleKernel
         })->hourly();
 
         $schedule->command('demo:reseed')
-            ->everyMinute()
+            ->daily()
             ->onSuccess(function () {
                 \Log::info('demo:reseed completed');
             })
