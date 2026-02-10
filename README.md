@@ -48,7 +48,7 @@ Quizić is an online quiz application built with **Laravel** 🐘 and **Vue.js**
     sudo chmod +x docker/php/entrypoint.sh
     docker/scripts/start-prod.sh
 
-    # Optional: start the demo reseed job (runs immediately, then every 2 hours)
+    # Optional: start the demo reseed job (runs every two hours on the server clock)
     docker compose -f docker-compose.prod.yml --profile cron up -d cron
     ```
 
