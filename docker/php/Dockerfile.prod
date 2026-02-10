@@ -18,5 +18,6 @@ COPY . .
 RUN composer install --no-dev --optimize-autoloader
 
 RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
+RUN chmod +x /var/www/docker/php/entrypoint.prod.sh /var/www/docker/cron/entrypoint.prod.sh
 
 CMD ["php-fpm"]

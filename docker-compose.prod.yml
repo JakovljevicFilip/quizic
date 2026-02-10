@@ -58,6 +58,24 @@ services:
       timeout: 5s
       retries: 5
 
+  cron:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile.prod
+    container_name: quizic_cron
+    profiles:
+      - cron
+    volumes:
+      - ./.env:/var/www/.env
+      - ./storage:/var/www/storage
+      - ./bootstrap/cache:/var/www/bootstrap/cache
+    entrypoint: ["/var/www/docker/cron/entrypoint.prod.sh"]
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - quizic
+
 networks:
   quizic:
     external: true
