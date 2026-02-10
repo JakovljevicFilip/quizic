@@ -30,7 +30,7 @@ class Kernel extends ConsoleKernel
             DB::table('games')->where('updated_at', '<', Carbon::now()->subMinutes(1))->delete();
         })->hourly();
 
-        $schedule->command('demo:reseed')->everyTwoHours();
+        $schedule->command('demo:reseed')->everyMinute();
     }
 
     /**
