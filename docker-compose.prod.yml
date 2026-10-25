@@ -27,10 +27,10 @@ services:
       - traefik_proxy
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.quizic.rule=Host(`quizic.thoughtless.app`)"
+      - "traefik.http.routers.quizic.rule=Host(`quizic.quieter.app`)"
       - "traefik.http.routers.quizic.entrypoints=websecure"
       - "traefik.http.routers.quizic.tls.certresolver=le"
-      - "traefik.http.routers.quizic-http.rule=Host(`quizic.thoughtless.app`)"
+      - "traefik.http.routers.quizic-http.rule=Host(`quizic.quieter.app`)"
       - "traefik.http.routers.quizic-http.entrypoints=web"
       - "traefik.http.routers.quizic-http.middlewares=redirect-https"
       - "traefik.http.middlewares.redirect-https.redirectscheme.scheme=https"
